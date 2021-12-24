@@ -9,6 +9,8 @@ public class Faction : MonoBehaviour
     //if another adventurer isn't in this list, their relationship is neutral
     Dictionary<Faction, int> allies;
     Dictionary<Faction, int> enemies;
+    Dictionary<Adventurer, int> wereAllies;
+    Dictionary<Adventurer, int> wereEnemies;
     //Main relationships (give bonuses later?)
     Faction bestAlly;
     Faction worstEnemy;

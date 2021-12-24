@@ -24,16 +24,12 @@ public class CiF : MonoBehaviour
     }
 
     //loops all rules through all people 's volitions, relationships, etc, in order to
-    void RecalculateRelationships(){
+    public void RecalculateRelationships(){
         //loop through all Adventurers in entire scene
+        Transform[] allAdventurers = adventurers.GetComponentInChildren();
         foreach (Transform adventurer in adventurers.transform){
             Adventurer a = adventurer.GetComponent<Adventurer>();
-            //Determine if each rule applies by calculating predicate
-            //NEW FRIENDSHIPS
-
-            //NEW ENEMYSHIPS
-
-
+            a.RecalculateRelationships();
         }
     }
 }
