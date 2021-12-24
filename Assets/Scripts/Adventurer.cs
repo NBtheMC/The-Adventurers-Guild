@@ -7,7 +7,7 @@ public class Adventurer : MonoBehaviour
 {
     //Relationships with others combined with a strength
     //if another adventurer isn't in this list, their relationship is neutral
-    Dictionary<Adventurer, int> friendships;
+    Dictionary<Adventurer, int> friendships; //number between -10 and 10
     Dictionary<Adventurer, int> romances;
     Dictionary<Adventurer, int> wereFriends;
     Dictionary<Adventurer, int> wereEnemies;
@@ -25,17 +25,30 @@ public class Adventurer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    // void Update()
+    // {
 
-    }
+    // }
 
     public void ChangeFriendship(Adventurer a, int friendshipChange){
+        //adding new friendship
+        if(friendships.ContainsKey(a) == false){
+            friendships.Add(a, friendshipChange);
+            return;
+        }
+        //changing existing friendship
         friendships[a] = friendships[a] += friendshipChange;
     }
 
+    //dont worry about for now 
+    public void ChangeRomances(Adventurer a, int romanceChange){
+        romances[a] = romances[a] += romanceChange;
+    }
+
+    //takes in other adventurer and gets friendship level with it
+    //returns true if friends and false if enemies
     public bool IsFriendsWith(Adventurer a){
-        if(friendships.ContainsKey(a)){
+        if(friendships[a]){
             if(friendships[a] > 0){
                 return true;
             }
@@ -43,23 +56,35 @@ public class Adventurer : MonoBehaviour
         return false;
     }
 
-    public bool IsEnemiesWith(Adventurer a){
-        if(friendships.ContainsKey(a)){
-            if(friendships[a] < 0){
+    //takes in other adventurer and gets romance level with it
+    //returns true if romanced
+    public bool IsRomancedWith(Adventurer a){
+        if(romances[a]){
+            if(romances[a] > 0){ //change this number to something higher
                 return true;
             }
         }
         return false;
     }
 
-    public void RecalculateRelationships(){
-        for(int i  = 0; i < friendships.Count; i++){
-            Adventurer a = friendships[i];
-            //friends of friends are more friends
+    public int GetFriendship(Adventurer a){
+        if(friendships.ContainsKey(a) == false){
+            return 0;
         }
-        for(int i  = 0; i < romances.Count; i++){
-            Adventurer a = romances[i];
-            //friends of romances are more friends
-        }
+        return friendships[a];
     }
+
+    //probably wont have to use. just in case though
+    public void SetFriendship(Adventurer a, int friendshipLevel){
+        if(friendships.ContainsKey(a) == false){
+            return;
+        }
+        friendships[a] = friendshipLevel;
+    }
+
+    public int GetRomance(Adventurer a){
+        return 0;
+    }
+
+
 }
