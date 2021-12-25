@@ -9,7 +9,7 @@ public class TimeSystem : MonoBehaviour
 
     private float tickLength = 2.5f; // Length of a tick in seconds. Equal to one in game hour
     private GameTime gameTime; // Current in game time
-    public bool timerActive = true;
+    public bool timerActive { get; private set; } //Can be read by other classes to determine if timer is running
     Coroutine timeTrackerCoroutine; // Used to start/stop timer coroutine
 
     /*
@@ -54,11 +54,18 @@ public class TimeSystem : MonoBehaviour
 
     public void StartTimer()
     {
+        if(timerActive)
+        {
+            Debug.LogError("Timer is already active!");
+            return;
+        }
+        timerActive = true;
         timeTrackerCoroutine = StartCoroutine(TimeTracker());
     }
 
     public void StopTimer()
     {
+        timerActive = false;
         StopCoroutine(timeTrackerCoroutine);
     }
 }
