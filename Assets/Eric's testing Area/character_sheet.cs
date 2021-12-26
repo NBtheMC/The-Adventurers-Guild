@@ -19,7 +19,8 @@ public class CharacterSheet
     /// Returns a stat from this character
     /// </summary>
     /// <param name="stat">A string of what stat needs to exist.</param>
-    /// <returns>The stat if it exists, 0 if not.</returns>
+    /// <returns>If it exists, An int representing the stat if it exists.
+    /// If not, 0.</returns>
     public int getStat(string stat) {
         if (!statlines.ContainsKey(stat)) { return 0; }
         return statlines[stat];

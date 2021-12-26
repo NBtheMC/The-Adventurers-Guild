@@ -4,35 +4,72 @@ using UnityEngine;
 
 public class QuestSheet
 {
-	private EventNode headConnection;
-	private PartySheet adventuring_party;
+	private EventNode headConnection; // Tells the graph where the head is going to be.
+	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
+	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
+	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
+	private int accumutatedGold;
 	public QuestSheet(EventNode connection_input)
 	{
 		headConnection = connection_input;
+		currentConnection = headConnection;
+		eventTicksElapsed = 0;
 	}
 
 	public void assignParty(PartySheet party_input)
 	{
 		adventuring_party = party_input;
 	}
-	
+
 	// Calculates the maximum total reward for the quest as given.
-	// Done by doing exhaustive recursive search through the tree and calculating all rewards.
-	public int rewardTotal()
+	// Done by doing brute-force search through the tree and calculating all possible rewards.
+	public int EstimatedRedwardTotal()
 	{
 		int countingTotal = 0;
-
+		// Put code here.
 		return countingTotal;
+	}
+
+	// Calls on the current event to see what's going on. May update things as neccessary.
+	public void advancebyTick()
+	{
+		int returnCode = currentConnection.timeCheck(eventTicksElapsed, adventuring_party.getStatSummed(currentConnection.stat), ref currentConnection);
+		// Now we decipher those return codes.
+		switch (returnCode)
+		{
+			case 1:
+				//insert event code here.
+				break;
+			case 2:
+				// insert success code here.
+				break;
+			case 3:
+				// insert reward collection code here.
+				break;
+			case 0:
+			default:
+				eventTicksElapsed++;
+				break;
+		}
 	}
 }
 
+/// <summary>
+/// The default event node. Inherited by all other event nodes.
+/// Check against a DC.
+/// If successful, sends first node.
+/// If failed, sends second node.
+/// </summary>
 public class EventNode
 {
-	public string stat { get; protected set; }
+	public string stat { get; protected set; } // the stat to be checked against. Should correspond with PartySheet
 	public int DC { get; protected set; }
-	protected EventNode connection;
-	public int time { get; protected set; }
+	protected List<EventNode> connection; // A list of connections to get used.
+	public int time { get; protected set; } // How many ticks before the DC check is triggered
+	public int goldReward; //How much gold if event is completed.
 
+
+	//Constructors
 	public EventNode()
 	{
 		stat = "";
@@ -47,14 +84,77 @@ public class EventNode
 		time = time_input;
 		connection = null;
 	}
+
+	public void addConnection(EventNode connection_input, int index = -1)
+	{
+		// If there is no desired input index.
+		if(index == -1){ connection.Add(connection_input);}
+		else { connection.Insert(index,connection_input); }
+	}
+
+	/// <summary>
+	/// Checks if it's time to execute an event. If it is, executes event.
+	/// </summary>
+	/// <param name="currentTick">How much time elapsed since this event started.</param>
+	/// <param name="input_DC">The calculated DC of the specified party.</param>
+	/// <param name="currentNode">A reference to the current node to change if neccessary</param>
+	/// <returns>
+	/// 0 for no trigger, event still ongoing.
+	/// 1 for quest failed.
+	/// 2 for quest success.
+	/// 3 for event succes, new currentNode.
+	/// </returns>
+	public int timeCheck(int currentTick, int input_DC, ref EventNode currentNode)
+	{
+		if (currentTick >= time)
+		{
+			currentNode = nextConnection(input_DC);
+			return 3;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	/// <summary>
+	/// Returns the next connection according to a DC check.
+	/// </summary>
+	/// <param name="input_DC">The value to be checked against</param>
+	/// <returns>The next connection, depending on success or failure.</returns>
+	protected EventNode nextConnection(int input_DC)
+	{
+		if (connection.Count < 2)
+		{
+			Debug.Log("Not enough connections in default event node");
+		}
+
+		// If there are enough connections
+		if (input_DC > DC) { return connection[0]; }
+		else { return connection[1]; }
+	}
 }
 
 /// <summary>
-/// This is for Event nodes that have two connections, 1 for DC success, 1 for DC failure.
-/// Currently unncessary for the linear quest progressions we're creating.
+/// Returns 1 on all timeChecks, no matter what.
 /// </summary>
-public class FailsafeEventNode:EventNode {
-	public FailsafeEventNode(string stat_Input, int DC_input, int time_input) : base(stat_Input, DC_input, time_input)
+public class FailEventNode: EventNode
+{
+	public new int timeCheck(int currentTick, int input_DC, ref EventNode currentNode)
 	{
+		return 1;
+	}
+}
+
+/// <summary>
+/// The most common event node, used for events that must succeed in order to progress.
+/// </summary>
+public class LinearEventNode : EventNode
+{
+	new protected EventNode nextConnection(int input_DC)
+	{
+		// If there are enough connections
+		if (input_DC > DC) { return connection[0]; }
+		else { return new FailEventNode(); }
 	}
 }
