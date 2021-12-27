@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class QuestSheet
 {
+	public string questName { get; private set; }
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
-	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
-	private int accumutatedGold;
+	public QuestingManager questingManager; // reference to the master questing manager.
 
-	// Constructor
-	public QuestSheet(EventNode connection_input)
+	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
+	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
+	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
+
+	/// <summary>
+	/// QuestSheet Constructor
+	/// </summary>
+	/// <param name="connection_input">Head of the event graph</param>
+	/// <param name="name_Input">Name of the Quest</param>
+	public QuestSheet(EventNode connection_input, string name_Input)
 	{
 		headConnection = connection_input;
 		currentConnection = headConnection;
 		eventTicksElapsed = 0;
+		questName = name_Input;
+		QuestComplete = false;
+		accumutatedGold = 0;
 	}
 
 	public void assignParty(PartySheet party_input)
@@ -145,6 +156,17 @@ public class FailEventNode: EventNode
 	public new int timeCheck(int currentTick, int input_DC, ref EventNode currentNode)
 	{
 		return 1;
+	}
+}
+
+/// <summary>
+/// Returns 2 on all timeChecks, no matter what.
+/// </summary>
+public class SuccessEventNode: EventNode
+{
+	public new int timeCheck(int currentTick, int input_DC, ref EventNode eventNode)
+	{
+		return 2;
 	}
 }
 
