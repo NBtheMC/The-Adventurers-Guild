@@ -9,6 +9,8 @@ public class QuestSheet
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
 	private int accumutatedGold;
+
+	// Constructor
 	public QuestSheet(EventNode connection_input)
 	{
 		headConnection = connection_input;
