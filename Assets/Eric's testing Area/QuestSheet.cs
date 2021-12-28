@@ -46,24 +46,7 @@ public class QuestSheet
 	// Calls on the current event to see what's going on. May update things as neccessary.
 	public void advancebyTick()
 	{
-		int returnCode = currentConnection.timeCheck(eventTicksElapsed, adventuring_party.getStatSummed(currentConnection.stat), ref currentConnection);
-		// Now we decipher those return codes.
-		switch (returnCode)
-		{
-			case 1:
-				//insert event code here.
-				break;
-			case 2:
-				// insert success code here.
-				break;
-			case 3:
-				// insert reward collection code here.
-				break;
-			case 0:
-			default:
-				eventTicksElapsed++;
-				break;
-		}
+
 	}
 }
 
@@ -75,12 +58,27 @@ public class QuestSheet
 /// </summary>
 public class EventNode
 {
-	public string stat { get; protected set; } // the stat to be checked against. Should correspond with PartySheet
-	public int DC { get; protected set; }
+	public string stat; // the stat to be checked against. Should correspond with PartySheet
+	public int DC; 
 	protected List<EventNode> connection; // A list of connections to get used.
-	public int time { get; protected set; } // How many ticks before the DC check is triggered
-	public int goldReward; //How much gold if event is completed.
+	public int time; // How many ticks before the DC check is triggered
+	public EventTypes eventType; // used to decide how EventNode will handle 
 
+	/// <summary>
+	/// Event Types describe what triggers them for use with the previous event.
+	/// </summary>
+	public enum EventTypes
+	{
+		head = 0, // Nodes without preconditions.
+		successful = 1, // Nodes that need succesful DC check
+		fail = 2, // Nodes that need failed DC check
+	}
+
+	public class EventPackage
+	{
+		public bool objectiveComplete = false;
+		public EventNode nextEvent = null;
+	}
 
 	//Constructors
 	public EventNode()
@@ -88,14 +86,8 @@ public class EventNode
 		stat = "";
 		DC = 0;
 		time = 0;
-		connection = null;
-	}
-	public EventNode(string stat_Input, int DC_input, int time_input)
-	{
-		stat = stat_Input;
-		DC = DC_input;
-		time = time_input;
-		connection = null;
+		connection = new List<EventNode>();
+		eventType = EventTypes.head;
 	}
 
 	public void addConnection(EventNode connection_input, int index = -1)
@@ -104,6 +96,32 @@ public class EventNode
 		if(index == -1){ connection.Add(connection_input);}
 		else { connection.Insert(index,connection_input); }
 	}
+
+	public EventPackage resolveEvent(PartySheet adventurers)
+	{
+		EventPackage message = new EventPackage();
+		message.objectiveComplete = adventurers.getStatSummed(stat) > DC;
+
+		// Goes through the entire list of connections, then checks them for whether any connection requirements are correct.
+		foreach (EventNode nextNode in connection)
+		{
+			// switchcase for our checks.
+			switch (nextNode.eventType)
+			{
+				case EventTypes.successful:
+					if (message.objectiveComplete) { message.nextEvent = nextNode; }
+					break;
+				case EventTypes.fail:
+					if (!message.objectiveComplete) { message.nextEvent = nextNode; }
+					break;
+				default: message.nextEvent = nextNode; break;
+			}
+		}
+
+
+		return message;
+	}
+
 
 	/// <summary>
 	/// Checks if it's time to execute an event. If it is, executes event.
@@ -148,6 +166,14 @@ public class EventNode
 	}
 }
 
+
+
+
+
+
+
+
+/*
 /// <summary>
 /// Returns 1 on all timeChecks, no matter what.
 /// </summary>
@@ -182,3 +208,4 @@ public class LinearEventNode : EventNode
 		else { return new FailEventNode(); }
 	}
 }
+*/

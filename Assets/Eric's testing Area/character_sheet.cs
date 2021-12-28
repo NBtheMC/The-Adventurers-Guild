@@ -10,10 +10,25 @@ public class CharacterSheet
     // The character's stats
     private Dictionary<string, int> statlines = new Dictionary<string, int>();
 
-    public CharacterSheet(string name)
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="name">Name of Character</param>
+    public CharacterSheet(string nameInput)
     {
-        this.name = name;
+        this.name = nameInput;
     }
+
+    /// <summary>
+    /// Constructor with access to change dictionary at any time.
+    /// </summary>
+    /// <param name="nameInput">Name of Character</param>
+    /// <param name="statslinesInput">Dictionary of stats to copy into character.</param>
+    public CharacterSheet(string nameInput, Dictionary<string, int> statslinesInput)
+	{
+        name = nameInput;
+        statlines = new Dictionary<string, int>(statslinesInput);
+	}
 
     /// <summary>
     /// Returns a stat from this character
