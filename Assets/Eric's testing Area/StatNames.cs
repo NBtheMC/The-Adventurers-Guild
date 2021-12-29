@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatNames : MonoBehaviour
+[CreateAssetMenu(fileName = "Statname",menuName = "Statline Object")]
+public class StatNames : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<string> stats = new List<string>();
 }

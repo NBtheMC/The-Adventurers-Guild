@@ -23,6 +23,11 @@ public class CharacterSheet
     {
         this.name = nameInput;
     }
+    public CharacterSheet(string nameInput,List<string> defaultStats)
+	{
+        name = nameInput;
+        foreach(string statline in defaultStats) { statlines[statline] = 0;}
+	}
 
     /// <summary>
     /// Constructor with access to change dictionary at any time.
@@ -66,19 +71,11 @@ public class CharacterSheet
     /// Generates a random character with random stats. For use in testing purposes only.
     /// Use secondary constructor to prime a character full of stats.
     /// </summary>
-    public void GenerateRandomExample(int numLines = 5, List<string> statNames = null)
+    public void GenerateRandomExample()
 	{
-        if(statNames == null)
+        foreach (string name in statlines.Keys)
 		{
-            statNames = new List<string>();
-            for (int i = 0; i < numLines; i++)
-			{
-                statNames.Add($"Character {i}");
-			}
-		}
-        foreach (string name in statNames)
-		{
-            addStat(name, Mathf.FloorToInt(Random.Range(0, 15)));
+            statlines[name] = Mathf.FloorToInt(Random.Range(0,15));
 		}
 	}
 }

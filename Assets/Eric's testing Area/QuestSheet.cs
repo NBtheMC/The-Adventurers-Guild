@@ -44,9 +44,10 @@ public class QuestSheet
 	}
 
 	// Calls on the current event to see what's going on. May update things as neccessary.
-	public void advancebyTick()
+	public int advancebyTick()
 	{
 
+		return 0;
 	}
 }
 
@@ -80,7 +81,9 @@ public class EventNode
 		public EventNode nextEvent = null;
 	}
 
-	//Constructors
+	/// <summary>
+	/// Default Constructor, sets everything to zero.
+	/// </summary>
 	public EventNode()
 	{
 		stat = "";
@@ -89,6 +92,13 @@ public class EventNode
 		connection = new List<EventNode>();
 		eventType = EventTypes.head;
 	}
+
+	/// <summary>
+	/// Standard Constructor, used to initilize certain variables.
+	/// </summary>
+	/// <param name="statInput">Name of the stat to be checked against</param>
+	/// <param name="DCInput">What the difficulty it.</param>
+	/// <param name="timeInput">How much time to pass before checking.</param>
 	public EventNode(string statInput, int DCInput, int timeInput)
 	{
 		stat = statInput;
@@ -98,6 +108,11 @@ public class EventNode
 		eventType=EventTypes.head;
 	}
 
+	/// <summary>
+	/// Used to add additional connections to the event node.
+	/// </summary>
+	/// <param name="connection_input">The connection to be added.</param>
+	/// <param name="index">The index at which to be added. Added to the end by default.</param>
 	public void addConnection(EventNode connection_input, int index = -1)
 	{
 		// If there is no desired input index.

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterGymTestScript : MonoBehaviour
 {
+    public StatNames defaultStats;
 
     // Gym 1 will create a bunch of character with numbers, then check if those numbers are correctly summed by party.
     public void Gym1PartyStatTracking()
@@ -124,8 +125,32 @@ public class CharacterGymTestScript : MonoBehaviour
     {
         // Make a random adventuring party.
         PartySheet testParty = new PartySheet();
-        testParty.GenerateExampleParty();
+		for (int i = 0; i < 4; i++)
+		{
+            CharacterSheet randomCharacter = new CharacterSheet($"Character {i}", defaultStats.stats);
+            randomCharacter.GenerateRandomExample();
+            testParty.addMember(randomCharacter);
+		}
 
+        // Generate an utterly easy event graph to be completed in 150 ticks.
+        EventNode testNode1 = new EventNode(defaultStats.stats[0],0,50);
+        EventNode testNode2 = new EventNode(defaultStats.stats[1], 0, 50);
+        EventNode testNode3 = new EventNode(defaultStats.stats[3], 0, 50);
+
+        testNode1.addConnection(testNode2);
+        testNode2.eventType = EventNode.EventTypes.successful;
+        testNode2.addConnection(testNode3);
+        testNode3.eventType= EventNode.EventTypes.successful;
+
+        // Now assign them to a QuestSheet
+        QuestSheet testQuest = new QuestSheet(testNode1, "Test Quest");
+        testQuest.assignParty(testParty);
+
+        // AdvancebyTick should be able to return a 0 for a quest continuing, and a 1 for a quest finishing.
+        while(testQuest.advancebyTick() == 0)
+		{
+
+		}
 
         Debug.Log("Gym - Quest Traversal passed.");
     }
