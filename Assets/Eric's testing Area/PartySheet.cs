@@ -6,7 +6,13 @@ using UnityEngine;
 public class PartySheet
 {
     public string name;
-    public List<CharacterSheet> party_members = new List<CharacterSheet>();
+    private List<CharacterSheet> party_members;
+
+    public PartySheet()
+	{
+        name = "";
+        party_members = new List<CharacterSheet>();
+	}
 
     public void addMember(CharacterSheet adventurer)
     {
@@ -41,4 +47,17 @@ public class PartySheet
         }
         return statTotal;
     }
+
+    /// <summary>
+    /// Use to randomly fill a party to specifications. Do not use for non-testing purposes.
+    /// </summary>
+    public void GenerateExampleParty(int numAdventurers = 4)
+	{
+        for (int i = 0; i < numAdventurers; i++)
+		{
+            CharacterSheet randomAdventurer = new CharacterSheet();
+            randomAdventurer.GenerateRandomExample();
+            addMember(randomAdventurer);
+		}
+	}
 }

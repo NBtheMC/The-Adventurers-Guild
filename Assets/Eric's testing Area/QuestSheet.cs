@@ -89,6 +89,14 @@ public class EventNode
 		connection = new List<EventNode>();
 		eventType = EventTypes.head;
 	}
+	public EventNode(string statInput, int DCInput, int timeInput)
+	{
+		stat = statInput;
+		DC = DCInput;
+		time = timeInput;
+		connection = new List<EventNode>();
+		eventType=EventTypes.head;
+	}
 
 	public void addConnection(EventNode connection_input, int index = -1)
 	{

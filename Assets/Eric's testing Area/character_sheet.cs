@@ -10,6 +10,11 @@ public class CharacterSheet
     // The character's stats
     private Dictionary<string, int> statlines = new Dictionary<string, int>();
 
+    
+    /// <summary>
+    /// Default Constructor
+    /// </summary>
+    public CharacterSheet() { name = "Cock"; } // I'm sorry, my boyfriend told me to do this
     /// <summary>
     /// Constructor
     /// </summary>
@@ -47,4 +52,33 @@ public class CharacterSheet
 		if (statlines.ContainsKey(statname)) { statlines[statname] = number; }
         statlines.Add(statname, number);
     }
+
+    /// <summary>
+    /// Gets all the statnames and current stat information.
+    /// </summary>
+    /// <returns>A whole dictionary of the statname and the current stat number.</returns>
+    public Dictionary<string,int> GetStatSheet()
+	{
+        return new Dictionary<string, int>(statlines);
+	}
+
+    /// <summary>
+    /// Generates a random character with random stats. For use in testing purposes only.
+    /// Use secondary constructor to prime a character full of stats.
+    /// </summary>
+    public void GenerateRandomExample(int numLines = 5, List<string> statNames = null)
+	{
+        if(statNames == null)
+		{
+            statNames = new List<string>();
+            for (int i = 0; i < numLines; i++)
+			{
+                statNames.Add($"Character {i}");
+			}
+		}
+        foreach (string name in statNames)
+		{
+            addStat(name, Mathf.FloorToInt(Random.Range(0, 15)));
+		}
+	}
 }
