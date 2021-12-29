@@ -28,16 +28,17 @@ public class CharacterGymTestScript : MonoBehaviour
             // Then we go about generating a bunch of characters.
             for (int index = 0; index < Mathf.FloorToInt(Random.Range(0,20)); index++)
 			{
-                CharacterSheet adventurer = new CharacterSheet($"Adventurer {index}");
-                theParty.addMember(adventurer);
+                Dictionary<string,int> generatedCharacterStats = new Dictionary<string, int>();
 
                 // Then we dump a bunch of statlines into it.
                 for (int index2 = 0; index2< Mathf.FloorToInt(Random.Range(0, 20)); index2++)
 				{
                     int tempStat = Mathf.FloorToInt(Random.Range(0, 15));
-                    adventurer.addStat($"Stat {index2}", tempStat);
+                    generatedCharacterStats.Add($"Stat {index2}", tempStat);
                     totals[$"Stat {index2}"] = totals[$"Stat {index2}"] + tempStat;
                 }
+                CharacterSheet adventurer = new CharacterSheet($"Adventurer {index}", generatedCharacterStats);
+                theParty.addMember(adventurer);
 			}
 
             bool failed = false;
@@ -121,14 +122,18 @@ public class CharacterGymTestScript : MonoBehaviour
 	}
 
     // Gym will test if a quest will update itself over and over again, navigating the quest event data correctly.
-    public void GymQuestTraversal()
+    public void Gym3QuestTraversal()
     {
         // Make a random adventuring party.
         PartySheet testParty = new PartySheet();
 		for (int i = 0; i < 4; i++)
 		{
-            CharacterSheet randomCharacter = new CharacterSheet($"Character {i}", defaultStats.stats);
-            randomCharacter.GenerateRandomExample();
+            Dictionary<string, int> generatedStats = new Dictionary<string, int>();
+            foreach (string stat in defaultStats.stats)
+			{
+                generatedStats[stat] = Mathf.FloorToInt(Random.Range(1, 15));
+			}
+            CharacterSheet randomCharacter = new CharacterSheet($"Character {i}", generatedStats);
             testParty.addMember(randomCharacter);
 		}
 
@@ -147,10 +152,17 @@ public class CharacterGymTestScript : MonoBehaviour
         testQuest.assignParty(testParty);
 
         // AdvancebyTick should be able to return a 0 for a quest continuing, and a 1 for a quest finishing.
+        int ticktimer = 0;
         while(testQuest.advancebyTick() == 0)
 		{
-
+            ticktimer++;
+            if (ticktimer > 160)
+			{
+                break;
+			}
 		}
+        // Make sure that we used up only until 150 ticks.
+        Debug.Assert(ticktimer == 150,$"Test 1 Failure, ticktimer retuned {ticktimer}.");
 
         Debug.Log("Gym - Quest Traversal passed.");
     }

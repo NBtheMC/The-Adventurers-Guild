@@ -29,6 +29,10 @@ public class QuestSheet
 		accumutatedGold = 0;
 	}
 
+	/// <summary>
+	/// Assigns a part to the quest.
+	/// </summary>
+	/// <param name="party_input">The party to assign to the quest.</param>
 	public void assignParty(PartySheet party_input)
 	{
 		adventuring_party = party_input;
@@ -43,9 +47,29 @@ public class QuestSheet
 		return countingTotal;
 	}
 
-	// Calls on the current event to see what's going on. May update things as neccessary.
+	/// <summary>
+	/// Calls on the current event to see what's going on.
+	/// </summary>
+	/// <returns>A 0 if the quest is still ongoing. A 1 if the quest is complete.</returns>
 	public int advancebyTick()
 	{
+		if (eventTicksElapsed >= currentConnection.time)
+		{
+			// Reset the event tick timer.
+			eventTicksElapsed = 0;
+
+			// Request the event package.
+			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
+
+			// Progress to the next event.
+			if (returnMessage.nextEvent != null)
+			{
+				currentConnection = returnMessage.nextEvent;
+				return advancebyTick();
+			}
+			else { return 1; }
+		}
+		eventTicksElapsed++;
 
 		return 0;
 	}

@@ -47,17 +47,4 @@ public class PartySheet
         }
         return statTotal;
     }
-
-    /// <summary>
-    /// Use to randomly fill a party to specifications. Do not use for non-testing purposes.
-    /// </summary>
-    public void GenerateExampleParty(int numAdventurers = 4)
-	{
-        for (int i = 0; i < numAdventurers; i++)
-		{
-            CharacterSheet randomAdventurer = new CharacterSheet();
-            randomAdventurer.GenerateRandomExample();
-            addMember(randomAdventurer);
-		}
-	}
 }

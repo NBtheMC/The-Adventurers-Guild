@@ -10,19 +10,11 @@ public class CharacterSheet
     // The character's stats
     private Dictionary<string, int> statlines = new Dictionary<string, int>();
 
-    
     /// <summary>
-    /// Default Constructor
+    /// Normal Character Sheet Constructor
     /// </summary>
-    public CharacterSheet() { name = "Cock"; } // I'm sorry, my boyfriend told me to do this
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="name">Name of Character</param>
-    public CharacterSheet(string nameInput)
-    {
-        this.name = nameInput;
-    }
+    /// <param name="nameInput">Name of the character</param>
+    /// <param name="defaultStats">A List of all the statsnames.</param>
     public CharacterSheet(string nameInput,List<string> defaultStats)
 	{
         name = nameInput;
@@ -67,15 +59,4 @@ public class CharacterSheet
         return new Dictionary<string, int>(statlines);
 	}
 
-    /// <summary>
-    /// Generates a random character with random stats. For use in testing purposes only.
-    /// Use secondary constructor to prime a character full of stats.
-    /// </summary>
-    public void GenerateRandomExample()
-	{
-        foreach (string name in statlines.Keys)
-		{
-            statlines[name] = Mathf.FloorToInt(Random.Range(0,15));
-		}
-	}
 }
