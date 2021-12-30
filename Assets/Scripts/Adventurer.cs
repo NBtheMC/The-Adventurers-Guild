@@ -21,7 +21,7 @@ public class Adventurer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bonds = new Dictionary<Adventurer, int>();
+        
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class Adventurer : MonoBehaviour
     //takes in other adventurer and gets friendship level with it
     //returns true if friends and false if enemies
     public bool IsFriendsWith(Adventurer a){
-        if(friendships[a]){
+        if(friendships.ContainsKey(a)){
             if(friendships[a] > 0){
                 return true;
             }
@@ -59,7 +59,7 @@ public class Adventurer : MonoBehaviour
     //takes in other adventurer and gets romance level with it
     //returns true if romanced
     public bool IsRomancedWith(Adventurer a){
-        if(romances[a]){
+        if(romances.ContainsKey(a)){
             if(romances[a] > 0){ //change this number to something higher
                 return true;
             }
@@ -83,7 +83,10 @@ public class Adventurer : MonoBehaviour
     }
 
     public int GetRomance(Adventurer a){
-        return 0;
+        if(romances.ContainsKey(a) == false){
+            return 0;
+        }
+        return romances[a];
     }
 
 

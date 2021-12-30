@@ -9,7 +9,7 @@ public class RelationshipManager : MonoBehaviour
     // Predicates: Sets of variables that will bind to characters during evaluation. eg (Friend ?x ?y)
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
-    public GameObject adventurers; //parent of all adventurers in the scene. Named the same
+    public Transform adventurers; //parent of all adventurers in the scene. Named the same
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,10 @@ public class RelationshipManager : MonoBehaviour
     //called first by quest when quest is done. updates friendships based on win or loss
     //done on current party, change is determined by quest
     public void UpdatePartyRelationships(Transform party, int change){
-        Transform[] partyMembers = party.GetComponentInChildren(); //should be changed to whatever object holds the party
+        List<Adventurer> partyMembers = new List<Adventurer>(); //should be changed to whatever object holds the party
+        foreach(Transform a in party){
+            partyMembers.Add(a.GetComponent<Adventurer>());
+        }
         for(int i  = 0; i < partyMembers.Count; i++){
             Adventurer a = partyMembers[i];
             for(int j  = i+1; j < partyMembers.Count; j++){
@@ -43,32 +46,34 @@ public class RelationshipManager : MonoBehaviour
     //loops all rules through all people 's volitions, relationships, etc, in order to
     public void RecalculateAllRelationships(){
         //loop through all Adventurers in entire scene
-        Transform[] allAdventurers = adventurers.GetComponentInChildren();
+        List<Adventurer> allAdventurers = new List<Adventurer>();
+        foreach(Transform a in adventurers){
+            allAdventurers.Add(a.GetComponent<Adventurer>());
+        }
         for(int i  = 0; i < allAdventurers.Count - 2; i++){
             Adventurer a = allAdventurers[i];
             for(int j  = i+1; j < allAdventurers.Count - 1; j++){
                 Adventurer b = allAdventurers[j];
                 for(int k = j+1; k < allAdventurers.Count; k++){
                     Adventurer c = allAdventurers[k];
-                    //Take friendship levels into account when recalculating
+                    //Take friendship levels into account when recalculating eventually
                     //eg int abFriendship = a.GetFriendship(b);
 
                     //DO ALL RULES HERE
                     //Friend of friend is my friend
                     //(Friend ?x ?y) !(Friend ?y ?z) => Friendship(?y ?z) +=5
-                    if(a.IsFriendsWith(b) && !b.IsFriendsWith(c))
+                    if(a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
                         b.ChangeFriendship(c, 1);
                         c.ChangeFriendship(b, 1);
                     }
                     //Enemy of friend is my enemy
                     //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?y ?z) -=5
-                    if(a.IsFriendsWith(b) && !b.IsFriendsWith(c))
+                    if(a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
                         b.ChangeFriendship(c, -1);
-                        b.ChangeFriendship(b, -1);
+                        c.ChangeFriendship(b, -1);
                     }
                 }
             }
         }
-
     }
 }
