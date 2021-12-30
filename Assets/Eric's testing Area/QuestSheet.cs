@@ -34,7 +34,7 @@ public class QuestSheet
 	/// <param name="party_input">The party to assign to the quest.</param>
 	public void assignParty(PartySheet partyInput)
 	{
-		adventuring_party = party_input;
+		adventuring_party = partyInput;
 	}
 
 	// Calculates the maximum total reward for the quest as given.
