@@ -8,7 +8,6 @@ public class QuestSheet
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
-	public QuestingManager questingManager; // reference to the master questing manager.
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
@@ -33,7 +32,7 @@ public class QuestSheet
 	/// Assigns a part to the quest.
 	/// </summary>
 	/// <param name="party_input">The party to assign to the quest.</param>
-	public void assignParty(PartySheet party_input)
+	public void assignParty(PartySheet partyInput)
 	{
 		adventuring_party = party_input;
 	}
@@ -67,7 +66,11 @@ public class QuestSheet
 				currentConnection = returnMessage.nextEvent;
 				return advancebyTick();
 			}
-			else { return 1; }
+			else
+			{
+				QuestComplete = true;
+				return 1;
+			}
 		}
 		eventTicksElapsed++;
 
@@ -94,9 +97,9 @@ public class EventNode
 	/// </summary>
 	public enum EventTypes
 	{
-		head = 0, // Nodes without preconditions.
-		successful = 1, // Nodes that need succesful DC check
-		fail = 2, // Nodes that need failed DC check
+		head = 1, // Nodes without preconditions.
+		successful = 2, // Nodes that need succesful DC check
+		fail = 3, // Nodes that need failed DC check
 	}
 
 	public class EventPackage
@@ -169,7 +172,7 @@ public class EventNode
 		return message;
 	}
 
-
+	/*
 	/// <summary>
 	/// Checks if it's time to execute an event. If it is, executes event.
 	/// </summary>
@@ -210,49 +213,5 @@ public class EventNode
 		// If there are enough connections
 		if (input_DC > DC) { return connection[0]; }
 		else { return connection[1]; }
-	}
+	}*/
 }
-
-
-
-
-
-
-
-
-/*
-/// <summary>
-/// Returns 1 on all timeChecks, no matter what.
-/// </summary>
-public class FailEventNode: EventNode
-{
-	public new int timeCheck(int currentTick, int input_DC, ref EventNode currentNode)
-	{
-		return 1;
-	}
-}
-
-/// <summary>
-/// Returns 2 on all timeChecks, no matter what.
-/// </summary>
-public class SuccessEventNode: EventNode
-{
-	public new int timeCheck(int currentTick, int input_DC, ref EventNode eventNode)
-	{
-		return 2;
-	}
-}
-
-/// <summary>
-/// The most common event node, used for events that must succeed in order to progress.
-/// </summary>
-public class LinearEventNode : EventNode
-{
-	new protected EventNode nextConnection(int input_DC)
-	{
-		// If there are enough connections
-		if (input_DC > DC) { return connection[0]; }
-		else { return new FailEventNode(); }
-	}
-}
-*/

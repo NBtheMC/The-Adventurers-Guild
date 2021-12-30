@@ -124,36 +124,33 @@ public class CharacterGymTestScript : MonoBehaviour
     // Gym will test if a quest will update itself over and over again, navigating the quest event data correctly.
     public void Gym3QuestTraversal()
     {
-        // Make a random adventuring party.
+        // Make a simple adventuring party, all with stats of 5 across the board.
         PartySheet testParty = new PartySheet();
-		for (int i = 0; i < 4; i++)
-		{
+        for (int i = 0; i < 4; i++)
+        {
             Dictionary<string, int> generatedStats = new Dictionary<string, int>();
-            foreach (string stat in defaultStats.stats)
-			{
-                generatedStats[stat] = Mathf.FloorToInt(Random.Range(1, 15));
-			}
-            CharacterSheet randomCharacter = new CharacterSheet($"Character {i}", generatedStats);
-            testParty.addMember(randomCharacter);
-		}
+            generatedStats.Add("stamina", 5);
+            CharacterSheet testCharacter = new CharacterSheet($"Character {i}", generatedStats);
+            testParty.addMember(testCharacter);
+        }
 
-        // Generate an utterly easy event graph to be completed in 150 ticks.
-        EventNode testNode1 = new EventNode(defaultStats.stats[0],0,50);
-        EventNode testNode2 = new EventNode(defaultStats.stats[1], 0, 50);
-        EventNode testNode3 = new EventNode(defaultStats.stats[3], 0, 50);
+        // Generate a simple "defeating a boss" event graph.
+        EventNode travelToBoss = new EventNode("stamina", 0, 50);
+        EventNode defeatBoss = new EventNode("combat", 15, 50);
 
-        testNode1.addConnection(testNode2);
-        testNode2.eventType = EventNode.EventTypes.successful;
-        testNode2.addConnection(testNode3);
-        testNode3.eventType= EventNode.EventTypes.successful;
+        // Add connections using the addConnection() function
+        travelToBoss.addConnection(defeatBoss);
 
-        // Now assign them to a QuestSheet
-        QuestSheet testQuest = new QuestSheet(testNode1, "Test Quest");
-        testQuest.assignParty(testParty);
+        // Set Event Types directly. You do not need to set traveltoBoss as EventTypes are by default head.
+        defeatBoss.eventType = EventNode.EventTypes.successful;
+
+        // Create a Quest Sheet and assign them the head of an event.
+        QuestSheet defeatBossQuest = new QuestSheet(travelToBoss, "Test Quest");
+        defeatBossQuest.assignParty(testParty);
 
         // AdvancebyTick should be able to return a 0 for a quest continuing, and a 1 for a quest finishing.
         int ticktimer = 0;
-        while(testQuest.advancebyTick() == 0)
+        while(defeatBossQuest.advancebyTick() == 0)
 		{
             ticktimer++;
             if (ticktimer > 160)
@@ -161,9 +158,42 @@ public class CharacterGymTestScript : MonoBehaviour
                 break;
 			}
 		}
-        // Make sure that we used up only until 150 ticks.
-        Debug.Assert(ticktimer == 150,$"Test 1 Failure, ticktimer retuned {ticktimer}.");
 
-        Debug.Log("Gym - Quest Traversal passed.");
+        // Make sure that we used up only until 150 ticks.
+        Debug.Assert(ticktimer == 100,$"Test 1 Failure, ticktimer retuned {ticktimer}.");
+        Debug.Assert(defeatBossQuest.QuestComplete == true, "Incomplete Quest");
+
+        Debug.Log("Gym 3 - Quest Traversal passed.");
+    }
+
+    // Gives a mostly simple quest, and tries to make sure that the quest comes out right.
+    public void Gym4SimpleEventReturn()
+	{
+        // Make a simple adventuring party, all with stats of 5 across the board.
+        PartySheet testParty = new PartySheet();
+        for (int i = 0; i < 4; i++)
+        {
+            Dictionary<string, int> generatedStats = new Dictionary<string, int>();
+            generatedStats.Add("stamina", 5);
+            CharacterSheet testCharacter = new CharacterSheet($"Character {i}", generatedStats);
+            testParty.addMember(testCharacter);
+        }
+
+        // Generate a simple "defeating a boss" event graph.
+        EventNode travelToBoss = new EventNode("stamina", 0, 50);
+        EventNode defeatBoss = new EventNode("combat", 15, 50);
+
+        // Add connections using the addConnection() function
+        travelToBoss.addConnection(defeatBoss);
+
+        // Set Event Types directly. You do not need to set traveltoBoss as EventTypes are by default head.
+        defeatBoss.eventType = EventNode.EventTypes.successful;
+
+        // The returned Event Package 
+        EventNode.EventPackage returnMessage = travelToBoss.resolveEvent(testParty);
+        Debug.Assert(returnMessage.objectiveComplete == true);
+        Debug.Assert(returnMessage.nextEvent == defeatBoss);
+
+        Debug.Log("Gym 4 - Simple Event Return Passed");
     }
 }
