@@ -33,12 +33,6 @@ public class QuestGenerator : MonoBehaviour
         public string[] stats; //What stats should be used for dc checks. Chosen at random
     }
 
-    void Awake()
-    {
-        questingManager = GameObject.Find("QuestManager").GetComponent<QuestingManager>();
-        Debug.Log(GameObject.Find("QuestManager").GetComponent<QuestingManager>());
-    }
-
     /// <summary>
     /// Generates a quest and adds it to the bankedQuests list in questingManager
     /// </summary>
@@ -122,6 +116,11 @@ public class QuestGenerator : MonoBehaviour
 
     private void Start()
     {
+        // Gets the quest manager for use in other functions. And to throw finished quests into.
+        //questingManager = GameObject.Find("QuestManager").GetComponent<QuestingManager>();
+        Debug.Log(questingManager.GetComponent<QuestingManager>());
+
+
         QuestParameters questParameters;
         questParameters.length = 3;
         questParameters.questDifficulty = QuestDifficulty.HARD;

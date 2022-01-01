@@ -14,7 +14,9 @@ public class QuestingManager : MonoBehaviour
 	
     private void Awake()
 	{
-        timeSystem.TickAdded += AdvanceAllQuests;
+        //timeSystem.TickAdded += AdvanceAllQuests;
+		bankedQuests = new List<QuestSheet>();
+		activeQuests = new List<QuestSheet>();
 	}
 
 	/// <summary>
