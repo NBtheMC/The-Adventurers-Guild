@@ -25,12 +25,6 @@ public class Adventurer : MonoBehaviour
         romances = new Dictionary<Adventurer, int>();
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-
-    // }
-
     public void ChangeFriendship(Adventurer a, int friendshipChange){
         //adding new friendship
         Debug.Log("Friendships: " + friendships);
