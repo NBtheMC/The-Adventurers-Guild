@@ -30,7 +30,9 @@ public class Dragger : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
         //this.transform.position += ((Vector3)eventData.delta);
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.nearClipPlane;
-        this.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 newPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        newPosition.z = 0;
+        this.transform.position = newPosition;
         //rectTransform.anchoredPosition += (eventData.delta);
         //rectTransform.anchoredPosition = eventData.position;
     }
