@@ -17,24 +17,10 @@ public class GameManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Clicking/Dragging Adventurer
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
-        {
-            Collider2D targetObject = Physics2D.OverlapPoint(mousePosition);
-            //SELECTING
-            if (targetObject.transform.GetComponent<Adventurer>())
-            {
-                selectedAdventurer = targetObject.transform.gameObject;
-            }
-        }
-        //DESELECTING
-        if (Input.GetMouseButtonUp(0) && selectedAdventurer != null)
-        {
-            selectedAdventurer = null;
-        }
-    }
+    // // Update is called once per frame
+    // void Update()
+    // {
+        
+
+    // }
 }

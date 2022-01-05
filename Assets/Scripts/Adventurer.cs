@@ -88,6 +88,4 @@ public class Adventurer : MonoBehaviour
         }
         return romances[a];
     }
-
-
 }
