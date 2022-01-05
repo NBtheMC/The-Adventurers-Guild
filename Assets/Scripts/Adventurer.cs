@@ -7,10 +7,10 @@ public class Adventurer : MonoBehaviour
 {
     //Relationships with others combined with a strength
     //if another adventurer isn't in this list, their relationship is neutral
-    Dictionary<Adventurer, int> friendships; //number between -10 and 10
-    Dictionary<Adventurer, int> romances;
-    Dictionary<Adventurer, int> wereFriends;
-    Dictionary<Adventurer, int> wereEnemies;
+    IDictionary<Adventurer, int> friendships; //number between -10 and 10
+    IDictionary<Adventurer, int> romances;
+    IDictionary<Adventurer, int> wereFriends;
+    IDictionary<Adventurer, int> wereEnemies;
     //Main relationships (give bonuses later?)
     Adventurer bestFriend;
     Adventurer worstEnemy;
@@ -19,9 +19,10 @@ public class Adventurer : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        friendships = new Dictionary<Adventurer, int>();
+        romances = new Dictionary<Adventurer, int>();
     }
 
     // Update is called once per frame
@@ -32,7 +33,12 @@ public class Adventurer : MonoBehaviour
 
     public void ChangeFriendship(Adventurer a, int friendshipChange){
         //adding new friendship
-        if(friendships.ContainsKey(a) == false){
+        Debug.Log("Friendships: " + friendships);
+        if(friendships.Count == 0){
+            friendships.Add(a, friendshipChange);
+            return;
+        }
+        else if (friendships.ContainsKey(a) == false){
             friendships.Add(a, friendshipChange);
             return;
         }
