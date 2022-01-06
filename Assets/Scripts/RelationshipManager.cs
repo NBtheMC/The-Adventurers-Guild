@@ -56,6 +56,9 @@ public class RelationshipManager : MonoBehaviour
                 Adventurer b = allAdventurers[j];
                 for(int k = j+1; k < allAdventurers.Count; k++){
                     Adventurer c = allAdventurers[k];
+                    Debug.Log("Adventurer 1: " + a.gameObject.name);
+                    Debug.Log("Adventurer 2: " + b.gameObject.name);
+                    Debug.Log("Adventurer 3: " + c.gameObject.name);
                     //Take friendship levels into account when recalculating eventually
                     //eg int abFriendship = a.GetFriendship(b);
 
@@ -76,4 +79,19 @@ public class RelationshipManager : MonoBehaviour
             }
         }
     }
+
+
+    static int [] comb = new int [3];
+    private void combinations(List<Adventurer> adventurers, int ind, int begin){
+        for (int i = begin; i < adventurers.Count; i++){
+            comb [ind] = i;
+            if (ind + 1 < 3){
+                combinations(adventurers, ind + 1, comb[ind] + 1);
+            }
+            else {
+                //do calculations on pair of 3
+            }
+        }
+    }
+
 }
