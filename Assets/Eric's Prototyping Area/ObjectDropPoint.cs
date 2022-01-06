@@ -17,6 +17,7 @@ public class ObjectDropPoint : MonoBehaviour
 
 	private void Update()
 	{
+
 	}
 
 	/// <summary>
