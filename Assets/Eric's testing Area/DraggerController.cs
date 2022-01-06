@@ -6,12 +6,11 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// This controller allows a player to select and drag a controller around.
 /// </summary>
-public class CharacterSelectionController : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    // Give the location of a bunch of drop points to be used for characters.
-    public List<GameObject> dropPoints;
+    public DropHandler dropHandler; // Where to call drop commands.
 
-    private Vector2 lockedPosition;
+    public Vector2 lockedPosition; // Where this object should return to if it's dropped.
     private RectTransform transformer;
     private DropHandler.DropType dropType = DropHandler.DropType.character;
 
@@ -48,6 +47,11 @@ public class CharacterSelectionController : MonoBehaviour, IBeginDragHandler, IE
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("End Drag");
-        transformer.anchoredPosition = lockedPosition;
+        if (dropHandler.inDropPoint(this))
+		{
+            Debug.Log("Successful Drop");
+		}
+		transformer.anchoredPosition = lockedPosition;
+        
     }
 }

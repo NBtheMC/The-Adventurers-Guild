@@ -7,16 +7,16 @@ using UnityEngine;
 /// </summary>
 public class ObjectDropPoint : MonoBehaviour
 {
-	public DropHandler.DropType dropType; // Make the designer figure this out. Probably me later.
+	public DropHandler.DropType dropType; // Used by inspector or instantiator to set the type of drop point.
+	public DraggerController heldObject;
 
 	private void Awake()
 	{
-		
+		heldObject = null;
 	}
 
 	private void Update()
 	{
-		Debug.Log(WithinBounds(new Vector2(Input.mousePosition.x, Input.mousePosition.y)));
 	}
 
 	/// <summary>
@@ -27,17 +27,13 @@ public class ObjectDropPoint : MonoBehaviour
 	{
 		bool isItIn = false;
 
-		// Get the current position of the object.
+		// Defines the space of the area we need to check.
 		RectTransform currentRectangle = this.GetComponent<RectTransform>();
 		Rect rect = currentRectangle.rect;
 		rect.x += currentRectangle.position.x;
 		rect.y += currentRectangle.position.y;
 
-
-		Debug.Log($"X {point.x} between {rect.xMin} and {rect.xMax}");
-		Debug.Log($"Y {point.y} between {rect.yMin} and {rect.yMax}");
-
-		// Big if condition
+		// Big if condition 
 		if(point.x<rect.xMax && point.x>rect.xMin && point.y<rect.yMax && point.y > rect.yMin)
 		{
 			isItIn = true;
