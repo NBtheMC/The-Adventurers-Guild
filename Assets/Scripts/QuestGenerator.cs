@@ -42,15 +42,13 @@ public class QuestGenerator : MonoBehaviour
         //Create head node and set its eventType to head
         EventNode head = GenerateNode(questParameters);
         head.eventType = EventNode.EventTypes.head;
-        Debug.Log("Head Node: " + "Level: " + questParameters.length + ", " + head.stat + ", " + head.DC + ", " + head.time);
+        // Debug.Log("Head Node: " + "Level: " + questParameters.length + ", " + head.stat + ", " + head.DC + ", " + head.time);
         
         //Attach additional nodes to the head node
         AttachNodes(questParameters, head, questParameters.length - 1);
 
         //Create new quest sheet and add it to the questingManager
         QuestSheet questSheet = new QuestSheet(head, questName);
-        Debug.Log(questingManager);
-        Debug.Log(questingManager.bankedQuests);
         questingManager.bankedQuests.Add(questSheet);
 
         return;
@@ -62,7 +60,7 @@ public class QuestGenerator : MonoBehaviour
     /// <param name="questParameters">Same questParameters struct passed to GenerateQuest()</param>
     /// <param name="node">Success and fail nodes will be attached to this node</param>
     /// <param name="length">Used to determine when to end recursive call</param>
-    void AttachNodes(QuestParameters questParameters, EventNode node, int length)
+    private void AttachNodes(QuestParameters questParameters, EventNode node, int length)
     {
         if (length == 0)
             return;
@@ -77,8 +75,8 @@ public class QuestGenerator : MonoBehaviour
         node.addConnection(successNode);
         node.addConnection(failNode);
 
-        Debug.Log("Success Node: " + "Level: " + length + ", " + successNode.stat + ", " + successNode.DC + ", " + successNode.time);
-        Debug.Log("Fail Node: " + "Level: " + length + ", " + failNode.stat + ", " + failNode.DC + ", " + failNode.time);
+        //Debug.Log("Success Node: " + "Level: " + length + ", " + successNode.stat + ", " + successNode.DC + ", " + successNode.time);
+        //Debug.Log("Fail Node: " + "Level: " + length + ", " + failNode.stat + ", " + failNode.DC + ", " + failNode.time);
 
         //Recursively call AttachNodes on the newly generated nodes
         AttachNodes(questParameters, successNode, length - 1);
@@ -116,10 +114,10 @@ public class QuestGenerator : MonoBehaviour
 
     private void Start()
     {
+        questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         // Gets the quest manager for use in other functions. And to throw finished quests into.
         //questingManager = GameObject.Find("QuestManager").GetComponent<QuestingManager>();
-        Debug.Log(questingManager.GetComponent<QuestingManager>());
-
+        /*
 
         QuestParameters questParameters;
         questParameters.length = 3;
@@ -127,5 +125,6 @@ public class QuestGenerator : MonoBehaviour
         questParameters.stats = new string[] { "diplomacy", "combat", "exploration", "stamina" };
 
         GenerateQuest(questParameters, "test");
+        */
     }
 }

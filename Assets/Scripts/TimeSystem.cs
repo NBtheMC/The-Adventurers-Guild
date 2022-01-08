@@ -22,7 +22,8 @@ public class TimeSystem : MonoBehaviour
 
     private void Awake()
     {
-        timeTrackerCoroutine = StartCoroutine(TimeTracker());
+        Debug.Log("Starting time");
+        StartTimer();
     }
 
     // While the Coroutine is running, a tick passes every tickLength
