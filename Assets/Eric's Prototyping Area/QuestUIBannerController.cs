@@ -13,6 +13,6 @@ public class QuestUIBannerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.GetComponent<RectTransform>().anchoredPosition += new Vector2((float)-0.01,0);
+        //this.GetComponent<RectTransform>().anchoredPosition += new Vector2((float)-0.01,0);
     }
 }
