@@ -65,15 +65,13 @@ public class RelationshipManager : MonoBehaviour
                     //DO ALL RULES HERE
                     //Friend of friend is my friend
                     //(Friend ?x ?y) !(Friend ?y ?z) => Friendship(?y ?z) +=5
-                    if(a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
-                        b.ChangeFriendship(c, 1);
-                        c.ChangeFriendship(b, 1);
+                    if(a.IsFriendsWith(b) && b.IsFriendsWith(c)){
+                        a.ChangeFriendship(c, 1);
                     }
-                    //Enemy of friend is my enemy
-                    //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?y ?z) -=5
-                    if(a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
+                    //Enemy of enemy is my friend
+                    //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?y ?z) +=5
+                    if(!a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
                         b.ChangeFriendship(c, -1);
-                        c.ChangeFriendship(b, -1);
                     }
                 }
             }

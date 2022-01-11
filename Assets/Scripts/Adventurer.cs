@@ -77,6 +77,7 @@ public class Adventurer : MonoBehaviour
     //probably wont have to use. just in case though
     public void SetFriendship(Adventurer a, int friendshipLevel){
         if(friendships.ContainsKey(a) == false){
+            friendships.Add(a, friendshipLevel);
             return;
         }
         friendships[a] = friendshipLevel;
