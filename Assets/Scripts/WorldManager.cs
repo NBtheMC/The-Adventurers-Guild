@@ -23,7 +23,6 @@ public class WorldManager : MonoBehaviour
             Debug.Log("New Quest has been generated");
             QuestGenerator.QuestParameters questParameters;
             questParameters.length = 3;
-            questParameters.questDifficulty = QuestGenerator.QuestDifficulty.HARD;
             questParameters.stats = new string[] { "diplomacy", "combat", "exploration", "stamina" };
 
             questGenerator.GenerateQuest(questParameters, "test");
