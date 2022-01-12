@@ -7,8 +7,8 @@ public class Adventurer : MonoBehaviour
 {
     //Relationships with others combined with a strength
     //if another adventurer isn't in this list, their relationship is neutral
-    IDictionary<Adventurer, int> friendships; //number between -10 and 10
-    IDictionary<Adventurer, int> romances;
+    public IDictionary<Adventurer, int> friendships; //number between -10 and 10
+    public IDictionary<Adventurer, int> romances;
     IDictionary<Adventurer, int> wereFriends;
     IDictionary<Adventurer, int> wereEnemies;
     //Main relationships (give bonuses later?)

@@ -12,17 +12,20 @@ public class Testing : MonoBehaviour
         GameObject guy1 = new GameObject("guy1");
         guy1.transform.parent = adventurers;
         Adventurer spiderman = guy1.AddComponent<Adventurer>();
+
         GameObject guy2 = new GameObject("guy2");
         guy2.transform.parent = adventurers;
         Adventurer greenGoblin = guy2.AddComponent<Adventurer>();
+
         GameObject guy3 = new GameObject("guy3");
         guy3.transform.parent = adventurers;
         Adventurer docOck = guy3.AddComponent<Adventurer>();
+
         //Change friendship levels
-        spiderman.ChangeFriendship(greenGoblin, -5);
-        greenGoblin.ChangeFriendship(spiderman, -5);
-        spiderman.ChangeFriendship(docOck, -5);
-        docOck.ChangeFriendship(spiderman, -5);
+        spiderman.ChangeFriendship(greenGoblin, 5);
+        greenGoblin.ChangeFriendship(spiderman, 5);
+        spiderman.ChangeFriendship(docOck, 5);
+        docOck.ChangeFriendship(spiderman, 5);
         greenGoblin.ChangeFriendship(docOck, 5);
         docOck.ChangeFriendship(greenGoblin, 5);
         //See if levels are set correctly

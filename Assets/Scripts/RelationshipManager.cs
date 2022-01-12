@@ -56,23 +56,40 @@ public class RelationshipManager : MonoBehaviour
                 Adventurer b = allAdventurers[j];
                 for(int k = j+1; k < allAdventurers.Count; k++){
                     Adventurer c = allAdventurers[k];
-                    Debug.Log("Adventurer 1: " + a.gameObject.name);
-                    Debug.Log("Adventurer 2: " + b.gameObject.name);
-                    Debug.Log("Adventurer 3: " + c.gameObject.name);
+                    Debug.Log(a.gameObject.name + " + " + b.gameObject.name + " friends= " + a.IsFriendsWith(b));
+                    Debug.Log(a.gameObject.name + " + " + c.gameObject.name + " friends= " + a.IsFriendsWith(c));      
+                    Debug.Log(b.gameObject.name + " + " + c.gameObject.name + " friends= " + b.IsFriendsWith(c));              
                     //Take friendship levels into account when recalculating eventually
                     //eg int abFriendship = a.GetFriendship(b);
 
+                    //Each friendship so easier to access
+                    bool abFriends = a.IsFriendsWith(b);
+                    bool acFriends = a.IsFriendsWith(c);
+                    bool bcFriends = b.IsFriendsWith(c);
+
                     //DO ALL RULES HERE
+                    //HAVE TO ACCOUNT FOR ALL COMBINATIONS
                     //Friend of friend is my friend
                     //(Friend ?x ?y) !(Friend ?y ?z) => Friendship(?x ?z) +=1
-                    if(a.IsFriendsWith(b) && b.IsFriendsWith(c)){
+                    if(abFriends && bcFriends){
                         Debug.Log("Friend of a friend");
                         a.ChangeFriendship(c, 1);
                         c.SetFriendship(a, a.GetFriendship(c));
                     }
+                    if(acFriends && bcFriends){
+                        Debug.Log("Friend of a friend");
+                        a.ChangeFriendship(b, 1);
+                        b.SetFriendship(a, a.GetFriendship(b));
+                    }
+                    if(abFriends && acFriends){
+                        Debug.Log("Friend of a friend");
+                        c.ChangeFriendship(b, 1);
+                        b.SetFriendship(c, c.GetFriendship(b));
+                    }
+
                     //Enemy of enemy is my friend
                     //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?x ?z) +=1
-                    if(!a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
+                    if(!abFriends && !bcFriends){
                         Debug.Log("Enemy of a Enemy");
                         a.ChangeFriendship(c, 1);
                         c.SetFriendship(a, a.GetFriendship(c));
