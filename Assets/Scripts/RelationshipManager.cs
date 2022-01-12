@@ -90,9 +90,19 @@ public class RelationshipManager : MonoBehaviour
                     //Enemy of enemy is my friend
                     //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?x ?z) +=1
                     if(!abFriends && !bcFriends){
-                        Debug.Log("Enemy of a Enemy");
-                        a.ChangeFriendship(c, 1);
+                        Debug.Log("Friend of a friend");
+                        a.ChangeFriendship(c, -1);
                         c.SetFriendship(a, a.GetFriendship(c));
+                    }
+                    if(!acFriends && !bcFriends){
+                        Debug.Log("Friend of a friend");
+                        a.ChangeFriendship(b, -1);
+                        b.SetFriendship(a, a.GetFriendship(b));
+                    }
+                    if(!abFriends && !acFriends){
+                        Debug.Log("Friend of a friend");
+                        c.ChangeFriendship(b, -1);
+                        b.SetFriendship(c, c.GetFriendship(b));
                     }
                 }
             }

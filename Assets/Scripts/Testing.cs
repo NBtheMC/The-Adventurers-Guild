@@ -22,12 +22,12 @@ public class Testing : MonoBehaviour
         Adventurer docOck = guy3.AddComponent<Adventurer>();
 
         //Change friendship levels
-        spiderman.ChangeFriendship(greenGoblin, 5);
-        greenGoblin.ChangeFriendship(spiderman, 5);
-        spiderman.ChangeFriendship(docOck, 5);
-        docOck.ChangeFriendship(spiderman, 5);
-        greenGoblin.ChangeFriendship(docOck, 5);
-        docOck.ChangeFriendship(greenGoblin, 5);
+        spiderman.ChangeFriendship(greenGoblin, -5);
+        greenGoblin.ChangeFriendship(spiderman, -5);
+        spiderman.ChangeFriendship(docOck, -5);
+        docOck.ChangeFriendship(spiderman, -5);
+        greenGoblin.ChangeFriendship(docOck, -5);
+        docOck.ChangeFriendship(greenGoblin, -5);
         //See if levels are set correctly
         // Debug.Log("Spiderman x Green Goblin friendship = " + spiderman.GetFriendship(greenGoblin));
         // Debug.Log("Green Goblin x Spiderman friendship = " + greenGoblin.GetFriendship(spiderman));
