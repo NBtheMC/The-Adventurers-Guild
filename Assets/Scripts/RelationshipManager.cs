@@ -64,30 +64,20 @@ public class RelationshipManager : MonoBehaviour
 
                     //DO ALL RULES HERE
                     //Friend of friend is my friend
-                    //(Friend ?x ?y) !(Friend ?y ?z) => Friendship(?y ?z) +=5
+                    //(Friend ?x ?y) !(Friend ?y ?z) => Friendship(?x ?z) +=1
                     if(a.IsFriendsWith(b) && b.IsFriendsWith(c)){
+                        Debug.Log("Friend of a friend");
                         a.ChangeFriendship(c, 1);
+                        c.SetFriendship(a, a.GetFriendship(c));
                     }
                     //Enemy of enemy is my friend
-                    //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?y ?z) +=5
+                    //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?x ?z) +=1
                     if(!a.IsFriendsWith(b) && !b.IsFriendsWith(c)){
-                        b.ChangeFriendship(c, -1);
+                        Debug.Log("Enemy of a Enemy");
+                        a.ChangeFriendship(c, 1);
+                        c.SetFriendship(a, a.GetFriendship(c));
                     }
                 }
-            }
-        }
-    }
-
-
-    static int [] comb = new int [3];
-    private void combinations(List<Adventurer> adventurers, int ind, int begin){
-        for (int i = begin; i < adventurers.Count; i++){
-            comb [ind] = i;
-            if (ind + 1 < 3){
-                combinations(adventurers, ind + 1, comb[ind] + 1);
-            }
-            else {
-                //do calculations on pair of 3
             }
         }
     }
