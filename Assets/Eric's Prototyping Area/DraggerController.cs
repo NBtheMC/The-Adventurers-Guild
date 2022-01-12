@@ -14,10 +14,18 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     public DropHandler.DropType dropType = DropHandler.DropType.character; // Defines what this dragger represents.
 
+    private bool beingDragged = false;
+
     void Awake()
     {
         transformer = this.GetComponent<RectTransform>();
     }
+
+    void Update()
+	{
+        // Keeps character locked to their drop point as long as it's not being dragged.
+        if (beingDragged == false) { transformer.position = objectDropPoint.GetComponent<RectTransform>().position; }
+	}
 
     void Start()
 	{
@@ -32,6 +40,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Begin Drag");
+        beingDragged = true;
     }
 
     /// <summary>
@@ -51,6 +60,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("End Drag");
+        beingDragged = false;
         if (dropHandler.inDropPoint(this))
 		{
             Debug.Log("Successful Drop");
