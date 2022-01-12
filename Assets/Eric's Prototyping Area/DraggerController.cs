@@ -4,20 +4,25 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// This controller allows a player to select and drag a controller around.
+/// This controller allows a player to select and drag a character around.
 /// </summary>
 public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public DropHandler dropHandler; // Where to call drop commands.
 
-    public Vector2 lockedPosition; // Where this object should return to if it's dropped.
-    private RectTransform transformer;
-    private DropHandler.DropType dropType = DropHandler.DropType.character;
+    public ObjectDropPoint objectDropPoint; // The home drop point.
+    private RectTransform transformer; // defines the rectangle reference for this dragger.
+    public DropHandler.DropType dropType = DropHandler.DropType.character; // Defines what this dragger represents.
 
     void Awake()
     {
         transformer = this.GetComponent<RectTransform>();
-        lockedPosition = transformer.anchoredPosition;
+    }
+
+    void Start()
+	{
+        Debug.Assert(objectDropPoint != null, "ObjectDropPoint cannot be null on draggers.");
+        transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
     }
 
     /// <summary>
@@ -27,7 +32,6 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Begin Drag");
-        lockedPosition = transformer.anchoredPosition;
     }
 
     /// <summary>
@@ -37,7 +41,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("Dragging");
-        transformer.anchoredPosition += eventData.delta;
+        transformer.position += new Vector3(eventData.delta.x,eventData.delta.y);
     }
 
     /// <summary>
@@ -51,7 +55,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 		{
             Debug.Log("Successful Drop");
 		}
-		transformer.anchoredPosition = lockedPosition;
+		transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
         
     }
 }

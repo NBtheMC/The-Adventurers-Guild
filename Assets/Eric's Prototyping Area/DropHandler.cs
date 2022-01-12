@@ -35,7 +35,8 @@ public class DropHandler : MonoBehaviour
 			if (dropPoint.WithinBounds(Input.mousePosition))
 			{
 				dropPoint.heldObject = itemtoHold;
-				itemtoHold.lockedPosition = dropPoint.GetComponent<RectTransform>().position;
+				itemtoHold.objectDropPoint.heldObject = null;
+				itemtoHold.objectDropPoint = dropPoint;
 				return true;
 			}
 		}

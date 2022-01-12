@@ -12,7 +12,7 @@ public class ObjectDropPoint : MonoBehaviour
 
 	private void Awake()
 	{
-		heldObject = null;
+		
 	}
 
 	private void Update()
