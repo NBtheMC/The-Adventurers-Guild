@@ -76,5 +76,25 @@ public class QuestSheet
 
 		return 0;
 	}
+
+	public class EventInfo
+	{
+		public string description; //not currently implemented yet, but events will need to have this soon
+		public string stat; //type of check that is done
+		public int DC; 
+
+
+	}
+
+	/// <summary>
+	/// Returns list of relevant quest data
+	/// Right now, that's just the description, stat, and difficulty for each event
+	/// </summary>
+	public List<EventInfo> getQuestInfo()
+	{
+		List<EventInfo> questInfo = new List<EventInfo>();
+
+		return questInfo;
+	}
 }
 

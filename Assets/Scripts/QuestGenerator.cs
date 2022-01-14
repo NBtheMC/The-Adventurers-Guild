@@ -50,6 +50,9 @@ public class QuestGenerator : MonoBehaviour
         //Create new quest sheet and add it to the questingManager
         QuestSheet questSheet = new QuestSheet(head, questName);
         questingManager.bankedQuests.Add(questSheet);
+        //add quest sheet to UI object in world
+        GameObject newQuest = new GameObject();
+        
 
         return;
     }
