@@ -6,31 +6,42 @@ public class QuestGenerator : MonoBehaviour
 {
     public QuestingManager questingManager;
 
-    //Bounds for DC check based on difficulty, inclusive
-    private const int EASY_DC_LOW = 5;
-    private const int EASY_DC_HIGH = 15;
-    private const int MED_DC_LOW = 16;
-    private const int MED_DC_HIGH = 30;
-    private const int HARD_DC_LOW = 31;
-    private const int HARD_DC_HIGH = 50;
+    [Range(0, 1)]
+    public float DcCheckDifficulty;
+    [Range(0, 1)]
+    public float timeLimitDifficulty;
 
-    //Bounds for time based on difficulty, inclusive
-    private const int EASY_TIME_LOW = 35;
-    private const int EASY_TIME_HIGH = 50;
-    private const int MED_TIME_LOW = 25;
-    private const int MED_TIME_HIGH = 40;
-    private const int HARD_TIME_LOW = 15;
-    private const int HARD_TIME_HIGH = 30;
+    //Lower and upper bounds for the dc checks and time limits
+    private const int DC_CHECK_LOW_BOUND = 5;
+    private const int DC_CHECK_HIGH_BOUND = 50;
+    private const int TIME_LIMIT_LOW_BOUND = 15;
+    private const int TIME_LIMIT_HIGH_BOUND = 50;
 
-    public enum QuestDifficulty {
-        EASY, NORMAL, HARD
+    //How much the dc check or time limit can deviate from its original value
+    private const float RANDOM_PERCENT_DEVIATION = 0.25f;
+    
+    //Used to change dc check and time limie difficulty overtime
+    [System.Serializable]
+    public struct DifficultyTimeScale
+    {
+        public GameTime gameTime;
+        [Range(0, 1)]
+        public float dcDifficulty;
+        [Range(0, 1)]
+        public float timeDifficulty;
     }
+
+    public List<DifficultyTimeScale> difficulties;
 
     // Quest is generated based off of these parameters
     public struct QuestParameters {
         public int length; //How many events the party needs to go through before finishing the quest
-        public QuestDifficulty questDifficulty; //Determines how difficult the DC checks are
         public string[] stats; //What stats should be used for dc checks. Chosen at random
+    }
+    private void Start()
+    {
+        questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
+        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckTime;
     }
 
     /// <summary>
@@ -83,48 +94,38 @@ public class QuestGenerator : MonoBehaviour
         AttachNodes(questParameters, failNode, length - 1);
     }
 
+    // Generates a node with the given questParamters. 
     private EventNode GenerateNode(QuestParameters questParameters)
     {
-        string stat;
-        int dc = 0;
-        int time = 0;
+        int dc;
+        int time;
+        string stat = questParameters.stats[Random.Range(0, questParameters.stats.Length - 1)];
 
-        int rand = Random.Range(0, questParameters.stats.Length - 1);
+        dc = Mathf.RoundToInt(DC_CHECK_LOW_BOUND + ((DC_CHECK_HIGH_BOUND - DC_CHECK_LOW_BOUND) * DcCheckDifficulty));
+        dc = Random.Range(dc -= Mathf.RoundToInt(dc * RANDOM_PERCENT_DEVIATION), dc += Mathf.RoundToInt(dc * RANDOM_PERCENT_DEVIATION));
+        dc = Mathf.Clamp(dc, DC_CHECK_LOW_BOUND, DC_CHECK_HIGH_BOUND);
 
-        stat = questParameters.stats[rand];
+        time = Mathf.RoundToInt(TIME_LIMIT_HIGH_BOUND - ((TIME_LIMIT_HIGH_BOUND - TIME_LIMIT_LOW_BOUND) * timeLimitDifficulty));
+        time = Random.Range(time -= Mathf.RoundToInt(time * RANDOM_PERCENT_DEVIATION), time += Mathf.RoundToInt(time * RANDOM_PERCENT_DEVIATION));
+        time = Mathf.Clamp(time, TIME_LIMIT_LOW_BOUND, TIME_LIMIT_HIGH_BOUND);
 
-        switch (questParameters.questDifficulty)
-        {
-            case (QuestDifficulty.EASY): { dc = Random.Range(EASY_DC_LOW, EASY_DC_HIGH); break; }
-            case (QuestDifficulty.NORMAL): { dc = Random.Range(MED_DC_LOW, MED_DC_HIGH); break; }
-            case (QuestDifficulty.HARD): { dc = Random.Range(HARD_DC_LOW, HARD_DC_HIGH); break; }
-        }
-
-        switch (questParameters.questDifficulty)
-        {
-            case (QuestDifficulty.EASY): { time = Random.Range(EASY_TIME_LOW, EASY_TIME_HIGH); break; }
-            case (QuestDifficulty.NORMAL): { time = Random.Range(MED_TIME_LOW, MED_TIME_HIGH); break; }
-            case (QuestDifficulty.HARD): { time = Random.Range(HARD_TIME_LOW, HARD_TIME_HIGH); break; }
-        }
+        Debug.Log("Generated node with (dc,time) = (" + dc + "," + time + ")");
 
         EventNode node = new EventNode(stat, dc, time);
 
         return node;
     }
 
-    private void Start()
+    //Will check difficulties list and see if the quest difficulties need to be updated
+    private void CheckTime(object source, GameTime gameTime)
     {
-        questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
-        // Gets the quest manager for use in other functions. And to throw finished quests into.
-        //questingManager = GameObject.Find("QuestManager").GetComponent<QuestingManager>();
-        /*
-
-        QuestParameters questParameters;
-        questParameters.length = 3;
-        questParameters.questDifficulty = QuestDifficulty.HARD;
-        questParameters.stats = new string[] { "diplomacy", "combat", "exploration", "stamina" };
-
-        GenerateQuest(questParameters, "test");
-        */
+        foreach(DifficultyTimeScale difficulty in difficulties)
+        {
+            if(difficulty.gameTime.day == gameTime.day && difficulty.gameTime.hour == gameTime.hour)
+            {
+                DcCheckDifficulty = difficulty.dcDifficulty;
+                timeLimitDifficulty = difficulty.timeDifficulty;
+            }
+        }
     }
 }
