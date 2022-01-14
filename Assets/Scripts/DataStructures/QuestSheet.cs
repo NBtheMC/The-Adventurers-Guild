@@ -77,24 +77,25 @@ public class QuestSheet
 		return 0;
 	}
 
-	public class EventInfo
+	public struct EventInfo
 	{
 		public string description; //not currently implemented yet, but events will need to have this soon
 		public string stat; //type of check that is done
-		public int DC; 
-
-
+		public int DC; //requirement
 	}
 
 	/// <summary>
-	/// Returns list of relevant quest data
-	/// Right now, that's just the description, stat, and difficulty for each event
+	/// Returns list of relevant event data
+	/// Right now, that's just the description, stat, and difficulty
+	/// Will want to call this whenever the next one gets revealed
 	/// </summary>
-	public List<EventInfo> getQuestInfo()
+	public EventInfo getCurrentEventInfo()
 	{
-		List<EventInfo> questInfo = new List<EventInfo>();
-
-		return questInfo;
+		EventInfo currentEvent = new EventInfo();
+		currentEvent.description = "Event description"; //placeholder text
+		currentEvent.stat = currentConnection.stat;
+		currentEvent.DC = currentConnection.DC;
+		return currentEvent;
 	}
 }
 
