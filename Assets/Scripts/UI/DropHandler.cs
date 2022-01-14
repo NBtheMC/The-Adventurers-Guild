@@ -10,6 +10,10 @@ public class DropHandler : MonoBehaviour
 	public List<ObjectDropPoint> dropPoints;
 	public enum DropType {character, item}; // An identifier to tell this script what to match with what.
 
+	public void Awake()
+	{
+		Debug.Assert(dropPoints.Contains(null) == false);
+	}
 
 	public void AddDropPoint(ObjectDropPoint newDragPoint)
 	{

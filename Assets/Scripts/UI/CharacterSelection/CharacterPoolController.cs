@@ -92,11 +92,13 @@ public class CharacterPoolController : MonoBehaviour
         // Tells dropHandler that we have a new dropPoint.
         dropHandler.AddDropPoint(dropPointController);
 
+        // Tells the dropPointController that it should only take characters.
+        dropPointController.dropType = DropHandler.DropType.character;
+
         // Gives the new character a home drop point, hands it the new dropHandler, and tells it what it's purpose is.
         characterController.objectDropPoint = dropPointController;
         characterController.dropHandler = dropHandler;
         characterController.dropType = DropHandler.DropType.character;
-
 	}
 
     /// <summary>
