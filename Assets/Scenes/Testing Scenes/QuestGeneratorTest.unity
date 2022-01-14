@@ -368,6 +368,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questingManager: {fileID: 1269280268}
+  DcCheckDifficulty: 0.1
+  timeLimitDifficulty: 0.1
+  difficulties:
+  - gameTime:
+      hour: 5
+      day: 0
+    dcDifficulty: 0.3
+    timeDifficulty: 0.4
+  - gameTime:
+      hour: 7
+      day: 0
+    dcDifficulty: 0.6
+    timeDifficulty: 0.9
 --- !u!4 &2052533240
 Transform:
   m_ObjectHideFlags: 0

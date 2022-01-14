@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldManager : MonoBehaviour
 {
     private QuestGenerator questGenerator;
-    private int newQuestInterval = 3; //The time interval (in hours) in which new quests are generated
+    private int newQuestInterval = 2; //The time interval (in hours) in which new quests are generated
 
     private void Awake()
     {

@@ -17,8 +17,20 @@ public class QuestGenerator : MonoBehaviour
     private const int TIME_LIMIT_LOW_BOUND = 15;
     private const int TIME_LIMIT_HIGH_BOUND = 50;
 
-    //I literally just strunga bunch of mathy words together this is probably not a real thing that exists
-    private const float RANDOM_PERCENT_DEVIATION = 0.15f;
+    //I literally just strung a bunch of mathy words together this is probably not a real thing that exists
+    private const float RANDOM_PERCENT_DEVIATION = 0.25f;
+    
+    [System.Serializable]
+    public struct DifficultyTimeScale
+    {
+        public GameTime gameTime;
+        [Range(0, 1)]
+        public float dcDifficulty;
+        [Range(0, 1)]
+        public float timeDifficulty;
+    }
+
+    public List<DifficultyTimeScale> difficulties;
 
     // Quest is generated based off of these parameters
     public struct QuestParameters {
@@ -100,6 +112,8 @@ public class QuestGenerator : MonoBehaviour
     private void Start()
     {
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
+        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckTime;
+
         // Gets the quest manager for use in other functions. And to throw finished quests into.
         //questingManager = GameObject.Find("QuestManager").GetComponent<QuestingManager>();
         /*
@@ -111,5 +125,17 @@ public class QuestGenerator : MonoBehaviour
 
         GenerateQuest(questParameters, "test");
         */
+    }
+
+    public void CheckTime(object source, GameTime gameTime)
+    {
+        foreach(DifficultyTimeScale difficulty in difficulties)
+        {
+            if(difficulty.gameTime.day == gameTime.day && difficulty.gameTime.hour == gameTime.hour)
+            {
+                DcCheckDifficulty = difficulty.dcDifficulty;
+                timeLimitDifficulty = difficulty.timeDifficulty;
+            }
+        }
     }
 }
