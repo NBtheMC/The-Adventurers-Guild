@@ -11,15 +11,16 @@ public class QuestGenerator : MonoBehaviour
     [Range(0, 1)]
     public float timeLimitDifficulty;
 
+    //Lower and upper bounds for the dc checks and time limits
     private const int DC_CHECK_LOW_BOUND = 5;
     private const int DC_CHECK_HIGH_BOUND = 50;
-
     private const int TIME_LIMIT_LOW_BOUND = 15;
     private const int TIME_LIMIT_HIGH_BOUND = 50;
 
-    //I literally just strung a bunch of mathy words together this is probably not a real thing that exists
+    //How much the dc check or time limit can deviate from its original value
     private const float RANDOM_PERCENT_DEVIATION = 0.25f;
     
+    //Used to change dc check and time limie difficulty overtime
     [System.Serializable]
     public struct DifficultyTimeScale
     {
@@ -36,6 +37,11 @@ public class QuestGenerator : MonoBehaviour
     public struct QuestParameters {
         public int length; //How many events the party needs to go through before finishing the quest
         public string[] stats; //What stats should be used for dc checks. Chosen at random
+    }
+    private void Start()
+    {
+        questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
+        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckTime;
     }
 
     /// <summary>
@@ -88,6 +94,7 @@ public class QuestGenerator : MonoBehaviour
         AttachNodes(questParameters, failNode, length - 1);
     }
 
+    // Generates a node with the given questParamters. 
     private EventNode GenerateNode(QuestParameters questParameters)
     {
         int dc;
@@ -109,25 +116,8 @@ public class QuestGenerator : MonoBehaviour
         return node;
     }
 
-    private void Start()
-    {
-        questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
-        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckTime;
-
-        // Gets the quest manager for use in other functions. And to throw finished quests into.
-        //questingManager = GameObject.Find("QuestManager").GetComponent<QuestingManager>();
-        /*
-
-        QuestParameters questParameters;
-        questParameters.length = 3;
-        questParameters.questDifficulty = QuestDifficulty.HARD;
-        questParameters.stats = new string[] { "diplomacy", "combat", "exploration", "stamina" };
-
-        GenerateQuest(questParameters, "test");
-        */
-    }
-
-    public void CheckTime(object source, GameTime gameTime)
+    //Will check difficulties list and see if the quest difficulties need to be updated
+    private void CheckTime(object source, GameTime gameTime)
     {
         foreach(DifficultyTimeScale difficulty in difficulties)
         {
