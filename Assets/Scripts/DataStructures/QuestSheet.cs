@@ -39,7 +39,7 @@ public class QuestSheet
 
 	// Calculates the maximum total reward for the quest as given.
 	// Done by doing brute-force search through the tree and calculating all possible rewards.
-	public int EstimatedRedwardTotal()
+	public int EstimatedRewardTotal()
 	{
 		int countingTotal = 0;
 		// Put code here.
@@ -64,11 +64,13 @@ public class QuestSheet
 			if (returnMessage.nextEvent != null)
 			{
 				currentConnection = returnMessage.nextEvent;
+				//TODO: add onto corresponding quest UI object
 				return advancebyTick();
 			}
 			else
 			{
 				QuestComplete = true;
+				//TODO: add finished node onto UI object
 				return 1;
 			}
 		}
@@ -86,7 +88,7 @@ public class QuestSheet
 
 	/// <summary>
 	/// Returns list of relevant event data
-	/// Right now, that's just the description, stat, and difficulty
+	/// Right now, that's just the description (needs to be added onto EventNode somehow), stat, and difficulty
 	/// Will want to call this whenever the next one gets revealed
 	/// </summary>
 	public EventInfo getCurrentEventInfo()
@@ -98,4 +100,3 @@ public class QuestSheet
 		return currentEvent;
 	}
 }
-
