@@ -1,3 +1,4 @@
+[System.Serializable]
 public struct GameTime
 {
     public int hour;

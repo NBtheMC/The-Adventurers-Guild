@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldManager : MonoBehaviour
 {
     private QuestGenerator questGenerator;
-    private int newQuestInterval = 3; //The time interval (in hours) in which new quests are generated
+    private int newQuestInterval = 2; //The time interval (in hours) in which new quests are generated
 
     private void Awake()
     {
@@ -23,7 +23,6 @@ public class WorldManager : MonoBehaviour
             Debug.Log("New Quest has been generated");
             QuestGenerator.QuestParameters questParameters;
             questParameters.length = 3;
-            questParameters.questDifficulty = QuestGenerator.QuestDifficulty.HARD;
             questParameters.stats = new string[] { "diplomacy", "combat", "exploration", "stamina" };
 
             questGenerator.GenerateQuest(questParameters, "test");
