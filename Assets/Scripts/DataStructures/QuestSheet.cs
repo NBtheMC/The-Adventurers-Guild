@@ -8,6 +8,7 @@ public class QuestSheet
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
+	private QuestUI questUI; //association to corresponding UI element
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
@@ -87,11 +88,11 @@ public class QuestSheet
 	}
 
 	/// <summary>
-	/// Returns list of relevant event data
+	/// Sends list of relevant event data to QuestUI object
 	/// Right now, that's just the description (needs to be added onto EventNode somehow), stat, and difficulty
 	/// Will want to call this whenever the next one gets revealed
 	/// </summary>
-	public EventInfo getCurrentEventInfo()
+	public EventInfo getNewEventInfo()
 	{
 		EventInfo currentEvent = new EventInfo();
 		currentEvent.description = "Event description"; //placeholder text
