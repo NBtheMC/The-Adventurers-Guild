@@ -44,6 +44,8 @@ public class QuestGenerator : MonoBehaviour
         GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckTime;
     }
 
+    public GameObject questPrefab;
+
     /// <summary>
     /// Generates a quest and adds it to the bankedQuests list in questingManager
     /// </summary>
@@ -63,10 +65,11 @@ public class QuestGenerator : MonoBehaviour
         questingManager.bankedQuests.Add(questSheet);
 
         //create questUI object and attach it to this questsheet
-        GameObject questPrefab = Resources.Load("Assets/Scripts/UI/Quest/QuestUI.prefab") as GameObject;
+        Debug.Log("Making UI Element");
         GameObject newQuest = Instantiate(questPrefab);
         QuestUI questUI = newQuest.AddComponent<QuestUI>();
         questUI.SetupQuestUI(questSheet);
+        Debug.Log("Done making UI Element");
         return;
     }
 

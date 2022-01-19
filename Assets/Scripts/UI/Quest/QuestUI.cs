@@ -16,7 +16,13 @@ public class QuestUI : MonoBehaviour
     void Start()
     {
         attachedObject = this.transform;
-        questName = attachedObject.Find("Canvas/FormPartyButton/FormPartyText").gameObject.GetComponent<Text>();
+        questName = attachedObject.Find("Canvas/Title").gameObject.GetComponent<Text>();
+        questDescription = attachedObject.Find("Canvas/Description").gameObject.GetComponent<Text>();
+        questReward = attachedObject.Find("Canvas/Description").gameObject.GetComponent<Text>();
+        Canvas canv = attachedObject.Find("Canvas").gameObject.GetComponent<Canvas>();
+        Debug.Log("Canv " + canv);
+        Debug.Log("Cam " + Camera.main);
+        canv.worldCamera = Camera.main;
     }
 
     //Creates Quest as a UI GameObject
