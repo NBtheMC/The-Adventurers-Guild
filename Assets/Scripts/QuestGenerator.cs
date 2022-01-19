@@ -66,7 +66,7 @@ public class QuestGenerator : MonoBehaviour
 
         //create questUI object and attach it to this questsheet
         Debug.Log("Making UI Element");
-        GameObject newQuest = Instantiate(questPrefab);
+        GameObject newQuest = Instantiate(questPrefab); //add position to this later
         QuestUI questUI = newQuest.AddComponent<QuestUI>();
         questUI.SetupQuestUI(questSheet);
         Debug.Log("Done making UI Element");

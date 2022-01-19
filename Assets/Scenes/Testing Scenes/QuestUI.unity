@@ -233,7 +233,7 @@ PrefabInstance:
     - target: {fileID: 2034728829876176911, guid: dd038d2a849740442837603dfb43028d, type: 3}
       propertyPath: questPrefab
       value: 
-      objectReference: {fileID: 5536067090228604588, guid: 035afe9678505f242adab5f6d462265a, type: 3}
+      objectReference: {fileID: 2891471291067920301, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
     - target: {fileID: 2034728829876176911, guid: dd038d2a849740442837603dfb43028d, type: 3}
       propertyPath: questingManager
       value: 
@@ -754,11 +754,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4449032677977219149, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -56.31
+      value: -57.31
       objectReference: {fileID: 0}
     - target: {fileID: 4449032677977219149, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -37.62
+      value: -37.7
       objectReference: {fileID: 0}
     - target: {fileID: 4449032677977219149, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
       propertyPath: m_LocalPosition.z

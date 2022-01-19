@@ -20,8 +20,6 @@ public class QuestUI : MonoBehaviour
         questDescription = attachedObject.Find("Canvas/Description").gameObject.GetComponent<Text>();
         questReward = attachedObject.Find("Canvas/Description").gameObject.GetComponent<Text>();
         Canvas canv = attachedObject.Find("Canvas").gameObject.GetComponent<Canvas>();
-        Debug.Log("Canv " + canv);
-        Debug.Log("Cam " + Camera.main);
         canv.worldCamera = Camera.main;
     }
 
@@ -46,4 +44,6 @@ public class QuestUI : MonoBehaviour
 
         return;
     }
+
+    
 }
