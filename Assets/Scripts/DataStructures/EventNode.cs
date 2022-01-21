@@ -8,14 +8,16 @@ using UnityEngine;
 /// If successful, sends first node.
 /// If failed, sends second node.
 /// </summary>
-public class EventNode
+[CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
+public class EventNode: ScriptableObject
 {
 	public string stat; // the stat to be checked against. Should correspond with PartySheet
 	public int DC;
-	protected List<EventNode> connection; // A list of connections to get used.
 	public int time; // How many ticks before the DC check is triggered
 	public EventTypes eventType; // used to decide how EventNode will handle 
+	public int Reward;
 
+	public List<EventNode> connection; // A list of connections to get used.
 	/// <summary>
 	/// Event Types describe what triggers them for use with the previous event.
 	/// </summary>

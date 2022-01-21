@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CharacterGymTestScript : MonoBehaviour
 {
-    public StatNames defaultStats;
 
     // Gym 1 will create a bunch of character with numbers, then check if those numbers are correctly summed by party.
     public void Gym1PartyStatTracking()
