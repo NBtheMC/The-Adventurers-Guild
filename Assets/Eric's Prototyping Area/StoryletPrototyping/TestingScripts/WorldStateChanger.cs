@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class WorldEffectSlider : MonoBehaviour
+public class WorldStateChanger : MonoBehaviour
 {
+
     public TMP_Text text;
     public string headerMessage;
-    public string worldStat;
-    float value;
-    Slider currentSlider;
+    public string worldState;
+    bool state;
+    Button theButton;
+    
 
     public WorldStateManager theWorld;
 
@@ -18,30 +20,29 @@ public class WorldEffectSlider : MonoBehaviour
     void Start()
     {
         // Set references to the slider.
-        currentSlider = this.GetComponent<Slider>();
+        theButton = GetComponent<Button>();
 
         // Set up the world to behave with the slider.
-        theWorld.addWorldValue(worldStat, currentSlider.value);
+        theWorld.addWorldState(worldState, false);
 
         // get the current world Value
-        value = theWorld.getWorldValue(worldStat);
+        state = theWorld.getWorldState(worldState);
 
         // Set the text to the world value.
-        text.text = $"{headerMessage}: {value}";
-        currentSlider.onValueChanged.AddListener(UpdateWorldValue);
+        text.text = $"{headerMessage}: {state}";
     }
 
     /// <summary>
     /// What we use to update the world value.
     /// </summary>
     /// <param name="inputChange">IDK, it needs this or something.</param>
-    void UpdateWorldValue(float inputChange)
-	{
+    public void UpdateWorldState()
+    {
         // change the world value.
-        theWorld.addWorldValue(worldStat, currentSlider.value);
+        theWorld.addWorldState(worldState, !state);
 
         // Set the text to the world value.
-        value = theWorld.getWorldValue(worldStat);
-        text.text = $"{headerMessage}: {value}";
+        state = theWorld.getWorldState(worldState);
+        text.text = $"{headerMessage}: {state}";
     }
 }

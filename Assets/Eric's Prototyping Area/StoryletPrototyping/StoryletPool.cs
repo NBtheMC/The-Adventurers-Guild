@@ -29,11 +29,9 @@ public class StoryletPool : MonoBehaviour
 			// Goes through the list of trigger values.
 			foreach (Storylet.triggerValue triggerValue in storylet.triggerValues)
 			{
-				// Check if worldStateManager contains the triggerValue. If it doesn't, it adds it.
-				if (!world.worldValues.ContainsKey(triggerValue.name)) { world.addWorldValue(name, 0);}
 
 				// create a copy of the world's current value to check against.
-				float worldValue = world.worldValues[triggerValue.name].value;
+				float worldValue = world.getWorldValue(triggerValue.name);
 				switch (triggerValue.triggerType)
 				{
 					case -1: // Fail check if world value is more.
@@ -57,21 +55,19 @@ public class StoryletPool : MonoBehaviour
 			
 			foreach(Storylet.triggerState triggerState in storylet.triggerStates)
 			{
-				// Check if worldStateManager contrains the triggerState. If it doesn't, it adds it, assuming false.
-				if (!world.worldStates.ContainsKey(triggerState.name)) { world.addWorldState(name, false); }
-
 				// Check if the trigger state matches the world state.
-				if (world.worldStates[triggerState.name].state != triggerState.state) { validStorylet = false; break; }
+				if (world.getWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
 			}
 			
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
 			if (!validStorylet) { continue; }
-			else { validStorylets.Add(storylet); }
+			else { validStorylets.Add(storylet); Debug.Log($"Storylet {storylet.questName} works."); }
 		}
 
 		// goes through the list of valid storylets and triggers them.
 		foreach (Storylet storylet in validStorylets)
 		{
+			
 			// Goes through the storylets and applies worldchanges.
 			foreach(Storylet.ValueChange valueChange in storylet.triggerValueChanges)
 			{

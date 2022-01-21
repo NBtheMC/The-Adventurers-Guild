@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WorldStateManager : MonoBehaviour
 {
-    public Dictionary<string, WorldValue> worldValues { get; private set; }
-    public Dictionary<string, WorldState> worldStates { get; private set; }
+    private Dictionary<string, WorldValue> worldValues;
+    private Dictionary<string, WorldState> worldStates;
 
     public StoryletPool storyletPool;
 
@@ -64,12 +64,34 @@ public class WorldStateManager : MonoBehaviour
 
     // You don't need a changeWorldState. Just set it using addWorldState.
 
+    public float getWorldValue(string key)
+	{
+        WorldValue specifiedWorldValue;
+        if (worldValues.TryGetValue(key, out specifiedWorldValue))
+		{
+            return specifiedWorldValue.value;
+		}
+		else { addWorldValue(key, 0); return 0; }
+	}
+
+    public bool getWorldState(string key)
+	{
+        WorldState specifiedWorldState;
+        if (worldStates.TryGetValue(key, out specifiedWorldState))
+		{
+            return specifiedWorldState.state;
+		}
+        else { addWorldState(key, false); return false; }
+	}
+
+
     /// <summary>
     /// Checks the Storylet Pool for a good storylet to hit.
     /// </summary>
-    private void checkStorylets()
+    public void TriggerStorylets()
 	{
         storyletPool.CheckPool(this);
+        Debug.Log("Checking for Storylets");
 	}
 }
 
