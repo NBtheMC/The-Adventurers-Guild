@@ -10,6 +10,7 @@ public class QuestingManager : MonoBehaviour
     public TimeSystem timeSystem; // a reference to the time system to update quest with.
 	public List<QuestSheet> activeQuests; // All quests currently embarked.
 	public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
+	public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
 	public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
 	
     private void Awake()
@@ -29,6 +30,8 @@ public class QuestingManager : MonoBehaviour
 			quest.advancebyTick();
 			if (quest.QuestComplete == true)
 			{
+				finishedQuests.Add(quest);
+				activeQuests.Remove(quest);
 				// Something about sending QuestReturn the correct amount of gold. quest.accumutatedGold;
 			}
 		}
