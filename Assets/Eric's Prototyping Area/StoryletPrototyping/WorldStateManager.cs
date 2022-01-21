@@ -69,7 +69,7 @@ public class WorldStateManager : MonoBehaviour
     /// </summary>
     private void checkStorylets()
 	{
-
+        storyletPool.CheckPool(this);
 	}
 }
 

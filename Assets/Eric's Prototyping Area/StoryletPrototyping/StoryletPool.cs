@@ -7,11 +7,13 @@ using UnityEngine;
 /// </summary>
 public class StoryletPool : MonoBehaviour
 {
-	public WorldStateManager worldStateManager;
 
 	public List<Storylet> storylets = new List<Storylet>();
 
-
+	/// <summary>
+	/// Checks all storylets for correct conditions, then triggers them.
+	/// </summary>
+	/// <param name="world">The World State Manager</param>
 	public void CheckPool(WorldStateManager world)
 	{
 		List<Storylet> validStorylets = new List<Storylet>();
@@ -28,10 +30,10 @@ public class StoryletPool : MonoBehaviour
 			foreach (Storylet.triggerValue triggerValue in storylet.triggerValues)
 			{
 				// Check if worldStateManager contains the triggerValue. If it doesn't, it adds it.
-				if (!worldStateManager.worldValues.ContainsKey(triggerValue.name)) { worldStateManager.addWorldValue(name, 0);}
+				if (!world.worldValues.ContainsKey(triggerValue.name)) { world.addWorldValue(name, 0);}
 
 				// create a copy of the world's current value to check against.
-				float worldValue = worldStateManager.worldValues[triggerValue.name].value;
+				float worldValue = world.worldValues[triggerValue.name].value;
 				switch (triggerValue.triggerType)
 				{
 					case -1: // Fail check if world value is more.
@@ -56,10 +58,10 @@ public class StoryletPool : MonoBehaviour
 			foreach(Storylet.triggerState triggerState in storylet.triggerStates)
 			{
 				// Check if worldStateManager contrains the triggerState. If it doesn't, it adds it, assuming false.
-				if (!worldStateManager.worldStates.ContainsKey(triggerState.name)) { worldStateManager.addWorldState(name, false); }
+				if (!world.worldStates.ContainsKey(triggerState.name)) { world.addWorldState(name, false); }
 
 				// Check if the trigger state matches the world state.
-				if (worldStateManager.worldStates[triggerState.name].state != triggerState.state) { validStorylet = false; break; }
+				if (world.worldStates[triggerState.name].state != triggerState.state) { validStorylet = false; break; }
 			}
 			
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
@@ -83,6 +85,9 @@ public class StoryletPool : MonoBehaviour
 			}
 
 			storylet.numInstances++;
+
+			Debug.Log($"New Quest {storylet.name} created.");
+			// InsertQuestAttachment to Quest here.
 		}
 	}
 
