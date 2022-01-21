@@ -7,7 +7,7 @@ public class WorldStateManager : MonoBehaviour
     private Dictionary<string, WorldValue> worldValues;
     private Dictionary<string, WorldState> worldStates;
 
-    public StoryletPool storyletPool;
+    public List<Storylet> storylets = new List<Storylet>();
 
     // Start is called before the first frame update
     void Awake()
@@ -23,7 +23,7 @@ public class WorldStateManager : MonoBehaviour
     /// </summary>
     /// <param name="name">Name of the value</param>
     /// <param name="value">The value.</param>
-    public void addWorldValue(string name, float value)
+    public void AddWorldValue(string name, float value)
     {
         if (!worldValues.ContainsKey(name))
         {
@@ -39,7 +39,7 @@ public class WorldStateManager : MonoBehaviour
     /// </summary>
     /// <param name="name">Name of the State</param>
     /// <param name="value">The State.</param>
-    public void addWorldState(string name, bool state)
+    public void AddWorldState(string name, bool state)
 	{
         if (!worldStates.ContainsKey(name))
         {
@@ -56,42 +56,109 @@ public class WorldStateManager : MonoBehaviour
     /// </summary>
     /// <param name="name">Name of the value to change.</param>
     /// <param name="value">The change to be added to current value.</param>
-    public void changeWorldValue(string name, float value)
+    public void ChangeWorldValue(string name, float value)
 	{
-        if (!worldValues.ContainsKey(name)) { addWorldValue(name, value); }
+        if (!worldValues.ContainsKey(name)) { AddWorldValue(name, value); }
         else { worldValues[name].value += value; }
 	}
 
     // You don't need a changeWorldState. Just set it using addWorldState.
 
-    public float getWorldValue(string key)
+    public float GetWorldValue(string key)
 	{
         WorldValue specifiedWorldValue;
         if (worldValues.TryGetValue(key, out specifiedWorldValue))
 		{
             return specifiedWorldValue.value;
 		}
-		else { addWorldValue(key, 0); return 0; }
+		else { AddWorldValue(key, 0); return 0; }
 	}
 
-    public bool getWorldState(string key)
+    public bool GetWorldState(string key)
 	{
         WorldState specifiedWorldState;
         if (worldStates.TryGetValue(key, out specifiedWorldState))
 		{
             return specifiedWorldState.state;
 		}
-        else { addWorldState(key, false); return false; }
+        else { AddWorldState(key, false); return false; }
 	}
 
 
     /// <summary>
-    /// Checks the Storylet Pool for a good storylet to hit.
+    /// Checks the Storylet List for any activatable storylet, then activates them.
     /// </summary>
     public void TriggerStorylets()
 	{
-        storyletPool.CheckPool(this);
         Debug.Log("Checking for Storylets");
+		List<Storylet> validStorylets = new List<Storylet>();
+
+		// checks all our storylets to see if there are any valid storylets to trigger.
+		foreach (Storylet storylet in storylets)
+		{
+			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
+			if (!storylet.canBeInstanced && storylet.numInstances > 0) { continue; }
+
+			bool validStorylet = true;
+
+			// Goes through the list of trigger values.
+			foreach (Storylet.triggerValue triggerValue in storylet.triggerValues)
+			{
+
+				// create a copy of the world's current value to check against.
+				float worldValue = GetWorldValue(triggerValue.name);
+				switch (triggerValue.triggerType)
+				{
+					case -1: // Fail check if world value is more.
+						if (worldValue > triggerValue.value) { validStorylet = false; }
+						break;
+					case 0: // checks for exact equal value. fail check if world value is not exact.
+						if (worldValue != triggerValue.value) { validStorylet = false; }
+						break;
+					case 1: // Fail check if world value is less.
+						if (worldValue < triggerValue.value) { validStorylet = false; }
+						break;
+					default:
+						break;
+				}
+				// If the value ended up false, stops checking other values. 
+				if (!validStorylet) { break; }
+			}
+
+			// if this is not a valid storylet, keep searching
+			if (!validStorylet) { continue; }
+
+			foreach (Storylet.triggerState triggerState in storylet.triggerStates)
+			{
+				// Check if the trigger state matches the world state.
+				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
+			}
+
+			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
+			if (!validStorylet) { continue; }
+			else { validStorylets.Add(storylet); Debug.Log($"Storylet {storylet.questName} works."); }
+		}
+
+		// goes through the list of valid storylets and triggers them.
+		foreach (Storylet storylet in validStorylets)
+		{
+			// Goes through the storylets and applies worldchanges.
+			foreach (Storylet.ValueChange valueChange in storylet.triggerValueChanges)
+			{
+				// Checks to set it directly, or to change it by a value.
+				if (valueChange.set == true) { AddWorldValue(valueChange.name, valueChange.value); }
+				else { ChangeWorldValue(valueChange.name, valueChange.value); }
+			}
+			foreach (Storylet.StateChange change in storylet.triggerStateChanges)
+			{
+				AddWorldState(change.name, change.state);
+			}
+
+			storylet.numInstances++;
+
+			Debug.Log($"New Quest {storylet.name} created.");
+			// InsertQuestAttachment to Quest here.
+		}
 	}
 }
 

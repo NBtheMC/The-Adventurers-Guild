@@ -23,10 +23,10 @@ public class WorldStateChanger : MonoBehaviour
         theButton = GetComponent<Button>();
 
         // Set up the world to behave with the slider.
-        theWorld.addWorldState(worldState, false);
+        theWorld.AddWorldState(worldState, false);
 
         // get the current world Value
-        state = theWorld.getWorldState(worldState);
+        state = theWorld.GetWorldState(worldState);
 
         // Set the text to the world value.
         text.text = $"{headerMessage}: {state}";
@@ -39,10 +39,10 @@ public class WorldStateChanger : MonoBehaviour
     public void UpdateWorldState()
     {
         // change the world value.
-        theWorld.addWorldState(worldState, !state);
+        theWorld.AddWorldState(worldState, !state);
 
         // Set the text to the world value.
-        state = theWorld.getWorldState(worldState);
+        state = theWorld.GetWorldState(worldState);
         text.text = $"{headerMessage}: {state}";
     }
 }

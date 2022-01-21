@@ -21,10 +21,10 @@ public class WorldEffectSlider : MonoBehaviour
         currentSlider = this.GetComponent<Slider>();
 
         // Set up the world to behave with the slider.
-        theWorld.addWorldValue(worldStat, currentSlider.value);
+        theWorld.AddWorldValue(worldStat, currentSlider.value);
 
         // get the current world Value
-        value = theWorld.getWorldValue(worldStat);
+        value = theWorld.GetWorldValue(worldStat);
 
         // Set the text to the world value.
         text.text = $"{headerMessage}: {value}";
@@ -38,10 +38,10 @@ public class WorldEffectSlider : MonoBehaviour
     void UpdateWorldValue(float inputChange)
 	{
         // change the world value.
-        theWorld.addWorldValue(worldStat, currentSlider.value);
+        theWorld.AddWorldValue(worldStat, currentSlider.value);
 
         // Set the text to the world value.
-        value = theWorld.getWorldValue(worldStat);
+        value = theWorld.GetWorldValue(worldStat);
         text.text = $"{headerMessage}: {value}";
     }
 }
