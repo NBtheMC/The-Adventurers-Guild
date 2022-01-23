@@ -16,14 +16,19 @@ public class WorldStateManager : MonoBehaviour
         worldStates = new Dictionary<string, WorldState>();
     }
 
-    /// <summary>
-    /// Adds a new World Value to the World State Manager.
-    /// If the value already exists, it replaces the existed value with the new value.
-    /// Therefore, this can also be used to set values.
-    /// </summary>
-    /// <param name="name">Name of the value</param>
-    /// <param name="value">The value.</param>
-    public void AddWorldValue(string name, float value)
+	private void Start()
+	{
+		foreach(Storylet storylet in storylets) { storylet.numInstances = 0; }
+	}
+
+	/// <summary>
+	/// Adds a new World Value to the World State Manager.
+	/// If the value already exists, it replaces the existed value with the new value.
+	/// Therefore, this can also be used to set values.
+	/// </summary>
+	/// <param name="name">Name of the value</param>
+	/// <param name="value">The value.</param>
+	public void AddWorldValue(string name, float value)
     {
         if (!worldValues.ContainsKey(name))
         {
@@ -90,17 +95,20 @@ public class WorldStateManager : MonoBehaviour
     /// </summary>
     public void TriggerStorylets()
 	{
-        Debug.Log("Checking for Storylets");
+
 		List<Storylet> validStorylets = new List<Storylet>();
 
 		// checks all our storylets to see if there are any valid storylets to trigger.
 		foreach (Storylet storylet in storylets)
 		{
+
 			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
-			if (!storylet.canBeInstanced && storylet.numInstances > 0) { continue; }
+			if (storylet.numInstances > 0 && !storylet.canBeInstanced) { continue; }
 
 			bool validStorylet = true;
 
+			//Debug.Log($"Begining Trigger Checks. Total of {storylet.triggerValues.Count} trigger values.");
+			
 			// Goes through the list of trigger values.
 			foreach (Storylet.triggerValue triggerValue in storylet.triggerValues)
 			{
@@ -109,14 +117,20 @@ public class WorldStateManager : MonoBehaviour
 				float worldValue = GetWorldValue(triggerValue.name);
 				switch (triggerValue.triggerType)
 				{
-					case -1: // Fail check if world value is more.
-						if (worldValue > triggerValue.value) { validStorylet = false; }
+					case Storylet.NumberTriggerType.LessThanEqualTo:
+						if (worldValue > triggerValue.value) { validStorylet = false;}
 						break;
-					case 0: // checks for exact equal value. fail check if world value is not exact.
+					case Storylet.NumberTriggerType.LessThan: // Fail check if world value is more.
+						if (worldValue >= triggerValue.value) { validStorylet = false; }
+						break;
+					case Storylet.NumberTriggerType.EqualTo: // checks for exact equal value. fail check if world value is not exact.
 						if (worldValue != triggerValue.value) { validStorylet = false; }
 						break;
-					case 1: // Fail check if world value is less.
+					case Storylet.NumberTriggerType.GreaterThanEqualTo:
 						if (worldValue < triggerValue.value) { validStorylet = false; }
+						break;
+					case Storylet.NumberTriggerType.GreaterThan: // Fail check if world value is less.
+						if (worldValue <= triggerValue.value) { validStorylet = false; }
 						break;
 					default:
 						break;

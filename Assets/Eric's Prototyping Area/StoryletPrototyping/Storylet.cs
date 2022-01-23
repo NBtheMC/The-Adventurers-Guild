@@ -13,7 +13,16 @@ public class Storylet : ScriptableObject
 	/// Similar to Quests Structures, we'll create a dictionary of string ints to hold status
 
 	//TriggerValue tells a Storylet what world values to trigger on.
-	[System.Serializable] public struct triggerValue { public string name; public float value; public int triggerType; }
+	public enum NumberTriggerType
+	{
+		LessThan = -2,
+		LessThanEqualTo = -1,
+		EqualTo = 0,
+		GreaterThan = 1,
+		GreaterThanEqualTo = 2,
+	}
+
+	[System.Serializable] public struct triggerValue { public string name; public float value; public NumberTriggerType triggerType; }
 
 	//TriggerState tells a Storylet what world states to trigger on
 	[System.Serializable] public struct triggerState { public string name; public bool state; }
