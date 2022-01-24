@@ -7,7 +7,11 @@ public class WorldStateManager : MonoBehaviour
     private Dictionary<string, WorldValue> worldValues;
     private Dictionary<string, WorldState> worldStates;
 
+	// The list of all storylets we plan on creating.
     public List<Storylet> storylets = new List<Storylet>();
+
+	// the reference to a QuestingManager.
+	public QuestingManager questingManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -18,6 +22,7 @@ public class WorldStateManager : MonoBehaviour
 
 	private void Start()
 	{
+		// resets each storylet's active quest value to zero. will come up with better solution in future.
 		foreach(Storylet storylet in storylets) { storylet.numInstances = 0; }
 	}
 
@@ -171,7 +176,12 @@ public class WorldStateManager : MonoBehaviour
 			storylet.numInstances++;
 
 			Debug.Log($"New Quest {storylet.name} created.");
-			// InsertQuestAttachment to Quest here.
+
+			// This will need to change depending on  how Parm codes the new questing manager.
+			QuestSheet newQuest = new QuestSheet(storylet.eventHead,storylet.questName);
+
+			questingManager.bankedQuests.Add(newQuest);
+			// Added a quest.
 		}
 	}
 }

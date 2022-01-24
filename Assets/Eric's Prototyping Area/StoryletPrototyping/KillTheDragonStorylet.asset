@@ -17,7 +17,7 @@ MonoBehaviour:
   triggerValues:
   - name: NumberOfDragons
     value: 1
-    triggerType: 1
+    triggerType: 2
   triggerStates:
   - name: RawrDragonBeingAttacked
     state: 0
