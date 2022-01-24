@@ -6,12 +6,16 @@ public class WorldStateManager : MonoBehaviour
 {
     private Dictionary<string, WorldValue> worldValues;
     private Dictionary<string, WorldState> worldStates;
+	private Dictionary<string, WorldInt> worldInts;
 
 	// The list of all storylets we plan on creating.
     public List<Storylet> storylets = new List<Storylet>();
 
 	// the reference to a QuestingManager.
 	public QuestingManager questingManager;
+
+	// the reference to the TimeSystem.
+	public TimeSystem timeSystem;
 
     // Start is called before the first frame update
     void Awake()
@@ -24,6 +28,9 @@ public class WorldStateManager : MonoBehaviour
 	{
 		// resets each storylet's active quest value to zero. will come up with better solution in future.
 		foreach(Storylet storylet in storylets) { storylet.numInstances = 0; }
+
+		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
+		if (timeSystem != null) { timeSystem.TickAdded += TickTrigger; }
 	}
 
 	/// <summary>
@@ -61,12 +68,22 @@ public class WorldStateManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Changes the world value by a certain amount.
-    /// </summary>
-    /// <param name="name">Name of the value to change.</param>
-    /// <param name="value">The change to be added to current value.</param>
-    public void ChangeWorldValue(string name, float value)
+	public void AddWorldInt(string name, int value)
+	{
+		if (!worldInts.ContainsKey(name))
+		{
+			worldInts.Add(name, new WorldInt(name, value));
+		}
+		else { worldInts[name].value = value; }
+	}
+
+
+	/// <summary>
+	/// Changes the world value by a certain amount.
+	/// </summary>
+	/// <param name="name">Name of the value to change.</param>
+	/// <param name="value">The change to be added to current value.</param>
+	public void ChangeWorldValue(string name, float value)
 	{
         if (!worldValues.ContainsKey(name)) { AddWorldValue(name, value); }
         else { worldValues[name].value += value; }
@@ -92,6 +109,25 @@ public class WorldStateManager : MonoBehaviour
             return specifiedWorldState.state;
 		}
         else { AddWorldState(key, false); return false; }
+	}
+
+	public int GetWorldInt(string key)
+	{
+		WorldInt specifiedWorldInt;
+		if (worldInts.TryGetValue(key, out specifiedWorldInt))
+		{
+			return specifiedWorldInt.value;
+		}
+		else { AddWorldInt(key, 0); return 0; }
+	}
+
+
+	/// <summary>
+	/// Literally just here to curcumvent the overload from timesystem.
+	/// </summary>
+	/// <param name=""></param>
+	public void TickTrigger(object source, GameTime gameTime){
+		TriggerStorylets();
 	}
 
 
@@ -147,10 +183,41 @@ public class WorldStateManager : MonoBehaviour
 			// if this is not a valid storylet, keep searching
 			if (!validStorylet) { continue; }
 
+			// Now the trigger states.
 			foreach (Storylet.triggerState triggerState in storylet.triggerStates)
 			{
 				// Check if the trigger state matches the world state.
 				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
+			}
+
+			if (!validStorylet) { continue;}
+
+			foreach (Storylet.triggerInt triggerInt in storylet.triggerInts)
+			{
+				// create a copy of the world's current value to check against.
+				int worldInt = GetWorldInt(triggerInt.name);
+				switch (triggerInt.triggerType)
+				{
+					case Storylet.NumberTriggerType.LessThanEqualTo:
+						if (worldInt > triggerInt.value) { validStorylet = false; }
+						break;
+					case Storylet.NumberTriggerType.LessThan: // Fail check if world value is more.
+						if (worldInt >= triggerInt.value) { validStorylet = false; }
+						break;
+					case Storylet.NumberTriggerType.EqualTo: // checks for exact equal value. fail check if world value is not exact.
+						if (worldInt != triggerInt.value) { validStorylet = false; }
+						break;
+					case Storylet.NumberTriggerType.GreaterThanEqualTo:
+						if (worldInt < triggerInt.value) { validStorylet = false; }
+						break;
+					case Storylet.NumberTriggerType.GreaterThan: // Fail check if world value is less.
+						if (worldInt <= triggerInt.value) { validStorylet = false; }
+						break;
+					default:
+						break;
+				}
+				// If the value ended up false, stops checking other values. 
+				if (!validStorylet) { break; }
 			}
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
@@ -198,4 +265,10 @@ public class WorldState
     public string name; public bool state;
 
     public WorldState(string inputName, bool inputState) { inputName = name; inputState = state;}
+}
+
+public class WorldInt
+{
+	public string name; public int value;
+	public WorldInt(string inputName, int inputValue) { inputName = name;inputValue = value; }
 }

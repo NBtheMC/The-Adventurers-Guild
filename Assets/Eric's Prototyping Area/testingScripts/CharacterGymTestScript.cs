@@ -99,8 +99,7 @@ public class CharacterGymTestScript : MonoBehaviour
         // sets nodes to be passable, and adds testNode2 to it.
         testNode.DC = 39;
         EventNode testNode2 = new EventNode("diplomacy",41,30);
-        testNode.eventType = EventNode.EventTypes.successful;
-        testNode.addConnection(testNode2);
+        testNode.successNode = testNode2;
 
         // Requesting new package
         returnMessage = testNode.resolveEvent(testParty);
@@ -110,8 +109,7 @@ public class CharacterGymTestScript : MonoBehaviour
         // Now to make them fail the first event, and return a failure event.
         testNode.DC = 41;
         EventNode testNode3 = new EventNode("combat", 50, 54);
-        testNode3.eventType = EventNode.EventTypes.fail;
-        testNode.addConnection(testNode3);
+        testNode.failureNode = testNode3;
 
         returnMessage = testNode.resolveEvent(testParty);
         Debug.Assert(returnMessage.objectiveComplete == false, "Gym 2 Test 3 Objective Wrong");
@@ -138,10 +136,7 @@ public class CharacterGymTestScript : MonoBehaviour
         EventNode defeatBoss = new EventNode("combat", 15, 50);
 
         // Add connections using the addConnection() function
-        travelToBoss.addConnection(defeatBoss);
-
-        // Set Event Types directly. You do not need to set traveltoBoss as EventTypes are by default head.
-        defeatBoss.eventType = EventNode.EventTypes.successful;
+        travelToBoss.successNode = defeatBoss;
 
         // Create a Quest Sheet and assign them the head of an event.
         QuestSheet defeatBossQuest = new QuestSheet(travelToBoss, "Test Quest");
@@ -159,7 +154,7 @@ public class CharacterGymTestScript : MonoBehaviour
 		}
 
         // Make sure that we used up only until 150 ticks.
-        Debug.Assert(ticktimer == 100,$"Test 1 Failure, ticktimer retuned {ticktimer}.");
+        Debug.Assert(ticktimer == 100,$"Test 3 Failure, ticktimer retuned {ticktimer}.");
         Debug.Assert(defeatBossQuest.QuestComplete == true, "Incomplete Quest");
 
         Debug.Log("Gym 3 - Quest Traversal passed.");
@@ -183,10 +178,7 @@ public class CharacterGymTestScript : MonoBehaviour
         EventNode defeatBoss = new EventNode("combat", 15, 50);
 
         // Add connections using the addConnection() function
-        travelToBoss.addConnection(defeatBoss);
-
-        // Set Event Types directly. You do not need to set traveltoBoss as EventTypes are by default head.
-        defeatBoss.eventType = EventNode.EventTypes.successful;
+        travelToBoss.successNode = defeatBoss;
 
         // The returned Event Package 
         EventNode.EventPackage returnMessage = travelToBoss.resolveEvent(testParty);

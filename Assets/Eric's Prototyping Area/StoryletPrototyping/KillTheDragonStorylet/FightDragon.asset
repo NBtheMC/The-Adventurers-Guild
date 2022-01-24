@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: ReturnFromDragon
+  m_Name: FightDragon
   m_EditorClassIdentifier: 
-  stat: 
-  DC: 0
-  time: 0
-  eventType: 2
-  Reward: 0
-  connection: []
+  stat: combat
+  DC: 15
+  time: 5
+  Reward: 300
+  successNode: {fileID: 11400000, guid: 728d5881341c67d4b840b44ceb8e1f4e, type: 2}
+  failureNode: {fileID: 11400000, guid: 728d5881341c67d4b840b44ceb8e1f4e, type: 2}

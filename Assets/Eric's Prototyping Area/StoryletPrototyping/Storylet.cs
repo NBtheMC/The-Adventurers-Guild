@@ -22,15 +22,22 @@ public class Storylet : ScriptableObject
 		GreaterThanEqualTo = 2,
 	}
 
+	// TriggerInt tells a Storylet what world intergers to trigger on.
+	[System.Serializable] public struct triggerInt { public string name; public int value; public NumberTriggerType triggerType; }
+
+	// TriggerValue tells a Storylet what world values to trigger on.
 	[System.Serializable] public struct triggerValue { public string name; public float value; public NumberTriggerType triggerType; }
 
-	//TriggerState tells a Storylet what world states to trigger on
+	// TriggerState tells a Storylet what world states to trigger on
 	[System.Serializable] public struct triggerState { public string name; public bool state; }
 	
+	// IntChange is a set of instructions of how a storylet should change the world ints once triggered.
+	[System.Serializable] public struct IntChange { public string name; public int value; public bool set; }
+
 	// ValueChange is a set of instructions of how a storylet should change the world values.
 	[System.Serializable] public struct ValueChange { public string name; public float value; public bool set; }
 
-	//StateChange is a set of instructions of how a storylet should change the world state.
+	// StateChange is a set of instructions of how a storylet should change the world state.
 	[System.Serializable] public struct StateChange { public string name; public bool state; }
 
 
@@ -38,6 +45,7 @@ public class Storylet : ScriptableObject
 	public EventNode eventHead; // The head of the event tree that is associated with this event.
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
+	public List<triggerInt> triggerInts = new List<triggerInt> ();
 	public List<triggerValue> triggerValues = new List<triggerValue>();
 	public List<triggerState> triggerStates = new List<triggerState>();
 
@@ -49,7 +57,7 @@ public class Storylet : ScriptableObject
 
 	// triggerValueChanges and triggerStateChange are what the storylet will do to the world the moment this Storylet is triggered.
 	// WorldState should handle this.
+	public List<IntChange> triggerIntChanges = new List<IntChange>();
 	public List<ValueChange> triggerValueChanges = new List<ValueChange>();
 	public List<StateChange> triggerStateChanges = new List<StateChange>();
-	
 }
