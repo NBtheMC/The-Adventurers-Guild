@@ -14,6 +14,10 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     public DropHandler.DropType dropType = DropHandler.DropType.character; // Defines what this dragger represents.
 
+    //Event Stuff
+    public delegate void OnDropCharacter();
+    public static event OnDropCharacter onDropCharacter;
+
     private bool beingDragged = false;
 
     void Awake()
@@ -67,5 +71,11 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 		}
 		transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
         
+    }
+
+    public void RefreshCharacterOnDrop(){
+        if(onDropCharacter != null){
+            onDropCharacter();
+        }
     }
 }

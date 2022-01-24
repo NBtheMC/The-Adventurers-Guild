@@ -31,12 +31,6 @@ public class CharacterPoolController : MonoBehaviour
         
     }
 
-    // Update will be used to refresh the look of this object.
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Deletes all that characters that are in the character pool and generates it again.
     /// Good to pair with filters and live editing later on.
@@ -107,6 +101,7 @@ public class CharacterPoolController : MonoBehaviour
     public void AddCharacter(CharacterSheet inputCharacter)
 	{
         activeRole.Add(inputCharacter);
+        this.RefreshCharacterPool();
 	}
 
     /// <summary>

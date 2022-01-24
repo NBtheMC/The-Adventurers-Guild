@@ -33,6 +33,6 @@ public class UI_Test_Buttons : MonoBehaviour
         };
         CharacterSheet testCharacter = new CharacterSheet("bob", sampleStats);
         poolController.AddCharacter(testCharacter);
-
+        //poolController.RefreshCharacterPool();
     }
 }

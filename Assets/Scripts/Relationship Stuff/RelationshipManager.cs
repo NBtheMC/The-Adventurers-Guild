@@ -11,18 +11,6 @@ public class RelationshipManager : MonoBehaviour
 
     public Transform adventurers; //parent of all adventurers in the scene. Named the same
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //called first by quest when quest is done. updates friendships based on win or loss
     //done on current party, change is determined by quest
     public void UpdatePartyRelationships(Transform party, int change){
@@ -90,7 +78,7 @@ public class RelationshipManager : MonoBehaviour
                     //Enemy of enemy is my friend
                     //(Enemies ?x ?y) !(Enemies ?y ?z) => Friendship(?x ?z) +=1
                     if(!abFriends && !bcFriends){
-                        Debug.Log("Friend of a friend");
+                        Debug.Log("Enemy of an enemy is a friend");
                         a.ChangeFriendship(c, -1);
                         c.SetFriendship(a, a.GetFriendship(c));
                     }
