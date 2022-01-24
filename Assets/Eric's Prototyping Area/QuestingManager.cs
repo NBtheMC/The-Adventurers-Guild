@@ -18,23 +18,44 @@ public class QuestingManager : MonoBehaviour
         //timeSystem.TickAdded += AdvanceAllQuests;
 		bankedQuests = new List<QuestSheet>();
 		activeQuests = new List<QuestSheet>();
+		finishedQuests = new List<QuestSheet>();
 	}
 
-	/// <summary>
-	/// Used to advance all the quests.
-	/// </summary>
-	public void AdvanceAllQuests(object source, GameTime gameTime)
+    private void Start()
+    {
+		GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += AdvanceAllQuests;
+    }
+
+    /// <summary>
+    /// Used to advance all the quests.
+    /// </summary>
+    public void AdvanceAllQuests(object source, GameTime gameTime)
 	{
+		List<QuestSheet> markForDeletion = new List<QuestSheet>();
+		//DELETE LATER
+		if (bankedQuests.Count > 0)
+        {
+			StartQuest(bankedQuests[0]);
+        }
+
+		Debug.Log(activeQuests.Count);
 		foreach(QuestSheet quest in activeQuests)
 		{
 			quest.advancebyTick();
 			if (quest.QuestComplete == true)
 			{
-				finishedQuests.Add(quest);
-				activeQuests.Remove(quest);
+				markForDeletion.Add(quest);
+
 				// Something about sending QuestReturn the correct amount of gold. quest.accumutatedGold;
+				QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox();
 			}
 		}
+		
+		foreach(QuestSheet quest in markForDeletion)
+        {
+			activeQuests.Remove(quest);
+			finishedQuests.Add(quest);
+        }
 	}
 
 	/// <summary>
@@ -44,8 +65,22 @@ public class QuestingManager : MonoBehaviour
 	/// <returns>True if successful, False otherwise.</returns>
 	public bool StartQuest(QuestSheet questToBeMoved)
 	{
-		if (questToBeMoved != null) { return false; }
+		// if (questToBeMoved != null) { return false; }
+		// DELETE LATER
+		Dictionary<string, int> sampleStats = new Dictionary<string, int>
+		{
+			{"diplomacy", 10 },
+			{"stamina", 10},
+			{"combat", 10 },
+			{"exploration", 10 }
+		};
+		CharacterSheet characterA = new CharacterSheet("character A", sampleStats);
+		PartySheet partySheet = new PartySheet();
+		partySheet.addMember(characterA);
+		
 		bankedQuests.Remove(questToBeMoved);
+
+		questToBeMoved.assignParty(partySheet);
 		activeQuests.Add(questToBeMoved);
 		return true;
 	}
