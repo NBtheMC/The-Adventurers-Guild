@@ -9,6 +9,7 @@ public class QuestSheet
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
 	private QuestUI questUI; //association to corresponding UI element
+	public int partySize { get; private set; } //how many adventurers can be assigned to a quest
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
@@ -19,7 +20,7 @@ public class QuestSheet
 	/// </summary>
 	/// <param name="connection_input">Head of the event graph</param>
 	/// <param name="name_Input">Name of the Quest</param>
-	public QuestSheet(EventNode connection_input, string name_Input)
+	public QuestSheet(EventNode connection_input, string name_Input, int partySize_input = 6)
 	{
 		headConnection = connection_input;
 		currentConnection = headConnection;
@@ -27,6 +28,7 @@ public class QuestSheet
 		questName = name_Input;
 		QuestComplete = false;
 		accumutatedGold = 0;
+		partySize = partySize_input;
 	}
 
 	/// <summary>
