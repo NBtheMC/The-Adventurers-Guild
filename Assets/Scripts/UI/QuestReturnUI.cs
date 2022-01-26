@@ -1,25 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestReturnUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void GenerateQuestReturnBox()
     {
-        Debug.Log("Here");
-        GameObject go = Resources.Load<GameObject>("QuestReturnBox");
-        Instantiate(go);
+        GameObject prefab = Resources.Load<GameObject>("QuestReturnBox");
+        GameObject returnBox = Instantiate(prefab);
+        returnBox.transform.Find("Canvas").Find("OkButton").GetComponent<Button>().onClick.AddListener(delegate { DeleteReturnBox(returnBox); });
+    }
+
+    public void DeleteReturnBox(GameObject gameObject)
+    {
+        Destroy(gameObject);
     }
 }
