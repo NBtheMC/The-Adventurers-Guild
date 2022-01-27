@@ -101,7 +101,7 @@ public class CharacterPoolController : MonoBehaviour
     public void AddCharacter(CharacterSheet inputCharacter)
 	{
         activeRole.Add(inputCharacter);
-        this.RefreshCharacterPool();
+        //this.RefreshCharacterPool();
 	}
 
     /// <summary>
