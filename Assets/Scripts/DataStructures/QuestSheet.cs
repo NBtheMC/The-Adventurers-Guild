@@ -15,6 +15,10 @@ public class QuestSheet
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
+
+    public List<EventNode> visitedNodes;
+
+
 	/// <summary>
 	/// QuestSheet Constructor
 	/// </summary>
@@ -29,6 +33,8 @@ public class QuestSheet
 		QuestComplete = false;
 		accumutatedGold = 0;
 		partySize = partySize_input;
+
+        visitedNodes = new List<EventNode>();
 	}
 
 	/// <summary>
@@ -62,13 +68,14 @@ public class QuestSheet
 
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
+            visitedNodes.Add(currentConnection);
 
 			// Progress to the next event.
 			if (returnMessage.nextEvent != null)
 			{
 				currentConnection = returnMessage.nextEvent;
 				//TODO: add onto corresponding quest UI object
-				return advancebyTick();
+				// return advancebyTick();
 			}
 			else
 			{
