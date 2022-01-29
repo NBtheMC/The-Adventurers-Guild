@@ -38,7 +38,6 @@ public class QuestingManager : MonoBehaviour
 			StartQuest(bankedQuests[0]);
         }
 
-		Debug.Log(activeQuests.Count);
 		foreach(QuestSheet quest in activeQuests)
 		{
 			quest.advancebyTick();
@@ -47,7 +46,7 @@ public class QuestingManager : MonoBehaviour
 				markForDeletion.Add(quest);
 
 				// Something about sending QuestReturn the correct amount of gold. quest.accumutatedGold;
-				QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox();
+				QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
 			}
 		}
 		
