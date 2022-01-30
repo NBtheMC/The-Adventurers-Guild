@@ -748,6 +748,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeSystem: {fileID: 563469174}
   QuestReturn: {fileID: 0}
+  questPrefab: {fileID: 2891471291067920301, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
+  QuestDisplay: {fileID: 248717441}
+  dropHandler: {fileID: 1980350958}
 --- !u!4 &767544277
 Transform:
   m_ObjectHideFlags: 0

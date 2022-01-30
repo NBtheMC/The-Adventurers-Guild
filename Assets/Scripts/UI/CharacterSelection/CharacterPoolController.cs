@@ -69,6 +69,8 @@ public class CharacterPoolController : MonoBehaviour
         ObjectDropPoint dropPointController = newDropPoint.GetComponent<ObjectDropPoint>();
         DraggerController characterController = newCharacter.GetComponent<DraggerController>();
 
+        //give newCharacter object reference to the CharacterSheet
+        newCharacter.GetComponent<CharacterObject>().characterSheet = characterToPair;
 
         // Tells drop point who is suppose to sit on it.
         dropPointController.heldObject = characterController;
@@ -103,6 +105,18 @@ public class CharacterPoolController : MonoBehaviour
         activeRole.Add(inputCharacter);
         //this.RefreshCharacterPool();
 	}
+
+    /// <summary>
+    /// Removes a character from the character pool
+    /// </summary>
+    /// <param name="adventurer">CharacterSheet to remove</param>
+    /// <returns>Returns true if successful and false otherwise
+    public bool removeMember(CharacterSheet adventurer)
+    {
+        if (!activeRole.Contains(adventurer)) { return false; }
+        activeRole.Remove(adventurer);
+        return true;
+    }
 
     /// <summary>
     /// Accepts a list of charactersheets to compile and generate active characters. Wipes current characters.
