@@ -32,11 +32,6 @@ public class QuestingManager : MonoBehaviour
     public void AdvanceAllQuests(object source, GameTime gameTime)
 	{
 		List<QuestSheet> markForDeletion = new List<QuestSheet>();
-		//DELETE LATER
-		if (bankedQuests.Count > 0)
-        {
-			StartQuest(bankedQuests[0]);
-        }
 
 		foreach(QuestSheet quest in activeQuests)
 		{
@@ -64,22 +59,7 @@ public class QuestingManager : MonoBehaviour
 	/// <returns>True if successful, False otherwise.</returns>
 	public bool StartQuest(QuestSheet questToBeMoved)
 	{
-		// if (questToBeMoved != null) { return false; }
-		// DELETE LATER
-		Dictionary<string, int> sampleStats = new Dictionary<string, int>
-		{
-			{"diplomacy", 10 },
-			{"stamina", 10},
-			{"combat", 10 },
-			{"exploration", 10 }
-		};
-		CharacterSheet characterA = new CharacterSheet("character A", sampleStats);
-		PartySheet partySheet = new PartySheet();
-		partySheet.addMember(characterA);
-		
 		bankedQuests.Remove(questToBeMoved);
-
-		questToBeMoved.assignParty(partySheet);
 		activeQuests.Add(questToBeMoved);
 		return true;
 	}
