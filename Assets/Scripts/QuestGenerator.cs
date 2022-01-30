@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class QuestGenerator : MonoBehaviour
 {
+    public GameObject questPrefab;
     public QuestingManager questingManager;
     public GameObject QuestDisplay;
     public DropHandler dropHandler;
@@ -46,8 +47,6 @@ public class QuestGenerator : MonoBehaviour
         GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckTime;
     }
 
-    public GameObject questPrefab;
-
     /// <summary>
     /// Generates a quest and adds it to the bankedQuests list in questingManager
     /// </summary>
@@ -63,33 +62,9 @@ public class QuestGenerator : MonoBehaviour
         AttachNodes(questParameters, head, questParameters.length - 1);
 
         //Create new quest sheet and add it to the questingManager
-        QuestSheet questSheet = new QuestSheet(head, questName, 4);
+        QuestSheet questSheet = new QuestSheet(head, questName, 6);
         questingManager.bankedQuests.Add(questSheet);
 
-        //create questUI object and attach it to this questsheet
-        Debug.Log("Making UI Element");
-        GameObject newQuest = Instantiate(questPrefab); //add position to this later
-
-        //add quest to QuestDisplay canvas
-        newQuest.transform.parent = QuestDisplay.transform;
-        newQuest.transform.localPosition = new Vector3(-100, 100, 0);
-        
-        //move to top of child object hierarchy for rendering order reasons
-        newQuest.transform.SetAsFirstSibling();
-        newQuest.transform.localScale = new Vector3(1, 1, 1);
-
-        //pass quest info to quest UI
-        QuestUI questUI = newQuest.GetComponent<QuestUI>();
-        questUI.SetupQuestUI(questSheet);
-
-        //add drop points from quest UI to DropHandler
-        Transform party = newQuest.transform.Find("Canvas/Party");
-        foreach (Transform child in party)
-        {
-            dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
-        }
-
-        Debug.Log("Done making UI Element");
         return;
     }
 
