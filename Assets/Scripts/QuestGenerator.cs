@@ -55,7 +55,7 @@ public class QuestGenerator : MonoBehaviour
     public void GenerateQuest(QuestParameters questParameters, string questName) {
         //Create head node and set its eventType to head
         EventNode head = GenerateNode(questParameters);
-        head.eventType = EventNode.EventTypes.head;
+        //head.eventType = EventNode.EventTypes.head;
         // Debug.Log("Head Node: " + "Level: " + questParameters.length + ", " + head.stat + ", " + head.DC + ", " + head.time);
         
         //Attach additional nodes to the head node
@@ -82,12 +82,12 @@ public class QuestGenerator : MonoBehaviour
         //Generate success and fail nodes given the quest Parameters
         EventNode successNode = GenerateNode(questParameters);
         EventNode failNode = GenerateNode(questParameters);
-        successNode.eventType = EventNode.EventTypes.successful;
-        failNode.eventType = EventNode.EventTypes.fail;
+        //successNode.eventType = EventNode.EventTypes.successful;
+        //failNode.eventType = EventNode.EventTypes.fail;
 
         //Add connections
-        node.addConnection(successNode);
-        node.addConnection(failNode);
+        //node.addConnection(successNode);
+        //node.addConnection(failNode);
 
         //Debug.Log("Success Node: " + "Level: " + length + ", " + successNode.stat + ", " + successNode.DC + ", " + successNode.time);
         //Debug.Log("Fail Node: " + "Level: " + length + ", " + failNode.stat + ", " + failNode.DC + ", " + failNode.time);

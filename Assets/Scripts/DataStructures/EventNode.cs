@@ -8,23 +8,16 @@ using UnityEngine;
 /// If successful, sends first node.
 /// If failed, sends second node.
 /// </summary>
-public class EventNode
+[CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
+public class EventNode: ScriptableObject
 {
 	public string stat; // the stat to be checked against. Should correspond with PartySheet
 	public int DC;
-	protected List<EventNode> connection; // A list of connections to get used.
 	public int time; // How many ticks before the DC check is triggered
-	public EventTypes eventType; // used to decide how EventNode will handle 
+	public int Reward;
 
-	/// <summary>
-	/// Event Types describe what triggers them for use with the previous event.
-	/// </summary>
-	public enum EventTypes
-	{
-		head = 1, // Nodes without preconditions.
-		successful = 2, // Nodes that need succesful DC check
-		fail = 3, // Nodes that need failed DC check
-	}
+	public EventNode successNode;
+	public EventNode failureNode;
 
 	public class EventPackage
 	{
@@ -40,8 +33,6 @@ public class EventNode
 		stat = "";
 		DC = 0;
 		time = 0;
-		connection = new List<EventNode>();
-		eventType = EventTypes.head;
 	}
 
 	/// <summary>
@@ -55,20 +46,6 @@ public class EventNode
 		stat = statInput;
 		DC = DCInput;
 		time = timeInput;
-		connection = new List<EventNode>();
-		eventType = EventTypes.head;
-	}
-
-	/// <summary>
-	/// Used to add additional connections to the event node.
-	/// </summary>
-	/// <param name="connection_input">The connection to be added.</param>
-	/// <param name="index">The index at which to be added. Added to the end by default.</param>
-	public void addConnection(EventNode connection_input, int index = -1)
-	{
-		// If there is no desired input index.
-		if (index == -1) { connection.Add(connection_input); }
-		else { connection.Insert(index, connection_input); }
 	}
 
 	public EventPackage resolveEvent(PartySheet adventurers)
@@ -76,20 +53,15 @@ public class EventNode
 		EventPackage message = new EventPackage();
 		message.objectiveComplete = adventurers.getStatSummed(stat) > DC;
 
-		// Goes through the entire list of connections, then checks them for whether any connection requirements are correct.
-		foreach (EventNode nextNode in connection)
+		// switchcase for our checks.
+		switch (message.objectiveComplete)
 		{
-			// switchcase for our checks.
-			switch (nextNode.eventType)
-			{
-				case EventTypes.successful:
-					if (message.objectiveComplete) { message.nextEvent = nextNode; }
-					break;
-				case EventTypes.fail:
-					if (!message.objectiveComplete) { message.nextEvent = nextNode; }
-					break;
-				default: message.nextEvent = nextNode; break;
-			}
+			case true:
+				message.nextEvent = successNode;
+				break;
+			case false:
+				message.nextEvent = failureNode;
+				break;
 		}
 
 
