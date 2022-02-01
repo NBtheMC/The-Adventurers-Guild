@@ -232,7 +232,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { break; Debug.Log($"Checking {storylet.name}. Failed on {triggerValue.name}"); }
+				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerValue.name}"); break;  }
 			}
 
 			// if this is not a valid storylet, keep searching

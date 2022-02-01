@@ -15,7 +15,7 @@ public class QuestReturnUI : MonoBehaviour
 
         for(int i = 0; i < questSheet.visitedNodes.Count; i++)
         {
-            returnBoxText.text += i + ") Node Type: " + questSheet.visitedNodes[i].eventType + "\n";
+            returnBoxText.text += i + ") Node Type: " + questSheet.visitedNodes[i].ToString() + "\n";
         }
         returnBoxText.text += "Gold: " + questSheet.accumutatedGold;
     }
