@@ -33,6 +33,18 @@ public class CharacterSheet
 	}
 
     /// <summary>
+    /// Constructor that takes a parameter of type CharacterInitialStats in order to generate a character sheet
+    /// </summary>
+    public CharacterSheet(CharacterInitialStats characterStats)
+    {
+        name = characterStats.name;
+        statlines.Add("combat", characterStats.combat);
+        statlines.Add("diplomacy", characterStats.diplomacy);
+        statlines.Add("exploration", characterStats.exploration);
+        statlines.Add("stamina", characterStats.stamina);
+    }
+
+    /// <summary>
     /// Returns a stat from this character
     /// </summary>
     /// <param name="stat">A string of what stat needs to exist.</param>
