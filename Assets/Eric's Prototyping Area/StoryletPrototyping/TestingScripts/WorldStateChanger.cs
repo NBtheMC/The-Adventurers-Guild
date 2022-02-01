@@ -4,45 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class WorldStateChanger : MonoBehaviour
+namespace StoryletTesting
 {
-
-    public TMP_Text text;
-    public string headerMessage;
-    public string worldState;
-    bool state;
-    Button theButton;
-    
-
-    public WorldStateManager theWorld;
-
-    // Start is called before the first frame update
-    void Start()
+    public class WorldStateChanger : MonoBehaviour
     {
-        // Set references to the slider.
-        theButton = GetComponent<Button>();
+        public TMP_Text text;
+        public Button button; // A button
+        public TMP_Text buttonText;
+        public string worldStat; // probably should leave blank.
+        bool value;
 
-        // Set up the world to behave with the slider.
-        theWorld.AddWorldState(worldState, false);
+        public WorldStateManager theWorld;
 
-        // get the current world Value
-        state = theWorld.GetWorldState(worldState);
+        // Start is called before the first frame update
+        void Start()
+        {
+            // get the current world Value
+            value = theWorld.GetWorldState(worldStat);
 
-        // Set the text to the world value.
-        text.text = $"{headerMessage}: {state}";
-    }
+            // Sets the title to the the string of the stat.
+            text.text = worldStat;
+        }
 
-    /// <summary>
-    /// What we use to update the world value.
-    /// </summary>
-    /// <param name="inputChange">IDK, it needs this or something.</param>
-    public void UpdateWorldState()
-    {
-        // change the world value.
-        theWorld.AddWorldState(worldState, !state);
+		private void Update()
+		{
+            value = theWorld.GetWorldState(worldStat);
+            buttonText.text = "is: " + value;
+		}
 
-        // Set the text to the world value.
-        state = theWorld.GetWorldState(worldState);
-        text.text = $"{headerMessage}: {state}";
-    }
+        public void ReverseButton()
+		{
+            theWorld.AddWorldState(worldStat, !value);
+            value = theWorld.GetWorldState(worldStat);
+		}
+	}
+
 }

@@ -17,14 +17,14 @@ MonoBehaviour:
   triggerInts:
   - name: NumberOfAnkhegs
     value: 20
-    triggerType: 1
+    triggerType: 2
   triggerValues:
   - name: AnkhegPercievedThreat
     value: 0.6
     triggerType: 1
   triggerStates: []
   canBeInstanced: 1
-  numInstances: 0
+  numInstances: 1
   triggerIntChanges: []
   triggerValueChanges:
   - name: AnkhegPercievedThreat

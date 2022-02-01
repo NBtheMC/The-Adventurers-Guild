@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class WorldStateManager : MonoBehaviour
@@ -7,6 +8,16 @@ public class WorldStateManager : MonoBehaviour
     private Dictionary<string, WorldValue> worldValues;
     private Dictionary<string, WorldState> worldStates;
 	private Dictionary<string, WorldInt> worldInts;
+
+	// Keeps track of how many stats we're displaying.
+	private int statDisplayNums = 0;
+	private int spacer = 10; // How much space we're giving them.
+	private int topOfDisplay; // How much space we're giving between items.
+	private int startingSpace = -60; // How much space the first item needs to generate below the top.
+
+	public GameObject intDisplayPrefab;
+	public GameObject floatDisplayPrefab;
+	public GameObject boolDisplayPrefab;
 
 	// The list of all storylets we plan on creating.
     public List<Storylet> storylets = new List<Storylet>();
@@ -17,17 +28,28 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the TimeSystem.
 	public TimeSystem timeSystem;
 
-    // Start is called before the first frame update
     void Awake()
     {
         worldValues = new Dictionary<string, WorldValue>();
         worldStates = new Dictionary<string, WorldState>();
+		worldInts = new Dictionary<string, WorldInt>();
+
+		//Set the top of Display to the spacer
+		topOfDisplay = startingSpace;
     }
 
 	private void Start()
 	{
-		// resets each storylet's active quest value to zero. will come up with better solution in future.
-		foreach(Storylet storylet in storylets) { storylet.numInstances = 0; }
+		foreach(Storylet storylet in storylets)
+		{
+			// resets each storylet's active quest value to zero. will come up with better solution in future.
+			storylet.numInstances = 0;
+
+			// Preload all the values into the dictionary.
+			foreach(Storylet.triggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
+			foreach(Storylet.triggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
+			foreach(Storylet.triggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
+		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
 		if (timeSystem != null) { timeSystem.TickAdded += TickTrigger; }
@@ -41,11 +63,19 @@ public class WorldStateManager : MonoBehaviour
 	/// <param name="name">Name of the value</param>
 	/// <param name="value">The value.</param>
 	public void AddWorldValue(string name, float value)
-    {
-        if (!worldValues.ContainsKey(name))
+	{
+		if (!worldValues.ContainsKey(name))
         {
             worldValues.Add(name, new WorldValue(name, value));
-        }
+			// Instantiate the prefab.
+			GameObject display = Instantiate(floatDisplayPrefab, this.transform);
+			StoryletTesting.WorldValueChanger displayScript = display.GetComponent<StoryletTesting.WorldValueChanger>();
+			displayScript.theWorld = this;
+			displayScript.worldStat = name;
+
+			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x, topOfDisplay);
+			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
+		}
         else { worldValues[name].value = value; }
     }
 
@@ -60,8 +90,19 @@ public class WorldStateManager : MonoBehaviour
 	{
         if (!worldStates.ContainsKey(name))
         {
+			// Add it to the dictionary.
             worldStates.Add(name, new WorldState(name, state));
-        }
+			// Instantiate the prefab.
+			GameObject display = Instantiate(boolDisplayPrefab, this.transform);
+			StoryletTesting.WorldStateChanger displayScript = display.GetComponent<StoryletTesting.WorldStateChanger>();
+			displayScript.theWorld = this;
+			displayScript.worldStat = name;
+
+			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x,topOfDisplay);
+			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
+
+			Debug.Log($"Instantiated something: {name}");
+		}
         else
         {
             worldStates[name].state = state;
@@ -72,9 +113,23 @@ public class WorldStateManager : MonoBehaviour
 	{
 		if (!worldInts.ContainsKey(name))
 		{
+			// Add it to the dictionary
 			worldInts.Add(name, new WorldInt(name, value));
+			// Instantiate the prefab.
+			GameObject display = Instantiate(intDisplayPrefab, this.transform);
+			StoryletTesting.WorldIntChanger displayScript = display.GetComponent<StoryletTesting.WorldIntChanger>();
+			displayScript.theWorld = this;
+			displayScript.worldStat = name;
+
+			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x, topOfDisplay);
+			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
+
+			Debug.Log($"Instantiated something: {name}");
 		}
-		else { worldInts[name].value = value; }
+		else
+		{
+			worldInts[name].value = value;
+		}
 	}
 
 
@@ -177,7 +232,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { break; }
+				if (!validStorylet) { break; Debug.Log($"Checking {storylet.name}. Failed on {triggerValue.name}"); }
 			}
 
 			// if this is not a valid storylet, keep searching
@@ -187,7 +242,7 @@ public class WorldStateManager : MonoBehaviour
 			foreach (Storylet.triggerState triggerState in storylet.triggerStates)
 			{
 				// Check if the trigger state matches the world state.
-				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
+				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; Debug.Log($"Checking {storylet.name}. Failed on {triggerState.name}"); break; }
 			}
 
 			if (!validStorylet) { continue;}
@@ -217,7 +272,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { break; }
+				if (!validStorylet) { break; Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); }
 			}
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
