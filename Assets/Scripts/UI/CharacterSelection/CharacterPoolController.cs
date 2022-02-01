@@ -37,6 +37,8 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     public void RefreshCharacterPool()
 	{
+        dropHandler.ClearDropPoints();
+
         foreach((GameObject,GameObject) thing in visibleDropAreas)
 		{
             Destroy(thing.Item1);
@@ -45,6 +47,7 @@ public class CharacterPoolController : MonoBehaviour
 
         foreach(CharacterSheet character in activeRole)
 		{
+            //TODO Drop Handler fix should probably be in here
             GenerateNewDropPair(character);
 		}
 
@@ -86,6 +89,7 @@ public class CharacterPoolController : MonoBehaviour
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
         // Tells dropHandler that we have a new dropPoint.
+        //This is where drop points are added in the drop handler
         dropHandler.AddDropPoint(dropPointController);
 
         // Tells the dropPointController that it should only take characters.
