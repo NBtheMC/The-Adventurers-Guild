@@ -16,6 +16,8 @@ public class CharacterPoolController : MonoBehaviour
     private int lastPlacedCol;
     private List<(GameObject dropPoint, GameObject character)> visibleDropAreas; // A List of all the drop areas we currently see.
 
+    private CharacterSheetManager characterManager;
+
 	private void Awake()
 	{
         visibleDropAreas = new List<(GameObject dropPoint, GameObject character)>();
@@ -23,12 +25,18 @@ public class CharacterPoolController : MonoBehaviour
         // We're assuming some previous point to set the last point.
         lastPlacedCol = -1;
         lastPlacedRow = maxColSize;
+
+        characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
 	}
 
 	// Start is called before the first frame update
 	void Start()
     {
-        
+        foreach(CharacterSheet character in characterManager.freeAdventurers)
+        {
+            activeRole.Add(character);
+            RefreshCharacterPool();
+        }
     }
 
     /// <summary>
@@ -47,7 +55,6 @@ public class CharacterPoolController : MonoBehaviour
 
         foreach(CharacterSheet character in activeRole)
 		{
-            //TODO Drop Handler fix should probably be in here
             GenerateNewDropPair(character);
 		}
 
