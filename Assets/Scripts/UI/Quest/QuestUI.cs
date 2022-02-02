@@ -14,6 +14,7 @@ public class QuestUI : MonoBehaviour
     private GameObject partyFormation;
     private GameObject sendPartyButton;
     public GameObject dropPointPrefab;
+    [HideInInspector] public GameObject questBanner;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
 
@@ -124,7 +125,14 @@ public class QuestUI : MonoBehaviour
         attachedSheet.assignParty(partyToSend);
         questingManager.StartQuest(attachedSheet);
 
-        //destroy quest UI object
+        //remove associated questBanner
+        Destroy(questBanner);
+
+        DestroyUI();
+    }
+
+    public void DestroyUI()
+    {
         foreach (Transform child in partyFormation.transform)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
@@ -134,7 +142,10 @@ public class QuestUI : MonoBehaviour
             }
         }
 
+        //REMOVE DROP POINTS FROM DROPHANDLER
+
         Destroy(this.gameObject);
+        characterPool.RefreshCharacterPool();
     }
 
 

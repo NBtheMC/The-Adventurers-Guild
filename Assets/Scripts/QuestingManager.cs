@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Keeps track of active quests and advances their ticks.
@@ -13,9 +14,8 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
     public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
 
-	public GameObject questPrefab; // Quest UI prefab to display
-	public GameObject QuestDisplay;
-	public DropHandler dropHandler;
+    public GameObject questPrefab; // Quest Banner prefab to display
+    public GameObject questListContent; //Gameobject that holds the list of banked quests
 
     private void Awake()
     {
@@ -32,32 +32,24 @@ public class QuestingManager : MonoBehaviour
     }
 
     public void CheckForQuests(object source, GameTime gameTime)
-    { 
+    {
         foreach (QuestSheet quest in bankedQuests)
         {
-            //create questUI object and attach it to this questsheet
-            Debug.Log("Making UI Element");
-            GameObject newQuest = Instantiate(questPrefab); //add position to this later
-
-            //add quest to QuestDisplay canvas
-            newQuest.transform.parent = QuestDisplay.transform;
-            newQuest.transform.localPosition = new Vector3(-100, 100, 0);
-
-            //move to top of child object hierarchy for rendering order reasons
-            newQuest.transform.SetAsFirstSibling();
-
-            //pass quest info to quest UI
-            QuestUI questUI = newQuest.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(quest);
-
-            //add drop points from quest UI to DropHandler
-            Transform party = newQuest.transform.Find("Canvas/Party");
-            foreach (Transform child in party)
+            if (quest.isDisplayed == false)
             {
-                dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
-            }
+                Debug.Log("Making Quest Banner");
+                GameObject newQuest = Instantiate(questPrefab);
+                //add questBanner obj to questListContent
+                newQuest.transform.SetParent(questListContent.transform, false);
+                //pass questSheet to questBanner
+                newQuest.GetComponent<QuestBanner>().questSheet = quest;
+                //set banner text
+                newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
+                //mark this sheet as displayed so extra questBanners are not made
+                quest.isDisplayed = true;
 
-            Debug.Log("Done making UI Element");
+                Debug.Log("Done making Quest Banner");
+            }
         }
     }
 
@@ -86,17 +78,17 @@ public class QuestingManager : MonoBehaviour
             activeQuests.Remove(quest);
             finishedQuests.Add(quest);
         }
-	}
+    }
 
-	/// <summary>
-	/// Tells QuestManager to start a quest, given the QuestSheet.
-	/// </summary>
-	/// <param name="questToBeMoved">The Quest to start</param>
-	/// <returns>True if successful, False otherwise.</returns>
-	public bool StartQuest(QuestSheet questToBeMoved)
-	{
-		bankedQuests.Remove(questToBeMoved);
-		activeQuests.Add(questToBeMoved);
-		return true;
-	}
+    /// <summary>
+    /// Tells QuestManager to start a quest, given the QuestSheet.
+    /// </summary>
+    /// <param name="questToBeMoved">The Quest to start</param>
+    /// <returns>True if successful, False otherwise.</returns>
+    public bool StartQuest(QuestSheet questToBeMoved)
+    {
+        bankedQuests.Remove(questToBeMoved);
+        activeQuests.Add(questToBeMoved);
+        return true;
+    }
 }
