@@ -300,8 +300,8 @@ RectTransform:
   - {fileID: 946337340}
   - {fileID: 459094416}
   - {fileID: 1238333289}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1225689053}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -402,7 +402,7 @@ RectTransform:
   m_Children:
   - {fileID: 1420692690}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -716,7 +716,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &767544275
 GameObject:
@@ -748,10 +748,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSystem: {fileID: 563469174}
-  QuestReturn: {fileID: 0}
-  questPrefab: {fileID: 2891471291067920301, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
-  QuestDisplay: {fileID: 248717441}
-  dropHandler: {fileID: 1980350958}
 --- !u!4 &767544277
 Transform:
   m_ObjectHideFlags: 0
@@ -764,7 +760,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946337339
 GameObject:
@@ -930,6 +926,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a51a772f150a114589f3dce8aa1ad05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1225689051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1225689053}
+  - component: {fileID: 1225689052}
+  m_Layer: 0
+  m_Name: QuestDisplayManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1225689052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225689051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e70aa3fcca063848947569673249479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questUIPrefab: {fileID: 2891471291067920301, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
+  dropHandler: {fileID: 1980350958}
+  QuestDisplay: {fileID: 248717441}
+--- !u!4 &1225689053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225689051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 248717445}
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1238333289 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3034882221142606605, guid: f34df3c6386d622408a5bb68b96ed5c3, type: 3}
@@ -1417,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2034728830461379426, guid: dd038d2a849740442837603dfb43028d, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2034728830461379426, guid: dd038d2a849740442837603dfb43028d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1668,7 +1711,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1589404587126915184
 PrefabInstance:
