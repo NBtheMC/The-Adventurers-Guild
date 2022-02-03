@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +12,14 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
-    public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
+    // public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
 
-	public GameObject questPrefab; // Quest UI prefab to display
-	public GameObject QuestDisplay;
-	public DropHandler dropHandler;
+	//public GameObject questPrefab; // Quest UI prefab to display
+	// public GameObject QuestDisplay;
+	// public DropHandler dropHandler;
+
+    public event EventHandler<QuestSheet> QuestFinished;
+    public event EventHandler<QuestSheet> QuestAdded;
 
     private void Awake()
     {
@@ -28,37 +32,7 @@ public class QuestingManager : MonoBehaviour
     private void Start()
     {
         GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += AdvanceAllQuests;
-        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckForQuests;
-    }
-
-    public void CheckForQuests(object source, GameTime gameTime)
-    { 
-        foreach (QuestSheet quest in bankedQuests)
-        {
-            //create questUI object and attach it to this questsheet
-            Debug.Log("Making UI Element");
-            GameObject newQuest = Instantiate(questPrefab); //add position to this later
-
-            //add quest to QuestDisplay canvas
-            newQuest.transform.parent = QuestDisplay.transform;
-            newQuest.transform.localPosition = new Vector3(-100, 100, 0);
-
-            //move to top of child object hierarchy for rendering order reasons
-            newQuest.transform.SetAsFirstSibling();
-
-            //pass quest info to quest UI
-            QuestUI questUI = newQuest.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(quest);
-
-            //add drop points from quest UI to DropHandler
-            Transform party = newQuest.transform.Find("Canvas/Party");
-            foreach (Transform child in party)
-            {
-                dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
-            }
-
-            Debug.Log("Done making UI Element");
-        }
+        //GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckForQuests;
     }
 
     /// <summary>
@@ -76,8 +50,8 @@ public class QuestingManager : MonoBehaviour
             {
                 markForDeletion.Add(quest);
 
-                // Something about sending QuestReturn the correct amount of gold. quest.accumutatedGold;
-                QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
+                //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
+                QuestFinished(this, quest);
             }
         }
 
@@ -99,4 +73,10 @@ public class QuestingManager : MonoBehaviour
 		activeQuests.Add(questToBeMoved);
 		return true;
 	}
+
+    public void AddQuest(QuestSheet quest)
+    {
+        bankedQuests.Add(quest);
+        QuestAdded(this, quest);
+    }
 }
