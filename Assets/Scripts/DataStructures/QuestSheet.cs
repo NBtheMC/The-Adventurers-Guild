@@ -105,10 +105,39 @@ public class QuestSheet
 	/// </summary>
 	public EventInfo getNewEventInfo()
 	{
-		EventInfo currentEvent = new EventInfo();
+		EventInfo currentEvent;
 		currentEvent.description = "Event description"; //placeholder text
 		currentEvent.stat = currentConnection.stat;
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
+	}
+
+	//all the stuff a quest needs to show
+	//used at start and end of quest
+	public struct GivenQuestInfo
+	{
+		string name; //stays constant, name of storylet probably
+		List<EventInfo> events; //either list of predicted storylets or completed ones
+		// consequences (positive or negative)
+			//based off difference between stat of party and stat of quest 
+			//includes adventurers dying, being op, being weak, etc
+		// insert relationships
+		string description;
+
+	}
+
+	public struct FinishedQuestInfo{
+		string name; //stays constant, name of storylet probably
+		List<EventInfo> events; //either list of predicted storylets or completed ones
+	}
+
+	//quest start info
+	public QuestInfo QuestStartInfo(){
+		return new QuestInfo();
+	}
+
+	//quest done info
+	public QuestInfo QuestDoneInfo(){
+		return new QuestInfo();
 	}
 }
