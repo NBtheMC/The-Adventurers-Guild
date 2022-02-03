@@ -5,7 +5,13 @@ using UnityEngine.UI;
 
 public class QuestReturnUI : MonoBehaviour
 {
-    public void GenerateQuestReturnBox(QuestSheet questSheet)
+
+    private void Start()
+    {
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += GenerateQuestReturnBox;
+            // GameObject.Find("GuildManager").GetComponent<GuildManager>.questingManager.QuestFinished += GenerateQuestReturnBox
+    }
+    public void GenerateQuestReturnBox(object source, QuestSheet questSheet)
     {
         GameObject prefab = Resources.Load<GameObject>("QuestReturnBox");
         GameObject returnBox = Instantiate(prefab);
