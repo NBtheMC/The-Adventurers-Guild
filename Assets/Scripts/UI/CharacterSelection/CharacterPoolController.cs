@@ -32,7 +32,7 @@ public class CharacterPoolController : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        foreach(CharacterSheet character in characterManager.freeAdventurers)
+        foreach(CharacterSheet character in characterManager.FreeAdventurers)
         {
             activeRole.Add(character);
             RefreshCharacterPool();
