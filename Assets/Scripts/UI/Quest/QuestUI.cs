@@ -16,6 +16,7 @@ public class QuestUI : MonoBehaviour
     [HideInInspector] public GameObject questBanner; // associated quest banner that created this UI object
     private QuestingManager questingManager; // reference to questingManager object
     private CharacterPoolController characterPool; // reference to characterPool
+    private DropHandler dropHandler;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,6 +35,8 @@ public class QuestUI : MonoBehaviour
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
+
+        dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
     }
 
     //Creates Quest as a UI GameObject
@@ -67,6 +70,9 @@ public class QuestUI : MonoBehaviour
 
             //set position
             dropPoint.transform.localPosition = new Vector3(150 - dropPointOffset * i, 5, 0);
+
+            //add dropPoint to dropHandler
+            dropHandler.AddDropPoint(dropPoint.GetComponent<ObjectDropPoint>());
         }
     }
 

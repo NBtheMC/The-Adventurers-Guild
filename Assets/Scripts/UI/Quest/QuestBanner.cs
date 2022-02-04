@@ -6,7 +6,6 @@ public class QuestBanner : MonoBehaviour
 {
 
     public QuestSheet questSheet; //Quest to associate with this object
-    public DropHandler dropHandler;
     public GameObject QuestDisplay; // Reference to main Canvas display
 
     public GameObject questUIPrefab; // QuestUI prefab to display
@@ -15,7 +14,7 @@ public class QuestBanner : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
+        
         QuestDisplay = GameObject.Find("QuestDisplay");
     }
 
@@ -36,12 +35,5 @@ public class QuestBanner : MonoBehaviour
         QuestUI questUI = questUIObj.GetComponent<QuestUI>();
         questUI.SetupQuestUI(questSheet);
         questUI.questBanner = this.gameObject;
-
-        //add drop points from quest UI to DropHandler
-        Transform party = questUIObj.transform.Find("Canvas/Party");
-        foreach (Transform child in party)
-        {
-            dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
-        }
     }
 }
