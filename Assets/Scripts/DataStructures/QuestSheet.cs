@@ -117,27 +117,30 @@ public class QuestSheet
 	public struct GivenQuestInfo
 	{
 		string name; //stays constant, name of storylet probably
-		List<EventInfo> events; //either list of predicted storylets or completed ones
-		// consequences (positive or negative)
-			//based off difference between stat of party and stat of quest 
-			//includes adventurers dying, being op, being weak, etc
-		// insert relationships
+		List<EventInfo> events; //list of predicted storylets
+		int predictedLowReward;
+		int predictedHighReward;		
 		string description;
 
 	}
 
 	public struct FinishedQuestInfo{
 		string name; //stays constant, name of storylet probably
-		List<EventInfo> events; //either list of predicted storylets or completed ones
+		List<EventInfo> events; //List of completed events
+		// consequences (positive or negative)
+			//based off difference between stat of party and stat of quest 
+			//includes adventurers dying, being op, being weak, etc
+		RelationshipsInfo partyRelationships;
+		int reward;
 	}
 
 	//quest start info
-	public QuestInfo QuestStartInfo(){
-		return new QuestInfo();
+	public GivenQuestInfo QuestStartInfo(){
+		return new GivenQuestInfo();
 	}
 
 	//quest done info
-	public QuestInfo QuestDoneInfo(){
-		return new QuestInfo();
+	public FinishedQuestInfo QuestDoneInfo(){
+		return new FinishedQuestInfo();
 	}
 }

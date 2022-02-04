@@ -58,9 +58,11 @@ public class EventNode: ScriptableObject
 		{
 			case true:
 				message.nextEvent = successNode;
+				//change world state?
 				break;
 			case false:
 				message.nextEvent = failureNode;
+				//change world state?
 				break;
 		}
 
