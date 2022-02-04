@@ -5,9 +5,9 @@ using UnityEngine;
 public class QuestBanner : MonoBehaviour
 {
 
-    public QuestSheet questSheet;
+    public QuestSheet questSheet; //Quest to associate with this object
     public DropHandler dropHandler;
-    public GameObject QuestDisplay;
+    public GameObject QuestDisplay; // Reference to main Canvas display
 
     public GameObject questUIPrefab; // QuestUI prefab to display
 
@@ -19,6 +19,9 @@ public class QuestBanner : MonoBehaviour
         QuestDisplay = GameObject.Find("QuestDisplay");
     }
 
+    /// <summary>
+    /// Creates a new QuestUI object
+    /// </summary>
     public void displayQuestUI()
     {
         GameObject questUIObj = Instantiate(questUIPrefab);
