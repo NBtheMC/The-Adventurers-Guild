@@ -34,9 +34,10 @@ public class QuestingManager : MonoBehaviour
     private void Start()
     {
         GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += AdvanceAllQuests;
-        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckForQuests;
+        //GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckForQuests;
     }
 
+    /*
     public void CheckForQuests(object source, GameTime gameTime)
     {
         foreach (QuestSheet quest in bankedQuests)
@@ -57,7 +58,7 @@ public class QuestingManager : MonoBehaviour
                 Debug.Log("Done making Quest Banner");
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// Used to advance all the quests.
