@@ -16,6 +16,8 @@ public class CharacterPoolController : MonoBehaviour
     private int lastPlacedCol;
     private List<(GameObject dropPoint, GameObject character)> visibleDropAreas; // A List of all the drop areas we currently see.
 
+    private CharacterSheetManager characterManager;
+
 	private void Awake()
 	{
         visibleDropAreas = new List<(GameObject dropPoint, GameObject character)>();
@@ -23,12 +25,18 @@ public class CharacterPoolController : MonoBehaviour
         // We're assuming some previous point to set the last point.
         lastPlacedCol = -1;
         lastPlacedRow = maxColSize;
+
+        characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
 	}
 
 	// Start is called before the first frame update
 	void Start()
     {
-        
+        foreach(CharacterSheet character in characterManager.FreeAdventurers)
+        {
+            activeRole.Add(character);
+            RefreshCharacterPool();
+        }
     }
 
     /// <summary>
@@ -37,6 +45,8 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     public void RefreshCharacterPool()
 	{
+        dropHandler.ClearDropPoints();
+
         foreach((GameObject,GameObject) thing in visibleDropAreas)
 		{
             Destroy(thing.Item1);
@@ -86,6 +96,7 @@ public class CharacterPoolController : MonoBehaviour
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
         // Tells dropHandler that we have a new dropPoint.
+        //This is where drop points are added in the drop handler
         dropHandler.AddDropPoint(dropPointController);
 
         // Tells the dropPointController that it should only take characters.

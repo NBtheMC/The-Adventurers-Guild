@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,15 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
-    public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
+    // public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
 
-    public GameObject questPrefab; // Quest Banner prefab to display
     public GameObject questListContent; //Gameobject that holds the list of banked quests
+	//public GameObject questPrefab; // Quest UI prefab to display
+	// public GameObject QuestDisplay;
+	// public DropHandler dropHandler;
+
+    public event EventHandler<QuestSheet> QuestFinished;
+    public event EventHandler<QuestSheet> QuestAdded;
 
     private void Awake()
     {
@@ -68,8 +74,8 @@ public class QuestingManager : MonoBehaviour
             {
                 markForDeletion.Add(quest);
 
-                // Something about sending QuestReturn the correct amount of gold. quest.accumutatedGold;
-                QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
+                //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
+                QuestFinished(this, quest);
             }
         }
 
@@ -80,15 +86,21 @@ public class QuestingManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Tells QuestManager to start a quest, given the QuestSheet.
-    /// </summary>
-    /// <param name="questToBeMoved">The Quest to start</param>
-    /// <returns>True if successful, False otherwise.</returns>
-    public bool StartQuest(QuestSheet questToBeMoved)
+	/// <summary>
+	/// Tells QuestManager to start a quest, given the QuestSheet.
+	/// </summary>
+	/// <param name="questToBeMoved">The Quest to start</param>
+	/// <returns>True if successful, False otherwise.</returns>
+	public bool StartQuest(QuestSheet questToBeMoved)
+	{
+		bankedQuests.Remove(questToBeMoved);
+		activeQuests.Add(questToBeMoved);
+		return true;
+	}
+
+    public void AddQuest(QuestSheet quest)
     {
-        bankedQuests.Remove(questToBeMoved);
-        activeQuests.Add(questToBeMoved);
-        return true;
+        bankedQuests.Add(quest);
+        QuestAdded(this, quest);
     }
 }

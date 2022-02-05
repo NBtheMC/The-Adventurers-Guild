@@ -302,7 +302,9 @@ public class WorldStateManager : MonoBehaviour
 			// This will need to change depending on  how Parm codes the new questing manager.
 			QuestSheet newQuest = new QuestSheet(storylet.eventHead,storylet.questName);
 
-			questingManager.bankedQuests.Add(newQuest);
+
+			//questingManager.bankedQuests.Add(newQuest);
+			questingManager.AddQuest(newQuest);
 			// Added a quest.
 		}
 	}

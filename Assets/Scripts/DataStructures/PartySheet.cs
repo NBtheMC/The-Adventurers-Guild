@@ -7,6 +7,7 @@ public class PartySheet
 {
     public string name;
     private List<CharacterSheet> party_members;
+    public IReadOnlyCollection<CharacterSheet> Party_Members { get { return party_members.AsReadOnly(); } }
 
     public PartySheet()
 	{

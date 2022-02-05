@@ -50,4 +50,12 @@ public class DropHandler : MonoBehaviour
 
 		return false;
 	}
+
+	/// <summary>
+	/// Empties list of drop points
+	/// </summary>
+	public void ClearDropPoints()
+    {
+		dropPoints.Clear();
+    }
 }
