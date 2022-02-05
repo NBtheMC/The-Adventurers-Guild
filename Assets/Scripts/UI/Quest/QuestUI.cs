@@ -50,7 +50,7 @@ public class QuestUI : MonoBehaviour
         //setup first event
 
         //setup reward
-        questReward.text = string.Format("Quest Reward: {0}", attachedSheet.EstimatedRewardTotal());
+        questReward.text = string.Format("Quest Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
         //setup party formation drop points
         Rect rect = partyFormation.GetComponent<RectTransform>().rect;
         float dropPointOffset = rect.width / (questSheet.partySize + 1);

@@ -10,11 +10,18 @@ public class RelationshipManager : MonoBehaviour
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
     public Transform adventurers; //parent of all adventurers in the scene. Named the same
-
+    
+    //all the relevant info that occured with relationships in a given update
+    public struct RelationshipsInfo{
+        List<(Adventurer, Adventurer, int)> relationshipChanges; //describes how much each relationship changed by
+        List<string> relationshipStories; //anything notable that happens
+    }
     //called first by quest when quest is done. updates friendships based on win or loss
     //done on current party, change is determined by quest
     public void UpdatePartyRelationships(Transform party, int change){
         List<Adventurer> partyMembers = new List<Adventurer>(); //should be changed to whatever object holds the party
+        List<(Adventurer, Adventurer, int)> partyRelationshipChanges = new List<(Adventurer, Adventurer, int)>();
+        List<string> partyRelationshipStories = new List<string>();
         foreach(Transform a in party){
             partyMembers.Add(a.GetComponent<Adventurer>());
         }
@@ -25,6 +32,8 @@ public class RelationshipManager : MonoBehaviour
                 //update friendship between a and b
                 a.ChangeFriendship(b, change);
                 b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
+                partyRelationshipChanges.Add((a, b, change));
+                partyRelationshipChanges.Add((b, a, change));
             }
         }
         RecalculateAllRelationships();

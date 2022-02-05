@@ -5,6 +5,7 @@ using UnityEngine;
 public class QuestSheet
 {
 	public string questName { get; private set; }
+	public string questDescription { get; private set; }
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
@@ -19,7 +20,6 @@ public class QuestSheet
 
 
     public List<EventNode> visitedNodes;
-
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -48,13 +48,18 @@ public class QuestSheet
 		adventuring_party = partyInput;
 	}
 
-	// Calculates the maximum total reward for the quest as given.
-	// Done by doing brute-force search through the tree and calculating all possible rewards.
-	public int EstimatedRewardTotal()
+	public int EstimatedRewardTotal(){
+		return MaxReward(headConnection, 0);
+	}
+
+	// Calculates the reward if party succeeds. change later
+	private int MaxReward(EventNode currentNode, int previousTotal)
 	{
-		int countingTotal = 0;
-		// Put code here.
-		return countingTotal;
+		if(currentNode == null){
+			return previousTotal;
+		}
+		int countingTotal = previousTotal + currentNode.Reward;
+		return MaxReward(currentNode.successNode, countingTotal);
 	}
 
 	/// <summary>
@@ -105,10 +110,45 @@ public class QuestSheet
 	/// </summary>
 	public EventInfo getNewEventInfo()
 	{
-		EventInfo currentEvent = new EventInfo();
+		EventInfo currentEvent;
 		currentEvent.description = "Event description"; //placeholder text
 		currentEvent.stat = currentConnection.stat;
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
 	}
+
+	// all the stuff a quest needs to show
+	// used at start and end of quest
+	// public struct GivenQuestInfo
+	// {
+	// 	string name; //stays constant, name of storylet probably
+	// 	List<EventInfo> events; //list of predicted storylets
+	// 	int predictedHighReward;		
+	// 	string description;
+	// }
+
+	// public struct FinishedQuestInfo{
+	// 	string name; //stays constant, name of storylet probably
+	// 	List<EventInfo> events; //List of completed events
+	// 	// consequences (positive or negative)
+	// 		//based off difference between stat of party and stat of quest 
+	// 		//includes adventurers dying, being op, being weak, etc
+	// 		//concatenates based on each event
+	// 	RelationshipManager.RelationshipsInfo partyRelationships;
+	// 	int reward;
+	// }
+
+	// quest start info
+	// public GivenQuestInfo QuestStartInfo(){
+	// 	GivenQuestInfo questStart  = new GivenQuestInfo();
+
+	// 	return questStart;
+	// }
+
+	// quest done info
+	// public FinishedQuestInfo QuestDoneInfo(){
+	// 	FinishedQuestInfo questDone  = new FinishedQuestInfo();
+	// 	questDone.events = visitedNodes;
+	// 	return questDone;
+	// }
 }
