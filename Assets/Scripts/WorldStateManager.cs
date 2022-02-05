@@ -46,9 +46,9 @@ public class WorldStateManager : MonoBehaviour
 			storylet.numInstances = 0;
 
 			// Preload all the values into the dictionary.
-			foreach(Storylet.triggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
-			foreach(Storylet.triggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
-			foreach(Storylet.triggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
+			foreach(Storylet.TriggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
+			foreach(Storylet.TriggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
+			foreach(Storylet.TriggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
 		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
@@ -206,7 +206,7 @@ public class WorldStateManager : MonoBehaviour
 			//Debug.Log($"Begining Trigger Checks. Total of {storylet.triggerValues.Count} trigger values.");
 			
 			// Goes through the list of trigger values.
-			foreach (Storylet.triggerValue triggerValue in storylet.triggerValues)
+			foreach (Storylet.TriggerValue triggerValue in storylet.triggerValues)
 			{
 
 				// create a copy of the world's current value to check against.
@@ -239,7 +239,7 @@ public class WorldStateManager : MonoBehaviour
 			if (!validStorylet) { continue; }
 
 			// Now the trigger states.
-			foreach (Storylet.triggerState triggerState in storylet.triggerStates)
+			foreach (Storylet.TriggerState triggerState in storylet.triggerStates)
 			{
 				// Check if the trigger state matches the world state.
 				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; Debug.Log($"Checking {storylet.name}. Failed on {triggerState.name}"); break; }
@@ -247,7 +247,7 @@ public class WorldStateManager : MonoBehaviour
 
 			if (!validStorylet) { continue;}
 
-			foreach (Storylet.triggerInt triggerInt in storylet.triggerInts)
+			foreach (Storylet.TriggerInt triggerInt in storylet.triggerInts)
 			{
 				// create a copy of the world's current value to check against.
 				int worldInt = GetWorldInt(triggerInt.name);
