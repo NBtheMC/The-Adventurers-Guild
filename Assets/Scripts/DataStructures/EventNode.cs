@@ -17,11 +17,15 @@ public class EventNode: ScriptableObject
 	public int Reward;
 
 	public EventNode successNode;
+	public string successString;
 	public EventNode failureNode;
+	public string failureString;
+	public string resultsString; //what actually happened
 
 	public class EventPackage
 	{
 		public bool objectiveComplete = false;
+		public int givenReward = 0;
 		public EventNode nextEvent = null;
 	}
 
@@ -58,10 +62,13 @@ public class EventNode: ScriptableObject
 		{
 			case true:
 				message.nextEvent = successNode;
+				message.givenReward = Reward;
+				resultsString = successString;
 				//change world state?
 				break;
 			case false:
 				message.nextEvent = failureNode;
+				resultsString = failureString;
 				//change world state?
 				break;
 		}
