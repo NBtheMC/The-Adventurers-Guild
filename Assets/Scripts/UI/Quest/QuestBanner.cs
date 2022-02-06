@@ -6,8 +6,8 @@ public class QuestBanner : MonoBehaviour
 {
 
     public QuestSheet questSheet;
-    public DropHandler dropHandler;
-    public GameObject QuestDisplay;
+    private DropHandler dropHandler;
+    private GameObject QuestDisplay;
 
     public GameObject questUIPrefab; // QuestUI prefab to display
 

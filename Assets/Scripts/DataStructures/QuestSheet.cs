@@ -12,8 +12,6 @@ public class QuestSheet
 	private QuestUI questUI; //association to corresponding UI element
 	public int partySize { get; private set; } //how many adventurers can be assigned to a quest
 
-	[HideInInspector] public bool isDisplayed = false; //has this quest sheet been displayed to the user
-
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// Keeps track of active quests and advances their ticks.
@@ -13,12 +12,6 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
-    // public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
-
-    public GameObject questListContent; //Gameobject that holds the list of banked quests
-	//public GameObject questPrefab; // Quest UI prefab to display
-	// public GameObject QuestDisplay;
-	// public DropHandler dropHandler;
 
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
@@ -34,31 +27,7 @@ public class QuestingManager : MonoBehaviour
     private void Start()
     {
         GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += AdvanceAllQuests;
-        //GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckForQuests;
     }
-
-    /*
-    public void CheckForQuests(object source, GameTime gameTime)
-    {
-        foreach (QuestSheet quest in bankedQuests)
-        {
-            if (quest.isDisplayed == false)
-            {
-                Debug.Log("Making Quest Banner");
-                GameObject newQuest = Instantiate(questPrefab);
-                //add questBanner obj to questListContent
-                newQuest.transform.SetParent(questListContent.transform, false);
-                //pass questSheet to questBanner
-                newQuest.GetComponent<QuestBanner>().questSheet = quest;
-                //set banner text
-                newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
-                //mark this sheet as displayed so extra questBanners are not made
-                quest.isDisplayed = true;
-
-                Debug.Log("Done making Quest Banner");
-            }
-        }
-    }*/
 
     /// <summary>
     /// Used to advance all the quests.
