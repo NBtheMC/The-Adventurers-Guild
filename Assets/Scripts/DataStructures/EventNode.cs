@@ -11,6 +11,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
 public class EventNode: ScriptableObject
 {
+	public string description; //what the event is
+
 	public string stat; // the stat to be checked against. Should correspond with PartySheet
 	public int DC;
 	public int time; // How many ticks before the DC check is triggered
