@@ -37,6 +37,7 @@ public class QuestSheet
 		partySize = partySize_input;
 
         visitedNodes = new List<EventNode>();
+
 	}
 
 	/// <summary>

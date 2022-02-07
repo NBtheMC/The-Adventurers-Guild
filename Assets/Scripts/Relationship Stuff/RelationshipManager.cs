@@ -10,7 +10,7 @@ public class RelationshipManager : MonoBehaviour
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
     public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
-    
+
     //all the relevant info that occured with relationships in a given update
     // public struct RelationshipsInfo{
     //     List<(Adventurer, Adventurer, int)> relationshipChanges; //describes how much each relationship changed by
@@ -39,12 +39,11 @@ public class RelationshipManager : MonoBehaviour
                 party.UpdateRelationshipStory("Adventurer " + a.name + " and adventurer " + b.name + " did some things"); //test
             }
         }
-        RecalculateAllRelationships();
     }
 
     //called after relationships are updated
     //loops all rules through all people 's volitions, relationships, etc, in order to
-    public void RecalculateAllRelationships(){
+    void RecalculateAllRelationships(){
         //loop through all Adventurers in entire scene
         List<CharacterSheet> allAdventurers = new List<CharacterSheet>();
 

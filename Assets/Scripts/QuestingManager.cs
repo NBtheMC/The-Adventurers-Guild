@@ -23,6 +23,8 @@ public class QuestingManager : MonoBehaviour
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
 
+    public RelationshipManager relationshipManager;
+
     private void Awake()
     {
         //timeSystem.TickAdded += AdvanceAllQuests;
@@ -77,6 +79,7 @@ public class QuestingManager : MonoBehaviour
 
                 //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
                 QuestFinished(this, quest);
+                relationshipManager.RecalculateAllRelationships();
             }
         }
 
