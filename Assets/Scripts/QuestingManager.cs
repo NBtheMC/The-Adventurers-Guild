@@ -15,6 +15,7 @@ public class QuestingManager : MonoBehaviour
 
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
+    public event EventHandler QuestStarted;
 
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class QuestingManager : MonoBehaviour
 	{
 		bankedQuests.Remove(questToBeMoved);
 		activeQuests.Add(questToBeMoved);
+        QuestStarted(this, EventArgs.Empty);
 		return true;
 	}
 

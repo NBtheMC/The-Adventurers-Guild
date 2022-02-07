@@ -916,6 +916,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestDisplayManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7280735043978585612, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: timeSystem
       value: 
@@ -924,5 +928,9 @@ PrefabInstance:
       propertyPath: questingManager
       value: 
       objectReference: {fileID: 767544276}
+    - target: {fileID: 7280735044324053916, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -200.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}

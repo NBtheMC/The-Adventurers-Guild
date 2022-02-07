@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class QuestBanner : MonoBehaviour
     {
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
         QuestDisplay = GameObject.Find("QuestDisplay");
+
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += RemoveQuestBanner;
     }
 
     public void displayQuestUI()
@@ -32,7 +35,6 @@ public class QuestBanner : MonoBehaviour
         //pass quest info to quest UI
         QuestUI questUI = questUIObj.GetComponent<QuestUI>();
         questUI.SetupQuestUI(questSheet);
-        questUI.questBanner = this.gameObject;
 
         //add drop points from quest UI to DropHandler
         Transform party = questUIObj.transform.Find("Canvas/Party");
@@ -40,5 +42,10 @@ public class QuestBanner : MonoBehaviour
         {
             dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
         }
+    }
+
+    public void RemoveQuestBanner(object source, EventArgs e)
+    {
+        Destroy(this.gameObject);
     }
 }

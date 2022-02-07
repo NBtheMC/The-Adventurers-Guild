@@ -14,7 +14,6 @@ public class QuestUI : MonoBehaviour
     private GameObject partyFormation;
     private GameObject sendPartyButton;
     public GameObject dropPointPrefab;
-    [HideInInspector] public GameObject questBanner;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
 
@@ -124,9 +123,6 @@ public class QuestUI : MonoBehaviour
         //assign partyToSend to the current quest
         attachedSheet.assignParty(partyToSend);
         questingManager.StartQuest(attachedSheet);
-
-        //remove associated questBanner
-        Destroy(questBanner);
 
         DestroyUI();
     }
