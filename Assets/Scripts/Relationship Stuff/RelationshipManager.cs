@@ -43,7 +43,7 @@ public class RelationshipManager : MonoBehaviour
 
     //called after relationships are updated
     //loops all rules through all people 's volitions, relationships, etc, in order to
-    void RecalculateAllRelationships(){
+    public void RecalculateAllRelationships(){
         //loop through all Adventurers in entire scene
         List<CharacterSheet> allAdventurers = new List<CharacterSheet>();
 
