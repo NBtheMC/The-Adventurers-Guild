@@ -6,13 +6,15 @@ using UnityEngine;
 public class PartySheet
 {
     public string name;
-    private List<CharacterSheet> party_members;
+    public List<CharacterSheet> party_members { get; private set;}
     public IReadOnlyCollection<CharacterSheet> Party_Members { get { return party_members.AsReadOnly(); } }
+    public List<string> relationshipNarrative; //list of things that happened to adventurers on a quest
 
     public PartySheet()
 	{
         name = "";
         party_members = new List<CharacterSheet>();
+        relationshipNarrative = new List<string>();
 	}
 
     public void addMember(CharacterSheet adventurer)
@@ -48,4 +50,11 @@ public class PartySheet
         }
         return statTotal;
     }
+
+    public void UpdateRelationshipStory(string relationshipSubstory){
+        relationshipNarrative.Add(relationshipSubstory);
+        return;
+    }
+
+
 }

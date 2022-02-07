@@ -10,6 +10,9 @@ public class CharacterSheet
     // The character's stats
     private Dictionary<string, int> statlines = new Dictionary<string, int>();
 
+    // The characters relationships
+    public Adventurer adventurer;
+
     /// <summary>
     /// Normal Character Sheet Constructor
     /// </summary>
@@ -19,6 +22,8 @@ public class CharacterSheet
 	{
         name = nameInput;
         foreach(string statline in defaultStats) { statlines[statline] = 0;}
+        adventurer = new Adventurer();
+        //relationships.transform.SetParent(this.gameObject); //charactersheet and adventurer have same parent
 	}
 
     /// <summary>
