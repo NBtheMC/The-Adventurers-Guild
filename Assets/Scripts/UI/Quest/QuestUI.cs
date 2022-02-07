@@ -16,6 +16,8 @@ public class QuestUI : MonoBehaviour
     public GameObject dropPointPrefab;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
+    private CharacterSheetManager charSheetManager;
+    private DropHandler dropHandler;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,6 +37,10 @@ public class QuestUI : MonoBehaviour
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
+
+        charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
+
+        dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
     }
 
     //Creates Quest as a UI GameObject
@@ -68,6 +74,9 @@ public class QuestUI : MonoBehaviour
 
             //set position
             dropPoint.transform.localPosition = new Vector3(150 - dropPointOffset * i, 5, 0);
+
+            //add drop point to dropHandler
+            dropHandler.AddDropPoint(dropPoint.GetComponent<ObjectDropPoint>());
         }
     }
 
@@ -108,6 +117,7 @@ public class QuestUI : MonoBehaviour
         //create new partySheet and add all selected adventurers
         PartySheet partyToSend = new PartySheet();
 
+        //find all characters on QuestUI object and add to partyToSend
         foreach (Transform child in partyFormation.transform)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
@@ -119,6 +129,7 @@ public class QuestUI : MonoBehaviour
                 characterPool.removeMember(charSheet);
             }
         }
+        charSheetManager.SendPartyOnQuest(partyToSend);
 
         //assign partyToSend to the current quest
         attachedSheet.assignParty(partyToSend);
@@ -132,16 +143,18 @@ public class QuestUI : MonoBehaviour
         foreach (Transform child in partyFormation.transform)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
+            //CHANGE THIS TO RETURN CHARACTER TO ORIGINAL DROP POINT
             if (character)
             {
                 Destroy(character.gameObject);
             }
+            dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
 
         //REMOVE DROP POINTS FROM DROPHANDLER
 
         Destroy(this.gameObject);
-        characterPool.RefreshCharacterPool();
+        //characterPool.RefreshCharacterPool();
     }
 
 

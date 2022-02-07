@@ -45,7 +45,7 @@ public class CharacterSheetManager : MonoBehaviour
             freeAdventurers.Remove(character);
             questingAdventurers.Add(character);
         }
-        RosterChange(this, EventArgs.Empty);
+        //RosterChange(this, EventArgs.Empty);
     }
 
     public void PartyBackFromQuest(PartySheet party)
