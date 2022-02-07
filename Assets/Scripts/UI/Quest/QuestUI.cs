@@ -13,7 +13,7 @@ public class QuestUI : MonoBehaviour
     private Text questReward;
     private GameObject partyFormation;
     private GameObject sendPartyButton;
-    public GameObject dropPointPrefab;
+    private GameObject dropPointPrefab;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
     private CharacterSheetManager charSheetManager;
@@ -41,6 +41,8 @@ public class QuestUI : MonoBehaviour
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
 
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
+
+        dropPointPrefab = Resources.Load<GameObject>("SampleDropPoint");
     }
 
     //Creates Quest as a UI GameObject
@@ -150,8 +152,6 @@ public class QuestUI : MonoBehaviour
             }
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
-
-        //REMOVE DROP POINTS FROM DROPHANDLER
 
         Destroy(this.gameObject);
         //characterPool.RefreshCharacterPool();

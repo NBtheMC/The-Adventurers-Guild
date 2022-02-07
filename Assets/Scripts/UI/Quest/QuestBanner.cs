@@ -6,16 +6,16 @@ using UnityEngine;
 public class QuestBanner : MonoBehaviour
 {
 
-    public QuestSheet questSheet;
+    [HideInInspector] public QuestSheet questSheet;
     private GameObject QuestDisplay;
-    public GameObject questUIPrefab; // QuestUI prefab to display
+    private GameObject questUIPrefab; // QuestUI prefab to display
 
 
     // Start is called before the first frame update
     public void Start()
     {
         QuestDisplay = GameObject.Find("QuestDisplay");
-
+        questUIPrefab = Resources.Load<GameObject>("QuestUI");
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += RemoveQuestBanner;
     }
 

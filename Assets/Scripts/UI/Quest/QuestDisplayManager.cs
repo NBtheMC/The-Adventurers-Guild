@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class QuestDisplayManager : MonoBehaviour
 {
-    public GameObject questBannerPrefab;
-    public DropHandler dropHandler;
-    public GameObject QuestDisplay;
-    public GameObject questListContent;
+    private GameObject questBannerPrefab;
+    private GameObject questListContent;
     // Start is called before the first frame update
     void Start()
     {
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestAdded += GenerateQuestDisplayUI;
+        questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
+        questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
     }
 
     public void GenerateQuestDisplayUI(object source, QuestSheet quest)
