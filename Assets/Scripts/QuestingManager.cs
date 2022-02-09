@@ -22,6 +22,7 @@ public class QuestingManager : MonoBehaviour
 	// public GameObject QuestDisplay;
 	// public DropHandler dropHandler;
 
+    public event EventHandler<QuestSheet> QuestStarted;
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
 
@@ -98,6 +99,7 @@ public class QuestingManager : MonoBehaviour
 	{
 		bankedQuests.Remove(questToBeMoved);
 		activeQuests.Add(questToBeMoved);
+        QuestStarted(this, questToBeMoved);
 		return true;
 	}
 

@@ -35,8 +35,23 @@ public class CharacterPoolController : MonoBehaviour
         foreach(CharacterSheet character in characterManager.FreeAdventurers)
         {
             activeRole.Add(character);
-            RefreshCharacterPool();
+            
         }
+        RefreshCharacterPool();
+
+        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterChange += CharacterPoolController_RosterChange;
+    }
+
+    private void CharacterPoolController_RosterChange(object source, System.EventArgs e)
+    {
+        activeRole.Clear();
+
+        foreach(CharacterSheet character in characterManager.FreeAdventurers)
+        {
+            activeRole.Add(character);
+        }
+
+        RefreshCharacterPool();
     }
 
     /// <summary>

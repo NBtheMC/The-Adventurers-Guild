@@ -21,7 +21,9 @@ public class QuestSheet
 	public WorldStateManager worldStateManager;
 
 
-    public List<EventNode> visitedNodes;
+	public List<EventNode> visitedNodes;
+
+	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 
 	/// <summary>
 	/// QuestSheet Constructor
