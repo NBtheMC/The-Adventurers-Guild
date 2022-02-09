@@ -15,6 +15,8 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
     // public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
 
+    public WorldStateManager stateManager; // Used to assign quests for world updates.
+
     public GameObject questListContent; //Gameobject that holds the list of banked quests
 	//public GameObject questPrefab; // Quest UI prefab to display
 	// public GameObject QuestDisplay;
@@ -102,6 +104,7 @@ public class QuestingManager : MonoBehaviour
     public void AddQuest(QuestSheet quest)
     {
         bankedQuests.Add(quest);
+        quest.worldStateManager = stateManager; 
         QuestAdded(this, quest);
     }
 }

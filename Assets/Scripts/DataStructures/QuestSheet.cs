@@ -18,6 +18,8 @@ public class QuestSheet
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
+	public WorldStateManager worldStateManager;
+
 
     public List<EventNode> visitedNodes;
 
@@ -76,6 +78,21 @@ public class QuestSheet
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
             visitedNodes.Add(currentConnection);
+
+			// Changes the world based on Event Package
+			switch (returnMessage.objectiveComplete)
+			{
+				case true:
+					foreach (Storylet.IntChange change in currentConnection.successIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.successStateChange) { worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.successValueChange) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					break;
+				case false:
+					foreach (Storylet.IntChange change in currentConnection.failIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.failStateChange) { worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.failValueChange) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					break;
+			}
 
 			// Progress to the next event.
 			if (returnMessage.nextEvent != null)

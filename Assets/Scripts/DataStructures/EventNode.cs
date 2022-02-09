@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// The default event node. Inherited by all other event nodes.
@@ -16,11 +17,33 @@ public class EventNode: ScriptableObject
 	public int time; // How many ticks before the DC check is triggered
 	public int Reward;
 
+
+	// All the things that happen when we're successful.
 	public EventNode successNode;
 	public string successString;
+	// List of all the items that should change if this is successful.
+	public List<Storylet.IntChange> successIntChange;
+	public List<Storylet.ValueChange> successValueChange;
+	public List<Storylet.StateChange> successStateChange;
+
+
+	// All the things that happen when we're not successful
 	public EventNode failureNode;
 	public string failureString;
-	public string resultsString; //what actually happened
+	public List<Storylet.IntChange> failIntChange;
+	public List<Storylet.ValueChange> failValueChange;
+	public List<Storylet.StateChange> failStateChange;
+
+
+	[HideInInspector] public string resultsString; //what actually happened
+
+	private WorldStateManager theWorld;
+
+	private void Awake()
+	{
+		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
+		Debug.Assert(theWorld != null);
+	}
 
 	public class EventPackage
 	{
@@ -64,12 +87,10 @@ public class EventNode: ScriptableObject
 				message.nextEvent = successNode;
 				message.givenReward = Reward;
 				resultsString = successString;
-				//change world state?
 				break;
 			case false:
 				message.nextEvent = failureNode;
 				resultsString = failureString;
-				//change world state?
 				break;
 		}
 

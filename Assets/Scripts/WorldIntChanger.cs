@@ -41,6 +41,9 @@ namespace StoryletTesting {
 
 		private void Update()
 		{
+            // Temporary fix until we seperate world state manager from the UI.
+            value = theWorld.GetWorldInt(worldStat);
+
 			// changes the value to the string.
 			valueText.text = value.ToString();
 

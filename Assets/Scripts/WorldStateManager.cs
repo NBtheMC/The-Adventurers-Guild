@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WorldStateManager : MonoBehaviour
 {
@@ -138,13 +139,37 @@ public class WorldStateManager : MonoBehaviour
 	/// </summary>
 	/// <param name="name">Name of the value to change.</param>
 	/// <param name="value">The change to be added to current value.</param>
-	public void ChangeWorldValue(string name, float value)
+	/// <param name="set">Whether this value should set the state or just alter it.</param>
+	public void ChangeWorldValue(string name, float value, bool set = false)
 	{
         if (!worldValues.ContainsKey(name)) { AddWorldValue(name, value); }
-        else { worldValues[name].value += value; }
+        else if (set) { worldValues[name].value = value; }
+		else { worldValues[name].value += value;}
 	}
 
-    // You don't need a changeWorldState. Just set it using addWorldState.
+	/// <summary>
+	/// Changes the world value by a certain amount.
+	/// </summary>
+	/// <param name="name">Name of the value to change.</param>
+	/// <param name="value">The change to be added to current value.</param>
+	public void ChangeWorldState(string name, bool value)
+	{
+		if (!worldStates.ContainsKey(name)) { AddWorldState(name, value); Debug.Log($"Failed to find {name} in worldState, perhaps not already created"); }
+		else { worldStates[name].state = value; }
+	}
+
+	/// <summary>
+	/// Changes the world int by a certain amount.
+	/// </summary>
+	/// <param name="name">Name of the value to change.</param>
+	/// <param name="value">The change to be added to current value.</param>
+	/// <param name="set">Whether this value should set the state or just alter it.</param>
+	public void ChangeWorldInt(string name, int value, bool set = false)
+	{
+		if (!worldInts.ContainsKey(name)) { AddWorldInt(name, value); Debug.Log($"Failed to find {name} in worldState, perhaps not already created"); }
+		else if (set) { worldInts[name].value = value; }
+		else { worldInts[name].value += value; }
+	}
 
     public float GetWorldValue(string key)
 	{
@@ -272,7 +297,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { break; Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); }
+				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); break; }
 			}
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
@@ -293,6 +318,12 @@ public class WorldStateManager : MonoBehaviour
 			foreach (Storylet.StateChange change in storylet.triggerStateChanges)
 			{
 				AddWorldState(change.name, change.state);
+			}
+			foreach (Storylet.IntChange change in storylet.triggerIntChanges)
+			{
+				// Checks to set it directly, or to change it by a value.
+				if (change.set == true) { AddWorldInt(change.name, change.value); }
+				else { ChangeWorldValue(change.name, change.value); }
 			}
 
 			storylet.numInstances++;
