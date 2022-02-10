@@ -24,15 +24,13 @@ public class QuestUI : MonoBehaviour
     {
         attachedObject = this.transform;
         //quest info objects
-        questName = attachedObject.Find("Canvas/Title").gameObject.GetComponent<Text>();
-        questDescription = attachedObject.Find("Canvas/Description").gameObject.GetComponent<Text>();
-        questReward = attachedObject.Find("Canvas/Rewards/Text").gameObject.GetComponent<Text>();
+        questName = attachedObject.Find("Title").gameObject.GetComponent<Text>();
+        questDescription = attachedObject.Find("Description").gameObject.GetComponent<Text>();
+        questReward = attachedObject.Find("Rewards/Text").gameObject.GetComponent<Text>();
 
-        Canvas canv = attachedObject.Find("Canvas").gameObject.GetComponent<Canvas>();
-        canv.worldCamera = Camera.main;
         //party formation objects
-        partyFormation = attachedObject.Find("Canvas/Party").gameObject;
-        sendPartyButton = attachedObject.Find("Canvas/Send Party").gameObject;
+        partyFormation = attachedObject.Find("Party").gameObject;
+        sendPartyButton = attachedObject.Find("Send Party").gameObject;
         TogglePartyFormationVisibility();
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
@@ -147,7 +145,6 @@ public class QuestUI : MonoBehaviour
         foreach (Transform child in partyFormation.transform)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            //CHANGE THIS TO RETURN CHARACTER TO ORIGINAL DROP POINT
             if (character)
             {
                 Destroy(character.gameObject);
@@ -156,7 +153,7 @@ public class QuestUI : MonoBehaviour
         }
 
         Destroy(this.gameObject);
-        //characterPool.RefreshCharacterPool();
+        characterPool.RefreshCharacterPool();
     }
 
 
