@@ -14,7 +14,7 @@ public class EventNode: ScriptableObject
 	public string description; //what the event is
 
 	public string stat; // the stat to be checked against. Should correspond with PartySheet
-	public int DC;
+	public int DC; //stat to be checked against also used for experience given eventually
 	public int time; // How many ticks before the DC check is triggered
 	public int Reward;
 
@@ -22,13 +22,17 @@ public class EventNode: ScriptableObject
 	public string successString;
 	public EventNode failureNode;
 	public string failureString;
-	public string resultsString; //what actually happened
+
+	private List<string> eventRelationships = new List<string>();
 
 	public class EventPackage
 	{
 		public bool objectiveComplete = false;
 		public int givenReward = 0;
 		public EventNode nextEvent = null;
+		public List<string> relationshipsUpdate = new List<string>(); //relationships update
+		public string resultsString; //what actually happened
+		//TODO Adventurer levelling
 	}
 
 	/// <summary>
@@ -58,26 +62,54 @@ public class EventNode: ScriptableObject
 	{
 		EventPackage message = new EventPackage();
 		message.objectiveComplete = adventurers.getStatSummed(stat) > DC;
-
 		// switchcase for our checks.
 		switch (message.objectiveComplete)
 		{
 			case true:
+				//update EventPackage
 				message.nextEvent = successNode;
 				message.givenReward = Reward;
-				resultsString = successString;
-				//change world state?
+				message.resultsString = successString;
+				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, Math.Ceiling(DC/4)); //range from 1-5
 				break;
 			case false:
+				//update EventPackage
 				message.nextEvent = failureNode;
-				resultsString = failureString;
-				//change world state?
+				message.resultsString = failureString;
+				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, Math.Floor(-DC/4)); //range from 1-5
 				break;
 		}
 
 
 		return message;
 	}
+
+	//called first by quest when quest is done. updates friendships based on win or loss
+    //done on current party, change is determined by quest
+    public List<string> UpdatePartyRelationships(PartySheet party, int change){
+		List<string> partyUpdates = new List<string>();
+
+        //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
+        List<Adventurer> partyMembers = new List<Adventurer>();
+
+        foreach(CharacterSheet a in party.Party_Members){
+            partyMembers.Add(a.adventurer);
+        }
+
+        //Actual updating
+        for(int i  = 0; i < partyMembers.Count; i++){
+            Adventurer a = partyMembers[i];
+            for(int j  = i+1; j < partyMembers.Count; j++){
+                Adventurer b = partyMembers[j];
+                //update friendship between a and b
+                a.ChangeFriendship(b, change);
+                b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
+                //get string based on change
+				partyUpdates.Add(a. " and B did thing");
+            }
+        }
+		return partyUpdates;
+    }
 
 	/*
 	/// <summary>

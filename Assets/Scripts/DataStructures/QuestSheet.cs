@@ -63,6 +63,7 @@ public class QuestSheet
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
 			accumutatedGold += returnMessage.givenReward;
+			adventuring_party.UpdateRelationshipStory(returnMessage.);
             visitedNodes.Add(currentConnection);
 
 			// Progress to the next event.

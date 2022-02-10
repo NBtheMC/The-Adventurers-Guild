@@ -17,30 +17,6 @@ public class RelationshipManager : MonoBehaviour
     //     List<string> relationshipStories; //anything notable that happens
     // }
 
-    //called first by quest when quest is done. updates friendships based on win or loss
-    //done on current party, change is determined by quest
-    public void UpdatePartyRelationships(PartySheet party, int change){
-        //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
-        List<Adventurer> partyMembers = new List<Adventurer>();
-
-        foreach(CharacterSheet a in party.Party_Members){
-            partyMembers.Add(a.adventurer);
-        }
-
-        //Actual updating
-        for(int i  = 0; i < partyMembers.Count; i++){
-            Adventurer a = partyMembers[i];
-            for(int j  = i+1; j < partyMembers.Count; j++){
-                Adventurer b = partyMembers[j];
-                //update friendship between a and b
-                a.ChangeFriendship(b, change);
-                b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
-                
-                party.UpdateRelationshipStory("Adventurer " + a.name + " and adventurer " + b.name + " did some things"); //test
-            }
-        }
-    }
-
     //called after relationships are updated
     //loops all rules through all people 's volitions, relationships, etc, in order to
     public void RecalculateAllRelationships(){
