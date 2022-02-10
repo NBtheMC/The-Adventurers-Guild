@@ -23,6 +23,7 @@ public class CharacterSheet
         name = nameInput;
         foreach(string statline in defaultStats) { statlines[statline] = 0;}
         adventurer = new Adventurer();
+        adventurer.characterSheet = this;
         //relationships.transform.SetParent(this.gameObject); //charactersheet and adventurer have same parent
 	}
 
@@ -35,7 +36,9 @@ public class CharacterSheet
 	{
         name = nameInput;
         statlines = new Dictionary<string, int>(statslinesInput);
-	}
+        adventurer = new Adventurer();
+        adventurer.characterSheet = this;
+    }
 
     /// <summary>
     /// Constructor that takes a parameter of type CharacterInitialStats in order to generate a character sheet
@@ -47,6 +50,8 @@ public class CharacterSheet
         statlines.Add("diplomacy", characterStats.diplomacy);
         statlines.Add("exploration", characterStats.exploration);
         statlines.Add("stamina", characterStats.stamina);
+        adventurer = new Adventurer();
+        adventurer.characterSheet = this;
     }
 
     /// <summary>

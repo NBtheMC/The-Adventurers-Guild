@@ -113,14 +113,18 @@ public class EventNode: ScriptableObject
         //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
         List<Adventurer> partyMembers = new List<Adventurer>();
 
-        foreach(CharacterSheet a in party.Party_Members){
+        foreach(CharacterSheet a in party.party_members){
+			Debug.Log(a.name);
             partyMembers.Add(a.adventurer);
+			Debug.Log(a.adventurer.characterSheet.name);
         }
 
         //Actual updating
         for(int i  = 0; i < partyMembers.Count; i++){
             Adventurer a = partyMembers[i];
+			Debug.Log(a.characterSheet.name);
             for(int j  = i+1; j < partyMembers.Count; j++){
+
                 Adventurer b = partyMembers[j];
                 //update friendship between a and b
                 a.ChangeFriendship(b, change);

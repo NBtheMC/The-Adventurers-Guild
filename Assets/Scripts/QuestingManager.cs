@@ -14,9 +14,9 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
     public WorldStateManager stateManager; // Used to assign quests for world updates.
 
+    public event EventHandler<QuestSheet> QuestStarted;
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
-    public event EventHandler QuestStarted;
 
     public RelationshipManager relationshipManager;
 
@@ -50,7 +50,7 @@ public class QuestingManager : MonoBehaviour
 
                 //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
                 QuestFinished(this, quest);
-                relationshipManager.RecalculateAllRelationships();
+                //relationshipManager.RecalculateAllRelationships();
             }
         }
 
@@ -70,7 +70,7 @@ public class QuestingManager : MonoBehaviour
 	{
 		bankedQuests.Remove(questToBeMoved);
 		activeQuests.Add(questToBeMoved);
-        QuestStarted(this, EventArgs.Empty);
+        QuestStarted(this, questToBeMoved);
 		return true;
 	}
 

@@ -8,7 +8,7 @@ public class QuestSheet
 	public string questDescription { get; private set; }
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
-	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
+	public PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
 	public int partySize { get; private set; } //how many adventurers can be assigned to a quest
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
@@ -20,8 +20,7 @@ public class QuestSheet
 
 	public List<EventNode> visitedNodes;
 
-	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
-    public List<EventNode> visitedNodes;
+	//public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 	public string questRecap;
 
 	/// <summary>

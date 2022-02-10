@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Handles all processing of social models
-public class Adventurer : MonoBehaviour
+public class Adventurer
 {
     public CharacterSheet characterSheet; //an adventurer's associated charactersheet
     //Relationships with others combined with a strength
@@ -19,7 +19,7 @@ public class Adventurer : MonoBehaviour
     bool isSelected;
 
     // Start is called before the first frame update
-    void Awake()
+    public Adventurer()
     {
         friendships = new Dictionary<Adventurer, int>();
         romances = new Dictionary<Adventurer, int>();

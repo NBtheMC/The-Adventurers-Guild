@@ -32,9 +32,9 @@ public class RelationshipManager : MonoBehaviour
                 Adventurer b = allAdventurers[j].adventurer;
                 for(int k = j+1; k < allAdventurers.Count; k++){
                     Adventurer c = allAdventurers[k].adventurer;
-                    Debug.Log(a.gameObject.name + " + " + b.gameObject.name + " friends= " + a.IsFriendsWith(b));
-                    Debug.Log(a.gameObject.name + " + " + c.gameObject.name + " friends= " + a.IsFriendsWith(c));      
-                    Debug.Log(b.gameObject.name + " + " + c.gameObject.name + " friends= " + b.IsFriendsWith(c));              
+                    //Debug.Log(a.gameObject.name + " + " + b.gameObject.name + " friends= " + a.IsFriendsWith(b));
+                    //Debug.Log(a.gameObject.name + " + " + c.gameObject.name + " friends= " + a.IsFriendsWith(c));      
+                    //Debug.Log(b.gameObject.name + " + " + c.gameObject.name + " friends= " + b.IsFriendsWith(c));              
                     //Take friendship levels into account when recalculating eventually
                     //eg int abFriendship = a.GetFriendship(b);
 
