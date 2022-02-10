@@ -70,13 +70,13 @@ public class EventNode: ScriptableObject
 				message.nextEvent = successNode;
 				message.givenReward = Reward;
 				message.resultsString = successString;
-				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, Math.Ceiling(DC/4)); //range from 1-5
+				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
 				break;
 			case false:
 				//update EventPackage
 				message.nextEvent = failureNode;
 				message.resultsString = failureString;
-				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, Math.Floor(-DC/4)); //range from 1-5
+				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
 				break;
 		}
 
@@ -105,7 +105,7 @@ public class EventNode: ScriptableObject
                 a.ChangeFriendship(b, change);
                 b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
                 //get string based on change
-				partyUpdates.Add(a. " and B did thing");
+				partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
             }
         }
 		return partyUpdates;

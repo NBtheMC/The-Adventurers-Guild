@@ -20,6 +20,7 @@ public class QuestSheet
 
 
     public List<EventNode> visitedNodes;
+	public string questRecap;
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -37,7 +38,7 @@ public class QuestSheet
 		partySize = partySize_input;
 
         visitedNodes = new List<EventNode>();
-
+		questRecap = "";
 	}
 
 	/// <summary>
@@ -63,8 +64,9 @@ public class QuestSheet
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
 			accumutatedGold += returnMessage.givenReward;
-			adventuring_party.UpdateRelationshipStory(returnMessage.);
+			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
             visitedNodes.Add(currentConnection);
+			questRecap += (" and " + returnMessage.resultsString);
 
 			// Progress to the next event.
 			if (returnMessage.nextEvent != null)
@@ -120,13 +122,17 @@ public class QuestSheet
 		return MaxReward(currentNode.successNode, countingTotal);
 	}
 
-	public string GenerateEventText(){
-		string eventResults = "";
-		foreach(EventNode e in visitedNodes){
-			eventResults += (" " + e.resultsString);
-		}
-		return eventResults;
+	public string GetQuestRecap(){
+		return questRecap;
 	}
+
+	// public string GenerateEventText(){
+	// 	string eventResults = "";
+	// 	foreach(EventNode e in visitedNodes){
+	// 		eventResults += (" " + e.resultsString);
+	// 	}
+	// 	return eventResults;
+	// }
 
 	// all the stuff a quest needs to show
 	// used at start and end of quest
