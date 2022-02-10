@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: FightBandits
+  m_Name: BeatUpRival
   m_EditorClassIdentifier: 
-  description: Bandits stole the shit... bruh
+  description: Beat up rival guild members
   stat: combat
-  DC: 12
-  time: 1
-  Reward: 17
+  DC: 20
+  time: 0
+  Reward: 10
   successNode: {fileID: 0}
   successString: 
   successIntChange: []
   successValueChange: []
   successStateChange:
+  - name: RivalGuildOpen
+    state: 0
   - name: HaveArtifact
     state: 1
   failureNode: {fileID: 0}

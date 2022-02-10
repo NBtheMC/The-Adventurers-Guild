@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: GetArtifact
+  m_Name: ArtifactStolen
   m_EditorClassIdentifier: 
-  questName: GetArtifact
-  eventHead: {fileID: 11400000, guid: da67603f7fb92a449899e77c9e9c21c0, type: 2}
+  questName: Our Artifact got stolen :(
+  eventHead: {fileID: 0}
   triggerInts: []
   triggerValues: []
-  triggerStates: []
+  triggerStates:
+  - name: RivalGuildOpen
+    state: 1
+  - name: HaveArtifact
+    state: 1
   canBeInstanced: 0
   numInstances: 0
   triggerIntChanges: []
