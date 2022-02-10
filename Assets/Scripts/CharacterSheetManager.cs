@@ -46,7 +46,7 @@ public class CharacterSheetManager : MonoBehaviour
 
     public void SendPartyOnQuest(object src, QuestSheet quest)
     {
-        foreach(CharacterSheet character in quest.adventuring_party.party_members)
+        foreach(CharacterSheet character in quest.PartyMembers)
         {
             freeAdventurers.Remove(character);
             questingAdventurers.Add(character);
@@ -56,7 +56,7 @@ public class CharacterSheetManager : MonoBehaviour
 
     public void PartyBackFromQuest(object src, QuestSheet quest)
     {
-        foreach(CharacterSheet character in quest.adventuring_party.party_members)
+        foreach(CharacterSheet character in quest.PartyMembers)
         {
             questingAdventurers.Remove(character);
             freeAdventurers.Add(character);

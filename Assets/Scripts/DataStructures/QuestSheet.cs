@@ -8,7 +8,7 @@ public class QuestSheet
 	public string questDescription { get; private set; }
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
-	public PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
+	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
 	public int partySize { get; private set; } //how many adventurers can be assigned to a quest
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
@@ -20,7 +20,7 @@ public class QuestSheet
 
 	public List<EventNode> visitedNodes;
 
-	//public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
+	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 	public string questRecap;
 
 	/// <summary>
@@ -73,9 +73,9 @@ public class QuestSheet
 			switch (returnMessage.objectiveComplete)
 			{
 				case true:
-					foreach (Storylet.IntChange change in currentConnection.successIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
-					foreach (Storylet.StateChange change in currentConnection.successStateChange) { worldStateManager.ChangeWorldState(change.name, change.state); }
-					foreach (Storylet.ValueChange change in currentConnection.successValueChange) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					foreach (Storylet.IntChange change in currentConnection.successIntChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.successStateChange) { Debug.Log($"{change.name} changed {change.state}"); worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.successValueChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
 					break;
 				case false:
 					foreach (Storylet.IntChange change in currentConnection.failIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
