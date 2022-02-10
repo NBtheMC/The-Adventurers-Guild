@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: CrossLake
+  m_Name: HaggleWithTroll
   m_EditorClassIdentifier: 
-  description: Cross the lake
-  stat: exploration
-  DC: 3
-  time: 0
+  description: Haggle with Troll
+  stat: diplomacy
+  DC: 10
+  time: 1
   Reward: 0
-  successNode: {fileID: 0}
+  successNode: {fileID: 11400000, guid: 58088f74a7c5b5647998cae3c41fe159, type: 2}
   successString: 
   successIntChange: []
   successValueChange: []

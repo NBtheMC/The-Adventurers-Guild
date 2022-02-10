@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: RivalGuildOpens
+  m_Name: StoryletRivalGuildOpens
   m_EditorClassIdentifier: 
   questName: Rival Guild Opens
-  eventHead: {fileID: 11400000, guid: d382f7b2b10ead742bfddd7a37d05536, type: 2}
+  eventHead: {fileID: 11400000, guid: a001fd69b8eaa0642b07194a46f5bb63, type: 2}
   triggerInts: []
   triggerValues: []
   triggerStates:
   - name: RivalGuildOpen
-    state: 1
+    state: 0
   canBeInstanced: 0
-  numInstances: 0
+  numInstances: 1
   triggerIntChanges: []
   triggerValueChanges: []
   triggerStateChanges: []
