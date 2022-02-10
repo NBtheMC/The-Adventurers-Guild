@@ -51,8 +51,8 @@ public class PartySheet
         return statTotal;
     }
 
-    public void UpdateRelationshipStory(string relationshipSubstory){
-        relationshipNarrative.Add(relationshipSubstory);
+    public void UpdateRelationshipStory(List<string> relationshipSubstory){
+        relationshipNarrative.AddRange(relationshipSubstory);
         return;
     }
 
