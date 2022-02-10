@@ -27,19 +27,7 @@ public class CharacterPoolController : MonoBehaviour
         lastPlacedRow = maxColSize;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
-	}
-
-	// Start is called before the first frame update
-	void Start()
-    {
-        foreach(CharacterSheet character in characterManager.FreeAdventurers)
-        {
-            activeRole.Add(character);
-            
-        }
-        RefreshCharacterPool();
-
-        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterChange += CharacterPoolController_RosterChange;
+        characterManager.RosterChange += CharacterPoolController_RosterChange;
     }
 
     private void CharacterPoolController_RosterChange(object source, System.EventArgs e)

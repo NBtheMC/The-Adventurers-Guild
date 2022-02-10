@@ -36,6 +36,8 @@ public class CharacterSheetManager : MonoBehaviour
             else
                 unhiredAdventurers.Add(charSheet);
         }
+
+        RosterChange(this, EventArgs.Empty);
     }
 
     private void Start()
@@ -44,7 +46,7 @@ public class CharacterSheetManager : MonoBehaviour
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
     }
 
-    public void SendPartyOnQuest(object src, QuestSheet quest)
+    private void SendPartyOnQuest(object src, QuestSheet quest)
     {
         foreach(CharacterSheet character in quest.PartyMembers)
         {
@@ -54,7 +56,7 @@ public class CharacterSheetManager : MonoBehaviour
         RosterChange(this, EventArgs.Empty);
     }
 
-    public void PartyBackFromQuest(object src, QuestSheet quest)
+    private void PartyBackFromQuest(object src, QuestSheet quest)
     {
         foreach(CharacterSheet character in quest.PartyMembers)
         {
