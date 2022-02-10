@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1587955584883015229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1380927814502278145}
+  m_Layer: 5
+  m_Name: Drop Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1380927814502278145
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587955584883015229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5698263808483506548}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 230, y: 420}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5698263807963789023
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +324,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5698263809420594479}
+  - {fileID: 1380927814502278145}
   m_Father: {fileID: 5698263808138649697}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -397,10 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e70aa3fcca063848947569673249479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questBannerPrefab: {fileID: 8827295751350047168, guid: 98be3eb56f6a2cb419da84eda0b5a9a0, type: 3}
-  dropHandler: {fileID: 0}
-  QuestDisplay: {fileID: 5698263808138649701}
-  questListContent: {fileID: 3012300156025316478}
 --- !u!1 &5698263809420594478
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,11 +796,6 @@ PrefabInstance:
 --- !u!224 &3012300156728963244 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8865451746118314393, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
-  m_PrefabInstance: {fileID: 5964382652756744501}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3012300156025316478 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8865451745748155723, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
   m_PrefabInstance: {fileID: 5964382652756744501}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6420725363744243860

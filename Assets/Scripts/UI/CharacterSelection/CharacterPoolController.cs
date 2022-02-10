@@ -18,6 +18,8 @@ public class CharacterPoolController : MonoBehaviour
 
     private CharacterSheetManager characterManager;
 
+    private Transform dropPoints;
+
 	private void Awake()
 	{
         visibleDropAreas = new List<(GameObject dropPoint, GameObject character)>();
@@ -27,6 +29,8 @@ public class CharacterPoolController : MonoBehaviour
         lastPlacedRow = maxColSize;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
+
+        dropPoints = this.transform.Find("Drop Points");
 	}
 
 	// Start is called before the first frame update
@@ -84,8 +88,8 @@ public class CharacterPoolController : MonoBehaviour
     private void GenerateNewDropPair(CharacterSheet characterToPair)
 	{
         // Makes a new drop point and a new character.
-        GameObject newDropPoint = Instantiate(sampleDropPoint,this.transform);
-        GameObject newCharacter = Instantiate(sampleCharacter, this.transform);
+        GameObject newDropPoint = Instantiate(sampleDropPoint, dropPoints);
+        GameObject newCharacter = Instantiate(sampleCharacter, dropPoints);
 
         // Adds both references to our internal tracking script.
         visibleDropAreas.Add((newDropPoint, newCharacter));
