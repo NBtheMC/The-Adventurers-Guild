@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,18 +6,17 @@ using UnityEngine;
 public class QuestBanner : MonoBehaviour
 {
 
-    public QuestSheet questSheet;
-    public DropHandler dropHandler;
-    public GameObject QuestDisplay;
-
-    public GameObject questUIPrefab; // QuestUI prefab to display
+    [HideInInspector] public QuestSheet questSheet;
+    private GameObject QuestDisplay;
+    private GameObject questUIPrefab; // QuestUI prefab to display
 
 
     // Start is called before the first frame update
     public void Start()
     {
-        dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
         QuestDisplay = GameObject.Find("QuestDisplay");
+        questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += RemoveQuestBanner;
     }
 
     public void displayQuestUI()
@@ -32,13 +32,11 @@ public class QuestBanner : MonoBehaviour
         //pass quest info to quest UI
         QuestUI questUI = questUIObj.GetComponent<QuestUI>();
         questUI.SetupQuestUI(questSheet);
-        questUI.questBanner = this.gameObject;
+    }
 
-        //add drop points from quest UI to DropHandler
-        Transform party = questUIObj.transform.Find("Canvas/Party");
-        foreach (Transform child in party)
-        {
-            dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
-        }
+    public void RemoveQuestBanner(object source, EventArgs e)
+    {
+        Destroy(this.gameObject);
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted -= RemoveQuestBanner;
     }
 }

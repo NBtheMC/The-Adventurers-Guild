@@ -1,42 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestDisplayManager : MonoBehaviour
 {
-    public GameObject questUIPrefab;
-    public DropHandler dropHandler;
-    public GameObject QuestDisplay;
+    private GameObject questBannerPrefab;
+    private GameObject questListContent;
     // Start is called before the first frame update
     void Start()
     {
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestAdded += GenerateQuestDisplayUI;
+        questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
+        questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
     }
 
     public void GenerateQuestDisplayUI(object source, QuestSheet quest)
     {
-        //create questUI object and attach it to this questsheet
-        Debug.Log("Making UI Element");
-        GameObject newQuest = Instantiate(questUIPrefab); //add position to this later
+        Debug.Log("Making Quest Banner");
+        GameObject newQuest = Instantiate(questBannerPrefab);
+        //add questBanner obj to questListContent
+        newQuest.transform.SetParent(questListContent.transform, false);
+        //pass questSheet to questBanner
+        newQuest.GetComponent<QuestBanner>().questSheet = quest;
+        //set banner text
+        newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
 
-        //add quest to QuestDisplay canvas
-        newQuest.transform.parent = QuestDisplay.transform;
-        newQuest.transform.localPosition = new Vector3(-100, 100, 0);
-
-        //move to top of child object hierarchy for rendering order reasons
-        newQuest.transform.SetAsFirstSibling();
-
-        //pass quest info to quest UI
-        QuestUI questUI = newQuest.GetComponent<QuestUI>();
-        questUI.SetupQuestUI(quest);
-
-        //add drop points from quest UI to DropHandler
-        Transform party = newQuest.transform.Find("Canvas/Party");
-        foreach (Transform child in party)
-        {
-            dropHandler.AddDropPoint(child.gameObject.GetComponent<ObjectDropPoint>());
-        }
-
-        Debug.Log("Done making UI Element");
+        Debug.Log("Done making Quest Banner");
     }
 }
