@@ -11,6 +11,8 @@ public class CharacterObject : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private GameObject QuestDisplay;
 
     private GameObject CharInfoUIPrefab;
+    public float movementDelta = 0;
+    private Vector3 clickPos;
 
     public void Start()
     {
@@ -19,8 +21,12 @@ public class CharacterObject : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     }
     public void Update()
     {
-        //if we're dragging something, don't display character info when we release it
-        if(mouseDown && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
+        //calculate change in position from when we clicked
+        float deltaX = Input.mousePosition.x - clickPos.x;
+        float deltaY = Input.mousePosition.y - clickPos.y;
+
+        //if change in position is too big, don't display character info
+        if(mouseDown && (Mathf.Abs(deltaX) > movementDelta || Mathf.Abs(deltaY) > movementDelta))
             canDisplay = false;
     }
 
@@ -28,6 +34,7 @@ public class CharacterObject : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData pointerEventData)
     {
         mouseDown = true;
+        clickPos = Input.mousePosition;
     }
 
     //Detect if clicks are no longer registering
