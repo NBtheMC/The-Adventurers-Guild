@@ -257,7 +257,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerValue.name}"); break;  }
+				if (!validStorylet) { break;  }
 			}
 
 			// if this is not a valid storylet, keep searching
@@ -267,7 +267,7 @@ public class WorldStateManager : MonoBehaviour
 			foreach (Storylet.TriggerState triggerState in storylet.triggerStates)
 			{
 				// Check if the trigger state matches the world state.
-				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; Debug.Log($"Checking {storylet.name}. Failed on {triggerState.name}"); break; }
+				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
 			}
 
 			if (!validStorylet) { continue;}
@@ -302,7 +302,7 @@ public class WorldStateManager : MonoBehaviour
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
 			if (!validStorylet) { continue; }
-			else { validStorylets.Add(storylet); Debug.Log($"Storylet {storylet.questName} works."); }
+			else { validStorylets.Add(storylet); }
 		}
 
 		// goes through the list of valid storylets and triggers them.
@@ -333,10 +333,8 @@ public class WorldStateManager : MonoBehaviour
 			// This will need to change depending on  how Parm codes the new questing manager.
 			QuestSheet newQuest = new QuestSheet(storylet.eventHead,storylet.questName);
 
-
-			//questingManager.bankedQuests.Add(newQuest);
+			// Adds a quest
 			questingManager.AddQuest(newQuest);
-			// Added a quest.
 		}
 	}
 }

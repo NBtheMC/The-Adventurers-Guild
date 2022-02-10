@@ -39,8 +39,6 @@ public class QuestingManager : MonoBehaviour
     public void AdvanceAllQuests(object source, GameTime gameTime)
     {
         List<QuestSheet> markForDeletion = new List<QuestSheet>();
-
-        Debug.Log(activeQuests.Count);
         foreach (QuestSheet quest in activeQuests)
         {
             quest.advancebyTick();
