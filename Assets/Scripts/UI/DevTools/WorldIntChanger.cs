@@ -36,12 +36,13 @@ namespace StoryletTesting {
             // Sets a listener for an event.
             inputField.onEndEdit.AddListener(UpdateWorldValueFromInput);
             currentSlider.onValueChanged.AddListener(UpdateWorldValue);
-
+            theWorld.IntChangeEvent+=(UpdateFromWorld);
         }
 
-		private void Update()
+		private void UpdateFromWorld(object sender, string decider)
 		{
-            // Temporary fix until we seperate world state manager from the UI.
+            if(decider != worldStat) { return; }
+
             value = theWorld.GetWorldInt(worldStat);
 
 			// changes the value to the string.
@@ -50,9 +51,9 @@ namespace StoryletTesting {
 			// Change the bounds on the slider if it needs to be changed.
 			if (value > currentSlider.maxValue) { currentSlider.maxValue = value; }
             else if(value < currentSlider.minValue) { currentSlider.minValue = value; }
+
             // Change the value on the slider itself.
 			currentSlider.value = value;
-
 		}
 
         public void UpdateWorldValueFromInput(string input)

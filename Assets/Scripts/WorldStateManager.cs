@@ -29,6 +29,11 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the TimeSystem.
 	public TimeSystem timeSystem;
 
+	// A bunch of events for when the WorldStateManager updates itself.
+	public event EventHandler<string> IntChangeEvent;
+	public event EventHandler<string> StateChangeEvent;
+	public event EventHandler<string> FloatChangeEvent;
+
     void Awake()
     {
         worldValues = new Dictionary<string, WorldValue>();
@@ -78,7 +83,8 @@ public class WorldStateManager : MonoBehaviour
 			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
 		}
         else { worldValues[name].value = value; }
-    }
+		FloatChangeEvent?.Invoke(this, name);
+	}
 
     /// <summary>
     /// Adds a new World State to the World State Manager
@@ -108,7 +114,8 @@ public class WorldStateManager : MonoBehaviour
         {
             worldStates[name].state = state;
         }
-    }
+		StateChangeEvent?.Invoke(this, name);
+	}
 
 	public void AddWorldInt(string name, int value)
 	{
@@ -131,6 +138,7 @@ public class WorldStateManager : MonoBehaviour
 		{
 			worldInts[name].value = value;
 		}
+		IntChangeEvent?.Invoke(this, name);
 	}
 
 
@@ -145,6 +153,7 @@ public class WorldStateManager : MonoBehaviour
         if (!worldValues.ContainsKey(name)) { AddWorldValue(name, value); }
         else if (set) { worldValues[name].value = value; }
 		else { worldValues[name].value += value;}
+		FloatChangeEvent?.Invoke(this, name);
 	}
 
 	/// <summary>
@@ -156,6 +165,7 @@ public class WorldStateManager : MonoBehaviour
 	{
 		if (!worldStates.ContainsKey(name)) { AddWorldState(name, value); Debug.Log($"Failed to find {name} in worldState, perhaps not already created"); }
 		else { worldStates[name].state = value; }
+		StateChangeEvent?.Invoke(this, name);
 	}
 
 	/// <summary>
@@ -169,6 +179,7 @@ public class WorldStateManager : MonoBehaviour
 		if (!worldInts.ContainsKey(name)) { AddWorldInt(name, value); Debug.Log($"Failed to find {name} in worldState, perhaps not already created"); }
 		else if (set) { worldInts[name].value = value; }
 		else { worldInts[name].value += value; }
+		IntChangeEvent?.Invoke(this, name);
 	}
 
     public float GetWorldValue(string key)
@@ -257,7 +268,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerValue.name}"); break;  }
+				if (!validStorylet) { break;  }
 			}
 
 			// if this is not a valid storylet, keep searching
@@ -267,7 +278,7 @@ public class WorldStateManager : MonoBehaviour
 			foreach (Storylet.TriggerState triggerState in storylet.triggerStates)
 			{
 				// Check if the trigger state matches the world state.
-				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; Debug.Log($"Checking {storylet.name}. Failed on {triggerState.name}"); break; }
+				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
 			}
 
 			if (!validStorylet) { continue;}
@@ -302,7 +313,7 @@ public class WorldStateManager : MonoBehaviour
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
 			if (!validStorylet) { continue; }
-			else { validStorylets.Add(storylet); Debug.Log($"Storylet {storylet.questName} works."); }
+			else { validStorylets.Add(storylet); }
 		}
 
 		// goes through the list of valid storylets and triggers them.
@@ -333,10 +344,8 @@ public class WorldStateManager : MonoBehaviour
 			// This will need to change depending on  how Parm codes the new questing manager.
 			QuestSheet newQuest = new QuestSheet(storylet.eventHead,storylet.questName);
 
-
-			//questingManager.bankedQuests.Add(newQuest);
+			// Adds a quest
 			questingManager.AddQuest(newQuest);
-			// Added a quest.
 		}
 	}
 }

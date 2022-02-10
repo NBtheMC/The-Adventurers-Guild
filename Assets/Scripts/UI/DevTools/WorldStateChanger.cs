@@ -24,10 +24,14 @@ namespace StoryletTesting
 
             // Sets the title to the the string of the stat.
             text.text = worldStat;
+
+            // Add an listener for world events.
+            theWorld.StateChangeEvent += UpdateFromWorld;
         }
 
-		private void Update()
+		private void UpdateFromWorld(object sender, string inputName)
 		{
+            if (inputName != worldStat) { return; }
             value = theWorld.GetWorldState(worldStat);
             buttonText.text = "is: " + value;
 		}

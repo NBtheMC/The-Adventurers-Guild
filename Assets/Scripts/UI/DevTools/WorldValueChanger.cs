@@ -32,10 +32,16 @@ namespace StoryletTesting
             // Sets a listener for an event.
             inputField.onEndEdit.AddListener(UpdateWorldValueFromInput);
             currentSlider.onValueChanged.AddListener(UpdateWorldValue);
+
+            theWorld.FloatChangeEvent += UpdateFromWorld;
         }
 
-        private void Update()
+        private void UpdateFromWorld(object sender, string inputName)
         {
+            if (inputName != worldStat) { return; }
+
+            value = theWorld.GetWorldValue(worldStat);
+
             // changes the value to the string.
             valueText.text = value.ToString();
 
