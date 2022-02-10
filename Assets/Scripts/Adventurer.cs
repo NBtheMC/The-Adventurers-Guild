@@ -5,6 +5,7 @@ using UnityEngine;
 //Handles all processing of social models
 public class Adventurer : MonoBehaviour
 {
+    public CharacterSheet characterSheet; //an adventurer's associated charactersheet
     //Relationships with others combined with a strength
     //if another adventurer isn't in this list, their relationship is neutral
     public IDictionary<Adventurer, int> friendships; //number between -10 and 10

@@ -23,8 +23,6 @@ public class Storylet : ScriptableObject
 		GreaterThanEqualTo = 2,
 	}
 
-	[SerializeField] public string description;
-
 	// TriggerInt tells a Storylet what world intergers to trigger on.
 	[System.Serializable] public struct TriggerInt { public string name; public int value; public NumberTriggerType triggerType; }
 

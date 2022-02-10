@@ -38,6 +38,7 @@ public class QuestSheet
 		partySize = partySize_input;
 
         visitedNodes = new List<EventNode>();
+
 	}
 
 	/// <summary>
@@ -47,20 +48,6 @@ public class QuestSheet
 	public void assignParty(PartySheet partyInput)
 	{
 		adventuring_party = partyInput;
-	}
-
-	public int EstimatedRewardTotal(){
-		return MaxReward(headConnection, 0);
-	}
-
-	// Calculates the reward if party succeeds. change later
-	private int MaxReward(EventNode currentNode, int previousTotal)
-	{
-		if(currentNode == null){
-			return previousTotal;
-		}
-		int countingTotal = previousTotal + currentNode.Reward;
-		return MaxReward(currentNode.successNode, countingTotal);
 	}
 
 	/// <summary>
@@ -76,6 +63,8 @@ public class QuestSheet
 
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
+			accumutatedGold += returnMessage.givenReward;
+			adventuring_party.UpdateRelationshipStory(returnMessage.);
             visitedNodes.Add(currentConnection);
 
 			// Changes the world based on Event Package
@@ -131,6 +120,28 @@ public class QuestSheet
 		currentEvent.stat = currentConnection.stat;
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
+	}
+
+	public int EstimatedRewardTotal(){
+		return MaxReward(headConnection, 0);
+	}
+
+	// Calculates the reward if party succeeds. change later
+	private int MaxReward(EventNode currentNode, int previousTotal)
+	{
+		if(currentNode == null){
+			return previousTotal;
+		}
+		int countingTotal = previousTotal + currentNode.Reward;
+		return MaxReward(currentNode.successNode, countingTotal);
+	}
+
+	public string GenerateEventText(){
+		string eventResults = "";
+		foreach(EventNode e in visitedNodes){
+			eventResults += (" " + e.resultsString);
+		}
+		return eventResults;
 	}
 
 	// all the stuff a quest needs to show
