@@ -17,13 +17,15 @@ public class QuestReturnUI : MonoBehaviour
         GameObject returnBox = Instantiate(prefab);
         returnBox.transform.Find("Canvas").Find("OkButton").GetComponent<Button>().onClick.AddListener(delegate { DeleteReturnBox(returnBox); });
 
-        Text adventurerText = returnBox.transform.Find("Canvas").Find("AdventurerRecap").GetComponent<Text>();
         Text eventText = returnBox.transform.Find("Canvas").Find("EventRecap").GetComponent<Text>();
 
-        for (int i = 0; i < questSheet.visitedNodes.Count; i++)
-        {
-            eventText.text += i + ") Node Type: " + questSheet.visitedNodes[i].ToString() + "\n";
-        }
+        // for (int i = 0; i < questSheet.visitedNodes.Count; i++)
+        // {
+        //     eventText.text += i + ") Node Type: " + questSheet.visitedNodes[i].ToString() + "\n";
+        // }
+
+        Text adventurerText = returnBox.transform.Find("Canvas").Find("AdventurerRecap").GetComponent<Text>();
+        adventurerText.text = questSheet.GetQuestRecap();
     }
 
     public void DeleteReturnBox(GameObject gameObject)

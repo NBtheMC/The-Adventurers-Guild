@@ -15,8 +15,13 @@ public class QuestSheet
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
+	public WorldStateManager worldStateManager;
 
-    public List<EventNode> visitedNodes;
+
+	public List<EventNode> visitedNodes;
+
+	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
+	public string questRecap;
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -34,6 +39,7 @@ public class QuestSheet
 		partySize = partySize_input;
 
         visitedNodes = new List<EventNode>();
+		questRecap = "";
 	}
 
 	/// <summary>
@@ -43,20 +49,6 @@ public class QuestSheet
 	public void assignParty(PartySheet partyInput)
 	{
 		adventuring_party = partyInput;
-	}
-
-	public int EstimatedRewardTotal(){
-		return MaxReward(headConnection, 0);
-	}
-
-	// Calculates the reward if party succeeds. change later
-	private int MaxReward(EventNode currentNode, int previousTotal)
-	{
-		if(currentNode == null){
-			return previousTotal;
-		}
-		int countingTotal = previousTotal + currentNode.Reward;
-		return MaxReward(currentNode.successNode, countingTotal);
 	}
 
 	/// <summary>
@@ -72,7 +64,25 @@ public class QuestSheet
 
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
+			accumutatedGold += returnMessage.givenReward;
+			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
             visitedNodes.Add(currentConnection);
+			questRecap += (" and " + returnMessage.resultsString);
+
+			// Changes the world based on Event Package
+			switch (returnMessage.objectiveComplete)
+			{
+				case true:
+					foreach (Storylet.IntChange change in currentConnection.successIntChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.successStateChange) { Debug.Log($"{change.name} changed {change.state}"); worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.successValueChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					break;
+				case false:
+					foreach (Storylet.IntChange change in currentConnection.failIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.failStateChange) { worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.failValueChange) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					break;
+			}
 
 			// Progress to the next event.
 			if (returnMessage.nextEvent != null)
@@ -113,6 +123,32 @@ public class QuestSheet
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
 	}
+
+	public int EstimatedRewardTotal(){
+		return MaxReward(headConnection, 0);
+	}
+
+	// Calculates the reward if party succeeds. change later
+	private int MaxReward(EventNode currentNode, int previousTotal)
+	{
+		if(currentNode == null){
+			return previousTotal;
+		}
+		int countingTotal = previousTotal + currentNode.Reward;
+		return MaxReward(currentNode.successNode, countingTotal);
+	}
+
+	public string GetQuestRecap(){
+		return questRecap;
+	}
+
+	// public string GenerateEventText(){
+	// 	string eventResults = "";
+	// 	foreach(EventNode e in visitedNodes){
+	// 		eventResults += (" " + e.resultsString);
+	// 	}
+	// 	return eventResults;
+	// }
 
 	// all the stuff a quest needs to show
 	// used at start and end of quest

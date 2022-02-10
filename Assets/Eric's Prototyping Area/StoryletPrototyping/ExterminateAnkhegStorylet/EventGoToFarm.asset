@@ -14,7 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: stamina
   DC: 12
-  time: 10
+  time: 2
   Reward: 0
   successNode: {fileID: 11400000, guid: ef846689edc1f054998bb9a60d715c75, type: 2}
+  successString: 
+  successIntChange: []
+  successValueChange: []
+  successStateChange: []
   failureNode: {fileID: 11400000, guid: 6fd9d7b2c469bc84bbee4ef6fd516cbe, type: 2}
+  failureString: 
+  failIntChange: []
+  failValueChange: []
+  failStateChange: []
+  resultsString: 

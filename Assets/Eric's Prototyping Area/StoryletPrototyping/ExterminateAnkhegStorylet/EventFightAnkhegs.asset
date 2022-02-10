@@ -14,7 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: combat
   DC: 15
-  time: 10
+  time: 2
   Reward: 0
   successNode: {fileID: 11400000, guid: 6fd9d7b2c469bc84bbee4ef6fd516cbe, type: 2}
+  successString: 
+  successIntChange:
+  - name: NumberOfAnkhegs
+    value: -5
+    set: 0
+  successValueChange:
+  - name: AnkhegPercievedThreat
+    value: -0.1
+    set: 0
+  successStateChange: []
   failureNode: {fileID: 11400000, guid: 6fd9d7b2c469bc84bbee4ef6fd516cbe, type: 2}
+  failureString: 
+  failIntChange: []
+  failValueChange:
+  - name: AnkhegPercievedThreat
+    value: 0.3
+    set: 0
+  failStateChange: []
+  resultsString: 

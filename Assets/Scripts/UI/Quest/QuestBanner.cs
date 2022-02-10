@@ -34,7 +34,7 @@ public class QuestBanner : MonoBehaviour
         questUI.SetupQuestUI(questSheet);
     }
 
-    public void RemoveQuestBanner(object source, EventArgs e)
+    public void RemoveQuestBanner(object source, QuestSheet e)
     {
         Destroy(this.gameObject);
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted -= RemoveQuestBanner;

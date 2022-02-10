@@ -15,7 +15,7 @@ public class CharacterSheetManager : MonoBehaviour
     public IReadOnlyCollection<CharacterSheet> QuestingAdventurers { get { return questingAdventurers.AsReadOnly(); } }
     public IReadOnlyCollection<CharacterSheet> DeadAdventurers { get { return deadAdventurers.AsReadOnly(); } }
 
-    public event EventHandler RosterChange;
+    public event EventHandler<EventArgs> RosterChange;
 
     private void Awake()
     {
@@ -38,19 +38,25 @@ public class CharacterSheetManager : MonoBehaviour
         }
     }
 
-    public void SendPartyOnQuest(PartySheet party)
+    private void Start()
     {
-        foreach(CharacterSheet character in party.Party_Members)
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += PartyBackFromQuest;
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
+    }
+
+    public void SendPartyOnQuest(object src, QuestSheet quest)
+    {
+        foreach(CharacterSheet character in quest.PartyMembers)
         {
             freeAdventurers.Remove(character);
             questingAdventurers.Add(character);
         }
-        //RosterChange(this, EventArgs.Empty);
+        RosterChange(this, EventArgs.Empty);
     }
 
-    public void PartyBackFromQuest(PartySheet party)
+    public void PartyBackFromQuest(object src, QuestSheet quest)
     {
-        foreach(CharacterSheet character in party.Party_Members)
+        foreach(CharacterSheet character in quest.PartyMembers)
         {
             questingAdventurers.Remove(character);
             freeAdventurers.Add(character);

@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public GameObject selectedAdventurer;
+    public enum Scene{
+        Menu,
+        Questing,
+        Recap
+    };
 
     void Awake(){
         Instance = this;
@@ -20,21 +25,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Clicking/Dragging Adventurer
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
-        {
-            Collider2D targetObject = Physics2D.OverlapPoint(mousePosition);
-            //SELECTING
-            if (targetObject.transform.GetComponent<Adventurer>())
-            {
-                selectedAdventurer = targetObject.transform.gameObject;
-            }
-        }
-        //DESELECTING
-        if (Input.GetMouseButtonUp(0) && selectedAdventurer != null)
-        {
-            selectedAdventurer = null;
+        
+    }
+
+    public void ChangeScenes(string toSwitchTo){
+        switch (toSwitchTo){
+            case "Menu":
+                break;
+            case "Questing":
+                SceneManager.LoadScene("MainUIScreen");
+                break;
+            case "Recap":
+                break;
         }
     }
 }

@@ -131,10 +131,12 @@ public class QuestUI : MonoBehaviour
                 characterPool.removeMember(charSheet);
             }
         }
-        charSheetManager.SendPartyOnQuest(partyToSend);
-
+        
         //assign partyToSend to the current quest
         attachedSheet.assignParty(partyToSend);
+
+        charSheetManager.SendPartyOnQuest(this,attachedSheet);
+
         questingManager.StartQuest(attachedSheet);
 
         DestroyUI();
