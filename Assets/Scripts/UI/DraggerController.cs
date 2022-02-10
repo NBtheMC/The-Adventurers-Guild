@@ -29,6 +29,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 	{
         // Keeps character locked to their drop point as long as it's not being dragged.
         if (beingDragged == false) { transformer.position = objectDropPoint.GetComponent<RectTransform>().position; }
+        //this.transform.parent.transform.SetAsLastSibling();
 	}
 
     void Start()
@@ -45,6 +46,8 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     {
         Debug.Log("Begin Drag");
         beingDragged = true;
+
+        this.transform.parent.gameObject.transform.parent.SetAsLastSibling();
     }
 
     /// <summary>
