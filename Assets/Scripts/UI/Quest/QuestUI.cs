@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 //Takes in new quests and creates them on screen as UI objects
-public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler
+public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerClickHandler
 {
     private QuestSheet attachedSheet;
     private Transform attachedObject;
@@ -128,7 +128,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
             if (character)
             {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterObject>().characterSheet;
+                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterInfoDisplay>().characterSheet;
                 //add character to party sheet and remove from the character pool
                 partyToSend.addMember(charSheet);
                 characterPool.removeMember(charSheet);
@@ -179,6 +179,11 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler
     /// </summary>
     /// <param name="eventData"></param>
     public void OnBeginDrag(PointerEventData eventData)
+    {
+        this.transform.SetAsLastSibling();
+    }
+
+    public void OnPointerClick(PointerEventData pointerEventData)
     {
         this.transform.SetAsLastSibling();
     }

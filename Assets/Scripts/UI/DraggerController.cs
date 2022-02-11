@@ -19,10 +19,12 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public static event OnDropCharacter onDropCharacter;
 
     private bool beingDragged = false;
+    private Transform QuestDisplayTransform;
 
     void Awake()
     {
         transformer = this.GetComponent<RectTransform>();
+        QuestDisplayTransform = GameObject.Find("QuestDisplayManager/QuestDisplay").transform;
     }
 
     void Update()
@@ -47,7 +49,8 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         Debug.Log("Begin Drag");
         beingDragged = true;
 
-        this.transform.parent.gameObject.transform.parent.SetAsLastSibling();
+        //this.transform.parent.gameObject.transform.parent.SetAsLastSibling();
+        this.transform.SetParent(QuestDisplayTransform);
     }
 
     /// <summary>
@@ -73,6 +76,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             Debug.Log("Successful Drop");
 		}
 		transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
+        this.transform.SetParent(objectDropPoint.transform);
         
     }
 

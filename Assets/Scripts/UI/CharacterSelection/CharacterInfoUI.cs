@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler
+public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerClickHandler
 {
     private Text characterName;
     private Text combat;
@@ -36,7 +36,7 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler
 
     public void DestroyUI()
     {
-        charObj.GetComponent<CharacterObject>().isDisplayed = false;
+        charObj.GetComponent<CharacterInfoDisplay>().isDisplayed = false;
         Destroy(this.gameObject);
     }
 
@@ -57,6 +57,11 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("Dragging");
-        transformer.position += new Vector3(eventData.delta.x,eventData.delta.y);
+        transformer.position += new Vector3(eventData.delta.x, eventData.delta.y);
+    }
+
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        this.transform.SetAsLastSibling();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CharacterObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public CharacterSheet characterSheet; //refernce to associated CharacterSheet
     private bool canDisplay = true; //Can we display character info when clicked on?
