@@ -119,7 +119,7 @@ public class QuestSheet
 	{
 		EventInfo currentEvent;
 		currentEvent.description = "Event description"; //placeholder text
-		currentEvent.stat = currentConnection.stat;
+		currentEvent.stat = currentConnection.stat.ToString();
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
 	}

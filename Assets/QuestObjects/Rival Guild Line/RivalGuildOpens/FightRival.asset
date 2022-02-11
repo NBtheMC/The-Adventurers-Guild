@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FightRival
   m_EditorClassIdentifier: 
   description: They say you have to fight to the death
-  stat: combat
+  stat: 1
   DC: 12
   time: 1
   Reward: 15

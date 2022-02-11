@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TalkWithRival
   m_EditorClassIdentifier: 
   description: Go talk to the rival guildmaster :)
-  stat: diplomacy
+  stat: 3
   DC: 10
   time: 2
   Reward: 10

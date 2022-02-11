@@ -14,12 +14,10 @@ public class EventNode: ScriptableObject
 {
 	public string description; //what the event is
 
-	public string stat; // the stat to be checked against. Should correspond with PartySheet
+	public CharacterSheet.StatDescriptors stat; // the stat to be checked against. Should correspond with PartySheet
 	public int DC; //stat to be checked against also used for experience given eventually
 	public int time; // How many ticks before the DC check is triggered
 	public int Reward;
-
-	public enum StatDescriptors { Combat = 1, Exploration = 2, Negotiation = 3, Stamina = 4}
 
 	// All the things that happen when we're successful.
 	public EventNode successNode;
@@ -55,29 +53,6 @@ public class EventNode: ScriptableObject
 		public List<string> relationshipsUpdate = new List<string>(); //relationships update
 		public string resultsString; //what actually happened
 		//TODO Adventurer levelling
-	}
-
-	/// <summary>
-	/// Default Constructor, sets everything to zero.
-	/// </summary>
-	public EventNode()
-	{
-		stat = "";
-		DC = 0;
-		time = 0;
-	}
-
-	/// <summary>
-	/// Standard Constructor, used to initilize certain variables.
-	/// </summary>
-	/// <param name="statInput">Name of the stat to be checked against</param>
-	/// <param name="DCInput">What the difficulty it.</param>
-	/// <param name="timeInput">How much time to pass before checking.</param>
-	public EventNode(string statInput, int DCInput, int timeInput)
-	{
-		stat = statInput;
-		DC = DCInput;
-		time = timeInput;
 	}
 
 	public EventPackage resolveEvent(PartySheet adventurers)

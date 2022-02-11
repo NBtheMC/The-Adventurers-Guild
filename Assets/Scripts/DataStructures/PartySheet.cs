@@ -41,7 +41,7 @@ public class PartySheet
     /// </summary>
     /// <param name="stat">A string of what stat it is.</param>
     /// <returns>The Summed stat.</returns>
-    public int getStatSummed(string stat)
+    public int getStatSummed(CharacterSheet.StatDescriptors stat)
     {
         int statTotal = 0;
         foreach (CharacterSheet adventurer in party_members)
