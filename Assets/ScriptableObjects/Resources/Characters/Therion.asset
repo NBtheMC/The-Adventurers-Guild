@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
   m_Name: Therion
   m_EditorClassIdentifier: 
-  characterName: 
-  hiredAtStart: 0
-  combat: 0
-  exploration: 0
-  diplomacy: 0
-  stamina: 0
+  characterName: Therion
+  hiredAtStart: 1
+  combat: 2
+  exploration: 12
+  diplomacy: 12
+  stamina: 12

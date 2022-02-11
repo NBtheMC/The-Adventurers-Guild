@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: WalktoDragon
   m_EditorClassIdentifier: 
-  stat: stamina
+  description: 
+  stat: 4
   DC: 5
   time: 2
   Reward: 0
   successNode: {fileID: 11400000, guid: a38c9ab2faecc7c4fa9bc164fd37e7cb, type: 2}
   successString: 
+  successIntChange: []
+  successValueChange: []
+  successStateChange: []
   failureNode: {fileID: 11400000, guid: 728d5881341c67d4b840b44ceb8e1f4e, type: 2}
   failureString: 
-  resultsString: 
+  failIntChange: []
+  failValueChange: []
+  failStateChange: []

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: EventFightAnkhegs
   m_EditorClassIdentifier: 
-  stat: combat
+  description: 
+  stat: 1
   DC: 15
   time: 2
   Reward: 0
@@ -35,4 +36,3 @@ MonoBehaviour:
     value: 0.3
     set: 0
   failStateChange: []
-  resultsString: 

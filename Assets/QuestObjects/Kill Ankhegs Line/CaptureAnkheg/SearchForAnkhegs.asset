@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SearchForAnkhegs
   m_EditorClassIdentifier: 
   description: 
-  stat: 
+  stat: 2
   DC: 0
   time: 0
   Reward: 0

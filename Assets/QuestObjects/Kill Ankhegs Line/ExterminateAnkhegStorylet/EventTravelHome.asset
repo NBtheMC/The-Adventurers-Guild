@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: EventTravelHome
   m_EditorClassIdentifier: 
-  stat: stamina
+  description: 
+  stat: 4
   DC: 5
   time: 2
   Reward: 0
@@ -26,4 +27,3 @@ MonoBehaviour:
   failIntChange: []
   failValueChange: []
   failStateChange: []
-  resultsString: 

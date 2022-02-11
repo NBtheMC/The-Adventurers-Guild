@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EventSearchForAnkhegs
   m_EditorClassIdentifier: 
   description: 
-  stat: exploration
+  stat: 2
   DC: 12
   time: 2
   Reward: 0

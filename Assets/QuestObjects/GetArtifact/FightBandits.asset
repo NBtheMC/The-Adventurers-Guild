@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FightBandits
   m_EditorClassIdentifier: 
   description: Bandits stole the shit... bruh
-  stat: combat
+  stat: 1
   DC: 12
   time: 1
   Reward: 17

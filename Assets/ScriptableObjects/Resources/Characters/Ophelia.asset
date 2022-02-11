@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
   m_Name: Ophelia
   m_EditorClassIdentifier: 
-  characterName: 
-  hiredAtStart: 0
-  combat: 0
-  exploration: 0
-  diplomacy: 0
-  stamina: 0
+  characterName: Ophelia
+  hiredAtStart: 1
+  combat: 10
+  exploration: 3
+  diplomacy: 10
+  stamina: 7

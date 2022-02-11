@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HaggleWithTroll
   m_EditorClassIdentifier: 
   description: Haggle with Troll
-  stat: diplomacy
+  stat: 3
   DC: 10
   time: 1
   Reward: 0

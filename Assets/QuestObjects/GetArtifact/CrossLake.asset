@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CrossLake
   m_EditorClassIdentifier: 
   description: Cross the lake
-  stat: exploration
+  stat: 4
   DC: 3
   time: 0
   Reward: 0
