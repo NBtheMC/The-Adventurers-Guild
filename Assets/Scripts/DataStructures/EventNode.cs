@@ -19,6 +19,7 @@ public class EventNode: ScriptableObject
 	public int time; // How many ticks before the DC check is triggered
 	public int Reward;
 
+	public enum StatDescriptors { Combat = 1, Exploration = 2, Negotiation = 3, Stamina = 4}
 
 	// All the things that happen when we're successful.
 	public EventNode successNode;
