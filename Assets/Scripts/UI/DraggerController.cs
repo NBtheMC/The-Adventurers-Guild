@@ -49,8 +49,10 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         Debug.Log("Begin Drag");
         beingDragged = true;
 
-        //this.transform.parent.gameObject.transform.parent.SetAsLastSibling();
         this.transform.SetParent(QuestDisplayTransform);
+        var i = Random.Range(0, 2);
+        if (i == 0) {SoundManagerScript.PlaySound("slipUp1");}
+        else {SoundManagerScript.PlaySound("slipUp2");}
     }
 
     /// <summary>
@@ -74,10 +76,13 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         if (dropHandler.inDropPoint(this))
 		{
             Debug.Log("Successful Drop");
+
+            var i = Random.Range(0, 2);
+            if (i == 0) {SoundManagerScript.PlaySound("slipDown1");}
+            else {SoundManagerScript.PlaySound("slipDown2");}
 		}
 		transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
         this.transform.SetParent(objectDropPoint.transform);
-        
     }
 
     public void RefreshCharacterOnDrop(){

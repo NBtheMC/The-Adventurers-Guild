@@ -143,6 +143,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         DestroyUI();
 
         Destroy(questBanner);
+        
+        SoundManagerScript.PlaySound("stamp");
     }
 
     public void DestroyUI()
