@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: CrossLake
@@ -18,12 +18,12 @@ MonoBehaviour:
   time: 0
   Reward: 0
   successNode: {fileID: 11400000, guid: 1473466145e185d4ba9c8d1461a0b327, type: 2}
-  successString: 
+  successString: The party managed to cross the lake.
   successIntChange: []
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: 
+  failureString: The party couldn't figure out how to cross the lake.
   failIntChange: []
   failValueChange: []
   failStateChange: []

@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: HaggleWithTroll
@@ -18,12 +18,12 @@ MonoBehaviour:
   time: 1
   Reward: 0
   successNode: {fileID: 11400000, guid: 58088f74a7c5b5647998cae3c41fe159, type: 2}
-  successString: 
+  successString: The party negotiated with a troll
   successIntChange: []
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: 
+  failureString: The party failed to negotiate, and couldn't cross the bridge.
   failIntChange: []
   failValueChange: []
   failStateChange: []

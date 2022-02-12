@@ -15,7 +15,7 @@ MonoBehaviour:
   description: 
   stat: 2
   DC: 0
-  time: 0
+  time: 5
   Reward: 0
   successNode: {fileID: 0}
   successString: 
