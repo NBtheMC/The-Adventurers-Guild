@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler
+public class CharacterInfoUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     public Text characterName {get; private set;}
     private Text combat;
@@ -45,16 +45,6 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
             
         Destroy(this.gameObject);
-    }
-
-
-    /// <summary>
-    /// For when this UI object is beginning to be dragged.
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        this.transform.SetAsLastSibling();
     }
 
     /// <summary>

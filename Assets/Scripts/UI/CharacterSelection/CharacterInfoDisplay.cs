@@ -5,9 +5,7 @@ using UnityEngine.EventSystems;
 
 public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public CharacterSheet characterSheet; //refernce to associated CharacterSheet
-    private bool canDisplay = true; //Can we display character info when clicked on?
-    private bool mouseDown = false; //Are we holding mouse down on this object?
+    [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
     private GameObject QuestDisplay;
     private GameObject CharInfoUIPrefab;
     [SerializeField] private float movementDelta = 0;
@@ -22,30 +20,18 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
 
         isDisplayed = false;
     }
-    public void Update()
-    {
-        //calculate change in position from when we clicked
-        float deltaX = Input.mousePosition.x - clickPos.x;
-        float deltaY = Input.mousePosition.y - clickPos.y;
 
-        //if change in position is too big, don't display character info
-        if(mouseDown && (Mathf.Abs(deltaX) > movementDelta || Mathf.Abs(deltaY) > movementDelta))
-            canDisplay = false;
-    }
-
-    //Detect current clicks on the GameObject
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        mouseDown = true;
         clickPos = Input.mousePosition;
     }
 
-    //Detect if clicks are no longer registering
     public void OnPointerUp(PointerEventData pointerEventData)
     {
-        mouseDown = false;
-
-        if(canDisplay && !isDisplayed)
+        float deltaX = Input.mousePosition.x - clickPos.x;
+        float deltaY = Input.mousePosition.y - clickPos.y;
+        //if(canDisplay && !isDisplayed)
+        if((Mathf.Abs(deltaX) < movementDelta && Mathf.Abs(deltaY) < movementDelta) && !isDisplayed)
         {
             GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab);
             CharInfoUIObject.GetComponent<CharacterInfoUI>().charObject = this.gameObject;
@@ -61,7 +47,5 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
 
             isDisplayed = true;
         }
-
-        canDisplay = true;
     }
 }

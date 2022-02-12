@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 //Takes in new quests and creates them on screen as UI objects
-public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler
+public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     private QuestSheet attachedSheet;
     private Transform attachedObject;
@@ -170,19 +170,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerD
     /// <param name="eventData"></param>
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Dragging");
         transformer.position += new Vector3(eventData.delta.x,eventData.delta.y);
     }
 
     /// <summary>
-    /// For when this UI object is beginning to be dragged.
+    /// For when this UI object is clicked.
     /// </summary>
-    /// <param name="eventData"></param>
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        this.transform.SetAsLastSibling();
-    }
-
     public void OnPointerDown(PointerEventData pointerEventData)
     {
         this.transform.SetAsLastSibling();

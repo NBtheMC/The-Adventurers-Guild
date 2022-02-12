@@ -16,7 +16,6 @@ public class QuestBanner : MonoBehaviour
     {
         QuestDisplay = GameObject.Find("QuestDisplay");
         questUIPrefab = Resources.Load<GameObject>("QuestUI");
-        //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += RemoveQuestBanner;
         isDisplayed = false;
     }
 
