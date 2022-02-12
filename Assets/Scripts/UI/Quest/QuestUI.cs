@@ -152,6 +152,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerC
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
             if (character)
             {
+                character.gameObject.GetComponent<CharacterInfoDisplay>().CharacterInfo = null;
                 Destroy(character.gameObject);
             }
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());

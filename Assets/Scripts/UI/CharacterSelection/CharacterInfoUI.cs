@@ -37,7 +37,13 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public void DestroyUI()
     {
-        charObject.GetComponent<CharacterInfoDisplay>().isDisplayed = false;
+        if(charObject)
+        {
+            CharacterInfoDisplay infoDisplay = charObject.GetComponent<CharacterInfoDisplay>();
+            infoDisplay.isDisplayed = false;
+            infoDisplay.CharacterInfo = null;
+        }
+            
         Destroy(this.gameObject);
     }
 

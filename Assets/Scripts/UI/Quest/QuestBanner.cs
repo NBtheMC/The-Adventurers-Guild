@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,12 +39,5 @@ public class QuestBanner : MonoBehaviour
             questUI.SetupQuestUI(questSheet);
             isDisplayed = true;
         }
-    }
-
-    public void RemoveQuestBanner(object source, QuestSheet e)
-    {
-        
-        //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted -= RemoveQuestBanner;
-        Destroy(this.gameObject);
     }
 }

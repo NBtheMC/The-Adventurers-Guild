@@ -12,7 +12,7 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
     private GameObject CharInfoUIPrefab;
     [SerializeField] private float movementDelta = 0;
     private Vector3 clickPos;
-    [HideInInspector] public GameObject charInfoUI;
+    [HideInInspector] public GameObject CharacterInfo;
     [HideInInspector] public bool isDisplayed;
 
     public void Awake()
@@ -49,6 +49,8 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
         {
             GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab);
             CharInfoUIObject.GetComponent<CharacterInfoUI>().charObject = this.gameObject;
+
+            CharacterInfo = CharInfoUIObject;
 
             CharInfoUIObject.transform.SetParent(QuestDisplay.transform, false);
             CharInfoUIObject.transform.localPosition = new Vector3(-230, 80, 0);
