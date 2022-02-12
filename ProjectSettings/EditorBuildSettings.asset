@@ -5,13 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 18fafeae2590c4e46ab7a03c47fe183b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainUIScreen.unity
     guid: 239e824e0d0aadb4fb156c0326cc5853
+  - enabled: 1
+    path: Assets/Eric's Prototyping Area/QuestToWorldPrototyping/QuestToWorldTest.unity
+    guid: 3248187d641e344418ff415e9cbb4e98
   m_configObjects: {}

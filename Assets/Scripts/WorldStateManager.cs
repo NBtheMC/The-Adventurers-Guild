@@ -141,7 +141,6 @@ public class WorldStateManager : MonoBehaviour
 		IntChangeEvent?.Invoke(this, name);
 	}
 
-
 	/// <summary>
 	/// Changes the world value by a certain amount.
 	/// </summary>
@@ -341,11 +340,12 @@ public class WorldStateManager : MonoBehaviour
 
 			Debug.Log($"New Quest {storylet.name} created.");
 
-			// This will need to change depending on  how Parm codes the new questing manager.
-			QuestSheet newQuest = new QuestSheet(storylet.eventHead,storylet.questName);
-
-			// Adds a quest
-			questingManager.AddQuest(newQuest);
+			// Checks if there is an event head, to make, if so, makes a new quest
+			if (storylet.eventHead != null)
+			{
+				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName);
+				questingManager.AddQuest(newQuest);
+			}
 		}
 	}
 }

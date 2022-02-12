@@ -23,10 +23,10 @@ public class CharacterInfoUI : MonoBehaviour
     public void SetupCharacterInfoUI(CharacterSheet characterSheet)
     {
         characterName.text = characterSheet.name;
-        combat.text += characterSheet.getStat("combat");
-        exploration.text += characterSheet.getStat("exploration");
-        diplomacy.text += characterSheet.getStat("diplomacy");
-        stamina.text += characterSheet.getStat("stamina");
+        combat.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Combat);
+        exploration.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
+        diplomacy.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
+        stamina.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
     }
 
     public void DestroyUI()
