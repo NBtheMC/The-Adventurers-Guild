@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 //Takes in new quests and creates them on screen as UI objects
-public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerClickHandler
+public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler
 {
     private QuestSheet attachedSheet;
     private Transform attachedObject;
@@ -183,7 +183,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerC
         this.transform.SetAsLastSibling();
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
         this.transform.SetAsLastSibling();
     }

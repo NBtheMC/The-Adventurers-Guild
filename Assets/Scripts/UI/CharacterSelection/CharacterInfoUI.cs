@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerClickHandler
+public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler
 {
     public Text characterName {get; private set;}
     private Text combat;
@@ -66,7 +66,7 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         transformer.position += new Vector3(eventData.delta.x, eventData.delta.y);
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
         this.transform.SetAsLastSibling();
     }
