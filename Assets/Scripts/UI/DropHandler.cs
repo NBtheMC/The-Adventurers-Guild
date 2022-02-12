@@ -41,6 +41,9 @@ public class DropHandler : MonoBehaviour
 				dropPoint.heldObject = itemtoHold;
 				itemtoHold.objectDropPoint.heldObject = null;
 				itemtoHold.objectDropPoint = dropPoint;
+
+				itemtoHold.gameObject.transform.parent = dropPoint.gameObject.transform.parent;
+
 				CharacterPoolController controller = itemtoHold.transform.parent.gameObject.GetComponent<CharacterPoolController>();
 				Debug.Log("CharacterPoolController" + controller);
 				//controller.RefreshCharacterPool();
