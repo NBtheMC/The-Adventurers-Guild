@@ -26,6 +26,8 @@ public class QuestReturnUI : MonoBehaviour
 
         Text adventurerText = returnBox.transform.Find("Canvas").Find("AdventurerRecap").GetComponent<Text>();
         adventurerText.text = questSheet.GetQuestRecap();
+        
+        SoundManagerScript.PlaySound("bell");
     }
 
     public void DeleteReturnBox(GameObject gameObject)

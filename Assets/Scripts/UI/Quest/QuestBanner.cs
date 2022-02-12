@@ -32,6 +32,11 @@ public class QuestBanner : MonoBehaviour
         //pass quest info to quest UI
         QuestUI questUI = questUIObj.GetComponent<QuestUI>();
         questUI.SetupQuestUI(questSheet);
+        
+        var i = UnityEngine.Random.Range(0, 3);
+        if (i == 0) {SoundManagerScript.PlaySound("parchment1");}
+        else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
+        else {SoundManagerScript.PlaySound("parchment3");}
     }
 
     public void RemoveQuestBanner(object source, QuestSheet e)

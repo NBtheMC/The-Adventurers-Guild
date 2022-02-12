@@ -138,6 +138,9 @@ public class QuestUI : MonoBehaviour
         questingManager.StartQuest(attachedSheet);
 
         DestroyUI();
+        
+        SoundManagerScript.PlaySound("stamp");
+        Debug.Log("Quest Started");
     }
 
     public void DestroyUI()
