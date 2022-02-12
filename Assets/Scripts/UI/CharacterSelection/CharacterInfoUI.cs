@@ -6,13 +6,14 @@ using UnityEngine.EventSystems;
 
 public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerClickHandler
 {
-    private Text characterName;
+    public Text characterName {get; private set;}
     private Text combat;
     private Text exploration;
     private Text diplomacy;
     private Text stamina;
-    [HideInInspector] public GameObject charObj;
     private RectTransform transformer; // defines the rectangle reference for this dragger.
+    [HideInInspector] public GameObject charObject;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,7 +37,7 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public void DestroyUI()
     {
-        charObj.GetComponent<CharacterInfoDisplay>().isDisplayed = false;
+        charObject.GetComponent<CharacterInfoDisplay>().isDisplayed = false;
         Destroy(this.gameObject);
     }
 
@@ -56,7 +57,6 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     /// <param name="eventData"></param>
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Dragging");
         transformer.position += new Vector3(eventData.delta.x, eventData.delta.y);
     }
 

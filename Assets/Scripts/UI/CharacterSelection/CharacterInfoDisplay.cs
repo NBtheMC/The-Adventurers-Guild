@@ -9,16 +9,17 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
     private bool canDisplay = true; //Can we display character info when clicked on?
     private bool mouseDown = false; //Are we holding mouse down on this object?
     private GameObject QuestDisplay;
-
     private GameObject CharInfoUIPrefab;
-    public float movementDelta = 0;
+    [SerializeField] private float movementDelta = 0;
     private Vector3 clickPos;
+    [HideInInspector] public GameObject charInfoUI;
     [HideInInspector] public bool isDisplayed;
 
-    public void Start()
+    public void Awake()
     {
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
         QuestDisplay = GameObject.Find("QuestDisplay");
+
         isDisplayed = false;
     }
     public void Update()
@@ -47,10 +48,11 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
         if(canDisplay && !isDisplayed)
         {
             GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab);
-            CharInfoUIObject.GetComponent<CharacterInfoUI>().charObj = this.gameObject;
+            CharInfoUIObject.GetComponent<CharacterInfoUI>().charObject = this.gameObject;
 
             CharInfoUIObject.transform.SetParent(QuestDisplay.transform, false);
             CharInfoUIObject.transform.localPosition = new Vector3(-230, 80, 0);
+            CharInfoUIObject.transform.SetAsLastSibling();
 
             CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
             characterInfoUI.SetupCharacterInfoUI(characterSheet);

@@ -13,7 +13,7 @@ public class QuestBanner : MonoBehaviour
 
 
     // Start is called before the first frame update
-    public void Start()
+    public void Awake()
     {
         QuestDisplay = GameObject.Find("QuestDisplay");
         questUIPrefab = Resources.Load<GameObject>("QuestUI");
@@ -44,7 +44,8 @@ public class QuestBanner : MonoBehaviour
 
     public void RemoveQuestBanner(object source, QuestSheet e)
     {
-        Destroy(this.gameObject);
+        
         //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted -= RemoveQuestBanner;
+        Destroy(this.gameObject);
     }
 }

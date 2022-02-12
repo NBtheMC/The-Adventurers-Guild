@@ -97,6 +97,20 @@ public class CharacterPoolController : MonoBehaviour
         //give newCharacter object reference to the CharacterSheet
         newCharacter.GetComponent<CharacterInfoDisplay>().characterSheet = characterToPair;
 
+        //if there are any CharacterInfoUI objects displayed, see if the one for this character is displayed
+        GameObject[] activeCharInfoUI = GameObject.FindGameObjectsWithTag("CharInfoUI");
+        foreach(GameObject g in activeCharInfoUI)
+        {
+            CharacterInfoUI charUI = g.GetComponent<CharacterInfoUI>();
+
+            //if this characters info card is already displayed, pair character to it
+            if(charUI.characterName.text == characterToPair.name)
+            {
+                newCharacter.GetComponent<CharacterInfoDisplay>().isDisplayed = true;
+                charUI.charObject = newCharacter;
+            }
+        }
+
         // Tells drop point who is suppose to sit on it.
         dropPointController.heldObject = characterController;
 

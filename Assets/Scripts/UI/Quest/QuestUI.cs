@@ -21,6 +21,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerC
     private DropHandler dropHandler;
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
+    private bool questSent = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -129,9 +130,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerC
             if (character)
             {
                 CharacterSheet charSheet = character.gameObject.GetComponent<CharacterInfoDisplay>().characterSheet;
-                //add character to party sheet and remove from the character pool
                 partyToSend.addMember(charSheet);
-                characterPool.removeMember(charSheet);
             }
         }
         
@@ -140,10 +139,10 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerC
         charSheetManager.SendPartyOnQuest(this,attachedSheet);
         questingManager.StartQuest(attachedSheet);
 
-        questBanner.GetComponent<QuestBanner>().RemoveQuestBanner(this, attachedSheet);
-        questBanner.GetComponent<QuestBanner>().isDisplayed = false;
-
+        questSent = true;
         DestroyUI();
+
+        Destroy(questBanner);
     }
 
     public void DestroyUI()
@@ -159,8 +158,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerC
         }
 
         questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+
         characterPool.RefreshCharacterPool();
-        
         Destroy(this.gameObject);
     }
 
