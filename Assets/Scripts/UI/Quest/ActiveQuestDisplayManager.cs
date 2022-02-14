@@ -54,6 +54,13 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     {
         numQuests = questingManager.activeQuests.Count;
 
+        if (numQuests / 4 <= currentGroup)
+        {
+            StopAllCoroutines();
+            questBoxesContainer.transform.localPosition = new Vector3(0, 0);
+            currentGroup = 0;
+        }
+
         for(int i = 0; i < questingManager.activeQuests.Count; i++)
         {
             questBoxes[i].gameObject.SetActive(true);
