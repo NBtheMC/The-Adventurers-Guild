@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// A Storylet is what the world system will use to generate quests.
 /// It needs trigger conditions from the world, and quest creation conditions once configured.
 /// </summary>
-[CreateAssetMenu(fileName = "NewStorylet",menuName = "Storylet",order = 0)]
+[CreateAssetMenu(fileName = "NewStorylet", menuName = "Storylet", order = 0)]
 public class Storylet : ScriptableObject
 {
 	/// Storylets are triggered by some type of world condition, and should hold objects for constant triggering.
@@ -23,14 +24,14 @@ public class Storylet : ScriptableObject
 	}
 
 	// TriggerInt tells a Storylet what world intergers to trigger on.
-	[System.Serializable] public struct triggerInt { public string name; public int value; public NumberTriggerType triggerType; }
+	[System.Serializable] public struct TriggerInt { public string name; public int value; public NumberTriggerType triggerType; }
 
 	// TriggerValue tells a Storylet what world values to trigger on.
-	[System.Serializable] public struct triggerValue { public string name; public float value; public NumberTriggerType triggerType; }
+	[System.Serializable] public struct TriggerValue { public string name; public float value; public NumberTriggerType triggerType; }
 
 	// TriggerState tells a Storylet what world states to trigger on
-	[System.Serializable] public struct triggerState { public string name; public bool state; }
-	
+	[System.Serializable] public struct TriggerState { public string name; public bool state; }
+
 	// IntChange is a set of instructions of how a storylet should change the world ints once triggered.
 	[System.Serializable] public struct IntChange { public string name; public int value; public bool set; }
 
@@ -40,14 +41,13 @@ public class Storylet : ScriptableObject
 	// StateChange is a set of instructions of how a storylet should change the world state.
 	[System.Serializable] public struct StateChange { public string name; public bool state; }
 
-
 	public string questName; // The name of the quest they will embark on.
 	public EventNode eventHead; // The head of the event tree that is associated with this event.
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
-	public List<triggerInt> triggerInts = new List<triggerInt> ();
-	public List<triggerValue> triggerValues = new List<triggerValue>();
-	public List<triggerState> triggerStates = new List<triggerState>();
+	public List<TriggerInt> triggerInts = new List<TriggerInt> ();
+	public List<TriggerValue> triggerValues = new List<TriggerValue>();
+	public List<TriggerState> triggerStates = new List<TriggerState>();
 
 	// Set to true if this multiple versions of this quest could be triggered at the same time.
 	public bool canBeInstanced = false;

@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// Keeps track of active quests and advances their ticks.
@@ -12,10 +12,13 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
-    public GameObject QuestReturn; // The UI script we're eventually be using to give quest returns.
+    public WorldStateManager stateManager; // Used to assign quests for world updates.
 
-    public GameObject questPrefab; // Quest Banner prefab to display
-    public GameObject questListContent; //Gameobject that holds the list of banked quests
+    public event EventHandler<QuestSheet> QuestStarted;
+    public event EventHandler<QuestSheet> QuestFinished;
+    public event EventHandler<QuestSheet> QuestAdded;
+
+    public RelationshipManager relationshipManager;
 
     private void Awake()
     {
@@ -28,29 +31,6 @@ public class QuestingManager : MonoBehaviour
     private void Start()
     {
         GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += AdvanceAllQuests;
-        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += CheckForQuests;
-    }
-
-    public void CheckForQuests(object source, GameTime gameTime)
-    {
-        foreach (QuestSheet quest in bankedQuests)
-        {
-            if (quest.isDisplayed == false)
-            {
-                Debug.Log("Making Quest Banner");
-                GameObject newQuest = Instantiate(questPrefab);
-                //add questBanner obj to questListContent
-                newQuest.transform.SetParent(questListContent.transform, false);
-                //pass questSheet to questBanner
-                newQuest.GetComponent<QuestBanner>().questSheet = quest;
-                //set banner text
-                newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
-                //mark this sheet as displayed so extra questBanners are not made
-                quest.isDisplayed = true;
-
-                Debug.Log("Done making Quest Banner");
-            }
-        }
     }
 
     /// <summary>
@@ -68,8 +48,9 @@ public class QuestingManager : MonoBehaviour
             {
                 markForDeletion.Add(quest);
 
-                // Something about sending QuestReturn the correct amount of gold. quest.accumutatedGold;
-                QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
+                //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
+                QuestFinished(this, quest);
+                //relationshipManager.RecalculateAllRelationships();
             }
         }
 
@@ -80,15 +61,23 @@ public class QuestingManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Tells QuestManager to start a quest, given the QuestSheet.
-    /// </summary>
-    /// <param name="questToBeMoved">The Quest to start</param>
-    /// <returns>True if successful, False otherwise.</returns>
-    public bool StartQuest(QuestSheet questToBeMoved)
+	/// <summary>
+	/// Tells QuestManager to start a quest, given the QuestSheet.
+	/// </summary>
+	/// <param name="questToBeMoved">The Quest to start</param>
+	/// <returns>True if successful, False otherwise.</returns>
+	public bool StartQuest(QuestSheet questToBeMoved)
+	{
+		bankedQuests.Remove(questToBeMoved);
+		activeQuests.Add(questToBeMoved);
+        QuestStarted(this, questToBeMoved);
+		return true;
+	}
+
+    public void AddQuest(QuestSheet quest)
     {
-        bankedQuests.Remove(questToBeMoved);
-        activeQuests.Add(questToBeMoved);
-        return true;
+        bankedQuests.Add(quest);
+        quest.worldStateManager = stateManager; 
+        QuestAdded(this, quest);
     }
 }

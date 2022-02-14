@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// The default event node. Inherited by all other event nodes.
@@ -11,62 +12,105 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
 public class EventNode: ScriptableObject
 {
-	public string stat; // the stat to be checked against. Should correspond with PartySheet
-	public int DC;
+	public string description; //what the event is
+
+	public CharacterSheet.StatDescriptors stat; // the stat to be checked against. Should correspond with PartySheet
+	public int DC; //stat to be checked against also used for experience given eventually
 	public int time; // How many ticks before the DC check is triggered
 	public int Reward;
 
+	// All the things that happen when we're successful.
 	public EventNode successNode;
+	public string successString;
+	// List of all the items that should change if this is successful.
+	public List<Storylet.IntChange> successIntChange;
+	public List<Storylet.ValueChange> successValueChange;
+	public List<Storylet.StateChange> successStateChange;
+
+
+	// All the things that happen when we're not successful
 	public EventNode failureNode;
+	public string failureString;
+	public List<Storylet.IntChange> failIntChange;
+	public List<Storylet.ValueChange> failValueChange;
+	public List<Storylet.StateChange> failStateChange;
+
+	private WorldStateManager theWorld;
+
+	private void Awake()
+	{
+		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
+		Debug.Assert(theWorld != null);
+	}
+
+	private List<string> eventRelationships = new List<string>();
 
 	public class EventPackage
 	{
 		public bool objectiveComplete = false;
+		public int givenReward = 0;
 		public EventNode nextEvent = null;
-	}
-
-	/// <summary>
-	/// Default Constructor, sets everything to zero.
-	/// </summary>
-	public EventNode()
-	{
-		stat = "";
-		DC = 0;
-		time = 0;
-	}
-
-	/// <summary>
-	/// Standard Constructor, used to initilize certain variables.
-	/// </summary>
-	/// <param name="statInput">Name of the stat to be checked against</param>
-	/// <param name="DCInput">What the difficulty it.</param>
-	/// <param name="timeInput">How much time to pass before checking.</param>
-	public EventNode(string statInput, int DCInput, int timeInput)
-	{
-		stat = statInput;
-		DC = DCInput;
-		time = timeInput;
+		public List<string> relationshipsUpdate = new List<string>(); //relationships update
+		public string resultsString; //what actually happened
+		//TODO Adventurer levelling
 	}
 
 	public EventPackage resolveEvent(PartySheet adventurers)
 	{
 		EventPackage message = new EventPackage();
 		message.objectiveComplete = adventurers.getStatSummed(stat) > DC;
-
 		// switchcase for our checks.
 		switch (message.objectiveComplete)
 		{
 			case true:
+				//update EventPackage
 				message.nextEvent = successNode;
+				message.givenReward = Reward;
+				message.resultsString = successString;
+				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
 				break;
 			case false:
+				//update EventPackage
 				message.nextEvent = failureNode;
+				message.resultsString = failureString;
+				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
 				break;
 		}
 
 
 		return message;
 	}
+
+	//called first by quest when quest is done. updates friendships based on win or loss
+    //done on current party, change is determined by quest
+    public List<string> UpdatePartyRelationships(PartySheet party, int change){
+		List<string> partyUpdates = new List<string>();
+
+        //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
+        List<Adventurer> partyMembers = new List<Adventurer>();
+
+        foreach(CharacterSheet a in party.party_members){
+			Debug.Log(a.name);
+            partyMembers.Add(a.adventurer);
+			Debug.Log(a.adventurer.characterSheet.name);
+        }
+
+        //Actual updating
+        for(int i  = 0; i < partyMembers.Count; i++){
+            Adventurer a = partyMembers[i];
+			Debug.Log(a.characterSheet.name);
+            for(int j  = i+1; j < partyMembers.Count; j++){
+
+                Adventurer b = partyMembers[j];
+                //update friendship between a and b
+                a.ChangeFriendship(b, change);
+                b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
+                //get string based on change
+				partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
+            }
+        }
+		return partyUpdates;
+    }
 
 	/*
 	/// <summary>

@@ -5,35 +5,43 @@ using UnityEngine;
 public class QuestBanner : MonoBehaviour
 {
 
-    public QuestSheet questSheet; //Quest to associate with this object
-    public GameObject QuestDisplay; // Reference to main Canvas display
-
-    public GameObject questUIPrefab; // QuestUI prefab to display
+    [HideInInspector] public QuestSheet questSheet;
+    private GameObject QuestDisplay;
+    private GameObject questUIPrefab; // QuestUI prefab to display
+    [HideInInspector] public bool isDisplayed;
 
 
     // Start is called before the first frame update
-    public void Start()
+    public void Awake()
     {
-        
         QuestDisplay = GameObject.Find("QuestDisplay");
+        questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        isDisplayed = false;
     }
 
-    /// <summary>
-    /// Creates a new QuestUI object
-    /// </summary>
     public void displayQuestUI()
     {
-        GameObject questUIObj = Instantiate(questUIPrefab);
-        //add quest to QuestDisplay canvas
-        questUIObj.transform.SetParent(QuestDisplay.transform, false);
-        questUIObj.transform.localPosition = new Vector3(-230, 90, 0);
+        if (!isDisplayed)
+        {
+            GameObject questUIObj = Instantiate(questUIPrefab);
+            questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
 
-        //move to top of child object hierarchy for rendering order reasons
-        questUIObj.transform.SetAsFirstSibling();
+            //add quest to QuestDisplay canvas
+            questUIObj.transform.SetParent(QuestDisplay.transform, false);
+            questUIObj.transform.localPosition = new Vector3(-230, 90, 0);
 
-        //pass quest info to quest UI
-        QuestUI questUI = questUIObj.GetComponent<QuestUI>();
-        questUI.SetupQuestUI(questSheet);
-        questUI.questBanner = this.gameObject;
+            //move to bottom of child object hierarchy for rendering order reasons
+            questUIObj.transform.SetAsLastSibling();
+
+            //pass quest info to quest UI
+            QuestUI questUI = questUIObj.GetComponent<QuestUI>();
+            questUI.SetupQuestUI(questSheet);
+            isDisplayed = true;
+
+            var i = UnityEngine.Random.Range(0, 3);
+            if (i == 0) {SoundManagerScript.PlaySound("parchment1");}
+            else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
+            else {SoundManagerScript.PlaySound("parchment3");}
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WorldStateManager : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the TimeSystem.
 	public TimeSystem timeSystem;
 
+	// A bunch of events for when the WorldStateManager updates itself.
+	public event EventHandler<string> IntChangeEvent;
+	public event EventHandler<string> StateChangeEvent;
+	public event EventHandler<string> FloatChangeEvent;
+
     void Awake()
     {
         worldValues = new Dictionary<string, WorldValue>();
@@ -46,9 +52,9 @@ public class WorldStateManager : MonoBehaviour
 			storylet.numInstances = 0;
 
 			// Preload all the values into the dictionary.
-			foreach(Storylet.triggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
-			foreach(Storylet.triggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
-			foreach(Storylet.triggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
+			foreach(Storylet.TriggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
+			foreach(Storylet.TriggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
+			foreach(Storylet.TriggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
 		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
@@ -77,7 +83,8 @@ public class WorldStateManager : MonoBehaviour
 			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
 		}
         else { worldValues[name].value = value; }
-    }
+		FloatChangeEvent?.Invoke(this, name);
+	}
 
     /// <summary>
     /// Adds a new World State to the World State Manager
@@ -107,7 +114,8 @@ public class WorldStateManager : MonoBehaviour
         {
             worldStates[name].state = state;
         }
-    }
+		StateChangeEvent?.Invoke(this, name);
+	}
 
 	public void AddWorldInt(string name, int value)
 	{
@@ -130,21 +138,48 @@ public class WorldStateManager : MonoBehaviour
 		{
 			worldInts[name].value = value;
 		}
+		IntChangeEvent?.Invoke(this, name);
 	}
-
 
 	/// <summary>
 	/// Changes the world value by a certain amount.
 	/// </summary>
 	/// <param name="name">Name of the value to change.</param>
 	/// <param name="value">The change to be added to current value.</param>
-	public void ChangeWorldValue(string name, float value)
+	/// <param name="set">Whether this value should set the state or just alter it.</param>
+	public void ChangeWorldValue(string name, float value, bool set = false)
 	{
         if (!worldValues.ContainsKey(name)) { AddWorldValue(name, value); }
-        else { worldValues[name].value += value; }
+        else if (set) { worldValues[name].value = value; }
+		else { worldValues[name].value += value;}
+		FloatChangeEvent?.Invoke(this, name);
 	}
 
-    // You don't need a changeWorldState. Just set it using addWorldState.
+	/// <summary>
+	/// Changes the world value by a certain amount.
+	/// </summary>
+	/// <param name="name">Name of the value to change.</param>
+	/// <param name="value">The change to be added to current value.</param>
+	public void ChangeWorldState(string name, bool value)
+	{
+		if (!worldStates.ContainsKey(name)) { AddWorldState(name, value); Debug.Log($"Failed to find {name} in worldState, perhaps not already created"); }
+		else { worldStates[name].state = value; }
+		StateChangeEvent?.Invoke(this, name);
+	}
+
+	/// <summary>
+	/// Changes the world int by a certain amount.
+	/// </summary>
+	/// <param name="name">Name of the value to change.</param>
+	/// <param name="value">The change to be added to current value.</param>
+	/// <param name="set">Whether this value should set the state or just alter it.</param>
+	public void ChangeWorldInt(string name, int value, bool set = false)
+	{
+		if (!worldInts.ContainsKey(name)) { AddWorldInt(name, value); Debug.Log($"Failed to find {name} in worldState, perhaps not already created"); }
+		else if (set) { worldInts[name].value = value; }
+		else { worldInts[name].value += value; }
+		IntChangeEvent?.Invoke(this, name);
+	}
 
     public float GetWorldValue(string key)
 	{
@@ -206,7 +241,7 @@ public class WorldStateManager : MonoBehaviour
 			//Debug.Log($"Begining Trigger Checks. Total of {storylet.triggerValues.Count} trigger values.");
 			
 			// Goes through the list of trigger values.
-			foreach (Storylet.triggerValue triggerValue in storylet.triggerValues)
+			foreach (Storylet.TriggerValue triggerValue in storylet.triggerValues)
 			{
 
 				// create a copy of the world's current value to check against.
@@ -232,22 +267,22 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerValue.name}"); break;  }
+				if (!validStorylet) { break;  }
 			}
 
 			// if this is not a valid storylet, keep searching
 			if (!validStorylet) { continue; }
 
 			// Now the trigger states.
-			foreach (Storylet.triggerState triggerState in storylet.triggerStates)
+			foreach (Storylet.TriggerState triggerState in storylet.triggerStates)
 			{
 				// Check if the trigger state matches the world state.
-				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; Debug.Log($"Checking {storylet.name}. Failed on {triggerState.name}"); break; }
+				if (GetWorldState(triggerState.name) != triggerState.state) { validStorylet = false; break; }
 			}
 
 			if (!validStorylet) { continue;}
 
-			foreach (Storylet.triggerInt triggerInt in storylet.triggerInts)
+			foreach (Storylet.TriggerInt triggerInt in storylet.triggerInts)
 			{
 				// create a copy of the world's current value to check against.
 				int worldInt = GetWorldInt(triggerInt.name);
@@ -272,12 +307,12 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { break; Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); }
+				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); break; }
 			}
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
 			if (!validStorylet) { continue; }
-			else { validStorylets.Add(storylet); Debug.Log($"Storylet {storylet.questName} works."); }
+			else { validStorylets.Add(storylet); }
 		}
 
 		// goes through the list of valid storylets and triggers them.
@@ -294,16 +329,23 @@ public class WorldStateManager : MonoBehaviour
 			{
 				AddWorldState(change.name, change.state);
 			}
+			foreach (Storylet.IntChange change in storylet.triggerIntChanges)
+			{
+				// Checks to set it directly, or to change it by a value.
+				if (change.set == true) { AddWorldInt(change.name, change.value); }
+				else { ChangeWorldValue(change.name, change.value); }
+			}
 
 			storylet.numInstances++;
 
 			Debug.Log($"New Quest {storylet.name} created.");
 
-			// This will need to change depending on  how Parm codes the new questing manager.
-			QuestSheet newQuest = new QuestSheet(storylet.eventHead,storylet.questName);
-
-			questingManager.bankedQuests.Add(newQuest);
-			// Added a quest.
+			// Checks if there is an event head, to make, if so, makes a new quest
+			if (storylet.eventHead != null)
+			{
+				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName);
+				questingManager.AddQuest(newQuest);
+			}
 		}
 	}
 }

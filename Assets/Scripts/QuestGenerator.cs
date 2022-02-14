@@ -97,7 +97,9 @@ public class QuestGenerator : MonoBehaviour
         AttachNodes(questParameters, failNode, length - 1);
     }
 
-    // Generates a node with the given questParamters. 
+    /// <summary>
+    /// This function doesn't work anymore. Will return an empty node.
+    /// </summary>
     private EventNode GenerateNode(QuestParameters questParameters)
     {
         int dc;
@@ -114,7 +116,7 @@ public class QuestGenerator : MonoBehaviour
 
         Debug.Log("Generated node with (dc,time) = (" + dc + "," + time + ")");
 
-        EventNode node = new EventNode(stat, dc, time);
+        EventNode node = null;
 
         return node;
     }

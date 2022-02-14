@@ -5,21 +5,23 @@ using UnityEngine;
 public class QuestSheet
 {
 	public string questName { get; private set; }
+	public string questDescription { get; private set; }
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
-	private QuestUI questUI; //association to corresponding UI element
 	public int partySize { get; private set; } //how many adventurers can be assigned to a quest
-
-	[HideInInspector] public bool isDisplayed = false; //has this quest sheet been displayed to the user
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
+	public WorldStateManager worldStateManager;
 
-    public List<EventNode> visitedNodes;
 
+	public List<EventNode> visitedNodes;
+
+	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
+	public string questRecap;
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -37,6 +39,7 @@ public class QuestSheet
 		partySize = partySize_input;
 
         visitedNodes = new List<EventNode>();
+		questRecap = "";
 	}
 
 	/// <summary>
@@ -46,15 +49,6 @@ public class QuestSheet
 	public void assignParty(PartySheet partyInput)
 	{
 		adventuring_party = partyInput;
-	}
-
-	// Calculates the maximum total reward for the quest as given.
-	// Done by doing brute-force search through the tree and calculating all possible rewards.
-	public int EstimatedRewardTotal()
-	{
-		int countingTotal = 0;
-		// Put code here.
-		return countingTotal;
 	}
 
 	/// <summary>
@@ -70,7 +64,25 @@ public class QuestSheet
 
 			// Request the event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
+			accumutatedGold += returnMessage.givenReward;
+			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
             visitedNodes.Add(currentConnection);
+			questRecap += (" and " + returnMessage.resultsString);
+
+			// Changes the world based on Event Package
+			switch (returnMessage.objectiveComplete)
+			{
+				case true:
+					foreach (Storylet.IntChange change in currentConnection.successIntChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.successStateChange) { Debug.Log($"{change.name} changed {change.state}"); worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.successValueChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					break;
+				case false:
+					foreach (Storylet.IntChange change in currentConnection.failIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+					foreach (Storylet.StateChange change in currentConnection.failStateChange) { worldStateManager.ChangeWorldState(change.name, change.state); }
+					foreach (Storylet.ValueChange change in currentConnection.failValueChange) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					break;
+			}
 
 			// Progress to the next event.
 			if (returnMessage.nextEvent != null)
@@ -105,10 +117,71 @@ public class QuestSheet
 	/// </summary>
 	public EventInfo getNewEventInfo()
 	{
-		EventInfo currentEvent = new EventInfo();
+		EventInfo currentEvent;
 		currentEvent.description = "Event description"; //placeholder text
-		currentEvent.stat = currentConnection.stat;
+		currentEvent.stat = currentConnection.stat.ToString();
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
 	}
+
+	public int EstimatedRewardTotal(){
+		return MaxReward(headConnection, 0);
+	}
+
+	// Calculates the reward if party succeeds. change later
+	private int MaxReward(EventNode currentNode, int previousTotal)
+	{
+		if(currentNode == null){
+			return previousTotal;
+		}
+		int countingTotal = previousTotal + currentNode.Reward;
+		return MaxReward(currentNode.successNode, countingTotal);
+	}
+
+	public string GetQuestRecap(){
+		return questRecap;
+	}
+
+	// public string GenerateEventText(){
+	// 	string eventResults = "";
+	// 	foreach(EventNode e in visitedNodes){
+	// 		eventResults += (" " + e.resultsString);
+	// 	}
+	// 	return eventResults;
+	// }
+
+	// all the stuff a quest needs to show
+	// used at start and end of quest
+	// public struct GivenQuestInfo
+	// {
+	// 	string name; //stays constant, name of storylet probably
+	// 	List<EventInfo> events; //list of predicted storylets
+	// 	int predictedHighReward;		
+	// 	string description;
+	// }
+
+	// public struct FinishedQuestInfo{
+	// 	string name; //stays constant, name of storylet probably
+	// 	List<EventInfo> events; //List of completed events
+	// 	// consequences (positive or negative)
+	// 		//based off difference between stat of party and stat of quest 
+	// 		//includes adventurers dying, being op, being weak, etc
+	// 		//concatenates based on each event
+	// 	RelationshipManager.RelationshipsInfo partyRelationships;
+	// 	int reward;
+	// }
+
+	// quest start info
+	// public GivenQuestInfo QuestStartInfo(){
+	// 	GivenQuestInfo questStart  = new GivenQuestInfo();
+
+	// 	return questStart;
+	// }
+
+	// quest done info
+	// public FinishedQuestInfo QuestDoneInfo(){
+	// 	FinishedQuestInfo questDone  = new FinishedQuestInfo();
+	// 	questDone.events = visitedNodes;
+	// 	return questDone;
+	// }
 }

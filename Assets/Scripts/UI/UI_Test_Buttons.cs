@@ -24,12 +24,12 @@ public class UI_Test_Buttons : MonoBehaviour
     public void AddRandomCharacterToPool()
 	{
         // Making a sample character to test things out on.
-        Dictionary<string, int> sampleStats = new Dictionary<string, int>()
+        Dictionary<CharacterSheet.StatDescriptors, int> sampleStats = new Dictionary<CharacterSheet.StatDescriptors, int>()
         {
-            {"diplomacy", Random.Range(1,20) },
-            {"combat", Random.Range(1,20) },
-            {"stamina",Random.Range(1,20) },
-            {"exploration",Random.Range(1,20) }
+            {CharacterSheet.StatDescriptors.Diplomacy, Random.Range(1,20) },
+            {CharacterSheet.StatDescriptors.Combat, Random.Range(1,20) },
+            {CharacterSheet.StatDescriptors.Stamina,Random.Range(1,20) },
+            {CharacterSheet.StatDescriptors.Exploration,Random.Range(1,20) }
         };
         CharacterSheet testCharacter = new CharacterSheet("bob", sampleStats);
         poolController.AddCharacter(testCharacter);

@@ -2,41 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 //Takes in new quests and creates them on screen as UI objects
-public class QuestUI : MonoBehaviour
+public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
-    private QuestSheet attachedSheet; // associated QuestSheet for this quest object 
-    private Text questName; // quest name from attachedSheet
-    private Text questDescription; // description of quest from atachedSheet
-    private Text questReward; // reward for quest from attachedSheet
-    private GameObject partyFormation; // Object containing drop points for party selection
-    private GameObject sendPartyButton; // reference to button that assigns a party to a quest
-    public GameObject dropPointPrefab; // reference to character drop point prefab
-    [HideInInspector] public GameObject questBanner; // associated quest banner that created this UI object
-    private QuestingManager questingManager; // reference to questingManager object
-    private CharacterPoolController characterPool; // reference to characterPool
+    private QuestSheet attachedSheet;
+    private Transform attachedObject;
+    private Text questName;
+    private Text questDescription;
+    private Text questReward;
+    private GameObject partyFormation;
+    private GameObject sendPartyButton;
+    private GameObject dropPointPrefab;
+    private QuestingManager questingManager;
+    private CharacterPoolController characterPool;
+    private CharacterSheetManager charSheetManager;
     private DropHandler dropHandler;
+    private RectTransform transformer; // defines the rectangle reference for this dragger.
+    [HideInInspector] public GameObject questBanner;
+    private bool questSent = false;
 
     // Start is called before the first frame update
     void Awake()
     {
-        //quest info objects
-        questName = this.transform.Find("Canvas/Title").gameObject.GetComponent<Text>();
-        questDescription = this.transform.Find("Canvas/Description").gameObject.GetComponent<Text>();
-        questReward = this.transform.Find("Canvas/Rewards/Text").gameObject.GetComponent<Text>();
+        attachedObject = this.transform;
 
-        Canvas canv = this.transform.Find("Canvas").gameObject.GetComponent<Canvas>();
-        canv.worldCamera = Camera.main;
+        //quest info objects
+        questName = attachedObject.Find("Title").gameObject.GetComponent<Text>();
+        questDescription = attachedObject.Find("Description").gameObject.GetComponent<Text>();
+        questReward = attachedObject.Find("Rewards/Text").gameObject.GetComponent<Text>();
+
         //party formation objects
-        partyFormation = this.transform.Find("Canvas/Party").gameObject;
-        sendPartyButton = this.transform.Find("Canvas/Send Party").gameObject;
+        partyFormation = attachedObject.Find("Party").gameObject;
+        sendPartyButton = attachedObject.Find("Send Party").gameObject;
         TogglePartyFormationVisibility();
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
 
+        charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
+        dropPointPrefab = Resources.Load<GameObject>("SampleDropPoint");
+
+        transformer = this.GetComponent<RectTransform>();
+
     }
 
     //Creates Quest as a UI GameObject
@@ -51,7 +61,7 @@ public class QuestUI : MonoBehaviour
         //setup first event
 
         //setup reward
-        questReward.text = string.Format("Quest Reward: {0}", attachedSheet.EstimatedRewardTotal());
+        questReward.text = string.Format("Quest Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
         //setup party formation drop points
         Rect rect = partyFormation.GetComponent<RectTransform>().rect;
         float dropPointOffset = rect.width / (questSheet.partySize + 1);
@@ -71,7 +81,7 @@ public class QuestUI : MonoBehaviour
             //set position
             dropPoint.transform.localPosition = new Vector3(150 - dropPointOffset * i, 5, 0);
 
-            //add dropPoint to dropHandler
+            //add drop point to dropHandler
             dropHandler.AddDropPoint(dropPoint.GetComponent<ObjectDropPoint>());
         }
     }
@@ -113,49 +123,64 @@ public class QuestUI : MonoBehaviour
         //create new partySheet and add all selected adventurers
         PartySheet partyToSend = new PartySheet();
 
+        //find all characters on QuestUI object and add to partyToSend
         foreach (Transform child in partyFormation.transform)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
             if (character)
             {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterObject>().characterSheet;
-                //add character to party sheet and remove from the character pool
+                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterInfoDisplay>().characterSheet;
                 partyToSend.addMember(charSheet);
-                characterPool.removeMember(charSheet);
             }
         }
-
+        
         //assign partyToSend to the current quest
         attachedSheet.assignParty(partyToSend);
+        charSheetManager.SendPartyOnQuest(this,attachedSheet);
         questingManager.StartQuest(attachedSheet);
 
-        //remove associated questBanner
-        Destroy(questBanner);
-
+        questSent = true;
         DestroyUI();
+
+        Destroy(questBanner);
+        
+        SoundManagerScript.PlaySound("stamp");
+    }
+
+    public void DestroyUI()
+    {
+        foreach (Transform child in partyFormation.transform)
+        {
+            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
+            if (character)
+            {
+                character.gameObject.GetComponent<CharacterInfoDisplay>().CharacterInfo = null;
+                Destroy(character.gameObject);
+            }
+            dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
+        }
+
+        questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+
+        characterPool.RefreshCharacterPool();
+        Destroy(this.gameObject);
     }
 
     /// <summary>
-    /// Removes all associated UI elements from the screen
+    /// For when this UI object is being dragged.
     /// </summary>
-    public void DestroyUI()
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData)
     {
-        //Delete any character objects dropped onto this UI object
-        foreach (Transform child in partyFormation.transform)
-        {
-            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            if (character)
-            {
-                Destroy(character.gameObject);
-            }
-        }
-
-        //REMOVE DROP POINTS FROM DROPHANDLER
-
-        //Destory gameobject and then refresh character pool
-        Destroy(this.gameObject);
-        characterPool.RefreshCharacterPool();
+        transformer.position += new Vector3(eventData.delta.x,eventData.delta.y);
     }
 
+    /// <summary>
+    /// For when this UI object is clicked.
+    /// </summary>
+    public void OnPointerDown(PointerEventData pointerEventData)
+    {
+        this.transform.SetAsLastSibling();
+    }
 
 }

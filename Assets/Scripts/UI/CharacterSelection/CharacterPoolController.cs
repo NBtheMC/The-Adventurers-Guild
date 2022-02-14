@@ -16,6 +16,8 @@ public class CharacterPoolController : MonoBehaviour
     private int lastPlacedCol;
     private List<(GameObject dropPoint, GameObject character)> visibleDropAreas; // A List of all the drop areas we currently see.
 
+    private CharacterSheetManager characterManager;
+
 	private void Awake()
 	{
         visibleDropAreas = new List<(GameObject dropPoint, GameObject character)>();
@@ -23,12 +25,33 @@ public class CharacterPoolController : MonoBehaviour
         // We're assuming some previous point to set the last point.
         lastPlacedCol = -1;
         lastPlacedRow = maxColSize;
+
+        characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
 	}
 
 	// Start is called before the first frame update
 	void Start()
     {
-        
+        foreach(CharacterSheet character in characterManager.FreeAdventurers)
+        {
+            activeRole.Add(character);
+            
+        }
+        RefreshCharacterPool();
+
+        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterChange += CharacterPoolController_RosterChange;
+    }
+
+    private void CharacterPoolController_RosterChange(object source, System.EventArgs e)
+    {
+        activeRole.Clear();
+
+        foreach(CharacterSheet character in characterManager.FreeAdventurers)
+        {
+            activeRole.Add(character);
+        }
+
+        RefreshCharacterPool();
     }
 
     /// <summary>
@@ -37,6 +60,8 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     public void RefreshCharacterPool()
 	{
+        dropHandler.ClearDropPoints();
+
         foreach((GameObject,GameObject) thing in visibleDropAreas)
 		{
             Destroy(thing.Item1);
@@ -59,7 +84,7 @@ public class CharacterPoolController : MonoBehaviour
     private void GenerateNewDropPair(CharacterSheet characterToPair)
 	{
         // Makes a new drop point and a new character.
-        GameObject newDropPoint = Instantiate(sampleDropPoint,this.transform);
+        GameObject newDropPoint = Instantiate(sampleDropPoint, this.transform);
         GameObject newCharacter = Instantiate(sampleCharacter, this.transform);
 
         // Adds both references to our internal tracking script.
@@ -70,7 +95,21 @@ public class CharacterPoolController : MonoBehaviour
         DraggerController characterController = newCharacter.GetComponent<DraggerController>();
 
         //give newCharacter object reference to the CharacterSheet
-        newCharacter.GetComponent<CharacterObject>().characterSheet = characterToPair;
+        newCharacter.GetComponent<CharacterInfoDisplay>().characterSheet = characterToPair;
+
+        //if there are any CharacterInfoUI objects displayed, see if the one for this character is displayed
+        GameObject[] activeCharInfoUI = GameObject.FindGameObjectsWithTag("CharInfoUI");
+        foreach(GameObject g in activeCharInfoUI)
+        {
+            CharacterInfoUI charUI = g.GetComponent<CharacterInfoUI>();
+
+            //if this characters info card is already displayed, pair character to it
+            if(charUI.characterName.text == characterToPair.name)
+            {
+                newCharacter.GetComponent<CharacterInfoDisplay>().isDisplayed = true;
+                charUI.charObject = newCharacter;
+            }
+        }
 
         // Tells drop point who is suppose to sit on it.
         dropPointController.heldObject = characterController;
@@ -86,6 +125,7 @@ public class CharacterPoolController : MonoBehaviour
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
         // Tells dropHandler that we have a new dropPoint.
+        //This is where drop points are added in the drop handler
         dropHandler.AddDropPoint(dropPointController);
 
         // Tells the dropPointController that it should only take characters.

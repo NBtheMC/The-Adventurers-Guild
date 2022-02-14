@@ -9,44 +9,32 @@ public class RelationshipManager : MonoBehaviour
     // Predicates: Sets of variables that will bind to characters during evaluation. eg (Friend ?x ?y)
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
-    public Transform adventurers; //parent of all adventurers in the scene. Named the same
+    public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
 
-    //called first by quest when quest is done. updates friendships based on win or loss
-    //done on current party, change is determined by quest
-    public void UpdatePartyRelationships(Transform party, int change){
-        List<Adventurer> partyMembers = new List<Adventurer>(); //should be changed to whatever object holds the party
-        foreach(Transform a in party){
-            partyMembers.Add(a.GetComponent<Adventurer>());
-        }
-        for(int i  = 0; i < partyMembers.Count; i++){
-            Adventurer a = partyMembers[i];
-            for(int j  = i+1; j < partyMembers.Count; j++){
-                Adventurer b = partyMembers[j];
-                //update friendship between a and b
-                a.ChangeFriendship(b, change);
-                b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
-            }
-        }
-        RecalculateAllRelationships();
-    }
+    //all the relevant info that occured with relationships in a given update
+    // public struct RelationshipsInfo{
+    //     List<(Adventurer, Adventurer, int)> relationshipChanges; //describes how much each relationship changed by
+    //     List<string> relationshipStories; //anything notable that happens
+    // }
 
     //called after relationships are updated
     //loops all rules through all people 's volitions, relationships, etc, in order to
     public void RecalculateAllRelationships(){
         //loop through all Adventurers in entire scene
-        List<Adventurer> allAdventurers = new List<Adventurer>();
-        foreach(Transform a in adventurers){
-            allAdventurers.Add(a.GetComponent<Adventurer>());
-        }
+        List<CharacterSheet> allAdventurers = new List<CharacterSheet>();
+
+        allAdventurers.AddRange(characterSheetManager.QuestingAdventurers);
+        allAdventurers.AddRange(characterSheetManager.FreeAdventurers);
+
         for(int i  = 0; i < allAdventurers.Count - 2; i++){
-            Adventurer a = allAdventurers[i];
+            Adventurer a = allAdventurers[i].adventurer;
             for(int j  = i+1; j < allAdventurers.Count - 1; j++){
-                Adventurer b = allAdventurers[j];
+                Adventurer b = allAdventurers[j].adventurer;
                 for(int k = j+1; k < allAdventurers.Count; k++){
-                    Adventurer c = allAdventurers[k];
-                    Debug.Log(a.gameObject.name + " + " + b.gameObject.name + " friends= " + a.IsFriendsWith(b));
-                    Debug.Log(a.gameObject.name + " + " + c.gameObject.name + " friends= " + a.IsFriendsWith(c));      
-                    Debug.Log(b.gameObject.name + " + " + c.gameObject.name + " friends= " + b.IsFriendsWith(c));              
+                    Adventurer c = allAdventurers[k].adventurer;
+                    //Debug.Log(a.gameObject.name + " + " + b.gameObject.name + " friends= " + a.IsFriendsWith(b));
+                    //Debug.Log(a.gameObject.name + " + " + c.gameObject.name + " friends= " + a.IsFriendsWith(c));      
+                    //Debug.Log(b.gameObject.name + " + " + c.gameObject.name + " friends= " + b.IsFriendsWith(c));              
                     //Take friendship levels into account when recalculating eventually
                     //eg int abFriendship = a.GetFriendship(b);
 
@@ -62,17 +50,17 @@ public class RelationshipManager : MonoBehaviour
                     if(abFriends && bcFriends){
                         Debug.Log("Friend of a friend");
                         a.ChangeFriendship(c, 1);
-                        c.SetFriendship(a, a.GetFriendship(c));
+                        c.ChangeFriendship(a, 1);
                     }
                     if(acFriends && bcFriends){
                         Debug.Log("Friend of a friend");
                         a.ChangeFriendship(b, 1);
-                        b.SetFriendship(a, a.GetFriendship(b));
+                        b.ChangeFriendship(a, 1);
                     }
                     if(abFriends && acFriends){
                         Debug.Log("Friend of a friend");
                         c.ChangeFriendship(b, 1);
-                        b.SetFriendship(c, c.GetFriendship(b));
+                        b.ChangeFriendship(c, 1);
                     }
 
                     //Enemy of enemy is my friend
@@ -80,17 +68,17 @@ public class RelationshipManager : MonoBehaviour
                     if(!abFriends && !bcFriends){
                         Debug.Log("Enemy of an enemy is a friend");
                         a.ChangeFriendship(c, -1);
-                        c.SetFriendship(a, a.GetFriendship(c));
+                        c.ChangeFriendship(a, -1);
                     }
                     if(!acFriends && !bcFriends){
                         Debug.Log("Friend of a friend");
                         a.ChangeFriendship(b, -1);
-                        b.SetFriendship(a, a.GetFriendship(b));
+                        b.ChangeFriendship(a, -1);
                     }
                     if(!abFriends && !acFriends){
                         Debug.Log("Friend of a friend");
                         c.ChangeFriendship(b, -1);
-                        b.SetFriendship(c, c.GetFriendship(b));
+                        b.ChangeFriendship(c, -1);
                     }
                 }
             }

@@ -19,16 +19,19 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public static event OnDropCharacter onDropCharacter;
 
     private bool beingDragged = false;
+    private Transform QuestDisplayTransform;
 
     void Awake()
     {
         transformer = this.GetComponent<RectTransform>();
+        QuestDisplayTransform = GameObject.Find("QuestDisplayManager/QuestDisplay").transform;
     }
 
     void Update()
 	{
         // Keeps character locked to their drop point as long as it's not being dragged.
         if (beingDragged == false) { transformer.position = objectDropPoint.GetComponent<RectTransform>().position; }
+        //this.transform.parent.transform.SetAsLastSibling();
 	}
 
     void Start()
@@ -45,6 +48,11 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     {
         Debug.Log("Begin Drag");
         beingDragged = true;
+
+        this.transform.SetParent(QuestDisplayTransform);
+        var i = Random.Range(0, 2);
+        if (i == 0) {SoundManagerScript.PlaySound("slipUp1");}
+        else {SoundManagerScript.PlaySound("slipUp2");}
     }
 
     /// <summary>
@@ -68,9 +76,13 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         if (dropHandler.inDropPoint(this))
 		{
             Debug.Log("Successful Drop");
+
+            var i = Random.Range(0, 2);
+            if (i == 0) {SoundManagerScript.PlaySound("slipDown1");}
+            else {SoundManagerScript.PlaySound("slipDown2");}
 		}
 		transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
-        
+        this.transform.SetParent(objectDropPoint.transform);
     }
 
     public void RefreshCharacterOnDrop(){
