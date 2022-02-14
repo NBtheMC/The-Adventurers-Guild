@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 166966377}
   - component: {fileID: 166966376}
   m_Layer: 5
-  m_Name: Quest3
+  m_Name: Quest11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -590,7 +590,7 @@ GameObject:
   - component: {fileID: 217445057}
   - component: {fileID: 217445056}
   m_Layer: 5
-  m_Name: Quest4
+  m_Name: Quest12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1027,6 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9389a4144f5ec2247be81f709bb6e076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numQuests: 0
 --- !u!4 &299284841
 Transform:
   m_ObjectHideFlags: 0
@@ -1112,7 +1113,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 1
+  m_Text: Quest 5
 --- !u!222 &300332386
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1255,7 +1256,7 @@ GameObject:
   - component: {fileID: 399227146}
   - component: {fileID: 399227145}
   m_Layer: 5
-  m_Name: Quest2
+  m_Name: Quest10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1508,7 +1509,7 @@ GameObject:
   - component: {fileID: 486857473}
   - component: {fileID: 486857472}
   m_Layer: 5
-  m_Name: Quest 1
+  m_Name: Quest5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2084,7 +2085,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 2
+  m_Text: 'Quest10
+
+'
 --- !u!222 &789538653
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2324,7 +2327,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 4
+  m_Text: Quest 8
 --- !u!222 &901696155
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2535,7 +2538,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 4
+  m_Text: Quest12
 --- !u!222 &1066418094
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2903,7 +2906,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 3
+  m_Text: Quest7
 --- !u!222 &1257442965
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2994,7 +2997,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1307183622}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 299284840}
+        m_TargetAssemblyTypeName: ActiveQuestDisplayManager, Assembly-CSharp
+        m_MethodName: PrevGroup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1307183622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3236,7 +3251,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1381730745}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 299284840}
+        m_TargetAssemblyTypeName: ActiveQuestDisplayManager, Assembly-CSharp
+        m_MethodName: NextGroup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1381730745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3431,7 +3458,7 @@ GameObject:
   - component: {fileID: 1479748885}
   - component: {fileID: 1479748884}
   m_Layer: 5
-  m_Name: Quest4
+  m_Name: Quest8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3609,7 +3636,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 1
+  m_Text: 'Quest9
+
+'
 --- !u!222 &1496699942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3688,7 +3717,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 3
+  m_Text: 'Quest11
+
+'
 --- !u!222 &1637906675
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3838,7 +3869,7 @@ GameObject:
   - component: {fileID: 1798184015}
   - component: {fileID: 1798184014}
   m_Layer: 5
-  m_Name: Quest2
+  m_Name: Quest6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3959,7 +3990,7 @@ GameObject:
   - component: {fileID: 1810331634}
   - component: {fileID: 1810331633}
   m_Layer: 5
-  m_Name: Quest 1
+  m_Name: Quest9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4119,7 +4150,7 @@ GameObject:
   - component: {fileID: 1905200844}
   - component: {fileID: 1905200843}
   m_Layer: 5
-  m_Name: Quest3
+  m_Name: Quest7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4490,7 +4521,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quest 2
+  m_Text: Quest 6
 --- !u!222 &2099746825
 CanvasRenderer:
   m_ObjectHideFlags: 0
