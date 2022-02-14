@@ -49,7 +49,7 @@ public class QuestingManager : MonoBehaviour
                 markForDeletion.Add(quest);
 
                 //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
-                QuestFinished(this, quest);
+                // QuestFinished(this, quest);
                 //relationshipManager.RecalculateAllRelationships();
             }
         }
@@ -58,6 +58,7 @@ public class QuestingManager : MonoBehaviour
         {
             activeQuests.Remove(quest);
             finishedQuests.Add(quest);
+            QuestFinished(this, quest);
         }
     }
 
