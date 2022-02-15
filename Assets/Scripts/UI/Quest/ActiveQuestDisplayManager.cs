@@ -8,6 +8,7 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     private QuestingManager questingManager;
     private GameObject questBoxesContainer;
     private List<QuestBox> questBoxes;
+    private GameObject questBannerPrefab;
 
     [SerializeField]
     private int numQuests = 0;
@@ -28,6 +29,7 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     private void Awake()
     {
         questBoxes = new List<QuestBox>();
+        questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
 
         questBoxesContainer = transform.Find("Canvas").Find("Background").Find("Quests").gameObject;
         foreach(Transform group in questBoxesContainer.transform)
@@ -45,6 +47,7 @@ public class ActiveQuestDisplayManager : MonoBehaviour
 
     private void Start()
     {
+
         questingManager.QuestFinished += UpdateQuestBoxes;
         questingManager.QuestStarted += UpdateQuestBoxes;
 
@@ -77,8 +80,8 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     {
         if (currentGroup != 2 && (numQuests / 4) > currentGroup)
         {
-            StartCoroutine(AnimateQuestBox(-400));
-            //questBoxesContainer.transform.position += new Vector3(-400, 0, 0);
+            //StartCoroutine(AnimateQuestBox(-400));
+            questBoxesContainer.transform.position += new Vector3(-400, 0, 0);
             currentGroup++;
         }
     }
@@ -87,8 +90,8 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     {
         if (currentGroup != 0)
         {
-            StartCoroutine(AnimateQuestBox(400));
-            //questBoxesContainer.transform.position += new Vector3(400, 0, 0);
+            //StartCoroutine(AnimateQuestBox(400));
+            questBoxesContainer.transform.position += new Vector3(400, 0, 0);
             currentGroup--;
         }
     }
@@ -101,7 +104,7 @@ public class ActiveQuestDisplayManager : MonoBehaviour
             {
                 int temp = xMove / 400;
                 yield return new WaitForSeconds(0.001f);
-                questBoxesContainer.transform.position += new Vector3(temp*2, 0, 0);
+                questBoxesContainer.transform.position += new Vector3(temp*2 * Time.deltaTime, 0, 0);
             }
         }
         else
@@ -110,9 +113,14 @@ public class ActiveQuestDisplayManager : MonoBehaviour
             {
                 int temp = xMove / 400;
                 yield return new WaitForSeconds(0.001f);
-                questBoxesContainer.transform.position += new Vector3(temp*2, 0, 0);
+                questBoxesContainer.transform.position += new Vector3(temp*2 * Time.deltaTime, 0, 0);
             }
         }
         yield return null;
+    }
+
+    private void OpenQuestUI(QuestSheet quest)
+    {
+
     }
 }
