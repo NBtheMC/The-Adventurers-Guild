@@ -64,7 +64,7 @@ public class CSVToQuests : MonoBehaviour
                 //stateChanges.Add();
             }
             string[] csvValueChanges = storyletData[i+9].Split(',');
-            List<Storylet.ValueChange> intChanges = new List<Storylet.ValueChange>();
+            List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvValueChanges.Length; j++){
                 string valueChange = csvValueChanges[j];
                 //Do extra parsing
