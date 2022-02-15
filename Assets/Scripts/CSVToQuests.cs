@@ -31,21 +31,21 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvTriggerInts.Length; j++){
                 string triggerInt = csvTriggerInts[j];
                 //Do extra parsing
-                triggerInts.Add();
+                //triggerInts.Add();
             }
             string[] csvTriggerStates = storyletData[i+3].Split(',');
             List<Storylet.TriggerState> triggerStates = new List<Storylet.TriggerState>();
             for(int j = 1; j < csvTriggerStates.Length; j++){
                 string triggerState = csvTriggerStates[j];
                 //Do extra parsing
-                triggerInts.Add();
+                //triggerInts.Add();
             }
             string[] csvTriggerValues = storyletData[i+4].Split(',');
             List<Storylet.TriggerValue> triggerValues = new List<Storylet.TriggerValue>();
             for(int j = 1; j < csvTriggerValues.Length; j++){
                 string triggerValue = csvTriggerValues[j];
                 //Do extra parsing
-                triggerValues.Add();
+                //triggerValues.Add();
             }
             string canBeInstanced = storyletData[i+5].Split(',')[1];
             string successString = storyletData[i+6].Split(',')[1];
@@ -54,21 +54,21 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvIntChanges.Length; j++){
                 string intChange = csvIntChanges[j];
                 //Do extra parsing
-                intChanges.Add();
+                //intChanges.Add();
             }
             string[] csvStateChanges = storyletData[i+8].Split(',');
             List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvStateChanges.Length; j++){
                 string stateChange = csvStateChanges[j];
                 //Do extra parsing
-                stateChanges.Add();
+                //stateChanges.Add();
             }
             string[] csvValueChanges = storyletData[i+9].Split(',');
             List<Storylet.ValueChange> intChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvValueChanges.Length; j++){
                 string valueChange = csvValueChanges[j];
                 //Do extra parsing
-                valueChanges.Add();
+                //valueChanges.Add();
             }
         
         }
@@ -99,21 +99,21 @@ public class CSVToQuests : MonoBehaviour
                 //add intchange to successIntChanges
                 string successIntChange = csvSuccessIntChanges[j];
                 //Do extra parsing
-                successIntChanges.Add();
+                //successIntChanges.Add();
             }
             string[] csvSuccessValueChanges = eventData[i+8].Split(','); //can be multiple
             List<Storylet.ValueChange> successValueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvSuccessValueChanges.Length; j++){
                 string successValueChange = csvSuccessValueChanges[j];
                 //Do extra parsing
-                successValueChanges.Add();
+                //successValueChanges.Add();
             }
             string[] csvSuccessStateChanges = eventData[i+9].Split(','); //can be multiple
             List<Storylet.StateChange> successStateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvSuccessStateChanges.Length; j++){
                 string successStateChange = csvSuccessStateChanges[j];
                 //Do extra parsing
-                successStateChanges.Add();
+                //successStateChanges.Add();
             }
             //fail stuff
             string failNode = eventData[i+10].Split(',')[1];
@@ -123,21 +123,21 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvFailIntChanges.Length; j++){
                 string failIntChange = csvFailIntChanges[j];
                 //Do extra parsing
-                failIntChanges.Add();
+                //failIntChanges.Add();
             }
             string[] csvFailValueChanges = eventData[i+13].Split(','); //can be multiple
             List<Storylet.ValueChange> failValueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvFailValueChanges.Length; j++){
                 string failValueChange = csvFailValueChanges[j];
                 //Do extra parsing
-                failValueChanges.Add();
+                //failValueChanges.Add();
             }
             string[] csvFailStateChanges = eventData[i+14].Split(','); //can be multiple
             List<Storylet.StateChange> failStateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvFailStateChanges.Length; j++){
                 string failStateChange = csvFailStateChanges[j];
                 //Do extra parsing
-                failStateChanges.Add();
+                //failStateChanges.Add();
             }
             
         
