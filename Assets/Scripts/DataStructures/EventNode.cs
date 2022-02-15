@@ -83,7 +83,7 @@ public class EventNode: ScriptableObject
 
 	//called first by quest when quest is done. updates friendships based on win or loss
     //done on current party, change is determined by quest
-    public List<string> UpdatePartyRelationships(PartySheet party, int change){
+    private List<string> UpdatePartyRelationships(PartySheet party, int change){
 		List<string> partyUpdates = new List<string>();
 
         //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
