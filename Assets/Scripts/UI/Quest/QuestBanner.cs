@@ -30,7 +30,6 @@ public class QuestBanner : MonoBehaviour
 
             //add quest to QuestDisplay canvas
             questUIObj.transform.SetParent(QuestDisplay.transform, false);
-            //questUIObj.transform.localPosition = QuestUISpawn.transform.localPosition;
             questUIObj.GetComponent<RectTransform>().anchoredPosition = QuestUISpawn.transform.localPosition;
 
             //move to bottom of child object hierarchy for rendering order reasons

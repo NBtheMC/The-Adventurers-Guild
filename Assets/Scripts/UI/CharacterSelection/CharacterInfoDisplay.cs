@@ -8,6 +8,7 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
     private GameObject QuestDisplay;
     private GameObject CharInfoUIPrefab;
+    private GameObject CharInfoSpawn;
     [SerializeField] private float movementDelta = 0;
     private Vector3 clickPos;
     [HideInInspector] public GameObject CharacterInfo;
@@ -16,6 +17,7 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
     public void Awake()
     {
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
+        CharInfoSpawn = GameObject.Find("CharInfoSpawn");
         QuestDisplay = GameObject.Find("QuestDisplay");
 
         isDisplayed = false;
@@ -39,7 +41,7 @@ public class CharacterInfoDisplay : MonoBehaviour, IPointerDownHandler, IPointer
             CharacterInfo = CharInfoUIObject;
 
             CharInfoUIObject.transform.SetParent(QuestDisplay.transform, false);
-            CharInfoUIObject.transform.localPosition = new Vector3(-230, 80, 0);
+            CharInfoUIObject.GetComponent<RectTransform>().anchoredPosition = CharInfoSpawn.transform.localPosition;
             CharInfoUIObject.transform.SetAsLastSibling();
 
             CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();

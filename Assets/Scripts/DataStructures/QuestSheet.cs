@@ -116,7 +116,7 @@ public class QuestSheet
 	public EventInfo getNewEventInfo()
 	{
 		EventInfo currentEvent;
-		currentEvent.description = "Event description"; //placeholder text
+		currentEvent.description = currentConnection.description; //placeholder text
 		currentEvent.stat = currentConnection.stat.ToString();
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
