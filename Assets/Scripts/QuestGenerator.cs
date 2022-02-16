@@ -62,7 +62,7 @@ public class QuestGenerator : MonoBehaviour
         AttachNodes(questParameters, head, questParameters.length - 1);
 
         //Create new quest sheet and add it to the questingManager
-        QuestSheet questSheet = new QuestSheet(head, questName, 6);
+        QuestSheet questSheet = new QuestSheet(head, questName);
         questingManager.bankedQuests.Add(questSheet);
 
         return;

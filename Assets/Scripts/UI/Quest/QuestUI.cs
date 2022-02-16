@@ -31,7 +31,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
         questDescription = transformer.Find("Description").gameObject.GetComponent<Text>();
-        questReward = transformer.Find("Rewards/Text").gameObject.GetComponent<Text>();
+        questReward = transformer.Find("Rewards").gameObject.GetComponent<Text>();
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
@@ -57,32 +57,14 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //setup first event
 
         //setup reward
-        questReward.text = string.Format("Quest Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
-        //setup party formation drop points
-        Rect rect = DropPoints.rect;
-        float dropPointOffset = rect.width / (questSheet.partySize + 1);
+        questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
 
-
-        for (int i = 1; i <= questSheet.partySize; i++)
+        //add drop points to drop handler
+        foreach(Transform child in DropPoints) 
         {
-            //make the drop point, set to be a child of Party object
-            GameObject dropPoint = Instantiate(dropPointPrefab);
-            dropPoint.transform.SetParent(DropPoints, false);
-
-            //set anchor points
-            RectTransform dropPointRT = dropPoint.GetComponent<RectTransform>();
-            dropPointRT.anchorMin = new Vector2(0, 0.5f);
-            dropPointRT.anchorMax = new Vector2(0, 0.5f);
-            dropPointRT.pivot = new Vector2(0.5f, 0.5f);
-
-            //set position
-            dropPointRT.anchoredPosition = new Vector2(dropPointOffset * i, 0);
-            print("Pos: " + dropPoint.transform.localPosition);
-            print("Anchor: " + dropPointRT.anchoredPosition);
-
-            //add drop point to dropHandler
-            dropHandler.AddDropPoint(dropPoint.GetComponent<ObjectDropPoint>());
+            dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
         }
+
     }
 
 
@@ -94,7 +76,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //setup first event
 
         //setup reward
-        questReward.text = string.Format("Quest Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
+        questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
 
         return;
     }
