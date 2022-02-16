@@ -5,7 +5,7 @@ using UnityEngine;
 public class QuestSheet
 {
 	public string questName { get; private set; }
-	public string questDescription { get; private set; }
+	public string questDescription { get; private set; } // What the description of the quest is.
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
@@ -28,7 +28,7 @@ public class QuestSheet
 	/// </summary>
 	/// <param name="connection_input">Head of the event graph</param>
 	/// <param name="name_Input">Name of the Quest</param>
-	public QuestSheet(EventNode connection_input, string name_Input, int partySize_input = 4)
+	public QuestSheet(EventNode connection_input, string name_Input, int partySize_input = 4, string inputQuestDescription = "")
 	{
 		headConnection = connection_input;
 		currentConnection = headConnection;
@@ -37,6 +37,7 @@ public class QuestSheet
 		QuestComplete = false;
 		accumutatedGold = 0;
 		partySize = partySize_input;
+		questDescription = inputQuestDescription;
 
         visitedNodes = new List<EventNode>();
 		questRecap = "";

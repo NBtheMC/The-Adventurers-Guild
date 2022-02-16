@@ -43,6 +43,8 @@ public class Storylet : ScriptableObject
 
 	public string questName; // The name of the quest they will embark on.
 	public EventNode eventHead; // The head of the event tree that is associated with this event.
+	[TextAreaAttribute(4,10)]
+	public string questDescription; // The description of the Quest, if there is to be one.
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
 	public List<TriggerInt> triggerInts = new List<TriggerInt> ();
