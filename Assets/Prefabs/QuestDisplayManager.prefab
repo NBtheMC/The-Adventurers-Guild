@@ -397,10 +397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e70aa3fcca063848947569673249479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questBannerPrefab: {fileID: 8827295751350047168, guid: 98be3eb56f6a2cb419da84eda0b5a9a0, type: 3}
-  dropHandler: {fileID: 0}
-  QuestDisplay: {fileID: 5698263808138649701}
-  questListContent: {fileID: 3012300156025316478}
 --- !u!1 &5698263809420594478
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +659,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5698263808138649697}
     m_Modifications:
+    - target: {fileID: 8865451745521401354, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8865451745700564650, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -764,11 +764,6 @@ PrefabInstance:
 --- !u!224 &3012300156728963244 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8865451746118314393, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
-  m_PrefabInstance: {fileID: 5964382652756744501}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3012300156025316478 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8865451745748155723, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
   m_PrefabInstance: {fileID: 5964382652756744501}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6420725363744243860

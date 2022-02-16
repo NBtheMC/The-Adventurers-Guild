@@ -84,7 +84,7 @@ public class CharacterPoolController : MonoBehaviour
     private void GenerateNewDropPair(CharacterSheet characterToPair)
 	{
         // Makes a new drop point and a new character.
-        GameObject newDropPoint = Instantiate(sampleDropPoint,this.transform);
+        GameObject newDropPoint = Instantiate(sampleDropPoint, this.transform);
         GameObject newCharacter = Instantiate(sampleCharacter, this.transform);
 
         // Adds both references to our internal tracking script.
@@ -95,7 +95,21 @@ public class CharacterPoolController : MonoBehaviour
         DraggerController characterController = newCharacter.GetComponent<DraggerController>();
 
         //give newCharacter object reference to the CharacterSheet
-        newCharacter.GetComponent<CharacterObject>().characterSheet = characterToPair;
+        newCharacter.GetComponent<CharacterInfoDisplay>().characterSheet = characterToPair;
+
+        //if there are any CharacterInfoUI objects displayed, see if the one for this character is displayed
+        GameObject[] activeCharInfoUI = GameObject.FindGameObjectsWithTag("CharInfoUI");
+        foreach(GameObject g in activeCharInfoUI)
+        {
+            CharacterInfoUI charUI = g.GetComponent<CharacterInfoUI>();
+
+            //if this characters info card is already displayed, pair character to it
+            if(charUI.characterName.text == characterToPair.name)
+            {
+                newCharacter.GetComponent<CharacterInfoDisplay>().isDisplayed = true;
+                charUI.charObject = newCharacter;
+            }
+        }
 
         // Tells drop point who is suppose to sit on it.
         dropPointController.heldObject = characterController;
