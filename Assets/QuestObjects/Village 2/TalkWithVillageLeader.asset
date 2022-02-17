@@ -7,25 +7,28 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: TalkWithRival
+  m_Name: TalkWithVillageLeader
   m_EditorClassIdentifier: 
-  description: Go talk to the rival guildmaster :)
+  description: The Village Leader seems mostly reasonable
   stat: 3
-  DC: 10
+  DC: 12
   time: 2
-  Reward: 10
+  Reward: 20
   successNode: {fileID: 0}
-  successString: The party successfully talked to the rival guildmaster. We're establishing
-    friendly relations
+  successString: The Village Leader liked the party, and are willing to renegotiate
+    relations.
   successIntChange: []
   successValueChange: []
   successStateChange: []
-  failureNode: {fileID: 11400000, guid: a3b232004945bb243bd60658d9016b61, type: 2}
-  failureString: The conversation deteriorated. The rival guild began attacking our
-    party.
+  failureNode: {fileID: 11400000, guid: 6cfcdee1902b07741be7511db7a9115e, type: 2}
+  failureString: The village Leader hated the party, and has sent the guards after
+    them.
   failIntChange: []
-  failValueChange: []
+  failValueChange:
+  - name: Cire Reputation
+    value: -3
+    set: 0
   failStateChange: []

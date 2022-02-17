@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: SearchForAnkhegs
   m_EditorClassIdentifier: 
-  description: 
+  description: The party searched for Ankhegs
   stat: 2
-  DC: 0
-  time: 5
+  DC: 20
+  time: 3
   Reward: 0
-  successNode: {fileID: 0}
-  successString: 
+  successNode: {fileID: 11400000, guid: b5a3f387a4e0d6044961a0abeb25f978, type: 2}
+  successString: Ankhegs found!
   successIntChange: []
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: 
+  failureString: The party didn't find any ankhegs and heads home.
   failIntChange: []
   failValueChange: []
   failStateChange: []

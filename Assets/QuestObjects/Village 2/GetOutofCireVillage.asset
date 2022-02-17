@@ -7,23 +7,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: EventSearchForAnkhegs
+  m_Name: GetOutofCireVillage
   m_EditorClassIdentifier: 
-  description: 
-  stat: 2
-  DC: 12
-  time: 2
+  description: Their guards found the party!
+  stat: 1
+  DC: 10
+  time: 1
   Reward: 0
-  successNode: {fileID: 11400000, guid: f71e44873ff0a1648af15319e13ebe45, type: 2}
-  successString: The party found the ankhegs. They began fighting them.
+  successNode: {fileID: 0}
+  successString: The Party fought off the guards.
   successIntChange: []
   successValueChange: []
   successStateChange: []
-  failureNode: {fileID: 11400000, guid: 6fd9d7b2c469bc84bbee4ef6fd516cbe, type: 2}
-  failureString: The party failed to find any Ankhegs and went home.
+  failureNode: {fileID: 0}
+  failureString: The Party was caught. Relations definitely worsened.
   failIntChange: []
   failValueChange: []
   failStateChange: []

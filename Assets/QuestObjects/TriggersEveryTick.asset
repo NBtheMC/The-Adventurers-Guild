@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: StartOfDay
+  m_Name: TriggersEveryTick
   m_EditorClassIdentifier: 
-  questName: Start of Game
+  questName: Triggers Every Tick
   eventHead: {fileID: 0}
-  questDescription: 
+  questDescription: A Tick as passed.
   triggerInts: []
   triggerValues: []
   triggerStates: []
-  canBeInstanced: 0
-  numInstances: 1
+  canBeInstanced: 1
+  numInstances: 73
   triggerIntChanges:
-  - name: CapturedAnkhegs
-    value: 23
-    set: 1
-  triggerValueChanges: []
-  triggerStateChanges:
-  - name: AnkhegFarm
-    state: 1
+  - name: AnkhegCapturingTicks
+    value: 1
+    set: 0
+  triggerValueChanges:
+  - name: AnkhegFarmSecurity
+    value: -0.01
+    set: 0
+  triggerStateChanges: []

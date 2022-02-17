@@ -18,7 +18,7 @@ MonoBehaviour:
   time: 2
   Reward: 0
   successNode: {fileID: 11400000, guid: ef846689edc1f054998bb9a60d715c75, type: 2}
-  successString: The party travels to the farm.
+  successString: The party travels to the farm and began searching for Ankhegs.
   successIntChange: []
   successValueChange: []
   successStateChange: []

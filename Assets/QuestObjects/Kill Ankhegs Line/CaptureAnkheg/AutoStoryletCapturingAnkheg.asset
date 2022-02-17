@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: StartOfDay
+  m_Name: AutoStoryletCapturingAnkheg
   m_EditorClassIdentifier: 
-  questName: Start of Game
+  questName: Researcher Capturing Ankheg
   eventHead: {fileID: 0}
-  questDescription: 
-  triggerInts: []
+  questDescription: A researcher went to capture more ankhegs.
+  triggerInts:
+  - name: AnkhegCapturing
+    value: 10
+    triggerType: 1
   triggerValues: []
   triggerStates: []
-  canBeInstanced: 0
-  numInstances: 1
+  canBeInstanced: 1
+  numInstances: 0
   triggerIntChanges:
   - name: CapturedAnkhegs
-    value: 23
-    set: 1
+    value: 1
+    set: 0
   triggerValueChanges: []
-  triggerStateChanges:
-  - name: AnkhegFarm
-    state: 1
+  triggerStateChanges: []

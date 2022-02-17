@@ -1265,6 +1265,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestDisplayManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7280735043978585615, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 479
+      objectReference: {fileID: 0}
+    - target: {fileID: 7280735043978585615, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 110
+      objectReference: {fileID: 0}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: timeSystem
       value: 
@@ -1275,7 +1283,7 @@ PrefabInstance:
       objectReference: {fileID: 767544276}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: storylets.Array.size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: storylets.Array.data[2]
@@ -1289,13 +1297,33 @@ PrefabInstance:
       propertyPath: storylets.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: daa7a3f66d435d4429127bfdd1a1fca9, type: 2}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: storylets.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: cf005adbf0c8fb443bdf6158565b13df, type: 2}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: storylets.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d38fece7b90b604e8c226b20320164c, type: 2}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: storylets.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: fdd48764d5c924d48bd088b0c1584812, type: 2}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: storylets.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ea1c5211fe501b41910dcd5730599dd, type: 2}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: storylets.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: db6bd3fa7d0b5224099662f16208467c, type: 2}
     - target: {fileID: 7280735044324053916, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -187
+      value: -192
       objectReference: {fileID: 0}
     - target: {fileID: 7280735044324053916, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -16
+      value: -42
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
