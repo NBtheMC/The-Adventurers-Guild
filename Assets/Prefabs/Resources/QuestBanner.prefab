@@ -125,7 +125,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6063333571525052799}
         m_TargetAssemblyTypeName: QuestBanner, Assembly-CSharp
         m_MethodName: displayQuestUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -146,9 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06fa7cb0645b154ea806f3eef23487b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropHandler: {fileID: 0}
-  QuestDisplay: {fileID: 0}
-  questUIPrefab: {fileID: 2891471291067920301, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
+  isDisplayed: 0
 --- !u!1 &8827295753102160723
 GameObject:
   m_ObjectHideFlags: 0

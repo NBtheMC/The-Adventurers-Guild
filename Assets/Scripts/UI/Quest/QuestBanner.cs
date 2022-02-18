@@ -19,11 +19,18 @@ public class QuestBanner : MonoBehaviour
         isDisplayed = false;
     }
 
-    public void displayQuestUI()
+    public void displayQuestUI(bool displayOnly = false)
     {
+        Debug.Log("QuestBanner.questSheet is null: " + (questSheet == null).ToString());
         if (!isDisplayed)
         {
             GameObject questUIObj = Instantiate(questUIPrefab);
+
+            if(displayOnly)
+            {
+                questUIObj.transform.Find("FormPartyButton").gameObject.SetActive(false);
+            }
+
             questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
 
             //add quest to QuestDisplay canvas
@@ -36,6 +43,7 @@ public class QuestBanner : MonoBehaviour
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
             questUI.SetupQuestUI(questSheet);
+            Debug.Log(questSheet.questName);
             isDisplayed = true;
 
             var i = UnityEngine.Random.Range(0, 3);
