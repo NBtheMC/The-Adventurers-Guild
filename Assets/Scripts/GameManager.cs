@@ -43,4 +43,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+    public void QuitGame(){
+        Application.Quit();
+    }
 }
