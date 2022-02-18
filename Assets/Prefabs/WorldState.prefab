@@ -94,5 +94,6 @@ MonoBehaviour:
   storylets:
   - {fileID: 11400000, guid: 9da8dadcd4554af478abaf71ea2fbacb, type: 2}
   - {fileID: 11400000, guid: 57fbaea444dcdce47ba559af66e84ca2, type: 2}
+  - {fileID: 11400000, guid: 728ed9194218a2e42b4891dddc1668fb, type: 2}
   questingManager: {fileID: 0}
   timeSystem: {fileID: 0}

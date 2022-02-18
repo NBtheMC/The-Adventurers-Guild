@@ -7,31 +7,35 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: TalkWithVillageLeader
+  m_Name: ClearAnkhegs
   m_EditorClassIdentifier: 
-  description: The Village Leader seems mostly reasonable
-  stat: 3
-  DC: 12
-  time: 2
-  Reward: 20
+  description: The party goes to clear a bunch of the Ankhegs.
+  stat: 1
+  DC: 20
+  time: 10
+  Reward: 120
   successNode: {fileID: 0}
-  successString: The Village Leader liked the party, and are willing to renegotiate
-    relations.
-  successIntChange: []
+  successString: The party cleared a significant amount of the ankhegs from Cire
+  successIntChange:
+  - name: NumberOfAnkhegs
+    value: -20
+    set: 0
   successValueChange:
   - name: CireReputation
-    value: 6
+    value: 8
     set: 0
   successStateChange: []
-  failureNode: {fileID: 11400000, guid: 6cfcdee1902b07741be7511db7a9115e, type: 2}
-  failureString: The village Leader hated the party, and has sent the guards after
-    them.
-  failIntChange: []
+  failureNode: {fileID: 0}
+  failureString: The party cleared a few, but definitely not enough
+  failIntChange:
+  - name: NumberOfAnkhegs
+    value: -2
+    set: 0
   failValueChange:
   - name: CireReputation
-    value: -3
+    value: 0.6
     set: 0
   failStateChange: []

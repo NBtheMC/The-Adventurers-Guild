@@ -10,28 +10,26 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: TalkWithVillageLeader
+  m_Name: MeetLeaderMargrave
   m_EditorClassIdentifier: 
-  description: The Village Leader seems mostly reasonable
+  description: 
   stat: 3
-  DC: 12
+  DC: 3
   time: 2
-  Reward: 20
-  successNode: {fileID: 0}
-  successString: The Village Leader liked the party, and are willing to renegotiate
-    relations.
+  Reward: 0
+  successNode: {fileID: 11400000, guid: 05bb344a10e5a4b4a878a2c4fe3b68ef, type: 2}
+  successString: The party met with Leader Margrave
   successIntChange: []
   successValueChange:
   - name: CireReputation
-    value: 6
+    value: 0.6
     set: 0
   successStateChange: []
-  failureNode: {fileID: 11400000, guid: 6cfcdee1902b07741be7511db7a9115e, type: 2}
-  failureString: The village Leader hated the party, and has sent the guards after
-    them.
+  failureNode: {fileID: 0}
+  failureString: 
   failIntChange: []
   failValueChange:
   - name: CireReputation
-    value: -3
+    value: -4
     set: 0
   failStateChange: []

@@ -7,23 +7,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: MeetLeaderMargrave
+  m_Name: TravelwithMargrave
   m_EditorClassIdentifier: 
-  description: 
-  stat: 0
-  DC: 0
+  description: The party traveled with Margrave to the neccessary locations
+  stat: 3
+  DC: 6
   time: 0
-  Reward: 0
+  Reward: 80
   successNode: {fileID: 0}
-  successString: 
+  successString: Leader Margrave was delighted with the tour
   successIntChange: []
-  successValueChange: []
+  successValueChange:
+  - name: CireReputation
+    value: 10
+    set: 0
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: 
+  failureString: Leader Margrave was unimpressed, but thanks you for the effort.
   failIntChange: []
-  failValueChange: []
+  failValueChange:
+  - name: CireReputation
+    value: -0.5
+    set: 0
   failStateChange: []

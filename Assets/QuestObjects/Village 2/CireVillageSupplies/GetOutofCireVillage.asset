@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: GetOutofCireVillage
@@ -20,10 +20,16 @@ MonoBehaviour:
   successNode: {fileID: 0}
   successString: The Party fought off the guards.
   successIntChange: []
-  successValueChange: []
+  successValueChange:
+  - name: CireReputation
+    value: -1
+    set: 0
   successStateChange: []
   failureNode: {fileID: 0}
   failureString: The Party was caught. Relations definitely worsened.
   failIntChange: []
-  failValueChange: []
+  failValueChange:
+  - name: CireReputation
+    value: -1.5
+    set: 0
   failStateChange: []
