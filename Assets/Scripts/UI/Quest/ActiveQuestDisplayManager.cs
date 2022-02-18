@@ -18,18 +18,21 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     {
         public GameObject gameObject;
         public Text text;
+        public QuestBanner questBanner;
+        public Button button;
 
         public QuestBox(GameObject gameObject)
         {
             this.gameObject = gameObject;
             text = gameObject.GetComponentInChildren<Text>();
+            questBanner = gameObject.GetComponent<QuestBanner>();
+            button = gameObject.GetComponent<Button>();
         }
     }
 
     private void Awake()
     {
         questBoxes = new List<QuestBox>();
-        questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
 
         questBoxesContainer = transform.Find("Canvas").Find("Background").Find("Quests").gameObject;
         foreach(Transform group in questBoxesContainer.transform)
@@ -47,7 +50,6 @@ public class ActiveQuestDisplayManager : MonoBehaviour
 
     private void Start()
     {
-
         questingManager.QuestFinished += UpdateQuestBoxes;
         questingManager.QuestStarted += UpdateQuestBoxes;
 
@@ -66,8 +68,13 @@ public class ActiveQuestDisplayManager : MonoBehaviour
 
         for(int i = 0; i < questingManager.activeQuests.Count; i++)
         {
-            questBoxes[i].gameObject.SetActive(true);
-            questBoxes[i].text.text = questingManager.activeQuests[i].questName;
+            QuestSheet activeQuest = questingManager.activeQuests[i];
+            QuestBox questBox = questBoxes[i];
+
+            questBox.gameObject.SetActive(true);
+            questBox.questBanner.questSheet = activeQuest;
+            questBox.button.onClick.AddListener(delegate { questBox.questBanner.displayQuestUI(true); });
+            questBoxes[i].text.text = questBox.questBanner.questSheet.questName;
         }
 
         for(int i = questingManager.activeQuests.Count; i < 12; i++)
@@ -80,8 +87,8 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     {
         if (currentGroup != 2 && (numQuests / 4) > currentGroup)
         {
-            //StartCoroutine(AnimateQuestBox(-400));
-            questBoxesContainer.transform.position += new Vector3(-400, 0, 0);
+            StartCoroutine(AnimateQuestBox(-400));
+            // questBoxesContainer.transform.position += new Vector3(-400, 0, 0);
             currentGroup++;
         }
     }
@@ -90,8 +97,8 @@ public class ActiveQuestDisplayManager : MonoBehaviour
     {
         if (currentGroup != 0)
         {
-            //StartCoroutine(AnimateQuestBox(400));
-            questBoxesContainer.transform.position += new Vector3(400, 0, 0);
+            StartCoroutine(AnimateQuestBox(400));
+            // questBoxesContainer.transform.position += new Vector3(400, 0, 0);
             currentGroup--;
         }
     }
