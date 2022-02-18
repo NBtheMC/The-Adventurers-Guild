@@ -30,8 +30,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
-        questDescription = transformer.Find("Description").gameObject.GetComponent<Text>();
-        questReward = transformer.Find("Rewards").gameObject.GetComponent<Text>();
+        questDescription = transformer.Find("Description/DescriptionText").gameObject.GetComponent<Text>();
+        questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
@@ -53,7 +53,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //Setup name
         questName.text = attachedSheet.questName;
         //setup description
-        questDescription.text = attachedSheet.getNewEventInfo().description;
+        questDescription.text = attachedSheet.questDescription;
         //setup first event
 
         //setup reward
