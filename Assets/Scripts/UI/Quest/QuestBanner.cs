@@ -29,6 +29,7 @@ public class QuestBanner : MonoBehaviour
             if(displayOnly)
             {
                 questUIObj.transform.Find("FormPartyButton").gameObject.SetActive(false);
+                questUIObj.transform.Find("Party").gameObject.SetActive(true);
             }
 
             questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
