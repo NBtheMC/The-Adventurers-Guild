@@ -95,7 +95,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
             if (character)
             {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterInfoDisplay>().characterSheet;
+                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
                 partyToSend.addMember(charSheet);
             }
         }
@@ -124,7 +124,6 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
             if (character)
             {
-                character.gameObject.GetComponent<CharacterInfoDisplay>().CharacterInfo = null;
                 Destroy(character.gameObject);
             }
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
