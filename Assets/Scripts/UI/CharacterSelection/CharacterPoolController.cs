@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterPoolController : MonoBehaviour
 {
@@ -96,6 +97,12 @@ public class CharacterPoolController : MonoBehaviour
 
         //give newCharacter object reference to the CharacterSheet
         newCharacter.GetComponent<CharacterInfoDisplay>().characterSheet = characterToPair;
+
+        if (characterToPair.portrait != null)
+        {
+            newCharacter.GetComponent<Image>().sprite = characterToPair.portrait;
+        }
+
 
         //if there are any CharacterInfoUI objects displayed, see if the one for this character is displayed
         GameObject[] activeCharInfoUI = GameObject.FindGameObjectsWithTag("CharInfoUI");
