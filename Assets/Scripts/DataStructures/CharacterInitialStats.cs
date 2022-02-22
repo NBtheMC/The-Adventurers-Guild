@@ -6,8 +6,7 @@ using UnityEngine;
 public class CharacterInitialStats : ScriptableObject
 {
     public string characterName;
-
     public bool hiredAtStart;
-
     public int combat, exploration, diplomacy, stamina;
+    public Sprite portrait;
 }

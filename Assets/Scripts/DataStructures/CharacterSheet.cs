@@ -16,6 +16,9 @@ public class CharacterSheet
     // All the basic stats.
     public enum StatDescriptors { Combat = 1, Exploration = 2, Diplomacy = 3, Stamina = 4 }
 
+    //Portrait associated with character
+    public Sprite portrait { get; private set; }
+
     /// <summary>
     /// Constructor with access to change dictionary at any time.
     /// </summary>
@@ -41,6 +44,7 @@ public class CharacterSheet
         statlines.Add(StatDescriptors.Stamina, characterStats.stamina);
         adventurer = new Adventurer();
         adventurer.characterSheet = this;
+        portrait = characterStats.portrait;
     }
 
     /// <summary>
