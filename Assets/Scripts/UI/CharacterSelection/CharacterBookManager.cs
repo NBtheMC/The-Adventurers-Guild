@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class CharacterBookManager : MonoBehaviour
+public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     private GameObject QuestDisplay;
     private GameObject CharInfoUIPrefab;
@@ -16,7 +17,7 @@ public class CharacterBookManager : MonoBehaviour
     void Awake()
     {
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
-        CharInfoSpawn = GameObject.Find("CharInfoSpawn");
+        CharInfoSpawn = GameObject.Find("CharInfoBook");
         QuestDisplay = GameObject.Find("QuestDisplay");
     }
     void Start()
@@ -32,27 +33,31 @@ public class CharacterBookManager : MonoBehaviour
         activeObject = adventurers[0];
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        this.transform.position = activeObject.transform.position;
-    }
-
-    public void DisplayAdjacent(int i)
+    public void DisplayNext()
     {
         adventurers[displayIndex].SetActive(false);
 
-        displayIndex += i;
-        if (displayIndex == -1)
-            displayIndex = adventurers.Count - 1;
-        else if (displayIndex == adventurers.Count)
+        displayIndex++;
+        if (displayIndex == adventurers.Count)
             displayIndex = 0;
 
         adventurers[displayIndex].SetActive(true);
         adventurers[displayIndex].transform.position = transform.position;
 
         activeObject = adventurers[displayIndex];
-        activeObject.transform.SetAsLastSibling();
+    }
+    public void DisplayPrev()
+    {
+        adventurers[displayIndex].SetActive(false);
+
+        displayIndex--;
+        if (displayIndex == -1)
+            displayIndex = adventurers.Count - 1;
+
+        adventurers[displayIndex].SetActive(true);
+        adventurers[displayIndex].transform.position = transform.position;
+
+        activeObject = adventurers[displayIndex];
     }
 
     public void DisplayCharacter(CharacterSheet character)
@@ -67,7 +72,6 @@ public class CharacterBookManager : MonoBehaviour
                 displayIndex = i;
                 adventurers[displayIndex].transform.position = transform.position;
                 activeObject = adventurers[displayIndex];
-                activeObject.transform.SetAsLastSibling();
             }
         }
     }
@@ -75,16 +79,28 @@ public class CharacterBookManager : MonoBehaviour
     public void AddCharacter(CharacterSheet character)
     {
         GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab);
-        CharInfoUIObject.transform.SetParent(QuestDisplay.transform, false);
-        CharInfoUIObject.GetComponent<RectTransform>().anchoredPosition = CharInfoSpawn.transform.localPosition;
-        CharInfoUIObject.transform.SetAsLastSibling();
+        CharInfoUIObject.transform.SetParent(this.transform, false);
+        CharInfoUIObject.transform.SetAsFirstSibling();
         CharInfoUIObject.SetActive(false);
-        CharInfoUIObject.transform.Find("Next").GetComponent<Button>().onClick.AddListener(delegate { DisplayAdjacent(1); });
-        CharInfoUIObject.transform.Find("Prev").GetComponent<Button>().onClick.AddListener(delegate { DisplayAdjacent(-1); });
 
         CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
         characterInfoUI.SetupCharacterInfoUI(character);
 
         adventurers.Add(CharInfoUIObject);
+        
+    }
+
+    /// <summary>
+    /// For when this UI object is being dragged.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData)
+    {
+        this.transform.position += new Vector3(eventData.delta.x, eventData.delta.y);
+    }
+
+    public void OnPointerDown(PointerEventData pointerEventData)
+    {
+        this.transform.SetAsLastSibling();
     }
 }

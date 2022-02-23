@@ -12,7 +12,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void Awake()
     {
-        CharBook = GameObject.Find("CharInfoSpawn").GetComponent<CharacterBookManager>();
+        CharBook = GameObject.Find("CharInfoBook").GetComponent<CharacterBookManager>();
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)
