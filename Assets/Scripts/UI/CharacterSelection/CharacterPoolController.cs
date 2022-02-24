@@ -30,7 +30,7 @@ public class CharacterPoolController : MonoBehaviour
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         dropPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
-    }
+	}
 
     // Start is called before the first frame update
     void Start()
@@ -112,6 +112,7 @@ public class CharacterPoolController : MonoBehaviour
         else { lastPlacedRow++; }
         float calcXPos = 15 + (lastPlacedRow * (newCharacter.GetComponent<RectTransform>().rect.width + pixelSeperatorWidth));
         float calcYPos = -20 + (lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height + pixelSeperatorWidth) * -1);
+
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
         // Tells dropHandler that we have a new dropPoint.

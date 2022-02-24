@@ -102,7 +102,6 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
             CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
         }
 
-
         adventurers.Add(CharInfoUIObject);
         
         GameObject dot = Instantiate(indicator);
