@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterPoolController : MonoBehaviour
 {
@@ -19,10 +20,10 @@ public class CharacterPoolController : MonoBehaviour
     private CharacterSheetManager characterManager;
     private RectTransform dropPoints;
 
-	private void Awake()
-	{
+    private void Awake()
+    {
         visibleDropAreas = new List<(GameObject dropPoint, GameObject character)>();
-		activeRole = new List<CharacterSheet>();
+        activeRole = new List<CharacterSheet>();
         // We're assuming some previous point to set the last point.
         lastPlacedCol = -1;
         lastPlacedRow = maxColSize;
@@ -31,13 +32,13 @@ public class CharacterPoolController : MonoBehaviour
         dropPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
 	}
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        foreach(CharacterSheet character in characterManager.FreeAdventurers)
+        foreach (CharacterSheet character in characterManager.FreeAdventurers)
         {
             activeRole.Add(character);
-            
+
         }
         RefreshCharacterPool();
 
@@ -48,7 +49,7 @@ public class CharacterPoolController : MonoBehaviour
     {
         activeRole.Clear();
 
-        foreach(CharacterSheet character in characterManager.FreeAdventurers)
+        foreach (CharacterSheet character in characterManager.FreeAdventurers)
         {
             activeRole.Add(character);
         }
@@ -61,30 +62,30 @@ public class CharacterPoolController : MonoBehaviour
     /// Good to pair with filters and live editing later on.
     /// </summary>
     public void RefreshCharacterPool()
-	{
+    {
         dropHandler.ClearDropPoints();
 
-        foreach((GameObject,GameObject) thing in visibleDropAreas)
-		{
+        foreach ((GameObject, GameObject) thing in visibleDropAreas)
+        {
             Destroy(thing.Item1);
             Destroy(thing.Item2);
-		}
+        }
 
-        foreach(CharacterSheet character in activeRole)
-		{
+        foreach (CharacterSheet character in activeRole)
+        {
             GenerateNewDropPair(character);
-		}
+        }
 
         lastPlacedCol = -1;
         lastPlacedRow = maxColSize;
-	}
+    }
 
     /// <summary>
     /// Used by this code to generate new drop points at the next appropriate place.
     /// Should not be called constantly, as it instiates new data objects.
     /// </summary>
     private void GenerateNewDropPair(CharacterSheet characterToPair)
-	{
+    {
         // Makes a new drop point and a new character.
         GameObject newDropPoint = Instantiate(sampleDropPoint, dropPoints.transform);
         GameObject newCharacter = Instantiate(sampleCharacter, dropPoints.transform);
@@ -103,13 +104,15 @@ public class CharacterPoolController : MonoBehaviour
         dropPointController.heldObject = characterController;
 
         // Places the drop point where it's suppose to go.
-        if(lastPlacedRow == maxColSize)
-		{
+        if (lastPlacedRow == maxColSize)
+        {
             lastPlacedCol++;
             lastPlacedRow = 0;
-		} else { lastPlacedRow++; }
-        float calcXPos = 15 + ( lastPlacedRow* (newCharacter.GetComponent<RectTransform>().rect.width+pixelSeperatorWidth));
-        float calcYPos = -20 + ( lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height+pixelSeperatorWidth) * -1);
+        }
+        else { lastPlacedRow++; }
+        float calcXPos = 15 + (lastPlacedRow * (newCharacter.GetComponent<RectTransform>().rect.width + pixelSeperatorWidth));
+        float calcYPos = -20 + (lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height + pixelSeperatorWidth) * -1);
+
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
         // Tells dropHandler that we have a new dropPoint.
@@ -123,16 +126,23 @@ public class CharacterPoolController : MonoBehaviour
         characterController.objectDropPoint = dropPointController;
         characterController.dropHandler = dropHandler;
         characterController.dropType = DropHandler.DropType.character;
-	}
+
+        //assign portrait if it exists
+        if(characterToPair.portrait != null)
+        {
+            newCharacter.GetComponent<Image>().sprite = characterToPair.portrait;
+            newCharacter.GetComponent<Image>().color = Color.white;
+        }
+    }
 
     /// <summary>
     /// Adds a character to be chosen through the character pool.
     /// </summary>
     public void AddCharacter(CharacterSheet inputCharacter)
-	{
+    {
         activeRole.Add(inputCharacter);
         //this.RefreshCharacterPool();
-	}
+    }
 
     /// <summary>
     /// Removes a character from the character pool
@@ -150,8 +160,8 @@ public class CharacterPoolController : MonoBehaviour
     /// Accepts a list of charactersheets to compile and generate active characters. Wipes current characters.
     /// </summary>
     public void CompileActiveCharacters(List<CharacterSheet> listofCharacters)
-	{
+    {
         // Makes a new list of characters, to be augmentable by themselves.
         activeRole = new List<CharacterSheet>(listofCharacters);
-	}
+    }
 }
