@@ -5,17 +5,17 @@ using UnityEngine;
 public class QuestSheet
 {
 	public string questName { get; private set; }
-	public string questDescription { get; private set; }
+	public string questDescription { get; private set; } // What the description of the quest is.
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
-	public int partySize { get; private set; } //how many adventurers can be assigned to a quest
+	public int partySize = 4;
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
-	public WorldStateManager worldStateManager;
+	private WorldStateManager worldStateManager;
 
 
 	public List<EventNode> visitedNodes;
@@ -28,7 +28,7 @@ public class QuestSheet
 	/// </summary>
 	/// <param name="connection_input">Head of the event graph</param>
 	/// <param name="name_Input">Name of the Quest</param>
-	public QuestSheet(EventNode connection_input, string name_Input, int partySize_input = 4)
+	public QuestSheet(EventNode connection_input, string name_Input, WorldStateManager inputWorld, string inputQuestDescription = "")
 	{
 		headConnection = connection_input;
 		currentConnection = headConnection;
@@ -36,7 +36,9 @@ public class QuestSheet
 		questName = name_Input;
 		QuestComplete = false;
 		accumutatedGold = 0;
-		partySize = partySize_input;
+		questDescription = inputQuestDescription;
+		worldStateManager = inputWorld;
+		Debug.Assert(worldStateManager != null);
 
         visitedNodes = new List<EventNode>();
 		questRecap = "";
@@ -73,9 +75,22 @@ public class QuestSheet
 			switch (returnMessage.objectiveComplete)
 			{
 				case true:
-					foreach (Storylet.IntChange change in currentConnection.successIntChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
-					foreach (Storylet.StateChange change in currentConnection.successStateChange) { Debug.Log($"{change.name} changed {change.state}"); worldStateManager.ChangeWorldState(change.name, change.state); }
-					foreach (Storylet.ValueChange change in currentConnection.successValueChange) { Debug.Log($"{change.name} changed {change.value}"); worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+					foreach (Storylet.IntChange change in currentConnection.successIntChange)
+					{
+						Debug.Log($"{change.name} changed {change.value}");
+						worldStateManager.ChangeWorldInt(change.name, change.value, change.set);
+					}
+					foreach (Storylet.StateChange change in currentConnection.successStateChange)
+					{
+						Debug.Log($"{change.name} changed {change.state}");
+						Debug.Log($"WorldStateManager Exists: {worldStateManager != null}");
+						worldStateManager.ChangeWorldState(change.name, change.state);
+					}
+					foreach (Storylet.ValueChange change in currentConnection.successValueChange)
+					{
+						Debug.Log($"{change.name} changed {change.value}");
+						worldStateManager.ChangeWorldValue(change.name, change.value, change.set);
+					}
 					break;
 				case false:
 					foreach (Storylet.IntChange change in currentConnection.failIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
@@ -118,7 +133,7 @@ public class QuestSheet
 	public EventInfo getNewEventInfo()
 	{
 		EventInfo currentEvent;
-		currentEvent.description = "Event description"; //placeholder text
+		currentEvent.description = currentConnection.description; //placeholder text
 		currentEvent.stat = currentConnection.stat.ToString();
 		currentEvent.DC = currentConnection.DC;
 		return currentEvent;

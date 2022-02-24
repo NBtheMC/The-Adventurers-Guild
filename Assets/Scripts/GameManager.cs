@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public enum Scene{
-        Menu,
-        Questing,
-        Recap
-    };
+    // public enum Scene{
+    //     Menu,
+    //     Questing,
+    //     Recap
+    // };
 
     void Awake(){
         Instance = this;
@@ -31,12 +31,23 @@ public class GameManager : MonoBehaviour
     public void ChangeScenes(string toSwitchTo){
         switch (toSwitchTo){
             case "Menu":
+                SceneManager.LoadScene("Menu");
                 break;
             case "Questing":
-                SceneManager.LoadScene("MainUIScreen");
+                SceneManager.LoadScene("QuestToWorldTest");
+                break;
+            case "Instructions":
+                SceneManager.LoadScene("Instructions");
                 break;
             case "Recap":
                 break;
+            case "Game":
+                SceneManager.LoadScene("MainUIScreen");
+                break;
         }
+    }
+
+    public void QuitGame(){
+        Application.Quit();
     }
 }

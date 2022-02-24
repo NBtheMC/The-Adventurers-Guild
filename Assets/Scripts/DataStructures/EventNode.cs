@@ -59,6 +59,8 @@ public class EventNode: ScriptableObject
 	{
 		EventPackage message = new EventPackage();
 		message.objectiveComplete = adventurers.getStatSummed(stat) > DC;
+		Debug.Log($"Adventurer {adventurers.name}'s {stat} is {adventurers.getStatSummed(stat)}");
+
 		// switchcase for our checks.
 		switch (message.objectiveComplete)
 		{
@@ -83,16 +85,16 @@ public class EventNode: ScriptableObject
 
 	//called first by quest when quest is done. updates friendships based on win or loss
     //done on current party, change is determined by quest
-    public List<string> UpdatePartyRelationships(PartySheet party, int change){
+    private List<string> UpdatePartyRelationships(PartySheet party, int change){
 		List<string> partyUpdates = new List<string>();
 
         //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
         List<Adventurer> partyMembers = new List<Adventurer>();
 
-        foreach(CharacterSheet a in party.party_members){
-			Debug.Log(a.name);
+        foreach(CharacterSheet a in party.Party_Members){
+			//Debug.Log(a.name);
             partyMembers.Add(a.adventurer);
-			Debug.Log(a.adventurer.characterSheet.name);
+			//Debug.Log(a.adventurer.characterSheet.name);
         }
 
         //Actual updating

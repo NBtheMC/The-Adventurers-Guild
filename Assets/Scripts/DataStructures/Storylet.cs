@@ -43,14 +43,17 @@ public class Storylet : ScriptableObject
 
 	public string questName; // The name of the quest they will embark on.
 	public EventNode eventHead; // The head of the event tree that is associated with this event.
+	[TextAreaAttribute(4,10)]
+	public string questDescription; // The description of the Quest, if there is to be one.
+
+	// Set to true if this multiple versions of this quest could be triggered at the same time.
+	public bool canBeInstanced = false;
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
 	public List<TriggerInt> triggerInts = new List<TriggerInt> ();
 	public List<TriggerValue> triggerValues = new List<TriggerValue>();
 	public List<TriggerState> triggerStates = new List<TriggerState>();
 
-	// Set to true if this multiple versions of this quest could be triggered at the same time.
-	public bool canBeInstanced = false;
 
 	// A condition for this item has already been triggered.
 	[HideInInspector] public int numInstances = 0;
