@@ -15,10 +15,10 @@ MonoBehaviour:
   questName: Start of Game
   eventHead: {fileID: 0}
   questDescription: 
+  canBeInstanced: 0
   triggerInts: []
   triggerValues: []
   triggerStates: []
-  canBeInstanced: 0
   numInstances: 1
   triggerIntChanges:
   - name: CapturedAnkhegs

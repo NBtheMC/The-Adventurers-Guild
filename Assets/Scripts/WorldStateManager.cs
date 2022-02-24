@@ -333,7 +333,7 @@ public class WorldStateManager : MonoBehaviour
 			{
 				// Checks to set it directly, or to change it by a value.
 				if (change.set == true) { AddWorldInt(change.name, change.value); }
-				else { ChangeWorldValue(change.name, change.value); }
+				else { ChangeWorldInt(change.name, change.value); }
 			}
 
 			storylet.numInstances++;

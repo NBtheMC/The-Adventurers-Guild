@@ -16,14 +16,14 @@ MonoBehaviour:
   eventHead: {fileID: 11400000, guid: 5cbc677096b2d134085afb88539ff8aa, type: 2}
   questDescription: Cire Village usually sends a trade convey every week. We haven't
     heard from them in a while. Please send someone to check in on them.
+  canBeInstanced: 0
   triggerInts:
   - name: CurrentDay
-    value: 3
+    value: 1
     triggerType: 2
   triggerValues: []
   triggerStates: []
-  canBeInstanced: 0
-  numInstances: 0
+  numInstances: 1
   triggerIntChanges: []
   triggerValueChanges: []
   triggerStateChanges: []
