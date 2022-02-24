@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
                 break;
             case "Recap":
                 break;
+            case "Game":
+                SceneManager.LoadScene("MainUIScreen");
+                break;
         }
     }
 

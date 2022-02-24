@@ -18,6 +18,7 @@ public class CharacterPoolController : MonoBehaviour
     private List<(GameObject dropPoint, GameObject character)> visibleDropAreas; // A List of all the drop areas we currently see.
 
     private CharacterSheetManager characterManager;
+    private RectTransform dropPoints;
 
 	private void Awake()
 	{
@@ -28,6 +29,7 @@ public class CharacterPoolController : MonoBehaviour
         lastPlacedRow = maxColSize;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
+        dropPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
 	}
 
 	// Start is called before the first frame update
@@ -85,8 +87,8 @@ public class CharacterPoolController : MonoBehaviour
     private void GenerateNewDropPair(CharacterSheet characterToPair)
 	{
         // Makes a new drop point and a new character.
-        GameObject newDropPoint = Instantiate(sampleDropPoint, this.transform);
-        GameObject newCharacter = Instantiate(sampleCharacter, this.transform);
+        GameObject newDropPoint = Instantiate(sampleDropPoint, dropPoints.transform);
+        GameObject newCharacter = Instantiate(sampleCharacter, dropPoints.transform);
 
         // Adds both references to our internal tracking script.
         visibleDropAreas.Add((newDropPoint, newCharacter));
@@ -127,8 +129,8 @@ public class CharacterPoolController : MonoBehaviour
             lastPlacedCol++;
             lastPlacedRow = 0;
 		} else { lastPlacedRow++; }
-        float calcXPos = 60 + (lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.width+pixelSeperatorWidth));
-        float calcYPos = -60 + (lastPlacedRow * (newCharacter.GetComponent<RectTransform>().rect.height+pixelSeperatorWidth) * -1);
+        float calcXPos = 15 + ( lastPlacedRow* (newCharacter.GetComponent<RectTransform>().rect.width+pixelSeperatorWidth));
+        float calcYPos = -20 + ( lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height+pixelSeperatorWidth) * -1);
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
         // Tells dropHandler that we have a new dropPoint.
