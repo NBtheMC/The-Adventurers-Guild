@@ -27,7 +27,7 @@ public class Adventurer
 
     public void ChangeFriendship(Adventurer a, int friendshipChange){
         //adding new friendship
-        Debug.Log("Friendships: " + friendships);
+        //Debug.Log("Friendships: " + friendships);
         if(friendships.Count == 0){
             friendships.Add(a, friendshipChange);
             return;

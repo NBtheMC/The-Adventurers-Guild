@@ -6,7 +6,7 @@ using UnityEngine;
 public class PartySheet
 {
     public string name;
-    public List<CharacterSheet> party_members { get; private set;}
+    private List<CharacterSheet> party_members;
     public IReadOnlyCollection<CharacterSheet> Party_Members { get { return party_members.AsReadOnly(); } }
     public List<string> relationshipNarrative; //list of things that happened to adventurers on a quest
 

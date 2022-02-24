@@ -14,7 +14,7 @@ public class WorldStateManager : MonoBehaviour
 	private int statDisplayNums = 0;
 	private int spacer = 10; // How much space we're giving them.
 	private int topOfDisplay; // How much space we're giving between items.
-	private int startingSpace = -60; // How much space the first item needs to generate below the top.
+	private int startingSpace = -10; // How much space the first item needs to generate below the top.
 
 	public GameObject intDisplayPrefab;
 	public GameObject floatDisplayPrefab;
@@ -343,7 +343,7 @@ public class WorldStateManager : MonoBehaviour
 			// Checks if there is an event head, to make, if so, makes a new quest
 			if (storylet.eventHead != null)
 			{
-				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName);
+				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, this, storylet.questDescription);
 				questingManager.AddQuest(newQuest);
 			}
 		}

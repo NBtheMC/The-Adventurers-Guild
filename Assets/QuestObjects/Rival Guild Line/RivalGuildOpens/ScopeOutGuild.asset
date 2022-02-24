@@ -7,23 +7,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: ScopeOutGuild
   m_EditorClassIdentifier: 
-  description: Go out and find out where they're keeping the artifact. Feckers
+  description: The party goes to find out what kind of Guild they really are.
   stat: 2
   DC: 9
   time: 1
   Reward: 0
   successNode: {fileID: 11400000, guid: d382f7b2b10ead742bfddd7a37d05536, type: 2}
-  successString: 
+  successString: The party did some recon, seems like the best way to do this is
+    to talk to their Guildmaster
   successIntChange: []
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 11400000, guid: a3b232004945bb243bd60658d9016b61, type: 2}
-  failureString: 
+  failureString: Some of the rival guild members found us.
   failIntChange: []
   failValueChange: []
   failStateChange: []
