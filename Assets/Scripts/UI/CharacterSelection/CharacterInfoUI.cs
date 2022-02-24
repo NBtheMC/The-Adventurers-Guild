@@ -13,6 +13,7 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private Text stamina;
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject charObject;
+    public CharacterSheet charSheet {get; private set;}
 
     // Start is called before the first frame update
     void Awake()
@@ -28,23 +29,17 @@ public class CharacterInfoUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public void SetupCharacterInfoUI(CharacterSheet characterSheet)
     {
+        charSheet = characterSheet;
         characterName.text = characterSheet.name;
-        combat.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Combat);
-        exploration.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
-        diplomacy.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
-        stamina.text += characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
+        combat.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Combat).ToString();
+        exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
+        diplomacy.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
+        stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
     }
 
     public void DestroyUI()
     {
-        if(charObject)
-        {
-            CharacterInfoDisplay infoDisplay = charObject.GetComponent<CharacterInfoDisplay>();
-            infoDisplay.isDisplayed = false;
-            infoDisplay.CharacterInfo = null;
-        }
-            
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     /// <summary>
