@@ -95,6 +95,14 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
         CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
         characterInfoUI.SetupCharacterInfoUI(character);
 
+        //Add character portrait
+        if (character.portrait != null)
+        {
+            //CharInfoUIObject.AddComponent<Image>().sprite = character.portrait;
+            CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+        }
+
+
         adventurers.Add(CharInfoUIObject);
         
         GameObject dot = Instantiate(indicator);
