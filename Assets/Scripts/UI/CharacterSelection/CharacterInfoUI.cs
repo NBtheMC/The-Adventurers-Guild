@@ -33,8 +33,8 @@ public class CharacterInfoUI : MonoBehaviour
         characterName.text = characterSheet.name;
         combat.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Combat).ToString();
         exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
-        diplomacy.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
-        stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
+        diplomacy.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Diplomacy).ToString();
+        stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Stamina).ToString();
     }
 
     public void DestroyUI()

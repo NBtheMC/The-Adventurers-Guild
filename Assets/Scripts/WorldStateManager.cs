@@ -343,7 +343,7 @@ public class WorldStateManager : MonoBehaviour
 			// Checks if there is an event head, to make, if so, makes a new quest
 			if (storylet.eventHead != null)
 			{
-				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, storylet.questDescription);
+				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, this, storylet.questDescription);
 				questingManager.AddQuest(newQuest);
 			}
 		}

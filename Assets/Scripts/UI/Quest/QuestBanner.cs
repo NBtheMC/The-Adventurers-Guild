@@ -28,11 +28,12 @@ public class QuestBanner : MonoBehaviour
         {
             GameObject questUIObj = Instantiate(questUIPrefab);
 
+            /*
             if(displayOnly)
             {
                 questUIObj.transform.Find("FormPartyButton").gameObject.SetActive(false);
                 questUIObj.transform.Find("Party").gameObject.SetActive(true);
-            }
+            }*/
 
             questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
 

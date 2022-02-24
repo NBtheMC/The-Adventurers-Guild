@@ -12,7 +12,6 @@ public class QuestingManager : MonoBehaviour
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
     public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
-    public WorldStateManager stateManager; // Used to assign quests for world updates.
 
     public event EventHandler<QuestSheet> QuestStarted;
     public event EventHandler<QuestSheet> QuestFinished;
@@ -40,7 +39,7 @@ public class QuestingManager : MonoBehaviour
     {
         List<QuestSheet> markForDeletion = new List<QuestSheet>();
 
-        Debug.Log(activeQuests.Count);
+        //Debug.Log(activeQuests.Count);
         foreach (QuestSheet quest in activeQuests)
         {
             quest.advancebyTick();
@@ -78,7 +77,6 @@ public class QuestingManager : MonoBehaviour
     public void AddQuest(QuestSheet quest)
     {
         bankedQuests.Add(quest);
-        quest.worldStateManager = stateManager; 
         QuestAdded(this, quest);
     }
 }
