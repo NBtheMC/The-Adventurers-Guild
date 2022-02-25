@@ -64,7 +64,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             //add drop points to drop handler
             foreach (Transform child in DropPoints)
             {
-                dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
+                //dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
+                dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
             }
         }
 
@@ -153,6 +154,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     public void OnPointerDown(PointerEventData pointerEventData)
     {
         this.transform.SetAsLastSibling();
+        //remove drop points from dropHandler, then add them again infront
+        foreach(Transform child in DropPoints)
+        {
+            dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
+            dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
+        }
     }
 
 }
