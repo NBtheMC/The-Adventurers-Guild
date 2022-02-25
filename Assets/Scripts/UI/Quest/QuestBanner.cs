@@ -53,7 +53,7 @@ public class QuestBanner : MonoBehaviour
 
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(questSheet);
+            questUI.SetupQuestUI(questSheet, displayOnly);
             Debug.Log(questSheet.questName);
             isDisplayed = true;
 
