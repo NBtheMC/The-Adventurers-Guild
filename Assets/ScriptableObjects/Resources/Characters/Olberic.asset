@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Olberic
   hiredAtStart: 1
-  combat: 12
-  exploration: 7
-  diplomacy: 3
+  combat: 16
+  exploration: 10
+  diplomacy: 7
   stamina: 12
+  portrait: {fileID: 21300000, guid: c23efb07f5fe68749accbac1002174f2, type: 3}

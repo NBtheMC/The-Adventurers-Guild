@@ -23,7 +23,7 @@ MonoBehaviour:
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: The party failed to negotiate, and couldn't cross the bridge.
+  failureString: The party couldn't negotiate across the bridge.
   failIntChange: []
   failValueChange: []
   failStateChange: []

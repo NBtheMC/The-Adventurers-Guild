@@ -22,7 +22,7 @@ MonoBehaviour:
   numInstances: 1
   triggerIntChanges:
   - name: CapturedAnkhegs
-    value: 23
+    value: 20
     set: 1
   triggerValueChanges: []
   triggerStateChanges:
