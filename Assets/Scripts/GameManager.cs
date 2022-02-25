@@ -6,14 +6,26 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    // public enum Scene{
-    //     Menu,
-    //     Questing,
-    //     Recap
-    // };
+    //public GameObject WorldState; //parent of all worldstates
+    
+    public Scene currentScene;
 
-    void Awake(){
+    public enum Scene{
+        Menu,
+        Questing,
+        Instructions,
+        Recap
+    };
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -22,27 +34,23 @@ public class GameManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ChangeScenes(string toSwitchTo){
         switch (toSwitchTo){
             case "Menu":
                 SceneManager.LoadScene("Menu");
+                currentScene = Scene.Menu;
                 break;
             case "Questing":
                 SceneManager.LoadScene("QuestToWorldTest");
+                currentScene = Scene.Questing;
                 break;
             case "Instructions":
                 SceneManager.LoadScene("Instructions");
+                currentScene = Scene.Instructions;
                 break;
             case "Recap":
-                break;
-            case "Game":
-                SceneManager.LoadScene("MainUIScreen");
+                SceneManager.LoadScene("Recap");
+                currentScene = Scene.Recap;
                 break;
         }
     }
