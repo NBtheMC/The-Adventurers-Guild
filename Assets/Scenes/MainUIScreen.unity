@@ -305,6 +305,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1748562785016155262, guid: e7072f5c4ccf8064e897ecb07e9cd2b5, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 1748562785016155263, guid: e7072f5c4ccf8064e897ecb07e9cd2b5, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -458,6 +462,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 31711885404804360, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 31711885404804360, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 31711885404804360, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 31711885404804360, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 31711885404804360, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -289
+      objectReference: {fileID: 0}
+    - target: {fileID: 31711885404804360, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 202
+      objectReference: {fileID: 0}
     - target: {fileID: 31711886034698838, guid: b7021a5142f08884fa316fd53fd0bae7, type: 3}
       propertyPath: m_RootOrder
       value: 9

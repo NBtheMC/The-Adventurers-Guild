@@ -18,3 +18,4 @@ MonoBehaviour:
   exploration: 4
   diplomacy: 15
   stamina: 8
+  portrait: {fileID: 21300000, guid: d170171f8fcf7ed4cb1d6008186bbe0a, type: 3}

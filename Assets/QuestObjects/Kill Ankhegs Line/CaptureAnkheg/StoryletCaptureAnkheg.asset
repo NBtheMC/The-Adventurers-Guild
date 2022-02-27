@@ -16,6 +16,7 @@ MonoBehaviour:
   eventHead: {fileID: 11400000, guid: 4c1bc001386aa3a408e5f4a5bea044ec, type: 2}
   questDescription: A researcher who was holding ankhegs in a location accidentally
     let some of the ankhegs go. We're being requested to contain this escape.
+  canBeInstanced: 1
   triggerInts:
   - name: CapturedAnkhegs
     value: 20
@@ -27,8 +28,7 @@ MonoBehaviour:
   triggerStates:
   - name: AnkhegFarm
     state: 1
-  canBeInstanced: 1
-  numInstances: 14
+  numInstances: 0
   triggerIntChanges:
   - name: CapturedAnkhegs
     value: -5
@@ -38,6 +38,9 @@ MonoBehaviour:
     set: 0
   triggerValueChanges:
   - name: AnkhegFarmSecurity
+    value: 0.5
+    set: 0
+  - name: AnkhegPercievedThreat
     value: 0.5
     set: 0
   triggerStateChanges: []

@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Triggers Every Tick
   eventHead: {fileID: 0}
-  questDescription: A Tick as passed.
+  questDescription: A Tick has passed.
+  canBeInstanced: 1
   triggerInts: []
   triggerValues: []
   triggerStates: []
-  canBeInstanced: 1
-  numInstances: 0
+  numInstances: 40
   triggerIntChanges:
   - name: AnkhegCapturingTicks
     value: 1

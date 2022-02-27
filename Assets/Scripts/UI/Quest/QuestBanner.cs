@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestBanner : MonoBehaviour
 {
@@ -22,18 +23,24 @@ public class QuestBanner : MonoBehaviour
     }
 
     public void displayQuestUI(bool displayOnly = false)
-    {
-        Debug.Log("QuestBanner.questSheet is null: " + (questSheet == null).ToString());
+    {   
         if (!isDisplayed)
         {
             GameObject questUIObj = Instantiate(questUIPrefab);
-
-            /*
+            
             if(displayOnly)
             {
-                questUIObj.transform.Find("FormPartyButton").gameObject.SetActive(false);
-                questUIObj.transform.Find("Party").gameObject.SetActive(true);
-            }*/
+                questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
+                GameObject dropPoints = questUIObj.transform.Find("Drop Points").gameObject;
+
+                int index = 0;
+                foreach(CharacterSheet character in questSheet.PartyMembers)
+                {
+                    dropPoints.transform.GetChild(index).Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+                    dropPoints.transform.GetChild(index).Find("Portrait").gameObject.SetActive(true);
+                    index++;
+                }
+            }
 
             questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
 
@@ -46,7 +53,8 @@ public class QuestBanner : MonoBehaviour
 
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(questSheet);
+
+            questUI.SetupQuestUI(questSheet, displayOnly);
             Debug.Log(questSheet.questName);
             isDisplayed = true;
 

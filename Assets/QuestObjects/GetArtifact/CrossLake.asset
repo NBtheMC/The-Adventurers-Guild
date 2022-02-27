@@ -18,12 +18,12 @@ MonoBehaviour:
   time: 0
   Reward: 0
   successNode: {fileID: 11400000, guid: 1473466145e185d4ba9c8d1461a0b327, type: 2}
-  successString: The party managed to cross the lake.
+  successString: The party crossed a lake.
   successIntChange: []
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: The party couldn't figure out how to cross the lake.
+  failureString: The party didn't have the energy to cross the lake.
   failIntChange: []
   failValueChange: []
   failStateChange: []

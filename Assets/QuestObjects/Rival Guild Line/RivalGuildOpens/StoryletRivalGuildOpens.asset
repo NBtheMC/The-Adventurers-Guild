@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Rival Guild Opens
   eventHead: {fileID: 11400000, guid: a001fd69b8eaa0642b07194a46f5bb63, type: 2}
+  questDescription: There's a Rival Guild that just opened. We should go check it
+    out.
+  canBeInstanced: 0
   triggerInts: []
   triggerValues: []
   triggerStates:
   - name: RivalGuildOpen
     state: 0
-  canBeInstanced: 0
   numInstances: 1
   triggerIntChanges: []
   triggerValueChanges: []
