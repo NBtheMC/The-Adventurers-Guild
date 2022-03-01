@@ -17,6 +17,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        pointerEventData.useDragThreshold = false;
         clickPos = Input.mousePosition;
     }
 
