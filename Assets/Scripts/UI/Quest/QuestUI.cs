@@ -46,7 +46,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     }
 
     //Creates Quest as a UI GameObject
-    public void SetupQuestUI(QuestSheet questSheet)
+    public void SetupQuestUI(QuestSheet questSheet, bool displayOnly = false)
     {
         attachedSheet = questSheet;
 
@@ -59,10 +59,14 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //setup reward
         questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
 
-        //add drop points to drop handler
-        foreach(Transform child in DropPoints) 
+        if (!displayOnly)
         {
-            dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
+            //add drop points to drop handler
+            foreach (Transform child in DropPoints)
+            {
+                //dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
+                dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
+            }
         }
 
     }
@@ -150,6 +154,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     public void OnPointerDown(PointerEventData pointerEventData)
     {
         this.transform.SetAsLastSibling();
+        //remove drop points from dropHandler, then add them again infront
+        foreach(Transform child in DropPoints)
+        {
+            dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
+            dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
+        }
     }
 
 }
