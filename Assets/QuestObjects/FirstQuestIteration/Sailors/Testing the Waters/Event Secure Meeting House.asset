@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
+  m_Name: Event Secure Meeting House
+  m_EditorClassIdentifier: 
+  description: 'The party set out to find a suitable place for the Sailors '
+  stat: 2
+  DC: 16
+  time: 12
+  Reward: 150
+  successNode: {fileID: 0}
+  successString: and found a suitable location!
+  successIntChange:
+  - name: PlayerGold
+    value: 150
+    set: 0
+  successValueChange: []
+  successStateChange:
+  - name: SailorOutpostConstructed
+    state: 1
+  failureNode: {fileID: 0}
+  failureString: but no place was found. (XPO)
+  failIntChange: []
+  failValueChange: []
+  failStateChange: []

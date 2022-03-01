@@ -10,25 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: TriggersEveryDay
+  m_Name: Storylet Sailor Plan Implementation
   m_EditorClassIdentifier: 
-  questName: Triggers Every Day
+  questName: Sailor Plan Implementation
   eventHead: {fileID: 0}
   questDescription: 
   canBeInstanced: 1
   canBeDuplicated: 1
-  triggerInts:
-  - name: DayTicks
-    value: 24
-    triggerType: 2
+  triggerInts: []
   triggerValues: []
-  triggerStates: []
+  triggerStates:
+  - name: SailorLogisticalPlans
+    state: 1
   numInstances: 0
   triggerIntChanges:
-  - name: DayTicks
-    value: 0
-    set: 1
-  - name: CurrentDay
+  - name: SailorLogisticalPlanImplementation
     value: 1
     set: 0
   triggerValueChanges: []

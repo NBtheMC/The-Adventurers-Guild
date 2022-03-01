@@ -16,6 +16,7 @@ MonoBehaviour:
   eventHead: {fileID: 0}
   questDescription: 
   canBeInstanced: 0
+  canBeDuplicated: 0
   triggerInts: []
   triggerValues: []
   triggerStates: []
@@ -23,6 +24,12 @@ MonoBehaviour:
   triggerIntChanges:
   - name: CapturedAnkhegs
     value: 20
+    set: 1
+  - name: PaladinManaGreed
+    value: 11
+    set: 1
+  - name: MageManaGreed
+    value: 11
     set: 1
   triggerValueChanges: []
   triggerStateChanges:

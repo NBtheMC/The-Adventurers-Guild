@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
+  m_Name: 24 - RabbitHolyHandGrenade
+  m_EditorClassIdentifier: 
+  description: The party engaged the rabbits using the Holy Hand Grenade
+  stat: 1
+  DC: 30
+  time: 6
+  Reward: 65
+  successNode: {fileID: 0}
+  successString: and wiped them out along with their extended family.
+  successIntChange:
+  - name: PaladinFieldTest2
+    value: 1
+    set: 0
+  - name: PaladinManaGreed
+    value: 3
+    set: 0
+  - name: PlayerGold
+    value: 65
+    set: 0
+  successValueChange: []
+  successStateChange: []
+  failureNode: {fileID: 0}
+  failureString: but still lost (CMB).
+  failIntChange: []
+  failValueChange: []
+  failStateChange: []
