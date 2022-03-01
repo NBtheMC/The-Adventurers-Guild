@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Ophelia
   hiredAtStart: 1
-  combat: 8
+  combat: 10
   exploration: 14
-  diplomacy: 7
-  stamina: 10
+  negotiation: 8
+  constitution: 10
   portrait: {fileID: 21300000, guid: 87ca32aa4ed89ff43a68015951abb2d1, type: 3}

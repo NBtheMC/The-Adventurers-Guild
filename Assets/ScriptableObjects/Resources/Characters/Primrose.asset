@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: Primrose
   hiredAtStart: 1
   combat: 8
-  exploration: 4
-  diplomacy: 15
-  stamina: 8
+  exploration: 5
+  negotiation: 16
+  constitution: 5
   portrait: {fileID: 21300000, guid: d170171f8fcf7ed4cb1d6008186bbe0a, type: 3}
