@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 17 - ManaStoneWar
   m_EditorClassIdentifier: 
-  questName: Mana Stone War
+  questName: '[Mage] Mana Stone War'
   eventHead: {fileID: 11400000, guid: 13e94a68295223848878cc6b10de0a34, type: 2}
   questDescription: Both factions realize you've been double dealing. They're going
     to war, but first they're going to wipe you out.

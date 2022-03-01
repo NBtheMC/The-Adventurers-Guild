@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 24 - ForestOutpostNegotiations
   m_EditorClassIdentifier: 
-  questName: Forest Outpost Negotiations
+  questName: '[Paladin] Forest Outpost Negotiations'
   eventHead: {fileID: 11400000, guid: d7bd1aab3ed71d64ab9d0b1f239bffc5, type: 2}
   questDescription: 'Baby-faced Squire: H-hello. I''m here on behalf of the Paladins
     to formally request the right to set up an outpost near the Forest. You''d need

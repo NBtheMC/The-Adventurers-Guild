@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 13 - MagicShaklesTest
   m_EditorClassIdentifier: 
-  questName: Magic Shakles Test
+  questName: '[Mage] Magic Shakles Test'
   eventHead: {fileID: 11400000, guid: da1f54d35c0960144b8bde648dd7c016, type: 2}
   questDescription: 'ConfidentAcademic: Out last test was a blazing success! Our
     communicators are selling like hot cakes. Speaking of, I need another escort

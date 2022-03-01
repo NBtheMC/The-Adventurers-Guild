@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 18 - MageTakeover
   m_EditorClassIdentifier: 
-  questName: Mage Takeover
+  questName: '[Mage] Mage Takeover'
   eventHead: {fileID: 11400000, guid: d8c6a501946714b42a508ef14e45a7b8, type: 2}
   questDescription: The Mages want their Mana Stones and they've showed up to the
     Guild with an offer you can't refuse

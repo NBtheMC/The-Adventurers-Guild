@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 15 - ForestStroll
   m_EditorClassIdentifier: 
-  questName: Forest Stroll
+  questName: '[Mage] Forest Stroll'
   eventHead: {fileID: 11400000, guid: a3f442f6f05c8e047b43cde50e928210, type: 2}
   questDescription: 'Rugged Researcher: I overheard the Paladins talking about a
     Mana Stone discovery in the Forest. On an unrelated note, could you take me to

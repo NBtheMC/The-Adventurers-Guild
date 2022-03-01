@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 12 - CommunicationsTest
   m_EditorClassIdentifier: 
-  questName: Communications Test
+  questName: '[Mage] Communications Test'
   eventHead: {fileID: 11400000, guid: 0e1ad901e88f4fa47a784bc9f4183c73, type: 2}
   questDescription: 'ConfidentAcademic: I need an escort out to the Plains so I cna
     test out my newest invention. This might make me crazy rich!'

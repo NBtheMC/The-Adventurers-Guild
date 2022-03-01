@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: Storylet Sailor Logistical Planning Finished
+  m_Name: 5 - SailorLogisticalPlanImplementation
   m_EditorClassIdentifier: 
-  questName: Finishing Sailor Logistical Planning
+  questName: Sailor Plan Implementation
   eventHead: {fileID: 0}
   questDescription: 
   canBeInstanced: 1
   canBeDuplicated: 1
-  triggerInts:
-  - name: SailorLogisticalPlanning
-    value: 100
-    triggerType: 2
+  triggerInts: []
   triggerValues: []
-  triggerStates: []
-  numInstances: 0
-  triggerIntChanges: []
-  triggerValueChanges: []
-  triggerStateChanges:
+  triggerStates:
   - name: SailorLogisticalPlans
     state: 1
+  numInstances: 0
+  triggerIntChanges:
+  - name: SailorLogisticalPlanImplementation
+    value: 1
+    set: 0
+  triggerValueChanges: []
+  triggerStateChanges: []

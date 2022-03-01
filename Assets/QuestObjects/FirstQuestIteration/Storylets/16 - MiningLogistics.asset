@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 16 - MiningLogistics
   m_EditorClassIdentifier: 
-  questName: Mining Logistics
+  questName: '[Mage] Mining Logistics'
   eventHead: {fileID: 11400000, guid: 16151d4720a7a814489f92decc8e73ad, type: 2}
   questDescription: 'Rugged Researcher: Hey! It''s me again. My entire mining crew
     wants to look at the Mana Stones inside the Cave. Take us there.'

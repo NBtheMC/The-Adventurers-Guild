@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: Storylet Sailor Plan Implementation
+  m_Name: 4 - SailorDoomEnding
   m_EditorClassIdentifier: 
-  questName: Sailor Plan Implementation
-  eventHead: {fileID: 0}
-  questDescription: 
-  canBeInstanced: 1
-  canBeDuplicated: 1
-  triggerInts: []
-  triggerValues: []
-  triggerStates:
-  - name: SailorLogisticalPlans
-    state: 1
-  numInstances: 0
-  triggerIntChanges:
+  questName: SailorDominance
+  eventHead: {fileID: 11400000, guid: a70224d2540a2604e861bb91872b4cb4, type: 2}
+  questDescription: The Sailors have established dominance in the region, edging
+    both factions to war. The game is theoretically over.
+  canBeInstanced: 0
+  canBeDuplicated: 0
+  triggerInts:
   - name: SailorLogisticalPlanImplementation
-    value: 1
-    set: 0
+    value: 100
+    triggerType: 2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
   triggerValueChanges: []
   triggerStateChanges: []

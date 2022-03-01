@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 21 - TotallyNormalEscortQuest
   m_EditorClassIdentifier: 
-  questName: Totally Normal Escort Quest
+  questName: '[Paladin] Totally Normal Escort Quest'
   eventHead: {fileID: 11400000, guid: 2e7d58ea9e7b4344fa84815a615fc387, type: 2}
   questDescription: ShadyInquisitor:Our technology has been feeling a little lacking
     lately; we have our eyes on a new recruit... only problem is that they're with

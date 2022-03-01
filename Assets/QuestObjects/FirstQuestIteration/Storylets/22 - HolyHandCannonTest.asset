@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 22 - HolyHandCannonTest
   m_EditorClassIdentifier: 
-  questName: Holy Hand Cannon Test
+  questName: '[Paladin] Holy Hand Cannon Test'
   eventHead: {fileID: 11400000, guid: a2c8729208854f44285ad1294c97e4c4, type: 2}
   questDescription: 'Excitable Knight: We''ve recieved the latest weaponry and have
     been given full permission to test it! Please, take me to the Forest, I must
