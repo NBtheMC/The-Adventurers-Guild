@@ -48,6 +48,7 @@ public class Storylet : ScriptableObject
 
 	// Set to true if this multiple versions of this quest could be triggered at the same time.
 	public bool canBeInstanced = false;
+	public bool canBeDuplicated = false;
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
 	public List<TriggerInt> triggerInts = new List<TriggerInt> ();

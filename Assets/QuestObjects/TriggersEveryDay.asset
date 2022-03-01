@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: TriggersEveryDay
   m_EditorClassIdentifier: 
-  questName: 
+  questName: Triggers Every Day
   eventHead: {fileID: 0}
   questDescription: 
+  canBeInstanced: 0
+  canBeDuplicated: 0
   triggerInts:
   - name: DayTicks
     value: 24
     triggerType: 2
   triggerValues: []
   triggerStates: []
-  canBeInstanced: 0
   numInstances: 0
   triggerIntChanges:
   - name: DayTicks
