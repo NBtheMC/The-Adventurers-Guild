@@ -69,13 +69,13 @@ public class EventNode: ScriptableObject
 				//update EventPackage
 				message.nextEvent = successNode;
 				message.givenReward = Reward;
-				message.resultsString = successString;
+				message.resultsString = description + " " + successString;
 				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
 				break;
 			case false:
 				//update EventPackage
 				message.nextEvent = failureNode;
-				message.resultsString = failureString;
+				message.resultsString = description + " " + failureString;
 				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
 				break;
 		}

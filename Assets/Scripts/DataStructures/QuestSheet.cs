@@ -69,7 +69,7 @@ public class QuestSheet
 			accumutatedGold += returnMessage.givenReward;
 			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
             visitedNodes.Add(currentConnection);
-			questRecap += (" and " + returnMessage.resultsString);
+			questRecap += (returnMessage.resultsString + " ");
 
 			// Changes the world based on Event Package
 			switch (returnMessage.objectiveComplete)
