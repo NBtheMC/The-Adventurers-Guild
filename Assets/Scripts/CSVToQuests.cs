@@ -20,64 +20,113 @@ public class CSVToQuests : MonoBehaviour
     //Pull data from storylets csv and makes 1 event per grouping
     //New event denoted by Storylet name row
     public void MakeStorylets(){
-        string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
-        for(int i = 0; i < storyletData.Length - 9; i += 9){ //9 is however many properties there are
-            Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
+        // string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
+        // for(int i = 0; i < storyletData.Length - 9; i += 9){ //9 is however many properties there are
+        //     Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
             
-            string storyletDescription = storyletData[i].Split(',')[1];
-            string head = storyletData[i+1].Split(',')[1];
-            string[] csvTriggerInts = storyletData[i+2].Split(',');
-            List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
-            for(int j = 1; j < csvTriggerInts.Length; j+=2){
-                Storylet.TriggerInt newTriggerInt = new Storylet.TriggerInt();
+        //     string storyletDescription = storyletData[i].Split(',')[1];
+        //     string head = storyletData[i+1].Split(',')[1];
+        //     string[] csvTriggerInts = storyletData[i+2].Split(',');
+        //     List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
+        //     for(int j = 1; j < csvTriggerInts.Length; j+=3){
+        //         Storylet.TriggerInt newTriggerInt = new Storylet.TriggerInt();
+        //         newTriggerInt.name = csvTriggerInts[j];
+        //         //newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
+        //         string sign = csvTriggerInts[j+2];
+        //         switch (sign){
+        //             case "<":
+        //                 newTriggerInt.triggerType = Storylet.NumberTriggerType.LessThan;
+        //                 break;
+        //             case "<=":
+        //                 newTriggerInt.triggerType = Storylet.NumberTriggerType.LessThanEqualTo;
+        //                 break;
+        //             case "=":
+        //                 newTriggerInt.triggerType = Storylet.NumberTriggerType.EqualTo;
+        //                 break;
+        //             case ">":
+        //                 newTriggerInt.triggerType = Storylet.NumberTriggerType.GreaterThan;
+        //                 break;
+        //             case ">=":
+        //                 newTriggerInt.triggerType = Storylet.NumberTriggerType.GreaterThanEqualTo;
+        //                 break;
+        //         }
+        //         triggerInts.Add(newTriggerInt);
+        //     }
+        //     newStorylet.triggerInts = triggerInts;
+
+        //     string[] csvTriggerStates = storyletData[i+3].Split(',');
+        //     List<Storylet.TriggerState> triggerStates = new List<Storylet.TriggerState>();
+        //     for(int j = 1; j < csvTriggerStates.Length; j+=2){
+        //         Storylet.TriggerState newTriggerState = new Storylet.TriggerState();
+        //         newTriggerState.name = csvTriggerStates[j];
+        //         //newTriggerState.state = Bool.Parse(csvTriggerStates[j+1]);
+        //         triggerStates.Add(newTriggerState);
+        //     }
+        //     newStorylet.triggerStates = triggerStates;
+
+        //     string[] csvTriggerValues = storyletData[i+4].Split(',');
+        //     List<Storylet.TriggerValue> triggerValues = new List<Storylet.TriggerValue>();
+        //     for(int j = 1; j < csvTriggerValues.Length; j+=3){
+        //         Storylet.TriggerValue newTriggerValue = new Storylet.TriggerValue();
+        //         newTriggerValue.name = csvTriggerValues[j];
+        //         //newTriggerValue.value = Double.Parse(csvTriggerValues[j+1]);
+        //         string sign = csvTriggerInts[j+2];
+        //         switch (sign){
+        //             case "<":
+        //                 newTriggerValue.triggerType = Storylet.NumberTriggerType.LessThan;
+        //                 break;
+        //             case "<=":
+        //                 newTriggerValue.triggerType = Storylet.NumberTriggerType.LessThanEqualTo;
+        //                 break;
+        //             case "=":
+        //                 newTriggerValue.triggerType = Storylet.NumberTriggerType.EqualTo;
+        //                 break;
+        //             case ">":
+        //                 newTriggerValue.triggerType = Storylet.NumberTriggerType.GreaterThan;
+        //                 break;
+        //             case ">=":
+        //                 newTriggerValue.triggerType = Storylet.NumberTriggerType.GreaterThanEqualTo;
+        //                 break;
+        //         }
+        //         triggerValues.Add(newTriggerValue);
+        //     }
+        //     newStorylet.triggerValues = triggerValues;
+
+        //     string canBeInstanced = storyletData[i+5].Split(',')[1];
+        //     newStorylet.canBeInstanced = Bool.Parse(canBeInstanced);
+
+        //     string[] csvIntChanges = storyletData[i+6].Split(',');
+        //     List<Storylet.IntChange> intChanges = new List<Storylet.IntChange>();
+        //     for(int j = 1; j < csvIntChanges.Length; j+=2){
+        //         Storylet.IntChange newIntChange = new Storylet.IntChange();
                 
-                //Do extra parsing
-                triggerInts.Add(newTriggerInt);
-            }
-            string[] csvTriggerStates = storyletData[i+3].Split(',');
-            List<Storylet.TriggerState> triggerStates = new List<Storylet.TriggerState>();
-            for(int j = 1; j < csvTriggerStates.Length; j+=2){
-                Storylet.TriggerState newTriggerState = new Storylet.TriggerState();
+        //         //Do extra parsing
+        //         intChanges.Add(newIntChange);
+        //     }
+        //     newStorylet.triggerIntChanges = intChanges;
+
+        //     string[] csvStateChanges = storyletData[i+7].Split(',');
+        //     List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
+        //     for(int j = 1; j < csvStateChanges.Length; j+=2){
+        //         Storylet.StateChange newStateChange = new Storylet.StateChange();
                 
-                //Do extra parsing
-                triggerStates.Add(newTriggerState);
-            }
-            string[] csvTriggerValues = storyletData[i+4].Split(',');
-            List<Storylet.TriggerValue> triggerValues = new List<Storylet.TriggerValue>();
-            for(int j = 1; j < csvTriggerValues.Length; j+=2){
-                Storylet.TriggerValue newTriggerValue = new Storylet.TriggerValue();
-                
-                //Do extra parsing
-                triggerValues.Add(newTriggerValue);
-            }
-            string canBeInstanced = storyletData[i+5].Split(',')[1];
-            string successString = storyletData[i+6].Split(',')[1];
-            string[] csvIntChanges = storyletData[i+7].Split(',');
-            List<Storylet.IntChange> intChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < csvIntChanges.Length; j+=2){
-                Storylet.TriggerValue newTriggerValue = new Storylet.TriggerValue();
-                
-                //Do extra parsing
-                triggerValues.Add(newTriggerValue);
-            }
-            string[] csvStateChanges = storyletData[i+8].Split(',');
-            List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < csvStateChanges.Length; j+=2){
-                Storylet.StateChange newStateChange = new Storylet.StateChange();
-                
-                //Do extra parsing
-                stateChanges.Add(newStateChange);
-            }
-            string[] csvValueChanges = storyletData[i+9].Split(',');
-            List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < csvValueChanges.Length; j+=2){
-                Storylet.ValueChange newValueChange = new Storylet.ValueChange();
-                
-                //Do extra parsing
-                valueChanges.Add(newValueChange);
-            }
+        //         //Do extra parsing
+        //         stateChanges.Add(newStateChange);
+        //     }
+        //     newStorylet.triggerStateChanges = stateChanges;
+
+        //     string[] csvValueChanges = storyletData[i+8].Split(',');
+        //     List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
+        //     for(int j = 1; j < csvValueChanges.Length; j+=2){
+        //         Storylet.ValueChange newValueChange = new Storylet.ValueChange();
+        //         newValueChange.name = csvValueChanges[j];
+        //         newValueChange.state = csvValueChanges[j];
+        //         //Do extra parsing
+        //         valueChanges.Add(newValueChange);
+        //     }
+        //     newStorylet.triggerValueChanges = valueChanges;
         
-        }
+        // }
 
     }
 
