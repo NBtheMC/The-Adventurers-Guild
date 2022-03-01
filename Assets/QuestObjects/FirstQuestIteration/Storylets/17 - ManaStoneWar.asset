@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 17 - ManaStoneWar
+  m_EditorClassIdentifier: 
+  questName: Mana Stone War
+  eventHead: {fileID: 11400000, guid: 13e94a68295223848878cc6b10de0a34, type: 2}
+  questDescription: Both factions realize you've been double dealing. They're going
+    to war, but first they're going to wipe you out.
+  canBeInstanced: 0
+  canBeDuplicated: 0
+  triggerInts:
+  - name: PaladinMageManaStoneThreat
+    value: 30
+    triggerType: 2
+  - name: PaladinManaGreed
+    value: 25
+    triggerType: 2
+  - name: MagePaladinManaStoneThreat
+    value: 25
+    triggerType: 2
+  - name: MageManaGreed
+    value: 25
+    triggerType: 2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []
