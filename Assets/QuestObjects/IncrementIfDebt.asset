@@ -10,34 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: StartOfGame
+  m_Name: IncrementIfDebt
   m_EditorClassIdentifier: 
-  questName: Start of Game
+  questName: IncrementIfDebt
   eventHead: {fileID: 0}
   questDescription: 
-  canBeInstanced: 0
+  canBeInstanced: 1
   canBeDuplicated: 0
-  triggerInts: []
+  triggerInts:
+  - name: DayTicks
+    value: 23
+    triggerType: 0
+  - name: PlayerGold
+    value: 0
+    triggerType: -2
   triggerValues: []
   triggerStates: []
-  numInstances: 1
+  numInstances: 0
   triggerIntChanges:
-  - name: CapturedAnkhegs
-    value: 20
-    set: 1
-  - name: PaladinManaGreed
-    value: 11
-    set: 1
-  - name: MageManaGreed
-    value: 11
-    set: 1
   - name: PlayerGold
-    value: 100
-    set: 1
-  - name: DaysUnderPaid
     value: 0
     set: 1
+  - name: DaysUnderPaid
+    value: 1
+    set: 0
   triggerValueChanges: []
-  triggerStateChanges:
-  - name: AnkhegFarm
-    state: 1
+  triggerStateChanges: []
