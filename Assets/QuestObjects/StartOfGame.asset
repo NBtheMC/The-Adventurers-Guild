@@ -31,6 +31,9 @@ MonoBehaviour:
   - name: MageManaGreed
     value: 11
     set: 1
+  - name: PlayerGold
+    value: 100
+    set: 1
   triggerValueChanges: []
   triggerStateChanges:
   - name: AnkhegFarm
