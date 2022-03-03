@@ -40,17 +40,18 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene("Menu");
                 currentScene = Scene.Menu;
                 break;
-            case "Questing":
-                SceneManager.LoadScene("QuestToWorldTest");
-                currentScene = Scene.Questing;
-                break;
+            // case "Questing":
+            //     SceneManager.LoadScene("QuestToWorldTest");
+            //     break;
             case "Instructions":
                 SceneManager.LoadScene("Instructions");
                 currentScene = Scene.Instructions;
                 break;
             case "Recap":
                 SceneManager.LoadScene("Recap");
-                currentScene = Scene.Recap;
+                break;
+            case "Game":
+                SceneManager.LoadScene("MainUIScreen");
                 break;
         }
     }
