@@ -24,8 +24,8 @@ MonoBehaviour:
   triggerInts: []
   triggerValues: []
   triggerStates:
-  - name: TutorialActive
-    state: 1
+  - name: TutorialCompleted
+    state: 0
   numInstances: 0
   triggerIntChanges: []
   triggerValueChanges: []

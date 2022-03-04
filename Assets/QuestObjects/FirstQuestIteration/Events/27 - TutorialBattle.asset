@@ -25,8 +25,8 @@ MonoBehaviour:
   successIntChange: []
   successValueChange: []
   successStateChange:
-  - name: TutorialActive
-    state: 0
+  - name: TutorialCompleted
+    state: 1
   failureNode: {fileID: 0}
   failureString: You failed. Try again.
   failIntChange: []
