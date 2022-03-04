@@ -11,9 +11,14 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private Text questName;
     private Text questDescription;
     private Text questReward;
+    private Text combatStat;
+    private Text exploreStat;
+    private Text diplomacyStat;
+    private Text staminaStat;
+    private Text time;
+
     //private GameObject partyFormation;
     private GameObject sendPartyButton;
-    private GameObject dropPointPrefab;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
     private CharacterSheetManager charSheetManager;
@@ -30,8 +35,14 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
-        questDescription = transformer.Find("Description/DescriptionText").gameObject.GetComponent<Text>();
-        questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
+        questDescription = transformer.Find("Description").gameObject.GetComponent<Text>();
+        questReward = transformer.Find("Reward").gameObject.GetComponent<Text>();
+
+        combatStat = transformer.Find("Stat/Combat").gameObject.GetComponent<Text>(); ;
+        exploreStat = transformer.Find("Stat/Exploration").gameObject.GetComponent<Text>(); ;
+        diplomacyStat = transformer.Find("Stat/Diplomacy").gameObject.GetComponent<Text>(); ;
+        staminaStat = transformer.Find("Stat/Stamina").gameObject.GetComponent<Text>(); ;
+        time = transformer.Find("Time").gameObject.GetComponent<Text>(); ;
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
@@ -42,7 +53,6 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
-        dropPointPrefab = Resources.Load<GameObject>("SampleDropPoint");
     }
 
     //Creates Quest as a UI GameObject
@@ -54,10 +64,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         questName.text = attachedSheet.questName;
         //setup description
         questDescription.text = attachedSheet.questDescription;
-        //setup first event
+
+        //get max stats for the quest
+        //combatStat.text = attachedSheet.
 
         //setup reward
-        questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
+        questReward.text = string.Format("{0}", attachedSheet.EstimatedRewardTotal());
 
         if (!displayOnly)
         {
@@ -155,7 +167,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         this.transform.SetAsLastSibling();
         //remove drop points from dropHandler, then add them again infront
-        foreach(Transform child in DropPoints)
+        foreach (Transform child in DropPoints)
         {
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
             dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
