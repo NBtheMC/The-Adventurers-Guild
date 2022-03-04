@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 9 - ExplainPartyToMages
   m_EditorClassIdentifier: 
-  description: The mages interogated the party
+  description: The Mages interrogated the party
   stat: 3
   DC: 30
   time: 6

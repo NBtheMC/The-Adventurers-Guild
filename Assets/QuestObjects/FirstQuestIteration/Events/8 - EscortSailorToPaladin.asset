@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 8 - EscortSailorToPaladin
   m_EditorClassIdentifier: 
-  description: The party travels with the sailr to meet the paladins
+  description: The party travels with the sailor to meet the paladins
   stat: 2
   DC: 25
   time: 6

@@ -21,7 +21,7 @@ MonoBehaviour:
   canBeDuplicated: 0
   triggerInts:
   - name: MageSampleCollection
-    value: 5
+    value: 3
     triggerType: -2
   triggerValues: []
   triggerStates: []
