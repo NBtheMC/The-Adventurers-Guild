@@ -35,3 +35,5 @@ MonoBehaviour:
   triggerStateChanges:
   - name: AnkhegFarm
     state: 1
+  - name: TutorialActive
+    state: 1
