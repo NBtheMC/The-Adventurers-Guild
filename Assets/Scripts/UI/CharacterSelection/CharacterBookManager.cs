@@ -52,6 +52,11 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
 
         activeObject = adventurers[displayIndex];
         SetActiveIndicator();
+
+        var i = UnityEngine.Random.Range(0, 3);
+        if (i == 0) {SoundManagerScript.PlaySound("parchment1");}
+        else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
+        else {SoundManagerScript.PlaySound("parchment3");}
     }
     public void DisplayPrev()
     {
@@ -66,6 +71,11 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
 
         activeObject = adventurers[displayIndex];
         SetActiveIndicator();
+
+        var i = UnityEngine.Random.Range(0, 3);
+        if (i == 0) {SoundManagerScript.PlaySound("parchment1");}
+        else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
+        else {SoundManagerScript.PlaySound("parchment3");}
     }
 
     public void DisplayCharacter(CharacterSheet character)
