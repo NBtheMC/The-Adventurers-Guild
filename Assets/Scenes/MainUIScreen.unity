@@ -295,6 +295,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &805463723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+  m_PrefabInstance: {fileID: 5698263808099909860}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78acb34eaef53fc4a8f118caf4233a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1017233527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -464,6 +475,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1056770552}
     m_Modifications:
+    - target: {fileID: 3414778339841221480, guid: 408c9497a10625340b8071b6ac729eb6, type: 3}
+      propertyPath: theWorld
+      value: 
+      objectReference: {fileID: 805463723}
     - target: {fileID: 3414778339841221486, guid: 408c9497a10625340b8071b6ac729eb6, type: 3}
       propertyPath: m_Name
       value: DaysOver
@@ -1214,7 +1229,7 @@ PrefabInstance:
       objectReference: {fileID: 767544276}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: storylets.Array.size
-      value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: storylets.Array.data[3]
@@ -1312,6 +1327,10 @@ PrefabInstance:
       propertyPath: storylets.Array.data[26]
       value: 
       objectReference: {fileID: 11400000, guid: a38049c9ad2975144987d7b4952a8676, type: 2}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: storylets.Array.data[27]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c8d39d5a5cfe764e91059a479848a53, type: 2}
     - target: {fileID: 7280735044324053916, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 606

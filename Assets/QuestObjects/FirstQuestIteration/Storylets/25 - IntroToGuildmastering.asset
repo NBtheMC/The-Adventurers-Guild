@@ -16,9 +16,9 @@ MonoBehaviour:
   eventHead: {fileID: 11400000, guid: ffe7697e974e2424b8b40032296a68c0, type: 2}
   questDescription: 'Wavy-Haired Clerk: Hi. Welcome to the Adventurer''s Guild, Cynbalt
     branch. Your job as the Guildmaster is to assign adventurers to Quests. Quest
-    success depends on the abilities of your adventurers, which are denoted by the
-    four stats on the top. For this quest, you will need a Combat total of 10. Drag
-    suitable adventurers into the Quest and press Start.'
+    success depends on the abilities of your adventurers.  For this quest, you will
+    need a Combat total of 10. Drag suitable adventurers into the Quest and press
+    Start.'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts: []
