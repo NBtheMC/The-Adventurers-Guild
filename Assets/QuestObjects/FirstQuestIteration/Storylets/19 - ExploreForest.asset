@@ -20,7 +20,7 @@ MonoBehaviour:
   canBeDuplicated: 0
   triggerInts:
   - name: PaladinForestExploration
-    value: 5
+    value: 3
     triggerType: -2
   triggerValues: []
   triggerStates: []

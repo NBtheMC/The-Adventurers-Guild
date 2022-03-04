@@ -25,12 +25,6 @@ MonoBehaviour:
   - name: CapturedAnkhegs
     value: 20
     set: 1
-  - name: PaladinManaGreed
-    value: 11
-    set: 1
-  - name: MageManaGreed
-    value: 11
-    set: 1
   - name: PlayerGold
     value: 100
     set: 1

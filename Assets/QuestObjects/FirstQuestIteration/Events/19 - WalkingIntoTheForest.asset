@@ -16,7 +16,7 @@ MonoBehaviour:
   stat: 2
   DC: 15
   time: 12
-  Reward: 35
+  Reward: 55
   successNode: {fileID: 0}
   successString: and found some Mana Stones!
   successIntChange:

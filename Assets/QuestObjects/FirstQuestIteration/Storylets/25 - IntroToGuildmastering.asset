@@ -10,22 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: 22 - HolyHandCannonTest
+  m_Name: 25 - IntroToGuildmastering
   m_EditorClassIdentifier: 
-  questName: '[Paladin] Holy Hand Cannon Test'
-  eventHead: {fileID: 11400000, guid: a2c8729208854f44285ad1294c97e4c4, type: 2}
-  questDescription: 'Excitable Knight: We''ve recieved the latest weaponry and have
-    been given full permission to test it! Please, take me to the Forest, I must
-    fire this Holy Hand Cannon right away!'
-  canBeInstanced: 1
+  questName: '[TUTORIAL] Intro to Guildmastering'
+  eventHead: {fileID: 0}
+  questDescription: 'Wavy-Haired Clerk: Hi. Welcome to the Adventurer''s Guild, Cynbalt
+    branch. '
+  canBeInstanced: 0
   canBeDuplicated: 0
-  triggerInts:
-  - name: PaladinManaStone
-    value: 0
-    triggerType: 1
-  - name: PaladinFieldTest1
-    value: 1
-    triggerType: -2
+  triggerInts: []
   triggerValues: []
   triggerStates: []
   numInstances: 0
