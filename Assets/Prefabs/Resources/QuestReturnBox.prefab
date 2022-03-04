@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.5111e-10, y: -28}
-  m_SizeDelta: {x: 600, y: 82.043}
+  m_AnchoredPosition: {x: 0.000078201, y: -317.78583}
+  m_SizeDelta: {x: 600, y: 98.7398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5933081054557814593
 CanvasRenderer:
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Event Recap
+  m_Text: 'Relationship Recap. Filled later
 
 '
 --- !u!1 &777206096155714375
@@ -227,7 +227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -196}
+  m_AnchoredPosition: {x: 0, y: -407}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &777206096508961894
@@ -346,8 +346,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -71.80646}
-  m_SizeDelta: {x: 700, y: 343.6129}
+  m_AnchoredPosition: {x: 0, y: -177.20566}
+  m_SizeDelta: {x: 700, y: 554.4113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &777206096538838683
 CanvasRenderer:
@@ -606,8 +606,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -124}
-  m_SizeDelta: {x: 600, y: 72.985}
+  m_AnchoredPosition: {x: 0.00010663, y: -116.846054}
+  m_SizeDelta: {x: 600, y: 233.6927}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8096382668816659704
 CanvasRenderer:
