@@ -18,13 +18,13 @@ MonoBehaviour:
   time: 12
   Reward: 100
   successNode: {fileID: 0}
-  successString: "pummeled it into powder, despite the crew's protests\t\t\t\t"
+  successString: pummeled it into powder, despite the crew's protests.
   successIntChange:
-  - name: MageMinigLogistics
+  - name: MageMiningLogistics
     value: 1
     set: 0
   - name: MageManaGreed
-    value: 3
+    value: 9
     set: 0
   successValueChange: []
   successStateChange: []

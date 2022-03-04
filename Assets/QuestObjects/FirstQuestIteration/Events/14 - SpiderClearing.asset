@@ -16,7 +16,7 @@ MonoBehaviour:
   stat: 1
   DC: 25
   time: 12
-  Reward: 60
+  Reward: 60120
   successNode: {fileID: 0}
   successString: and torched every last spider and cocoon, despite the clients' protests.
   successIntChange:
@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 1
     set: 0
   - name: MageManaGreed
-    value: 2
+    value: 6
     set: 0
   successValueChange: []
   successStateChange: []

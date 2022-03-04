@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: '[Mage] Another Field Test'
   eventHead: {fileID: 11400000, guid: da1f54d35c0960144b8bde648dd7c016, type: 2}
-  questDescription: 'Confident Academic: Out last test was a blazing success! Our
+  questDescription: 'Confident Academic: Our last test was a blazing success! Our
     communicators are selling like hot cakes. Speaking of, I need another escort
-    for some more tests, this time up in the Mountains.'
+    for tests for a magic kettle, this time up in the Mountains.'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts:

@@ -20,20 +20,20 @@ MonoBehaviour:
   canBeDuplicated: 0
   triggerInts:
   - name: MageSampleCollection
-    value: 5
+    value: 3
     triggerType: 2
   - name: MageCaveSurvey
-    value: 3
-    triggerType: -2
-  - name: MageMinigLogistics
-    value: 3
+    value: 0
+    triggerType: 1
+  - name: MageMiningLogistics
+    value: 1
     triggerType: -2
   triggerValues: []
   triggerStates: []
   numInstances: 0
   triggerIntChanges:
   - name: PaladinMageManaStoneThreat
-    value: 3
+    value: 9
     set: 0
   triggerValueChanges: []
   triggerStateChanges: []
