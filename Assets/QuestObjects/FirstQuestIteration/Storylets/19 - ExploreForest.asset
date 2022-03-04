@@ -20,10 +20,12 @@ MonoBehaviour:
   canBeDuplicated: 0
   triggerInts:
   - name: PaladinForestExploration
-    value: 5
+    value: 3
     triggerType: -2
   triggerValues: []
-  triggerStates: []
+  triggerStates:
+  - name: TutorialCompleted
+    state: 1
   numInstances: 0
   triggerIntChanges: []
   triggerValueChanges: []

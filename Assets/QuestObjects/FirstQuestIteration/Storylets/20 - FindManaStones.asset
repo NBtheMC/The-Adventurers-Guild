@@ -20,10 +20,10 @@ MonoBehaviour:
   canBeDuplicated: 0
   triggerInts:
   - name: PaladinForestExploration
-    value: 15
-    triggerType: 1
-  - name: PaladinManaStone
     value: 3
+    triggerType: 2
+  - name: PaladinManaStone
+    value: 1
     triggerType: -2
   triggerValues: []
   triggerStates: []

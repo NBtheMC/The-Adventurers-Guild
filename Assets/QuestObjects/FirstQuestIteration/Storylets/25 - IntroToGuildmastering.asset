@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 25 - IntroToGuildmastering
+  m_EditorClassIdentifier: 
+  questName: '[TUTORIAL] Intro to Guildmastering'
+  eventHead: {fileID: 11400000, guid: ffe7697e974e2424b8b40032296a68c0, type: 2}
+  questDescription: 'Wavy-Haired Clerk: Hi. Welcome to the Adventurer''s Guild, Cynbalt
+    branch. Your job as the Guildmaster is to assign adventurers to Quests. Quest
+    success depends on the abilities of your adventurers, which are denoted by the
+    four stats on the top. For this quest, you will need a Combat total of 10. Drag
+    suitable adventurers into the Quest and press Start.'
+  canBeInstanced: 1
+  canBeDuplicated: 0
+  triggerInts: []
+  triggerValues: []
+  triggerStates:
+  - name: TutorialCompleted
+    state: 0
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

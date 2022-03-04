@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 6 - SailorShippingNeeds
   m_EditorClassIdentifier: 
-  questName: Shipping Needs
+  questName: Sailor Shipping Needs
   eventHead: {fileID: 0}
   questDescription: 
   canBeInstanced: 0

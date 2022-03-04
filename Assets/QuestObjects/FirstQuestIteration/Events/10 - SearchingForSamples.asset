@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 10 - SearchingForSamples
   m_EditorClassIdentifier: 
-  description: The party serached the Caves for Mana Stones
+  description: The party searched the Caves for Mana Stones
   stat: 2
   DC: 15
   time: 12
-  Reward: 30
+  Reward: 50
   successNode: {fileID: 0}
   successString: "and found an ample stash\t."
   successIntChange:

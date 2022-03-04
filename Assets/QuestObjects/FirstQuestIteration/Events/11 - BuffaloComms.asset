@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 11 - BuffaloComms
   m_EditorClassIdentifier: 
-  description: The party encountered a herd of chargin buffalo on the Plains
+  description: The party was charged by a herd of buffalo on the Plains
   stat: 1
   DC: 20
   time: 12
-  Reward: 40
+  Reward: 80
   successNode: {fileID: 0}
   successString: but were able to fend them off while the client conducted some tests.
   successIntChange:

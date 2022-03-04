@@ -16,7 +16,7 @@ MonoBehaviour:
   stat: 1
   DC: 30
   time: 6
-  Reward: 65
+  Reward: 130
   successNode: {fileID: 0}
   successString: and wiped them out along with their extended family.
   successIntChange:
@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 1
     set: 0
   - name: PaladinManaGreed
-    value: 3
+    value: 9
     set: 0
   successValueChange: []
   successStateChange: []

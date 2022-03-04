@@ -16,7 +16,7 @@ MonoBehaviour:
   stat: 1
   DC: 20
   time: 12
-  Reward: 90
+  Reward: 180
   successNode: {fileID: 0}
   successString: "and were able to drive them off.\t\t\t\t"
   successIntChange:
@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 1
     set: 0
   - name: MageManaGreed
-    value: 2
+    value: 6
     set: 0
   successValueChange: []
   successStateChange: []

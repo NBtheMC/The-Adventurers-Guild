@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
-  m_Name: 12 - CommunicationsTest
+  m_Name: 12 - FieldTest
   m_EditorClassIdentifier: 
-  questName: '[Mage] Communications Test'
+  questName: '[Mage] Field Test'
   eventHead: {fileID: 11400000, guid: 0e1ad901e88f4fa47a784bc9f4183c73, type: 2}
-  questDescription: 'ConfidentAcademic: I need an escort out to the Plains so I cna
-    test out my newest invention. This might make me crazy rich!'
+  questDescription: 'Confident Academic: I need an escort out to the Plains so I
+    can test out my newest invention. This might make me crazy rich!'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts:
@@ -23,14 +23,14 @@ MonoBehaviour:
     value: 1
     triggerType: 1
   - name: MageFieldTest1
-    value: 3
+    value: 1
     triggerType: -2
   triggerValues: []
   triggerStates: []
   numInstances: 0
   triggerIntChanges:
   - name: PaladinMageManaStoneThreat
-    value: 1
+    value: 3
     set: 0
   triggerValueChanges: []
   triggerStateChanges: []

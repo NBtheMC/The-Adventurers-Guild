@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 22 - FightingBoarsWithCannon
   m_EditorClassIdentifier: 
-  description: The client suddenly opened fire on the boards.
+  description: The client suddenly opened fire on the boars
   stat: 1
   DC: 20
   time: 6
-  Reward: 55
+  Reward: 110
   successNode: {fileID: 0}
   successString: and the party took care of the rest.
   successIntChange:
@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 1
     set: 0
   - name: PaladinManaGreed
-    value: 3
+    value: 9
     set: 0
   successValueChange: []
   successStateChange: []

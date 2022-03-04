@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 9 - MeetingWithMages
   m_EditorClassIdentifier: 
-  questName: '[Sailor] MeetingWithMages'
+  questName: '[Sailor] Meeting With Mages'
   eventHead: {fileID: 11400000, guid: b2796e6b263763f46882abdd2895556a, type: 2}
-  questDescription: 'SailorAmbassador: There''s an important meeting that we need
+  questDescription: 'Smiling Ambassador: There''s an important meeting that we need
     to send a representative to. Could you provide an escort?'
   canBeInstanced: 1
   canBeDuplicated: 0
