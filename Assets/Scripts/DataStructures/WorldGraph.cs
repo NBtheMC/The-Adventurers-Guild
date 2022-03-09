@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class WorldGraph
 {
-    private List<List<(WorldNode, ushort)>> edges;
+    private List<List<(WorldNode, ushort, ushort)>> edges;
     private List<WorldNode> nodes;
 
-    public IReadOnlyCollection<List<(WorldNode, ushort)>> Edges { get { return edges.AsReadOnly(); } }
+    public IReadOnlyCollection<List<(WorldNode, ushort, ushort)>> Edges { get { return edges.AsReadOnly(); } }
     public IReadOnlyCollection<WorldNode> Nodes { get { return nodes.AsReadOnly(); } }
 
     public WorldGraph() 
     {
-        edges = new List<List<(WorldNode, ushort)>>();
+        edges = new List<List<(WorldNode, ushort, ushort)>>();
         nodes = new List<WorldNode>();
+    }
+
+    public List<WorldNode> getShortestPath(WorldNode source, WorldNode destination)
+    {
+        return null;
     }
 
     private int getIndexFromLocation(string location)
@@ -29,17 +34,18 @@ public class WorldGraph
         return -1;
     }
 
-    public void addEdge(WorldNode n1, WorldNode n2, ushort weight) 
+    public void addEdge(WorldNode n1, WorldNode n2, ushort timeToTravel, ushort difficulty) 
     {
         if (!nodes.Contains(n1))
             addNode(n1);
         if (!nodes.Contains(n2))
             addNode(n2);
 
-        edges[nodes.IndexOf(n1)].Add((n2, weight));
+        edges[nodes.IndexOf(n1)].Add((n2, timeToTravel, difficulty));
+        edges[nodes.IndexOf(n2)].Add((n1, timeToTravel, difficulty));
     }
 
-    public void addEdge(string location1, string location2, ushort weight)
+    public void addEdge(string location1, string location2, ushort timeToTravel, ushort difficulty)
     {
         int n1Index = getIndexFromLocation(location1);
         int n2Index = getIndexFromLocation(location2);
@@ -55,7 +61,8 @@ public class WorldGraph
             n1Index = nodes.Count - 1;
         }
 
-        edges[n1Index].Add((nodes[n2Index], weight));
+        edges[n1Index].Add((nodes[n2Index], timeToTravel, difficulty));
+        edges[n2Index].Add((nodes[n1Index], timeToTravel, difficulty));
     }
 
     public void addNode(string locationName) 
@@ -68,7 +75,7 @@ public class WorldGraph
         if (!nodes.Contains(n)) 
         {
             nodes.Add(n);
-            edges.Add(new List<(WorldNode, ushort)>());
+            edges.Add(new List<(WorldNode, ushort, ushort)>());
         }
     }
 
