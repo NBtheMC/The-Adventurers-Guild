@@ -19,13 +19,13 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        // if (Instance != null)
+        // {
+        //     Destroy(gameObject);
+        //     return;
+        // }
+        // Instance = this;
+        // DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -40,9 +40,9 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene("Menu");
                 currentScene = Scene.Menu;
                 break;
-            // case "Questing":
-            //     SceneManager.LoadScene("QuestToWorldTest");
-            //     break;
+            case "Credits":
+                SceneManager.LoadScene("Credits");
+                break;    
             case "Instructions":
                 SceneManager.LoadScene("Instructions");
                 currentScene = Scene.Instructions;
