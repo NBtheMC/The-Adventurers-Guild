@@ -46,7 +46,6 @@ public class WorldGraph
             else
                 paths.ExtractMin();
         }
-
         return (null, 0);
     }
 
@@ -56,9 +55,7 @@ public class WorldGraph
         {
             List<WorldNode> temp = new List<WorldNode>();
             foreach(WorldNode node in localPathList)
-            {
                 temp.Add(node);
-            }
             paths.Insert((temp, maxDifficulty), totalTime);
             return;
         }
@@ -73,7 +70,6 @@ public class WorldGraph
             {
                 localPathList.Add(e.dest);
                 findAllPaths(e.dest, d, isVisited, localPathList, totalTime + e.timeToTravel, Math.Max(maxDifficulty, e.difficulty));
-
                 localPathList.Remove(e.dest);
             }
         }
@@ -86,11 +82,8 @@ public class WorldGraph
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].location == location)
-            {
                 return i;
-            }
         }
-
         return -1;
     }
 
