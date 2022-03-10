@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PriorityQueue<T>
+public class PriorityQueue
 {
     //use linked list and then sort it in ascending order based on time to travel
-    public List<(T, double)> contents;
+    public List<(WorldNode, double)> contents;
     public int Count { get { return contents.Count; } }
 
-    public PriorityQueue() { contents = new List<(T, double)>(); }
+    public PriorityQueue() { contents = new List<(WorldNode, double)>(); }
 
-    public void Insert(T n, double priority)
+    public void Insert(WorldNode n, double priority)
     {
         if(contents.Count == 0)
             contents.Add((n, priority));
@@ -30,16 +30,40 @@ public class PriorityQueue<T>
         }     
     }
 
-    public T ExtractMin()
+    public void DecreaseKey(WorldNode n, double d)
     {
-        T n = contents[0].Item1;
+        for (int i = 0; i < contents.Count; i++)
+        {
+            if (contents[i].Item1 == n)
+            {
+                contents.RemoveAt(i);
+                break;
+            }
+        }
+
+        Insert(n, d);
+    }
+
+    public bool Contains(WorldNode item)
+    {
+        for(int i = 0; i < contents.Count; i++)
+        {
+            if (contents[i].Item1 == item)
+                return true;
+        }
+        return false;
+    }
+
+    public WorldNode ExtractMin()
+    {
+        WorldNode n = contents[0].Item1;
         contents.RemoveAt(0);
         return n;
     }
 
-    public T Peak()
+    public WorldNode Peak()
     {
-        T n = contents[0].Item1;
+        WorldNode n = contents[0].Item1;
         return n;
     }
 

@@ -7,7 +7,6 @@ public class WorldGraph
 {
     private List<List<Edge>> edges;
     private List<WorldNode> nodes;
-    private PriorityQueue<(List<WorldNode>, uint)> paths;
     private bool isDirected;
 
     public IReadOnlyCollection<List<Edge>> Edges { get { return edges.AsReadOnly(); } }
@@ -17,7 +16,6 @@ public class WorldGraph
     {
         edges = new List<List<Edge>>();
         nodes = new List<WorldNode>();
-        paths = new PriorityQueue<(List<WorldNode>, uint)>();
         this.isDirected = isDirected;
     }
 
@@ -59,16 +57,28 @@ public class WorldGraph
 
         //initialize stuff for Dijkstra SSSP
         s.d = 0;
-        PriorityQueue<WorldNode> queue = new PriorityQueue<WorldNode>();
-        foreach(var node in nodes)
-            queue.Insert(node, node.d);
+        PriorityQueue queue = new PriorityQueue();
+        //foreach(var node in nodes)
+        //    queue.Insert(node, node.d);
+        queue.Insert(s, s.d);
 
         //Dijkstra hates UCSC
         while (!queue.IsEmpty())
         {
             WorldNode u = queue.ExtractMin();
+            if (u == d)
+                break;
             foreach(var edge in tempEdges[nodes.IndexOf(u)])
+            {
                 Relax(edge);
+                if (queue.Contains(edge.dest))
+                {
+                    queue.DecreaseKey(edge.dest, edge.dest.d);
+                }
+                else
+                    queue.Insert(edge.dest, edge.dest.d);
+            }
+                
         }
         
         //return null if there is no path to d
@@ -160,9 +170,9 @@ public class WorldGraph
                 {
                     edges.Remove(edges[i]);
                     i--;
-                }
-                    
+                }       
             }
+
             if (!isDirected)
             {
                 for (int i = 0; i < edges[nodes.IndexOf(n2)].Count; i++)

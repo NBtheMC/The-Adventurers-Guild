@@ -20,18 +20,18 @@ public class GraphObject : MonoBehaviour
         WorldNode g = new WorldNode("G");
         WorldNode h = new WorldNode("H");
 
+        graph.addEdge(d, e, 3, 1);
         graph.addEdge(a, b, 3, 1);
-        graph.addEdge(a, c, 2, 9);
+        graph.addEdge(c, e, 1, 8);
+        graph.addEdge(g, h, 1, 1);
         graph.addEdge(b, c, 2, 1);
         graph.addEdge(c, d, 3, 1);
-        graph.addEdge(c, e, 1, 8);
-        graph.addEdge(d, f, 5, 1);
         graph.addEdge(f, g, 3, 2);
-        graph.addEdge(g, h, 1, 1);
-        graph.addEdge(d, e, 3, 1);
+        graph.addEdge(d, f, 5, 1);
+        graph.addEdge(a, c, 2, 9);
 
         Text t = this.GetComponent<Text>();
-        var temp = graph.getShortestPath(a, e, 10);
+        var temp = graph.getShortestPath(a, e, 8);
         String s = "";
         if (temp.Item1 != null)
         {
