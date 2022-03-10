@@ -20,7 +20,7 @@ MonoBehaviour:
   successNode: {fileID: 0}
   successString: and found some in the claws of the local wildlife.
   successIntChange:
-  - name: PaladinManaPower
+  - name: PaladinManaStone
     value: 1
     set: 0
   successValueChange: []
