@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: '[Paladin] Explore Forest'
   eventHead: {fileID: 11400000, guid: 6fb8cca5d57fdde4da54fb84e01308bc, type: 2}
-  questDescription: 'Stone-faced Inquistor: We''ve recieved an order from above to
-    investigate the Forest. Don''t ask why.'
+  questDescription: 'Stone-faced Inquisitor: We''ve recieved an order from above
+    to investigate the Forest. Don''t ask why.'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts:
