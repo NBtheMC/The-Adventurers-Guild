@@ -31,7 +31,7 @@ public class GraphObject : MonoBehaviour
         graph.addEdge(a, c, 2, 9);
 
         Text t = this.GetComponent<Text>();
-        var temp = graph.getShortestPath(a, e, 8);
+        var temp = graph.getShortestPath(a, e, 2);
         String s = "";
         if (temp.Item1 != null)
         {

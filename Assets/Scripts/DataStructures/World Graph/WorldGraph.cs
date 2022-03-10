@@ -40,45 +40,33 @@ public class WorldGraph
 
     public (List<WorldNode>, float) getShortestPath(WorldNode s, WorldNode d, float DC)
     {
-        //copy edges into a temp data structure then remove any edges that the
-        //party cannot traverse
-        List<List<Edge>> tempEdges = new List<List<Edge>>(edges);
-        for(int i = 0; i < tempEdges.Count; i++)
-        {
-            for(int j = 0; j < tempEdges[i].Count; j++)
-            {
-                if(tempEdges[i][j].difficulty > DC)
-                {
-                    tempEdges[i].Remove(tempEdges[i][j]);
-                    j--;
-                }      
-            }
-        }
-
         //initialize stuff for Dijkstra SSSP
         s.d = 0;
         PriorityQueue queue = new PriorityQueue();
-        //foreach(var node in nodes)
-        //    queue.Insert(node, node.d);
         queue.Insert(s, s.d);
 
         //Dijkstra hates UCSC
         while (!queue.IsEmpty())
         {
             WorldNode u = queue.ExtractMin();
+            //stop search if we hit the destination
             if (u == d)
                 break;
-            foreach(var edge in tempEdges[nodes.IndexOf(u)])
+
+            foreach(var edge in edges[nodes.IndexOf(u)])
             {
-                Relax(edge);
-                if (queue.Contains(edge.dest))
+                //ignore edges that party cannot traverse
+                if(edge.difficulty <= DC)
                 {
-                    queue.DecreaseKey(edge.dest, edge.dest.d);
-                }
-                else
-                    queue.Insert(edge.dest, edge.dest.d);
-            }
-                
+                    Relax(edge);
+                    if (queue.Contains(edge.dest))
+                    {
+                        queue.DecreaseKey(edge.dest, edge.dest.d);
+                    }
+                    else
+                        queue.Insert(edge.dest, edge.dest.d);
+                }   
+            }     
         }
         
         //return null if there is no path to d
@@ -87,11 +75,12 @@ public class WorldGraph
 
         //otherwise get the path from s to d
         List<WorldNode> path = new List<WorldNode>();
-        for (WorldNode i = d; i != s && i != null; i = i.pred)
+        for (WorldNode i = d; i != null; i = i.pred)
+        {
             path.Insert(0, i);
 
-        path.Insert(0, s);
-
+        }
+            
         //get total time taken for journey
         float totalTime = 0f;
         for(int i = 0; i < path.Count - 1; i++)
