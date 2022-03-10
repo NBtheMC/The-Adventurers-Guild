@@ -6,12 +6,12 @@ using UnityEngine;
 public class PriorityQueue<T>
 {
     //use linked list and then sort it in ascending order based on time to travel
-    public List<(T, float)> contents;
+    public List<(T, double)> contents;
     public int Count { get { return contents.Count; } }
 
-    public PriorityQueue() { contents = new List<(T, float)>(); }
+    public PriorityQueue() { contents = new List<(T, double)>(); }
 
-    public void Insert(T n, float priority)
+    public void Insert(T n, double priority)
     {
         if(contents.Count == 0)
             contents.Add((n, priority));

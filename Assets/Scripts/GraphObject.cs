@@ -21,7 +21,7 @@ public class GraphObject : MonoBehaviour
         WorldNode h = new WorldNode("H");
 
         graph.addEdge(a, b, 3, 1);
-        graph.addEdge(a, c, 2, 3);
+        graph.addEdge(a, c, 2, 9);
         graph.addEdge(b, c, 2, 1);
         graph.addEdge(c, d, 3, 1);
         graph.addEdge(c, e, 1, 8);
@@ -35,13 +35,13 @@ public class GraphObject : MonoBehaviour
         String s = "";
         if (temp.Item1 != null)
         {
-            for (int i = 0; i < temp.Item1.Count; i++)
+            s += "Time: " + temp.Item2 + " Path: ";
+            foreach (var i in temp.Item1)
             {
-                s += temp.Item1[i].location + " ";
+                s += i.location + " ";
             }
-            s += temp.Item2;
         }
-        else s = "No Viable Path!"; 
+        else s = "No Viable Path!";
 
         print(s);
 

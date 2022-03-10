@@ -29,52 +29,66 @@ public class WorldGraph
         return null;
     }
 
-    public (List<WorldNode>, float) getShortestPath(WorldNode s, WorldNode d, float DC)
+    private void Relax(Edge e)
     {
-        paths.Clear();
-        bool[] isVisited = new bool[nodes.Count];
-        List<WorldNode> pathList = new List<WorldNode>();
-
-        pathList.Add(s);
-
-        findAllPaths(s, d, isVisited, pathList, 0, 0);
-
-        while (!paths.IsEmpty())
+        if(e.dest.d > e.source.d + e.timeToTravel)
         {
-            if (paths.Peak().Item2 < DC)
-                return (paths.Peak().Item1, paths.contents[0].Item2);
-            else
-                paths.ExtractMin();
+            e.dest.d = e.source.d + e.timeToTravel;
+            e.dest.pred = e.source;
         }
-        return (null, 0);
     }
 
-    private void findAllPaths(WorldNode u, WorldNode d, bool[] isVisited, List<WorldNode> localPathList, float totalTime, uint maxDifficulty)
+    public (List<WorldNode>, float) getShortestPath(WorldNode s, WorldNode d, float DC)
     {
-        if (u.Equals(d))
+        List<List<Edge>> tempEdges = new List<List<Edge>>(edges);
+        for(int i = 0; i < tempEdges.Count; i++)
         {
-            List<WorldNode> temp = new List<WorldNode>();
-            foreach(WorldNode node in localPathList)
-                temp.Add(node);
-            paths.Insert((temp, maxDifficulty), totalTime);
-            return;
-        }
-
-        int sourceIndex = nodes.IndexOf(u);
-        isVisited[sourceIndex] = true;
-
-        foreach (Edge e in edges[nodes.IndexOf(u)])
-        {
-            int destIndex = nodes.IndexOf(e.dest);
-            if (!isVisited[destIndex])
+            for(int j = 0; j < tempEdges[i].Count; j++)
             {
-                localPathList.Add(e.dest);
-                findAllPaths(e.dest, d, isVisited, localPathList, totalTime + e.timeToTravel, Math.Max(maxDifficulty, e.difficulty));
-                localPathList.Remove(e.dest);
+                if(tempEdges[i][j].difficulty > DC)
+                {
+                    //Debug.Log(String.Format("Removed edge from {0} to {1}", tempEdges[i][j].source.location, tempEdges[i][j].dest.location));
+                    tempEdges[i].Remove(tempEdges[i][j]);
+                    j--;
+                }
+                    
             }
         }
 
-        isVisited[sourceIndex] = false;
+        s.d = 0;
+        PriorityQueue<WorldNode> queue = new PriorityQueue<WorldNode>();
+        foreach(var node in nodes)
+        {
+            queue.Insert(node, node.d);
+        }
+
+        while (!queue.IsEmpty())
+        {
+            WorldNode u = queue.ExtractMin();
+            foreach(var edge in tempEdges[nodes.IndexOf(u)])
+            {
+                Relax(edge);
+            }
+        }
+        
+        if (d.pred == null)
+            return (null, -1);
+
+        List<WorldNode> path = new List<WorldNode>();
+        for (WorldNode i = d; i != s && i != null; i = i.pred)
+        {
+            path.Insert(0, i);
+        }
+        path.Insert(0, s);
+
+        float totalTime = 0f;
+        for(int i = 0; i < path.Count - 1; i++)
+        {
+            Edge e = getEdge(path[i], path[i+ 1]);
+            totalTime += e.timeToTravel;
+        }
+
+        return (path, totalTime);
     }
 
     private int getIndexFromLocation(string location)
