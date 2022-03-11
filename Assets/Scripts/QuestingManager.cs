@@ -55,11 +55,10 @@ public class QuestingManager : MonoBehaviour
             quest.advancebyTick();
             if (quest.QuestComplete == true)
             {
-                markForDeletion.Add(quest);
+                quest.AddGuildGold();
 
-                //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
-                // QuestFinished(this, quest);
-                //relationshipManager.RecalculateAllRelationships();
+                // Add quest to a list for deletion (Move to archive really)
+                markForDeletion.Add(quest);
             }
         }
 

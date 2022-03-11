@@ -17,7 +17,10 @@ MonoBehaviour:
   questDescription: 
   canBeInstanced: 0
   canBeDuplicated: 0
-  triggerInts: []
+  triggerInts:
+  - name: 
+    value: 0
+    triggerType: 0
   triggerValues: []
   triggerStates: []
   numInstances: 1
@@ -25,11 +28,14 @@ MonoBehaviour:
   - name: CapturedAnkhegs
     value: 20
     set: 1
-  - name: PaladinManaGreed
-    value: 11
+  - name: PlayerGold
+    value: 100
     set: 1
-  - name: MageManaGreed
-    value: 11
+  - name: DaysUnderPaid
+    value: 0
+    set: 1
+  - name: TutorialCompleted
+    value: 0
     set: 1
   triggerValueChanges: []
   triggerStateChanges:

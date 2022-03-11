@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 14 - CaveSurvey
   m_EditorClassIdentifier: 
-  questName: Cave Survey
+  questName: '[Mage] Cave Survey'
   eventHead: {fileID: 11400000, guid: fa3985cc6074f5740aebf636406feaa2, type: 2}
-  questDescription: 'Rugged Researcher: I''ve heard of the nearby Caves having Mana
-    Stones. Please take me to them. Used to be a miner, you see, and I''m burning
-    up with curiosity.'
+  questDescription: 'Rugged Researcher: I know the Caves are dangerous, but I must
+    see the Mana Stones in person. Please take me to them. Used to be a miner, you
+    see, and I''m burning up with curiosity.'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts:
@@ -34,7 +34,7 @@ MonoBehaviour:
   numInstances: 0
   triggerIntChanges:
   - name: PaladinMageManaStoneThreat
-    value: 1
+    value: 3
     set: 0
   triggerValueChanges: []
   triggerStateChanges: []

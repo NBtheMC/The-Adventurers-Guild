@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 19 - ExploreForest
   m_EditorClassIdentifier: 
-  questName: Explore Forest
+  questName: '[Paladin] Explore Forest'
   eventHead: {fileID: 11400000, guid: 6fb8cca5d57fdde4da54fb84e01308bc, type: 2}
-  questDescription: 'Stone-faced Inquistor: We''ve recieved an order from above to
-    investigate the Forest. Don''t ask why.'
+  questDescription: 'Stone-faced Inquisitor: We''ve recieved an order from above
+    to investigate the Forest. Don''t ask why.'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts:
   - name: PaladinForestExploration
-    value: 5
+    value: 3
     triggerType: -2
   triggerValues: []
-  triggerStates: []
+  triggerStates:
+  - name: TutorialCompleted
+    state: 1
   numInstances: 0
   triggerIntChanges: []
   triggerValueChanges: []

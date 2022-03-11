@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 3 - SailorLogisticalPlanCompletion
+  m_EditorClassIdentifier: 
+  questName: Finishing Sailor Logistical Planning
+  eventHead: {fileID: 0}
+  questDescription: 
+  canBeInstanced: 1
+  canBeDuplicated: 1
+  triggerInts:
+  - name: SailorLogisticalPlanning
+    value: 100
+    triggerType: 2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges:
+  - name: SailorLogisticalPlans
+    state: 1

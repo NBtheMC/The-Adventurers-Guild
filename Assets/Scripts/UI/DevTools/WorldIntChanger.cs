@@ -14,7 +14,7 @@ namespace StoryletTesting {
         public Slider currentSlider; // drag it in.
         public TMP_InputField inputField; // also drag it in.
         public string worldStat; // probably should leave blank.
-        float value;
+        public float value;
 
         public WorldStateManager theWorld;
 
@@ -25,17 +25,27 @@ namespace StoryletTesting {
             value = theWorld.GetWorldInt(worldStat);
 
             // Sets the title to the the string of the stat.
-            text.text = worldStat;
+            if (text != null) { text.text = worldStat; }
 
-            // Ensures that all input are intergers.
-            inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+            // Checking input Fields.
+            if (inputField != null)
+            {
+                //Sets the content type and adds a listener for any world changes.
+                inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+                inputField.onEndEdit.AddListener(UpdateWorldValueFromInput);
+            }
+            else { Debug.LogWarning($"Error, {worldStat} int changer has no inputField"); }
+
 
             // Ensures that the slider is sliding on whole numbers
-            currentSlider.wholeNumbers = true;
-
+            if (currentSlider != null)
+            {
+                currentSlider.wholeNumbers = true;
+                currentSlider.onValueChanged.AddListener(UpdateWorldValue);
+            }
+            
             // Sets a listener for an event.
-            inputField.onEndEdit.AddListener(UpdateWorldValueFromInput);
-            currentSlider.onValueChanged.AddListener(UpdateWorldValue);
+            
             theWorld.IntChangeEvent+=(UpdateFromWorld);
         }
 
@@ -49,11 +59,15 @@ namespace StoryletTesting {
 			valueText.text = value.ToString();
 
 			// Change the bounds on the slider if it needs to be changed.
-			if (value > currentSlider.maxValue) { currentSlider.maxValue = value; }
-            else if(value < currentSlider.minValue) { currentSlider.minValue = value; }
+            if (currentSlider != null)
+			{
+		        if (value > currentSlider.maxValue) { currentSlider.maxValue = value; }
+                else if(value < currentSlider.minValue) { currentSlider.minValue = value; }
 
-            // Change the value on the slider itself.
-			currentSlider.value = value;
+                // Change the value on the slider itself.
+			    currentSlider.value = value;
+			}
+
 		}
 
         public void UpdateWorldValueFromInput(string input)
