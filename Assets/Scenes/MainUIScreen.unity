@@ -278,6 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2efaafc593b9334597434d8b3f2ec7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Instance: {fileID: 0}
   timeSystem: {fileID: 563469174}
   relationshipManager: {fileID: 0}
 --- !u!4 &767544277
@@ -631,6 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2ae497ef6b4704e9f80ce99abd3a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentScene: 0
 --- !u!4 &1532994878
 Transform:
   m_ObjectHideFlags: 0
@@ -913,6 +915,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 940253471511436371, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178855941408902649, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
+    - target: {fileID: 1178855941408902649, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_FontData.m_FontStyle
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1658650176730143873, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
