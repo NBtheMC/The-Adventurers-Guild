@@ -155,10 +155,17 @@ RectTransform:
   m_Father: {fileID: 1294127033}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 131, y: -27.283997}
   m_SizeDelta: {x: 224.29999, y: 219.43}
+=======
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -219.03, y: -44.769}
+  m_SizeDelta: {x: 285.7082, y: 254.4017}
+>>>>>>> Stashed changes
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54463881
 MonoBehaviour:
@@ -242,10 +249,17 @@ RectTransform:
   m_Father: {fileID: 1294127033}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -112.50101, y: -27.283005}
   m_SizeDelta: {x: 262.7047, y: 219.43}
+=======
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 254, y: -44.769}
+  m_SizeDelta: {x: 334.6272, y: 254.4017}
+>>>>>>> Stashed changes
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77572836
 MonoBehaviour:
