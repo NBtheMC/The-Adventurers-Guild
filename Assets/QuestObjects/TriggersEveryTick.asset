@@ -16,10 +16,11 @@ MonoBehaviour:
   eventHead: {fileID: 0}
   questDescription: A Tick has passed.
   canBeInstanced: 1
+  canBeDuplicated: 1
   triggerInts: []
   triggerValues: []
   triggerStates: []
-  numInstances: 40
+  numInstances: 12
   triggerIntChanges:
   - name: AnkhegCapturingTicks
     value: 1

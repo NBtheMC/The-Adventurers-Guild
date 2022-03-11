@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: SailorDoom
+  m_EditorClassIdentifier: 
+  questName: SailorDominance
+  eventHead: {fileID: 11400000, guid: a70224d2540a2604e861bb91872b4cb4, type: 2}
+  questDescription: The Sailors have established dominance in the region, edging
+    both factions to war. The game is theoretically over.
+  canBeInstanced: 0
+  canBeDuplicated: 0
+  triggerInts:
+  - name: SailorLogisticalPlanImplementation
+    value: 100
+    triggerType: 2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

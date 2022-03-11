@@ -30,12 +30,16 @@ public class ObjectDropPoint : MonoBehaviour
 
 		// Defines the space of the area we need to check.
 		RectTransform currentRectangle = this.GetComponent<RectTransform>();
-		Rect rect = currentRectangle.rect;
-		rect.x += currentRectangle.position.x;
-		rect.y += currentRectangle.position.y;
+
+		Vector3[] v = new Vector3[4];
+		currentRectangle.GetWorldCorners(v);
+		float x_min = v[0].x;
+		float x_max = v[2].x;
+		float y_min = v[0].y;
+		float y_max = v[1].y;
 
 		// Big if condition 
-		if(point.x<rect.xMax && point.x>rect.xMin && point.y<rect.yMax && point.y > rect.yMin)
+		if (point.x < x_max && point.x > x_min && point.y < y_max && point.y > y_min)
 		{
 			isItIn = true;
 		}

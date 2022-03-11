@@ -46,7 +46,6 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     /// <param name="eventData"></param>
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin Drag");
         beingDragged = true;
 
         this.transform.SetParent(QuestDisplayTransform);
@@ -61,7 +60,6 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     /// <param name="eventData"></param>
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Dragging");
         transformer.position += new Vector3(eventData.delta.x,eventData.delta.y);
     }
 
@@ -71,7 +69,7 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("End Drag");
+        print("End drag");
         beingDragged = false;
         if (dropHandler.inDropPoint(this))
 		{

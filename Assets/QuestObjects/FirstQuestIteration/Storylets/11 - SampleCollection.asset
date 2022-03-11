@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 11 - SampleCollection
+  m_EditorClassIdentifier: 
+  questName: Sample Collection
+  eventHead: {fileID: 11400000, guid: ecb60664bc373fe4c8f1a667a39f4682, type: 2}
+  questDescription: 'Bejeweled Official: I''ve heard that there was a recent discovery
+    of Mana Stones in the nearby Caves. I''ve come on behalf of the Mages to request
+    some samples.'
+  canBeInstanced: 1
+  canBeDuplicated: 0
+  triggerInts:
+  - name: MageSampleCollection
+    value: 5
+    triggerType: -2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

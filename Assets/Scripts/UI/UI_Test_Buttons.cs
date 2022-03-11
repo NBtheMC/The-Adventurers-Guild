@@ -26,9 +26,9 @@ public class UI_Test_Buttons : MonoBehaviour
         // Making a sample character to test things out on.
         Dictionary<CharacterSheet.StatDescriptors, int> sampleStats = new Dictionary<CharacterSheet.StatDescriptors, int>()
         {
-            {CharacterSheet.StatDescriptors.Diplomacy, Random.Range(1,20) },
+            {CharacterSheet.StatDescriptors.Negotiation, Random.Range(1,20) },
             {CharacterSheet.StatDescriptors.Combat, Random.Range(1,20) },
-            {CharacterSheet.StatDescriptors.Stamina,Random.Range(1,20) },
+            {CharacterSheet.StatDescriptors.Constitution,Random.Range(1,20) },
             {CharacterSheet.StatDescriptors.Exploration,Random.Range(1,20) }
         };
         CharacterSheet testCharacter = new CharacterSheet("bob", sampleStats);
