@@ -42,7 +42,7 @@ public class QuestBanner : MonoBehaviour
                 }
             }
 
-            questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
+            //questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
 
             //add quest to QuestDisplay canvas
             questUIObj.transform.SetParent(QuestDisplay.transform, false);

@@ -20,7 +20,6 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private DropHandler dropHandler;
     private RectTransform DropPoints;
     private RectTransform transformer; // defines the rectangle reference for this dragger.
-    [HideInInspector] public GameObject questBanner;
     private bool questSent = false;
 
     // Start is called before the first frame update
@@ -114,7 +113,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             questSent = true;
             DestroyUI();
 
-            Destroy(questBanner);
+            //Destroy(questBanner);
 
             SoundManagerScript.PlaySound("stamp");
         }
@@ -133,7 +132,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
 
-        questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+        //questBanner.GetComponent<QuestBanner>().isDisplayed = false;
 
         characterPool.RefreshCharacterPool();
         Destroy(this.gameObject);
