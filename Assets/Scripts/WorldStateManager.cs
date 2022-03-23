@@ -237,8 +237,8 @@ public class WorldStateManager : MonoBehaviour
 		{
 
 			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
-			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { Debug.Log($"{storylet.questName} has too many instances."); continue; }
-			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { Debug.Log($"{storylet.questName} has been duplicated"); continue; }
+			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { continue; }
+			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { continue; }
 
 			bool validStorylet = true;
 			
@@ -309,7 +309,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); break; }
+				if (!validStorylet) { break; }
 			}
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.

@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 //Takes in new quests and creates them on screen as UI objects
 public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
+    // All the input fields for the adventurer names.
+    public List<TMPro.TextMeshProUGUI> adventurerNames;
     private QuestSheet attachedSheet;
     private Text questName;
     private Text questDescription;
@@ -22,6 +24,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     private bool questSent = false;
 
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,7 +36,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
 
         //party formation objects
-        DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
+        //DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
+
         sendPartyButton = transformer.Find("Send Party").gameObject;
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
@@ -58,14 +62,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //setup reward
         questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
 
+        // If this is a quest selection item.
         if (!displayOnly)
         {
-            //add drop points to drop handler
-            foreach (Transform child in DropPoints)
-            {
-                //dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
-                dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
-            }
+        }
+		else // If this is a quest display item.
+		{
         }
 
     }
@@ -92,15 +94,22 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
         //create new partySheet and add all selected adventurers
         PartySheet partyToSend = new PartySheet();
 
+
+
+
         //find all characters on QuestUI object and add to partyToSend
-        foreach (Transform child in DropPoints)
+        foreach (TMPro.TextMeshProUGUI child in adventurerNames)
         {
+            // Commented out code for the character drop points.
+            /*
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
             if (character)
             {
                 CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
                 partyToSend.addMember(charSheet);
-            }
+            }*/
+
+
         }
 
         //assign partyToSend to the current quest
@@ -162,3 +171,4 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     }
 
 }
+
