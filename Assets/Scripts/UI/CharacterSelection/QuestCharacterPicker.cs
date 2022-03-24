@@ -8,16 +8,19 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class QuestCharacterPicker : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public string adventurerName { get; private set; }
 
     private CharacterSheetManager charSheetManager; // The charactermanager in the game.
     private RectTransform transformer; // this object's rect transform
     private bool overSpace;
+    private int adventurernumber; // The coded adventurer number from that master sheet that was last inputed.
+    public CharacterSheet codedAdventurer { get; private set; } // So other scripts can take a look at what adventurer this was.
 
     void Awake()
 	{
-        transformer = this.GetComponent<RectTransform>();
-        overSpace = false;
+		transformer = this.GetComponent<RectTransform>();
+        adventurernumber = 0;
+		overSpace = false;
+        codedAdventurer = null;
     }
 
     // Start is called before the first frame update
@@ -43,7 +46,25 @@ public class QuestCharacterPicker : MonoBehaviour, IPointerEnterHandler, IPointe
 	{
         if (overSpace== true)
 		{
-			
-		}
+            // Checks for what key was just last pressed to corrospond with the code last done.
+            int oldNumber = adventurernumber;
+            if (Input.GetKeyDown(KeyCode.Alpha1)) { adventurernumber = 1; }
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) { adventurernumber = 2; }
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) { adventurernumber = 3; }
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) { adventurernumber = 4; }
+            else if (Input.GetKeyDown(KeyCode.Alpha5)) { adventurernumber = 5; }
+            else if (Input.GetKeyDown(KeyCode.Alpha6)) { adventurernumber = 6; }
+            else if (Input.GetKeyDown(KeyCode.Alpha7)) { adventurernumber = 7; }
+            else if (Input.GetKeyDown(KeyCode.Alpha8)) { adventurernumber = 8; }
+            else if (Input.GetKeyDown(KeyCode.Alpha9)) { adventurernumber = 9; }
+            else if (Input.GetKeyDown(KeyCode.Alpha0)) { adventurernumber = 10; }
+            else if (Input.GetKeyDown(KeyCode.Minus)) { adventurernumber = 11; }
+            else if (Input.GetKeyDown(KeyCode.Plus)) { adventurernumber = 12; }
+
+            codedAdventurer = charSheetManager.GetCharacterSheetFromIndex(adventurernumber);
+            if (codedAdventurer != null) { this.GetComponent<TMPro.TextMeshProUGUI>().text = codedAdventurer.name; }
+            else { adventurernumber = oldNumber; }
+
+        }
 	}
 }

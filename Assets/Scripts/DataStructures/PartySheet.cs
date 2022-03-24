@@ -19,6 +19,7 @@ public class PartySheet
 
     public void addMember(CharacterSheet adventurer)
     {
+        if (party_members.Contains(adventurer)) { return; }
         party_members.Add(adventurer);
     }
 

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     // All the input fields for the adventurer names.
-    public List<TMPro.TextMeshProUGUI> adventurerNames;
+    public List<QuestCharacterPicker> adventurerNames;
     private QuestSheet attachedSheet;
     private Text questName;
     private Text questDescription;
@@ -98,18 +98,9 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
 
         //find all characters on QuestUI object and add to partyToSend
-        foreach (TMPro.TextMeshProUGUI child in adventurerNames)
+        foreach (QuestCharacterPicker child in adventurerNames)
         {
-            // Commented out code for the character drop points.
-            /*
-            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            if (character)
-            {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
-                partyToSend.addMember(charSheet);
-            }*/
-
-
+            if (child.codedAdventurer != null) { partyToSend.addMember(child.codedAdventurer); }
         }
 
         //assign partyToSend to the current quest
@@ -131,6 +122,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public void DestroyUI()
     {
+        /*
         foreach (Transform child in DropPoints)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
@@ -139,7 +131,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
                 Destroy(character.gameObject);
             }
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
-        }
+        }*/
 
         //questBanner.GetComponent<QuestBanner>().isDisplayed = false;
 
@@ -163,11 +155,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         this.transform.SetAsLastSibling();
         //remove drop points from dropHandler, then add them again infront
+        /*
         foreach(Transform child in DropPoints)
         {
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
             dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
-        }
+        }*/
     }
 
 }

@@ -9,6 +9,7 @@ public class CharacterSheetManager : MonoBehaviour
     private List<CharacterSheet> freeAdventurers; //Adventurers in the guild that are not on a quest
     private List<CharacterSheet> questingAdventurers; //Adventurers that are currently on a quest
     private List<CharacterSheet> deadAdventurers; //Adventurers that fucking died
+    private Dictionary<int,CharacterSheet> masterAdventurerList; // The master chronological list of adventurers.
 
     public IReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return unhiredAdventurers.AsReadOnly(); } }
     public IReadOnlyCollection<CharacterSheet> FreeAdventurers { get { return freeAdventurers.AsReadOnly(); } }
@@ -27,6 +28,11 @@ public class CharacterSheetManager : MonoBehaviour
         CharacterInitialStats[] characters;
         characters = Resources.LoadAll<CharacterInitialStats>("Characters");
 
+        masterAdventurerList = new Dictionary<int,CharacterSheet>();
+
+        // To index our master list.
+        int characterIndexer = 1;
+
         foreach (CharacterInitialStats character in characters)
         {
             CharacterSheet charSheet = new CharacterSheet(character);
@@ -35,6 +41,9 @@ public class CharacterSheetManager : MonoBehaviour
                 freeAdventurers.Add(charSheet);
             else
                 unhiredAdventurers.Add(charSheet);
+
+            masterAdventurerList.Add(characterIndexer, charSheet);
+            characterIndexer++;
         }
     }
 
@@ -63,4 +72,15 @@ public class CharacterSheetManager : MonoBehaviour
         }
         RosterChange(this, EventArgs.Empty);
     }
+
+    /// <summary>
+    /// Used to return a certain Character Sheet using a certain index from the master list.
+    /// </summary>
+    /// <param name="index">The index to use when searching.</param>
+    /// <returns>The requested CharacterSheet. Can return null.</returns>
+    public CharacterSheet GetCharacterSheetFromIndex(int index)
+	{
+        if (!masterAdventurerList.ContainsKey(index)) { return null;}
+        return masterAdventurerList[index];
+	}
 }
