@@ -10,16 +10,6 @@ public class WorldStateManager : MonoBehaviour
     private Dictionary<string, WorldState> worldStates;
 	private Dictionary<string, WorldInt> worldInts;
 
-	// Keeps track of how many stats we're displaying.
-	private int statDisplayNums = 0;
-	private int spacer = 10; // How much space we're giving them.
-	private int topOfDisplay; // How much space we're giving between items.
-	private int startingSpace = -10; // How much space the first item needs to generate below the top.
-
-	public GameObject intDisplayPrefab;
-	public GameObject floatDisplayPrefab;
-	public GameObject boolDisplayPrefab;
-
 	// The list of all storylets we plan on creating.
     public List<Storylet> storylets = new List<Storylet>();
 	public Dictionary<Storylet, int> numberOfActivations = new Dictionary<Storylet, int>();
@@ -31,19 +21,13 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the TimeSystem.
 	public TimeSystem timeSystem;
 
-	// A bunch of events for when the WorldStateManager updates itself.
-	public event EventHandler<string> IntChangeEvent;
-	public event EventHandler<string> StateChangeEvent;
-	public event EventHandler<string> FloatChangeEvent;
+	public event EventHandler<IWorldStat> NewStatEvent;
 
     void Awake()
     {
         worldValues = new Dictionary<string, WorldValue>();
         worldStates = new Dictionary<string, WorldState>();
 		worldInts = new Dictionary<string, WorldInt>();
-
-		//Set the top of Display to the spacer
-		topOfDisplay = startingSpace;
     }
 
 	private void Start()
@@ -362,21 +346,49 @@ public class WorldStateManager : MonoBehaviour
 }
 
 // Standard Structures for keeping our worldStates.
-public class WorldValue
+public abstract class IWorldStat
 {
-    public string name; public float value;
-
-    public WorldValue(string inputName, float inputValue) { inputName = name; inputValue = value; }   
-}
-public class WorldState
-{
-    public string name; public bool state;
-
-    public WorldState(string inputName, bool inputState) { inputName = name; inputState = state;}
+	public string name;
 }
 
-public class WorldInt
+public class WorldValue: IWorldStat
 {
-	public string name; public int value;
-	public WorldInt(string inputName, int inputValue) { inputName = name;inputValue = value; }
+    public float value;
+
+	public event EventHandler<float> StatChangeFloat;
+
+	public WorldValue(string inputName, float inputValue) { inputName = name; inputValue = value; }
+
+	public void Change(float inputValue, bool set = false)
+	{
+		if (set) { value = inputValue; }
+		else { value += inputValue; }
+		StatChangeFloat?.Invoke(this, value);
+	}
+
+}
+public class WorldState: IWorldStat
+{
+    public bool state;
+
+	public event EventHandler<bool> StatChangeBool;
+
+	public WorldState(string inputName, bool inputState) { inputName = name; inputState = state;}
+
+	public void Change(bool inputState) { state = inputState; StatChangeBool?.Invoke(this, state); }
+}
+public class WorldInt: IWorldStat
+{
+	public int value;
+
+	public event EventHandler<int> StatChangeInt;
+
+	public WorldInt(string inputName, int inputValue) { inputName = name; inputValue = value; }
+
+	public void Change(int inputInt, bool set = false)
+	{
+		if (set) { value = inputInt; }
+		else { value += inputInt; }
+		StatChangeInt?.Invoke(this, value);
+	}
 }
