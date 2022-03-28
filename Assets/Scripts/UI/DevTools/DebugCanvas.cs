@@ -19,10 +19,26 @@ public class DebugCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        // Checks for the key to turn objects on or off in this canvas.
+        if (Input.GetKeyDown(KeyCode.BackQuote))
 		{
             debugActive = !debugActive;
-            
+            if (debugActive)
+			{
+                foreach (Transform t in transform)
+				{
+                    // set all objects active.
+                    if (!t.gameObject.activeSelf) { t.gameObject.SetActive(true); }
+				}
+			}
+            else if (!debugActive)
+			{
+                foreach(Transform t in transform)
+				{
+                    // set all objects inactive.
+                    if (t.gameObject.activeSelf) { t.gameObject.SetActive(false); }
+				}
+			}
 		}
     }
 }
