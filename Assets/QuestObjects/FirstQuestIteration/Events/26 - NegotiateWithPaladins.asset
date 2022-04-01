@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
+  m_Name: 26 - NegotiateWithPaladins
+  m_EditorClassIdentifier: 
+  description: The party tried to negotiate a good deal with the Paladins
+  stat: 3
+  DC: 40
+  time: 12
+  Reward: 300
+  successNode: {fileID: 0}
+  successString: and negotiations went swimmingly. There is now a Paladin logistics
+    camp outside the Forest.
+  successIntChange:
+  - name: PaladinManaGreed
+    value: 10
+    set: 0
+  - name: MagePaladinManaStoneThreat
+    value: 25
+    set: 0
+  successValueChange: []
+  successStateChange: []
+  failureNode: {fileID: 0}
+  failureString: but negotiations fell through (NGO) and the Paladins have declared
+    a holy war for the purposes of liberating the Mana Stones from the hands of the
+    unbeliving. The game is over for you.
+  failIntChange: []
+  failValueChange: []
+  failStateChange: []

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: StoryletExterminateAnkhegs
+  m_EditorClassIdentifier: 
+  questName: Exterminate the Ankhegs
+  eventHead: {fileID: 11400000, guid: 86863a4c42920de49b90379b9cb80d6f, type: 2}
+  questDescription: There's too many Ankhegs. There is now a kill order for them.
+  canBeInstanced: 1
+  triggerInts:
+  - name: NumberOfAnkhegs
+    value: 20
+    triggerType: 2
+  triggerValues:
+  - name: AnkhegPercievedThreat
+    value: 0.6
+    triggerType: 1
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges:
+  - name: AnkhegPercievedThreat
+    value: -0.4
+    set: 0
+  triggerStateChanges: []

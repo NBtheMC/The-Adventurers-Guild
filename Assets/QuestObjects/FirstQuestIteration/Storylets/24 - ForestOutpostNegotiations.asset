@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 24 - ForestOutpostNegotiations
+  m_EditorClassIdentifier: 
+  questName: '[Paladin] Forest Outpost Negotiations'
+  eventHead: {fileID: 11400000, guid: d7bd1aab3ed71d64ab9d0b1f239bffc5, type: 2}
+  questDescription: 'Baby-faced Squire: H-hello. I''m here on behalf of the Paladins
+    to formally request the right to set up an outpost near the Forest. You''d need
+    to come with us to sign some paperwork, is that okay?'
+  canBeInstanced: 0
+  canBeDuplicated: 0
+  triggerInts:
+  - name: PaladinManaGreed
+    value: 25
+    triggerType: 1
+  - name: PaladinFieldTest2
+    value: 1
+    triggerType: 2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 20 - FindManaStones
+  m_EditorClassIdentifier: 
+  questName: '[Paladin] Find Mana Stones'
+  eventHead: {fileID: 11400000, guid: 49c74b3e33a88104baf8f2a50ca66955, type: 2}
+  questDescription: 'Excitable Knight: Mana Stones! This is an amazing discovery.
+    You must get us some samples!'
+  canBeInstanced: 1
+  canBeDuplicated: 0
+  triggerInts:
+  - name: PaladinForestExploration
+    value: 3
+    triggerType: 2
+  - name: PaladinManaStone
+    value: 1
+    triggerType: -2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

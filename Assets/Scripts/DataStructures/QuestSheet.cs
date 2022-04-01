@@ -69,7 +69,7 @@ public class QuestSheet
 			accumutatedGold += returnMessage.givenReward;
 			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
             visitedNodes.Add(currentConnection);
-			questRecap += (" and " + returnMessage.resultsString);
+			questRecap += (returnMessage.resultsString + " ");
 
 			// Changes the world based on Event Package
 			switch (returnMessage.objectiveComplete)
@@ -116,6 +116,15 @@ public class QuestSheet
 		eventTicksElapsed++;
 
 		return 0;
+	}
+
+	/// <summary>
+	/// Adds the accumulated gold to the world manager, then clears the sheet's accumulated gold.
+	/// </summary>
+	public void AddGuildGold()
+	{
+		worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
+		accumutatedGold = 0;
 	}
 
 	public struct EventInfo

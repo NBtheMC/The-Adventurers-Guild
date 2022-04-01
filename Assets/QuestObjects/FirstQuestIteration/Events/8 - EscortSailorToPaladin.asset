@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
+  m_Name: 8 - EscortSailorToPaladin
+  m_EditorClassIdentifier: 
+  description: The party travels with the sailor to meet the paladins
+  stat: 2
+  DC: 25
+  time: 6
+  Reward: 60
+  successNode: {fileID: 0}
+  successString: and successfully made their point of contact
+  successIntChange: []
+  successValueChange:
+  - name: SailorGuildRelation
+    value: 10
+    set: 0
+  - name: SailorPaladinRelation
+    value: 10
+    set: 0
+  - name: PaladinSailorRelation
+    value: 10
+    set: 0
+  successStateChange: []
+  failureNode: {fileID: 11400000, guid: c31e8e69eb6e51b4e9a4eda95a9195da, type: 2}
+  failureString: but were caught by mages. (XPO)
+  failIntChange: []
+  failValueChange: []
+  failStateChange: []

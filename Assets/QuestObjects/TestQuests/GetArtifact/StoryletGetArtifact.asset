@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: StoryletGetArtifact
+  m_EditorClassIdentifier: 
+  questName: GetArtifact
+  eventHead: {fileID: 11400000, guid: da67603f7fb92a449899e77c9e9c21c0, type: 2}
+  questDescription: There's an artifact across the lake, who's bridge is guarded
+    by a troll. The troll is nice. But there's bandits, who aren't as nice.
+  canBeInstanced: 0
+  triggerInts: []
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

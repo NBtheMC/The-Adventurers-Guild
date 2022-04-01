@@ -824,6 +824,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885634933538}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 3
@@ -926,6 +930,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711884841137880}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 3
@@ -1028,6 +1036,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885634933538}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 2
@@ -1130,6 +1142,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885634933538}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 1
@@ -1232,6 +1248,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711884841137880}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 2
@@ -1334,6 +1354,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885830738900}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 1
@@ -1436,6 +1460,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885634933538}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 4
@@ -1538,6 +1566,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885830738900}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 4
@@ -1640,6 +1672,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885830738900}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 2
@@ -1742,6 +1778,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711885830738900}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 3
@@ -1844,6 +1884,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711884841137880}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 4
@@ -1946,6 +1990,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 31711884841137880}
     m_Modifications:
+    - target: {fileID: 8149431214746250661, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 93d01ac96106f4f42846d63abda96275, type: 3}
     - target: {fileID: 8149431216032663849, guid: 03e51a020e8d7874c93f8a7b2d61ee79, type: 3}
       propertyPath: m_Name
       value: Quest 1

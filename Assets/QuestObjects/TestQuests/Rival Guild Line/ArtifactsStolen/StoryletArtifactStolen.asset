@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: StoryletArtifactStolen
+  m_EditorClassIdentifier: 
+  questName: Our Artifact got stolen :(
+  eventHead: {fileID: 11400000, guid: 304748de8b8e23c4bba0100cd0ee219b, type: 2}
+  questDescription: Our artifact got stolen, and we know it's the Rival Guild. We
+    gotta get it back.
+  canBeInstanced: 0
+  triggerInts: []
+  triggerValues: []
+  triggerStates:
+  - name: RivalGuildOpen
+    state: 1
+  - name: HaveArtifact
+    state: 1
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

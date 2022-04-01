@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainUIScreen.unity
     guid: 802ed5fe339364344b946acbf008896d
+  - enabled: 1
+    path: Assets/Scenes/EventRecap.unity
+    guid: a9d64a09024f05147878538e271b745b
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 0d7b346756a91804f845f482b72e2629
   m_configObjects: {}

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
+  m_Name: 5 - ResistTheUrge
+  m_EditorClassIdentifier: 
+  description: 'The party was tempted to look at the documents '
+  stat: 3
+  DC: 25
+  time: 6
+  Reward: 300
+  successNode: {fileID: 0}
+  successString: 'but managed to hold back the temptation. '
+  successIntChange: []
+  successValueChange:
+  - name: SailorGuildRelation
+    value: 10
+    set: 0
+  successStateChange:
+  - name: SailorLogisticalPlans
+    state: 1
+  failureNode: {fileID: 0}
+  failureString: and learned of some pretty unsavort things about the sailors.
+  failIntChange: []
+  failValueChange: []
+  failStateChange:
+  - name: PlayerSailorLogisticalPlansKnown
+    state: 1

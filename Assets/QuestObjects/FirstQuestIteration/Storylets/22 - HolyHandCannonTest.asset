@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 22 - HolyHandCannonTest
+  m_EditorClassIdentifier: 
+  questName: '[Paladin] Holy Hand Cannon Test'
+  eventHead: {fileID: 11400000, guid: a2c8729208854f44285ad1294c97e4c4, type: 2}
+  questDescription: 'Excitable Knight: We''ve recieved the latest weaponry and have
+    been given full permission to test it! Please, take me to the Forest, I must
+    fire this Holy Hand Cannon right away!'
+  canBeInstanced: 1
+  canBeDuplicated: 0
+  triggerInts:
+  - name: PaladinManaStone
+    value: 0
+    triggerType: 1
+  - name: PaladinFieldTest1
+    value: 1
+    triggerType: -2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges: []
+  triggerValueChanges: []
+  triggerStateChanges: []

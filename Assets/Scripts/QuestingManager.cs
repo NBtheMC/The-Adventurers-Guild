@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class QuestingManager : MonoBehaviour
 {
+    public QuestingManager Instance;
+
     public TimeSystem timeSystem; // a reference to the time system to update quest with.
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
@@ -25,6 +27,14 @@ public class QuestingManager : MonoBehaviour
         bankedQuests = new List<QuestSheet>();
         activeQuests = new List<QuestSheet>();
         finishedQuests = new List<QuestSheet>();
+
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -45,11 +55,10 @@ public class QuestingManager : MonoBehaviour
             quest.advancebyTick();
             if (quest.QuestComplete == true)
             {
-                markForDeletion.Add(quest);
+                quest.AddGuildGold();
 
-                //QuestReturn.GetComponent<QuestReturnUI>().GenerateQuestReturnBox(quest);
-                // QuestFinished(this, quest);
-                //relationshipManager.RecalculateAllRelationships();
+                // Add quest to a list for deletion (Move to archive really)
+                markForDeletion.Add(quest);
             }
         }
 

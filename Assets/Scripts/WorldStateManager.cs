@@ -22,6 +22,8 @@ public class WorldStateManager : MonoBehaviour
 
 	// The list of all storylets we plan on creating.
     public List<Storylet> storylets = new List<Storylet>();
+	public Dictionary<Storylet, int> numberOfActivations = new Dictionary<Storylet, int>();
+	public Dictionary<QuestSheet,Storylet> activeStorylets = new Dictionary<QuestSheet, Storylet>();
 
 	// the reference to a QuestingManager.
 	public QuestingManager questingManager;
@@ -48,17 +50,20 @@ public class WorldStateManager : MonoBehaviour
 	{
 		foreach(Storylet storylet in storylets)
 		{
-			// resets each storylet's active quest value to zero. will come up with better solution in future.
-			storylet.numInstances = 0;
-
 			// Preload all the values into the dictionary.
 			foreach(Storylet.TriggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
 			foreach(Storylet.TriggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
 			foreach(Storylet.TriggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
+
+			// Add them into the dictionary and set it to zero.
+			numberOfActivations.Add(storylet, 0);
 		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
 		if (timeSystem != null) { timeSystem.TickAdded += TickTrigger; }
+
+		// Adds a listener to questing manager to listen for finished quests.
+		if (questingManager != null) { questingManager.QuestFinished += RemoveActiveStorylet; }
 	}
 
 	/// <summary>
@@ -211,7 +216,6 @@ public class WorldStateManager : MonoBehaviour
 		else { AddWorldInt(key, 0); return 0; }
 	}
 
-
 	/// <summary>
 	/// Literally just here to curcumvent the overload from timesystem.
 	/// </summary>
@@ -219,7 +223,6 @@ public class WorldStateManager : MonoBehaviour
 	public void TickTrigger(object source, GameTime gameTime){
 		TriggerStorylets();
 	}
-
 
     /// <summary>
     /// Checks the Storylet List for any activatable storylet, then activates them.
@@ -234,11 +237,10 @@ public class WorldStateManager : MonoBehaviour
 		{
 
 			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
-			if (storylet.numInstances > 0 && !storylet.canBeInstanced) { continue; }
+			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { Debug.Log($"{storylet.questName} has too many instances."); continue; }
+			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { Debug.Log($"{storylet.questName} has been duplicated"); continue; }
 
 			bool validStorylet = true;
-
-			//Debug.Log($"Begining Trigger Checks. Total of {storylet.triggerValues.Count} trigger values.");
 			
 			// Goes through the list of trigger values.
 			foreach (Storylet.TriggerValue triggerValue in storylet.triggerValues)
@@ -336,7 +338,9 @@ public class WorldStateManager : MonoBehaviour
 				else { ChangeWorldInt(change.name, change.value); }
 			}
 
-			storylet.numInstances++;
+			// Logs the number of times this quest has been actived.
+			numberOfActivations[storylet]++;
+
 
 			Debug.Log($"New Quest {storylet.name} created.");
 
@@ -345,8 +349,15 @@ public class WorldStateManager : MonoBehaviour
 			{
 				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, this, storylet.questDescription);
 				questingManager.AddQuest(newQuest);
+				// Puts the new quest into activation
+				if (!activeStorylets.ContainsValue(storylet)) { activeStorylets.Add(newQuest, storylet); }
 			}
 		}
+	}
+
+	public void RemoveActiveStorylet(object source, QuestSheet finishedQuest)
+	{
+		activeStorylets.Remove(finishedQuest);
 	}
 }
 

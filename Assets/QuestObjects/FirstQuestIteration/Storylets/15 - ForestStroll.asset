@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
+  m_Name: 15 - ForestStroll
+  m_EditorClassIdentifier: 
+  questName: '[Mage] Forest Stroll'
+  eventHead: {fileID: 11400000, guid: a3f442f6f05c8e047b43cde50e928210, type: 2}
+  questDescription: 'Rugged Researcher: I overheard the Paladins talking about a
+    Mana Stone discovery in the Forest. On an unrelated note, could you take me to
+    the forest for a walk?'
+  canBeInstanced: 1
+  canBeDuplicated: 0
+  triggerInts:
+  - name: MageSampleCollection
+    value: 3
+    triggerType: 2
+  - name: MageManaGreed
+    value: 15
+    triggerType: 2
+  - name: MageForestSurvey
+    value: 1
+    triggerType: -2
+  triggerValues: []
+  triggerStates: []
+  numInstances: 0
+  triggerIntChanges:
+  - name: PaladinMageManaStoneThreat
+    value: 15
+    set: 0
+  triggerValueChanges: []
+  triggerStateChanges: []

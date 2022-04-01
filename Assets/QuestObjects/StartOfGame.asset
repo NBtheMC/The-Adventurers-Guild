@@ -16,13 +16,26 @@ MonoBehaviour:
   eventHead: {fileID: 0}
   questDescription: 
   canBeInstanced: 0
-  triggerInts: []
+  canBeDuplicated: 0
+  triggerInts:
+  - name: 
+    value: 0
+    triggerType: 0
   triggerValues: []
   triggerStates: []
   numInstances: 1
   triggerIntChanges:
   - name: CapturedAnkhegs
     value: 20
+    set: 1
+  - name: PlayerGold
+    value: 100
+    set: 1
+  - name: DaysUnderPaid
+    value: 0
+    set: 1
+  - name: TutorialCompleted
+    value: 0
     set: 1
   triggerValueChanges: []
   triggerStateChanges:

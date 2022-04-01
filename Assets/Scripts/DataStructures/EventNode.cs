@@ -12,6 +12,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
 public class EventNode: ScriptableObject
 {
+	[TextAreaAttribute(2, 10)]
 	public string description; //what the event is
 
 	public CharacterSheet.StatDescriptors stat; // the stat to be checked against. Should correspond with PartySheet
@@ -68,13 +69,13 @@ public class EventNode: ScriptableObject
 				//update EventPackage
 				message.nextEvent = successNode;
 				message.givenReward = Reward;
-				message.resultsString = successString;
+				message.resultsString = description + " " + successString;
 				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
 				break;
 			case false:
 				//update EventPackage
 				message.nextEvent = failureNode;
-				message.resultsString = failureString;
+				message.resultsString = description + " " + failureString;
 				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
 				break;
 		}
