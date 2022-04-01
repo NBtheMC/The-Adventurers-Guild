@@ -5,21 +5,33 @@ using UnityEngine;
 
 public class WorldGraph
 {
-    private List<List<Edge>> edges;
-    private List<WorldNode> nodes;
+    private List<List<GraphEdge>> edges;
+    private List<WorldLocation> nodes;
     private bool isDirected;
 
-    public IReadOnlyCollection<List<Edge>> Edges { get { return edges.AsReadOnly(); } }
-    public IReadOnlyCollection<WorldNode> Nodes { get { return nodes.AsReadOnly(); } }
+    public IReadOnlyCollection<List<GraphEdge>> Edges { get { return edges.AsReadOnly(); } }
+    public IReadOnlyCollection<WorldLocation> Nodes { get { return nodes.AsReadOnly(); } }
 
-    public WorldGraph(bool isDirected = true) 
+    public WorldGraph() 
     {
-        edges = new List<List<Edge>>();
-        nodes = new List<WorldNode>();
-        this.isDirected = isDirected;
+        edges = new List<List<GraphEdge>>();
+        nodes = new List<WorldLocation>();
+
+        WorldLocation[] locations;
+        locations = Resources.LoadAll<WorldLocation>("Locations");
+
+        foreach(var location in locations)
+        {
+            foreach (var edge in location.connections)
+            {
+                edge.source = location;
+            }
+            edges.Add(location.connections);
+            nodes.Add(location);
+        }
     }
 
-    private Edge getEdge(WorldNode source, WorldNode dest)
+    private GraphEdge getEdge(WorldLocation source, WorldLocation dest)
     {
         for(int i = 0; i < edges.Count; i++)
         {
@@ -29,7 +41,7 @@ public class WorldGraph
         return null;
     }
 
-    private void Relax(Edge e)
+    private void Relax(GraphEdge e)
     {
         if(e.dest.d > e.source.d + e.timeToTravel)
         {
@@ -38,7 +50,7 @@ public class WorldGraph
         }
     }
 
-    public (List<WorldNode>, float) getShortestPath(WorldNode s, WorldNode d, float DC)
+    public (List<WorldLocation>, float) getShortestPath(WorldLocation s, WorldLocation d, float DC)
     {
         //initialize stuff for Dijkstra SSSP
         s.d = 0;
@@ -48,7 +60,7 @@ public class WorldGraph
         //Dijkstra hates UCSC
         while (!queue.IsEmpty())
         {
-            WorldNode u = queue.ExtractMin();
+            WorldLocation u = queue.ExtractMin();
             //stop search if we hit the destination
             if (u == d)
                 break;
@@ -74,8 +86,8 @@ public class WorldGraph
             return (null, -1);
 
         //otherwise get the path from s to d
-        List<WorldNode> path = new List<WorldNode>();
-        for (WorldNode i = d; i != null; i = i.pred)
+        List<WorldLocation> path = new List<WorldLocation>();
+        for (WorldLocation i = d; i != null; i = i.pred)
         {
             path.Insert(0, i);
 
@@ -85,135 +97,10 @@ public class WorldGraph
         float totalTime = 0f;
         for(int i = 0; i < path.Count - 1; i++)
         {
-            Edge e = getEdge(path[i], path[i+ 1]);
+            GraphEdge e = getEdge(path[i], path[i+ 1]);
             totalTime += e.timeToTravel;
         }
 
         return (path, totalTime);
-    }
-
-    private int getIndexFromLocation(string location)
-    {
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            if (nodes[i].location == location)
-                return i;
-        }
-        return -1;
-    }
-
-    public void addEdge(WorldNode n1, WorldNode n2, float timeToTravel, uint difficulty) 
-    {
-        if (!nodes.Contains(n1))
-            addNode(n1);
-        if (!nodes.Contains(n2))
-            addNode(n2);
-
-        edges[nodes.IndexOf(n1)].Add(new Edge(n1, n2, timeToTravel, difficulty));
-        if(!isDirected)
-            edges[nodes.IndexOf(n2)].Add(new Edge(n2, n1, timeToTravel, difficulty));
-    }
-
-    public void addEdge(string location1, string location2, float timeToTravel, uint difficulty)
-    {
-        int n1Index = getIndexFromLocation(location1);
-        int n2Index = getIndexFromLocation(location2);
-
-        if (n1Index == -1)
-        {
-            addNode(location1);
-            n1Index = nodes.Count - 1;
-        }
-        if (n2Index == -1)
-        {
-            addNode(location2);
-            n2Index = nodes.Count - 1;
-        }
-
-        edges[n1Index].Add(new Edge(nodes[n1Index], nodes[n2Index], timeToTravel, difficulty));
-        if (!isDirected)
-            edges[n2Index].Add(new Edge(nodes[n2Index], nodes[n1Index], timeToTravel, difficulty));
-    }
-
-    public void addNode(string locationName) 
-    {
-        WorldNode n = new WorldNode(locationName);
-        addNode(n);
-    }
-    public void addNode(WorldNode n) 
-    {
-        if (!nodes.Contains(n)) 
-        {
-            nodes.Add(n);
-            edges.Add(new List<Edge>());
-        }
-    }
-
-    public void deleteEdge(WorldNode n1, WorldNode n2)
-    {
-        if(nodes.Contains(n1) && nodes.Contains(n2))
-        {
-            for(int i = 0; i < edges[nodes.IndexOf(n1)].Count; i++)
-            {
-                if (edges[nodes.IndexOf(n1)][i].dest == n2)
-                {
-                    edges.Remove(edges[i]);
-                    i--;
-                }       
-            }
-
-            if (!isDirected)
-            {
-                for (int i = 0; i < edges[nodes.IndexOf(n2)].Count; i++)
-                {
-                    if (edges[nodes.IndexOf(n2)][i].dest == n1)
-                    {
-                        edges.Remove(edges[i]);
-                        i--;
-                    }
-                }
-            }
-        } 
-    }
-
-    public void deleteEdge(string location1, string location2)
-    {
-        int n1Index = getIndexFromLocation(location1);
-        int n2Index = getIndexFromLocation(location2);
-
-        if (n1Index != -1 && n1Index != -1)
-        {
-            WorldNode n1 = nodes[n1Index];
-            WorldNode n2 = nodes[n2Index];
-            deleteEdge(n1, n2);
-        }
-    }
-
-    public void deleteNode(WorldNode n)
-    {
-        if (nodes.Contains(n))
-        {
-            edges.RemoveAt(nodes.IndexOf(n));
-            for (int i = 0; i < edges.Count; i++)
-            {
-                for(int j = 0; j < edges[i].Count; j++)
-                {
-                    if (edges[i][j].dest == n)
-                    {
-                        deleteEdge(edges[i][j].source, edges[i][j].dest);
-                        i--;
-                    }
-                }    
-            }
-            nodes.Remove(n);
-        }
-    }
-    public void deleteNode(string locationName)
-    {
-        int index = getIndexFromLocation(locationName);
-        if(index != -1)
-        {
-            deleteNode(nodes[index]);
-        }
     }
 }
