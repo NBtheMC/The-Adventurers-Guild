@@ -35,6 +35,7 @@ public class WorldStateManager : MonoBehaviour
 	public event EventHandler<string> IntChangeEvent;
 	public event EventHandler<string> StateChangeEvent;
 	public event EventHandler<string> FloatChangeEvent;
+	public event EventHandler<string> AdventurerHiredEvent;
 
     void Awake()
     {
@@ -340,7 +341,8 @@ public class WorldStateManager : MonoBehaviour
 
 			if(!String.IsNullOrEmpty(storylet.adventurer))
             {
-				GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().HireAdventurer(storylet.adventurer);
+				AdventurerHiredEvent(this, storylet.adventurer);
+				//GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().HireAdventurer(storylet.adventurer);
             }
 
 			// Logs the number of times this quest has been actived.

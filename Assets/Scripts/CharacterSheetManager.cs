@@ -42,6 +42,8 @@ public class CharacterSheetManager : MonoBehaviour
     {
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += PartyBackFromQuest;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
+        GameObject.Find("QuestDisplayManager").transform.Find("QuestDisplay").Find("WorldState")
+            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer;
     }
 
     public void SendPartyOnQuest(object src, QuestSheet quest)
@@ -64,7 +66,7 @@ public class CharacterSheetManager : MonoBehaviour
         RosterChange(this, EventArgs.Empty);
     }
 
-    public void HireAdventurer(string name)
+    public void HireAdventurer(object src, string name)
     {
         CharacterSheet characterToHire = null;
         foreach(CharacterSheet character in unhiredAdventurers)
