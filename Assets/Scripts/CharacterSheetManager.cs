@@ -74,6 +74,10 @@ public class CharacterSheetManager : MonoBehaviour
         }
         unhiredAdventurers.Remove(characterToHire);
         freeAdventurers.Add(characterToHire);
-        RosterChange(this, EventArgs.Empty);
+
+        if (characterToHire == null)
+            Debug.LogError("Error: There is no adventurer by the name of " + name + " in the unhired adventurerers list");
+        else
+            RosterChange(this, EventArgs.Empty);
     }
 }
