@@ -63,4 +63,17 @@ public class CharacterSheetManager : MonoBehaviour
         }
         RosterChange(this, EventArgs.Empty);
     }
+
+    public void HireAdventurer(string name)
+    {
+        CharacterSheet characterToHire = null;
+        foreach(CharacterSheet character in unhiredAdventurers)
+        {
+            if (character.name.Equals(name))
+                characterToHire = character;
+        }
+        unhiredAdventurers.Remove(characterToHire);
+        freeAdventurers.Add(characterToHire);
+        RosterChange(this, EventArgs.Empty);
+    }
 }
