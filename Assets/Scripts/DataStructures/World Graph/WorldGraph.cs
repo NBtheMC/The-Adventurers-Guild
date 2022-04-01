@@ -7,7 +7,6 @@ public class WorldGraph
 {
     private List<List<GraphEdge>> edges;
     private List<WorldLocation> nodes;
-    private bool isDirected;
 
     public IReadOnlyCollection<List<GraphEdge>> Edges { get { return edges.AsReadOnly(); } }
     public IReadOnlyCollection<WorldLocation> Nodes { get { return nodes.AsReadOnly(); } }
@@ -53,7 +52,16 @@ public class WorldGraph
     public (List<WorldLocation>, float) getShortestPath(WorldLocation s, WorldLocation d, float DC)
     {
         //initialize stuff for Dijkstra SSSP
-        s.d = 0;
+        foreach(var location in nodes)
+        {
+            if (location == s)
+                location.d = 0;
+            else
+                location.d = double.PositiveInfinity;
+
+            location.pred = null;
+        }
+
         PriorityQueue queue = new PriorityQueue();
         queue.Insert(s, s.d);
 
