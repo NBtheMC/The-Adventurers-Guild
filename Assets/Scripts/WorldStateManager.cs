@@ -338,6 +338,11 @@ public class WorldStateManager : MonoBehaviour
 				else { ChangeWorldInt(change.name, change.value); }
 			}
 
+			if(!String.IsNullOrEmpty(storylet.adventurer))
+            {
+				GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().HireAdventurer(storylet.adventurer);
+            }
+
 			// Logs the number of times this quest has been actived.
 			numberOfActivations[storylet]++;
 
