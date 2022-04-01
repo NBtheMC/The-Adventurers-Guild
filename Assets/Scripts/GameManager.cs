@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
                 //currentScene = Scene.Instructions;
                 break;
             case "Recap":
-                SceneManager.LoadScene("Recap");
+                SceneManager.LoadScene("EventRecap");
                 break;
             case "Game":
                 SceneManager.LoadScene("MainUIScreen");
