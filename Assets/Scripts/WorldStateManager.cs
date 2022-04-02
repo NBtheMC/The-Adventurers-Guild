@@ -36,6 +36,8 @@ public class WorldStateManager : MonoBehaviour
 	public event EventHandler<string> StateChangeEvent;
 	public event EventHandler<string> FloatChangeEvent;
 
+	public event EventHandler<WorldStat> NewStat;
+
     void Awake()
     {
         worldValues = new Dictionary<string, WorldValue>();
@@ -362,21 +364,38 @@ public class WorldStateManager : MonoBehaviour
 }
 
 // Standard Structures for keeping our worldStates.
-public class WorldValue
+public abstract class WorldStat
 {
-    public string name; public float value;
+	public string name;
+}
+
+public class WorldValue: WorldStat
+{
+    public float value;
+
+	public event EventHandler<float> StateChange;
 
     public WorldValue(string inputName, float inputValue) { inputName = name; inputValue = value; }   
+
+	public void Change(float input, bool set) { if (set) { value = input; } else { value += input; } }
 }
-public class WorldState
+public class WorldState: WorldStat
 {
-    public string name; public bool state;
+    public bool state;
+
+	public event EventHandler<bool> StateChange;
 
     public WorldState(string inputName, bool inputState) { inputName = name; inputState = state;}
+
+	public void Change(bool input) { state = input; }
 }
 
-public class WorldInt
+public class WorldInt: WorldStat
 {
-	public string name; public int value;
+	public int value;
+
+	public event EventHandler<int> StateChange;
 	public WorldInt(string inputName, int inputValue) { inputName = name;inputValue = value; }
+
+	public void Change(int input, bool set) { if (set) { value = input; } else { value += input; } }
 }
