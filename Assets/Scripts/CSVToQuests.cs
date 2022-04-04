@@ -7,14 +7,15 @@ public class CSVToQuests : MonoBehaviour
     public TextAsset csvStorylets;
     public TextAsset csvEvents;
 
-
+    public void MakeEverything(){
+        MakeStorylets();
+        MakeEvents();
+    }
     // Start is called before the first frame update
     void Start()
     {
         csvStorylets = Resources.Load<TextAsset>("Storylets");
         csvEvents = Resources.Load<TextAsset>("Events");
-        MakeStorylets();
-        MakeEvents();
     }
 
     //Pull data from storylets csv and makes 1 event per grouping
@@ -146,9 +147,7 @@ public class CSVToQuests : MonoBehaviour
                         sign = Storylet.NumberTriggerType.Greater;
                         break;
                 }
-                string successValueChange = csvSuccessValueChanges[j];
-                //Do extra parsing
-                //successValueChanges.Add();
+                successValueChanges.Add();
             }
             string[] csvSuccessStateChanges = eventData[i+9].Split('/t'); //can be multiple
             List<Storylet.StateChange> successStateChanges = new List<Storylet.StateChange>();
