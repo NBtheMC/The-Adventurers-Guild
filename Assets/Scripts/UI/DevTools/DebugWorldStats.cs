@@ -11,6 +11,8 @@ public class DebugWorldStats : MonoBehaviour
 	private GameObject floatPrefab;
 	public GameObject boolPrefab;
 
+	public List<GameObject> activeDisplays;
+
 	private void Awake()
 	{
 		statList = new List<(string, WorldStat)>();
@@ -20,6 +22,8 @@ public class DebugWorldStats : MonoBehaviour
 		intPrefab = Resources.Load<GameObject>("WorldStateDebug/SampleIntChanger");
 		floatPrefab = Resources.Load<GameObject>("WorldStateDebug/SampleFloatChanger");
 		boolPrefab = Resources.Load<GameObject>("WorldStateDebug/SampleStateChanger");
+
+		activeDisplays = new List<GameObject>();
 	}
 
 	private void AddStat(object sender, WorldStat input)
@@ -29,17 +33,21 @@ public class DebugWorldStats : MonoBehaviour
 
 	private void OnEnable()
 	{
-		
+		List<WorldStat> foundStats = findStats();
 	}
 
 	/// <summary>
 	/// Display all the stats that are found.
 	/// </summary>
-	private void displayFoundStats()
+	private void displayFoundStats(List<WorldStat> input)
 	{
-		foreach (WorldStat worldStat in findStats())
+		int topOfDisplay = -10;
+		int spacer = 10;
+		foreach (WorldStat worldStat in input)
 		{
 			GameObject display;
+
+			// goes in and changes a bunch of things for the prefabricated display.
 			if (worldStat is WorldInt)
 			{
 				display = Instantiate(intPrefab, this.transform);
@@ -50,13 +58,24 @@ public class DebugWorldStats : MonoBehaviour
 			else if (worldStat is WorldValue)
 			{
 				display = Instantiate(floatPrefab, this.transform);
-				StoryletTesting.WorldValueChanger displayScript = display.GetComponent<StoryletTesting.WorldValueChanger>();
+				StoryletTesting.WorldIntChanger displayScript = display.GetComponent<StoryletTesting.WorldIntChanger>();
 				displayScript.theWorld = worldStateManager;
 				displayScript.worldStat = name;
 			}
-			else if (worldStat is WorldState) { display = Instantiate(boolPrefab, this.transform) ; }
+			else
+			{
+				display = Instantiate(boolPrefab, this.transform) ;
+				StoryletTesting.WorldStateChanger displayScript = display.GetComponent<StoryletTesting.WorldStateChanger>();
+				displayScript.theWorld = worldStateManager;
+				displayScript.worldStat = name;
+			}
 
+			// Goes in and displays all of them 
+			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x, topOfDisplay);
+			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
 
+			// Track the new displays.
+			activeDisplays.Add(display);
 		}
 	}
 
