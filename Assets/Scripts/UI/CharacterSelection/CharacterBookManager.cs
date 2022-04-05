@@ -153,6 +153,7 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        pointerEventData.useDragThreshold = false;
         this.transform.SetAsLastSibling();
     }
 }

@@ -153,6 +153,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     /// </summary>
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        pointerEventData.useDragThreshold = false;
         this.transform.SetAsLastSibling();
         //remove drop points from dropHandler, then add them again infront
         foreach(Transform child in DropPoints)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Handles all processing of social models
+[System.Serializable]
 public class Adventurer
 {
     public CharacterSheet characterSheet; //an adventurer's associated charactersheet
