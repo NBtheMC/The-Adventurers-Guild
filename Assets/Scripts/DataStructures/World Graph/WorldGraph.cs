@@ -30,6 +30,19 @@ public class WorldGraph
         }
     }
 
+    public WorldLocation getLocationObjRef(string name)
+    {
+        foreach(var node in nodes) 
+        {
+            if(node.locationName == name)
+            {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
     private GraphEdge getEdge(WorldLocation source, WorldLocation dest)
     {
         for(int i = 0; i < edges.Count; i++)

@@ -10,14 +10,12 @@ public class GraphObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        WorldLocation[] locations;
-        locations = Resources.LoadAll<WorldLocation>("Locations");
-
         graph = new WorldGraph();
 
-        Text t = this.GetComponent<Text>();
-        print(locations[0].locationName + "  " + locations[4].locationName);
-        var temp = graph.getShortestPath(locations[0], locations[4], 8);
+        WorldLocation A = graph.getLocationObjRef("A");
+        WorldLocation E = graph.getLocationObjRef("G");
+        var temp = graph.getShortestPath(A, E, 3);
+
         String s = "";
         if (temp.Item1 != null)
         {
@@ -30,12 +28,5 @@ public class GraphObject : MonoBehaviour
         else s = "No Viable Path!";
 
         print(s);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
