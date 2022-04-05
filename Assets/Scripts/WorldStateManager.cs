@@ -80,7 +80,9 @@ public class WorldStateManager : MonoBehaviour
 	{
 		if (!worldValues.ContainsKey(name))
         {
-            worldValues.Add(name, new WorldValue(name, value));
+			WorldValue addedWorldValue = new WorldValue(name, value);
+
+			worldValues.Add(name, addedWorldValue);
 			// Instantiate the prefab.
 			GameObject display = Instantiate(floatDisplayPrefab, this.transform);
 			StoryletTesting.WorldValueChanger displayScript = display.GetComponent<StoryletTesting.WorldValueChanger>();
@@ -89,9 +91,13 @@ public class WorldStateManager : MonoBehaviour
 
 			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x, topOfDisplay);
 			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
+			
+			// Invoke event call to add to whatever Ui element.
+			NewStat?.Invoke(this, addedWorldValue);
 		}
         else { worldValues[name].value = value; }
 		FloatChangeEvent?.Invoke(this, name);
+
 	}
 
     /// <summary>
@@ -105,8 +111,10 @@ public class WorldStateManager : MonoBehaviour
 	{
         if (!worldStates.ContainsKey(name))
         {
+			WorldState addedWorldBool = new WorldState(name, state);
+
 			// Add it to the dictionary.
-            worldStates.Add(name, new WorldState(name, state));
+            worldStates.Add(name, addedWorldBool);
 			// Instantiate the prefab.
 			GameObject display = Instantiate(boolDisplayPrefab, this.transform);
 			StoryletTesting.WorldStateChanger displayScript = display.GetComponent<StoryletTesting.WorldStateChanger>();
@@ -116,7 +124,8 @@ public class WorldStateManager : MonoBehaviour
 			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x,topOfDisplay);
 			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
 
-			Debug.Log($"Instantiated something: {name}");
+			// Invoke event call to add to whatever Ui element.
+			NewStat?.Invoke(this, addedWorldBool);
 		}
         else
         {
@@ -129,8 +138,10 @@ public class WorldStateManager : MonoBehaviour
 	{
 		if (!worldInts.ContainsKey(name))
 		{
+			WorldInt addedWorldInt = new WorldInt(name, value);
+
 			// Add it to the dictionary
-			worldInts.Add(name, new WorldInt(name, value));
+			worldInts.Add(name, addedWorldInt);
 			// Instantiate the prefab.
 			GameObject display = Instantiate(intDisplayPrefab, this.transform);
 			StoryletTesting.WorldIntChanger displayScript = display.GetComponent<StoryletTesting.WorldIntChanger>();
@@ -140,7 +151,7 @@ public class WorldStateManager : MonoBehaviour
 			display.GetComponent<RectTransform>().anchoredPosition = new Vector2(display.GetComponent<RectTransform>().anchoredPosition.x, topOfDisplay);
 			topOfDisplay -= Mathf.CeilToInt(display.GetComponent<RectTransform>().rect.height) + spacer;
 
-			Debug.Log($"Instantiated something: {name}");
+			NewStat?.Invoke(this, addedWorldInt);
 		}
 		else
 		{
@@ -240,8 +251,8 @@ public class WorldStateManager : MonoBehaviour
 		{
 
 			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
-			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { Debug.Log($"{storylet.questName} has too many instances."); continue; }
-			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { Debug.Log($"{storylet.questName} has been duplicated"); continue; }
+			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { continue; }
+			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { continue; }
 
 			bool validStorylet = true;
 			
@@ -312,7 +323,7 @@ public class WorldStateManager : MonoBehaviour
 						break;
 				}
 				// If the value ended up false, stops checking other values. 
-				if (!validStorylet) { Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}"); break; }
+				if (!validStorylet) { /*Debug.Log($"Checking {storylet.name}. Failed on {triggerInt.name}");*/ break; }
 			}
 
 			// if this is not a valid storylet after checking through the trigger states, keep searching. otherwise, add to valid storylets.
@@ -350,9 +361,6 @@ public class WorldStateManager : MonoBehaviour
 			// Logs the number of times this quest has been actived.
 			numberOfActivations[storylet]++;
 
-
-			Debug.Log($"New Quest {storylet.name} created.");
-
 			// Checks if there is an event head, to make, if so, makes a new quest
 			if (storylet.eventHead != null)
 			{
@@ -382,7 +390,7 @@ public class WorldValue: WorldStat
 
 	public event EventHandler<float> StateChange;
 
-    public WorldValue(string inputName, float inputValue) { inputName = name; inputValue = value; }   
+    public WorldValue(string inputName, float inputValue) { name = inputName; value = inputValue; }   
 
 	public void Change(float input, bool set) { if (set) { value = input; } else { value += input; } }
 }
@@ -392,7 +400,7 @@ public class WorldState: WorldStat
 
 	public event EventHandler<bool> StateChange;
 
-    public WorldState(string inputName, bool inputState) { inputName = name; inputState = state;}
+    public WorldState(string inputName, bool inputState) { name = inputName; state = inputState; }
 
 	public void Change(bool input) { state = input; }
 }
@@ -402,7 +410,7 @@ public class WorldInt: WorldStat
 	public int value;
 
 	public event EventHandler<int> StateChange;
-	public WorldInt(string inputName, int inputValue) { inputName = name;inputValue = value; }
+	public WorldInt(string inputName, int inputValue) { name = inputName; value = inputValue; }
 
 	public void Change(int input, bool set) { if (set) { value = input; } else { value += input; } }
 }
