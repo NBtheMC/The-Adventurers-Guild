@@ -25,13 +25,17 @@ MonoBehaviour:
   - name: CapturedAnkhegs
     value: 20
     set: 1
-  - name: PaladinManaGreed
-    value: 11
+  - name: PlayerGold
+    value: 100
     set: 1
-  - name: MageManaGreed
-    value: 11
+  - name: DaysUnderPaid
+    value: 0
+    set: 1
+  - name: TutorialCompleted
+    value: 0
     set: 1
   triggerValueChanges: []
   triggerStateChanges:
   - name: AnkhegFarm
     state: 1
+  adventurer: 

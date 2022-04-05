@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
-  m_Name: Event Secure Meeting House
+  m_Name: 1 - SecureMeetingHouse
   m_EditorClassIdentifier: 
   description: 'The party set out to find a suitable place for the Sailors '
   stat: 2
@@ -19,10 +19,7 @@ MonoBehaviour:
   Reward: 150
   successNode: {fileID: 0}
   successString: and found a suitable location!
-  successIntChange:
-  - name: PlayerGold
-    value: 150
-    set: 0
+  successIntChange: []
   successValueChange: []
   successStateChange:
   - name: SailorOutpostConstructed

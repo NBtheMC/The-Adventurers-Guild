@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 0
     triggerType: 1
   - name: PaladinFieldTest1
-    value: 3
+    value: 1
     triggerType: -2
   triggerValues: []
   triggerStates: []

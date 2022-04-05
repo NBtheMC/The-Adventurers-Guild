@@ -118,6 +118,15 @@ public class QuestSheet
 		return 0;
 	}
 
+	/// <summary>
+	/// Adds the accumulated gold to the world manager, then clears the sheet's accumulated gold.
+	/// </summary>
+	public void AddGuildGold()
+	{
+		worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
+		accumutatedGold = 0;
+	}
+
 	public struct EventInfo
 	{
 		public string description; //not currently implemented yet, but events will need to have this soon

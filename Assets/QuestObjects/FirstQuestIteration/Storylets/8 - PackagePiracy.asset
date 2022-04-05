@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 8 - PackagePiracy
   m_EditorClassIdentifier: 
-  questName: '[Sailor] PackagePiracy'
+  questName: '[Sailor] Package Piracy'
   eventHead: {fileID: 11400000, guid: 0e07f892c2fcf924db8a98d3e4447c9f, type: 2}
-  questDescription: 'Sailor Ambassador: Out logistical plans were stolen, and they
+  questDescription: 'Smiling Ambassador: Out logistical plans were stolen, and they
     must be recovered. It is extremely important that NO ONE looks at them, including
     your adventurers.'
   canBeInstanced: 0

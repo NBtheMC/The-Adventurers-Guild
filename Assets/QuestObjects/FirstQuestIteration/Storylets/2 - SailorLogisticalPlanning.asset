@@ -20,8 +20,6 @@ MonoBehaviour:
   triggerInts: []
   triggerValues: []
   triggerStates:
-  - name: 
-    state: 0
   - name: SailorOutpostConstructed
     state: 1
   - name: SailorLogisticalPlans
@@ -33,3 +31,4 @@ MonoBehaviour:
     set: 0
   triggerValueChanges: []
   triggerStateChanges: []
+  adventurer: 

@@ -15,7 +15,7 @@ MonoBehaviour:
   questName: '[Sailor] Ship Protection'
   eventHead: {fileID: 11400000, guid: e11b25fa759f69e43913f6a8e749b7f9, type: 2}
   questDescription: 'Nervous Captain: We''re worried about the dangers of the open
-    seas. Could you sned an adventurer or two just in case?'
+    seas. Could you send an adventurer or two just in case?'
   canBeInstanced: 1
   canBeDuplicated: 1
   triggerInts: []

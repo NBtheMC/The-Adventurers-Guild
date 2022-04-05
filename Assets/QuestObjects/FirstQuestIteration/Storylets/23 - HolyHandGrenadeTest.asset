@@ -14,21 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: '[Paladin] HolyHandGrenadeTest'
   eventHead: {fileID: 11400000, guid: 432a30cafb6e34a4196ce4934b508c7d, type: 2}
-  questDescription: 'Stonde-faced Inquisitor: The Holy Hand Cannon test went well.
+  questDescription: 'Stone-faced Inquisitor: The Holy Hand Cannon test went well.
     Our knights were really excited about getting to shoot it again. Too excited,
     in fact. Anyways, we need to test out another weapon, the Holy Hand Grenade.
     Come to the Forest with me.'
   canBeInstanced: 1
   canBeDuplicated: 0
   triggerInts:
-  - name: PaladinManaStone
-    value: 0
-    triggerType: 1
   - name: PaladinFieldTest1
     value: 0
     triggerType: 1
   - name: PaladinFieldTest2
-    value: 3
+    value: 1
     triggerType: -2
   triggerValues: []
   triggerStates: []

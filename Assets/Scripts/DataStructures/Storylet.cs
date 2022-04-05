@@ -64,4 +64,7 @@ public class Storylet : ScriptableObject
 	public List<IntChange> triggerIntChanges = new List<IntChange>();
 	public List<ValueChange> triggerValueChanges = new List<ValueChange>();
 	public List<StateChange> triggerStateChanges = new List<StateChange>();
+
+	// Adventurer that gets added to the roster if this storylet is triggered
+	public string adventurer;
 }
