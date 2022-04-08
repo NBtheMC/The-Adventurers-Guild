@@ -48,6 +48,10 @@ public class WorldStateManager : MonoBehaviour
 
 	private void Start()
 	{
+		//create csvtoquests and generate quests
+		CSVToQuests csvToQuests = GameObject.Find("CSVToQuests").GetComponent<CSVToQuests>();
+
+
 		foreach(Storylet storylet in storylets)
 		{
 			// Preload all the values into the dictionary.
