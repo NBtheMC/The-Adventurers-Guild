@@ -23,12 +23,15 @@ public class CSVToQuests : MonoBehaviour
     //New event denoted by Storylet name row
     public void MakeStorylets(){
         string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
-        for(int i = 0; i < storyletData.Length - 9; i += 9){ //9 is however many properties there are
+        for(int i = 0; i < storyletData.Length - 8; i += 8){ //8 is however many properties there are
             Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
             
-            string storyletDescription = storyletData[i].Split('\t')[1];
-            string head = storyletData[i+1].Split('\t')[1];
-
+            //NAME, DESCRIPTION, and HEAD
+            string storyletName = storyletData[i].Split('\t')[1];
+            string storyletDescription = storyletData[i].Split('\t')[2];
+            string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
+            
+            //TRIGGER INTS
             string[] csvTriggerInts = storyletData[i+2].Split('\t');
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
             for(int j = 1; j < csvTriggerInts.Length; j+=3){
@@ -36,11 +39,33 @@ public class CSVToQuests : MonoBehaviour
                 
                 //Do extra parsing
                 newTriggerInt.name = csvTriggerInts[j];
-                newTriggerInt.value = csvTriggerInts[j+1];
-                newTriggerInt.triggerType = csvTriggerInts[j+2];
+                newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
+                Storylet.NumberTriggerType sign;
+                newTriggerInt.triggerType = new Storylet.NumberTriggerType();
+                //get type of sign
+                Storylet.NumberTriggerType sign;
+                switch (csvTriggerInts[j+2]){
+                    case "<":
+                        sign = Storylet.NumberTriggerType.LessThan;
+                        break;
+                    case "<=":
+                        sign = Storylet.NumberTriggerType.LessThanEqualTo;
+                        break;
+                    case "=":
+                        sign = Storylet.NumberTriggerType.EqualTo;
+                        break;
+                    case ">":
+                        sign = Storylet.NumberTriggerType.GreaterThan;
+                        break;
+                    case ">=":
+                        sign = Storylet.NumberTriggerType.GreaterThanEqualTo;
+                        break;
+                }
+                newTriggerInt.triggerType = sign;
                 triggerInts.Add(newTriggerInt);
             }
 
+            //TRIGGER STATES
             string[] csvTriggerStates = storyletData[i+3].Split('\t');
             List<Storylet.TriggerState> triggerStates = new List<Storylet.TriggerState>();
             for(int j = 1; j < csvTriggerStates.Length; j+=2){
@@ -51,21 +76,20 @@ public class CSVToQuests : MonoBehaviour
                 triggerStates.Add(newTriggerState);
             }
 
+            //TRIGGER VALUES
             string[] csvTriggerValues = storyletData[i+4].Split('\t');
             List<Storylet.TriggerValue> triggerValues = new List<Storylet.TriggerValue>();
             for(int j = 1; j < csvTriggerValues.Length; j+=3){
                 Storylet.TriggerValue newTriggerValue = new Storylet.TriggerValue();
                 newTriggerValue.name = csvTriggerValues[j];
-                newTriggerValue.value = csvTriggerValues[j+1];
+                newTriggerValue.value = Double.Parse(csvTriggerValues[j+1]);
                 newTriggerValue.triggerType = csvTriggerValues[j+2];
                 //Do extra parsing
                 triggerValues.Add(newTriggerValue);
             }
 
-            string canBeInstanced = storyletData[i+5].Split('\t')[1];
-            string successString = storyletData[i+6].Split('\t')[1];
-
-            string[] csvIntChanges = storyletData[i+7].Split('\t');
+            //INT CHANGES
+            string[] csvIntChanges = storyletData[i+5].Split('\t');
             List<Storylet.IntChange> intChanges = new List<Storylet.IntChange>();
             for(int j = 1; j < csvIntChanges.Length; j+=3){
                 Storylet.IntChange newIntChange = new Storylet.IntChange();
@@ -75,7 +99,9 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 intChanges.Add(newIntChange);
             }
-            string[] csvStateChanges = storyletData[i+8].Split('\t');
+
+            //STATE CHANGES
+            string[] csvStateChanges = storyletData[i+6].Split('\t');
             List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvStateChanges.Length; j+=2){
                 Storylet.StateChange newStateChange = new Storylet.StateChange();
@@ -84,7 +110,9 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 stateChanges.Add(newStateChange);
             }
-            string[] csvValueChanges = storyletData[i+9].Split('\t');
+
+            //VALUE CHANGES
+            string[] csvValueChanges = storyletData[i+7].Split('\t');
             List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvValueChanges.Length; j+=3){
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
