@@ -40,7 +40,6 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 newTriggerInt.name = csvTriggerInts[j];
                 newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
-                Storylet.NumberTriggerType sign;
                 newTriggerInt.triggerType = new Storylet.NumberTriggerType();
                 //get type of sign
                 Storylet.NumberTriggerType sign;
@@ -89,7 +88,7 @@ public class CSVToQuests : MonoBehaviour
                         break;
                 }
                 newTriggerValue.triggerType = sign;
-                newTriggerValue.value = Double.Parse(csvTriggerValues[j+2]);
+                newTriggerValue.value = Float.Parse(csvTriggerValues[j+2]);
                 
                 triggerValues.Add(newTriggerValue);
             }
@@ -123,19 +122,8 @@ public class CSVToQuests : MonoBehaviour
                 intChanges.Add(newIntChange);
             }
 
-            //STATE CHANGES
-            string[] csvStateChanges = storyletData[i+6].Split('\t');
-            List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < csvStateChanges.Length; j+=2){
-                Storylet.StateChange newStateChange = new Storylet.StateChange();
-                newStateChange.name = csvStateChanges[j];
-                newStateChange.state = csvStateChanges[j+1];
-                //Do extra parsing
-                stateChanges.Add(newStateChange);
-            }
-
             //VALUE CHANGES
-            string[] csvValueChanges = storyletData[i+7].Split('\t');
+            string[] csvValueChanges = storyletData[i+6].Split('\t');
             List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvValueChanges.Length; j+=3){
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
@@ -145,6 +133,19 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 valueChanges.Add(newValueChange);
             }
+
+            //STATE CHANGES
+            string[] csvStateChanges = storyletData[i+7].Split('\t');
+            List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
+            for(int j = 1; j < csvStateChanges.Length; j+=2){
+                Storylet.StateChange newStateChange = new Storylet.StateChange();
+                newStateChange.name = csvStateChanges[j];
+                newStateChange.state = Bool.Parse(csvStateChanges[j+1]);
+                //Do extra parsing
+                stateChanges.Add(newStateChange);
+            }
+
+            
         
         }
 
