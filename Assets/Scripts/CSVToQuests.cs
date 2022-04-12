@@ -42,7 +42,7 @@ public class CSVToQuests : MonoBehaviour
                 newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
                 newTriggerInt.triggerType = new Storylet.NumberTriggerType();
                 //get type of sign
-                Storylet.NumberTriggerType sign;
+                Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
                 switch (csvTriggerInts[j+2]){
                     case "<":
                         sign = Storylet.NumberTriggerType.LessThan;
@@ -68,6 +68,7 @@ public class CSVToQuests : MonoBehaviour
             string[] csvTriggerValues = storyletData[i+3].Split('\t');
             List<Storylet.TriggerValue> triggerValues = new List<Storylet.TriggerValue>();
             for(int j = 1; j < csvTriggerValues.Length; j+=3){
+                Storylet.TriggerValue newTriggerValue = new Storylet.TriggerValue();
                 newTriggerValue.name = csvTriggerValues[j];
                 Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
                 switch (csvTriggerValues[j+1]){
@@ -88,7 +89,7 @@ public class CSVToQuests : MonoBehaviour
                         break;
                 }
                 newTriggerValue.triggerType = sign;
-                newTriggerValue.value = Float.Parse(csvTriggerValues[j+2]);
+                newTriggerValue.value = float.Parse(csvTriggerValues[j+2]);
                 
                 triggerValues.Add(newTriggerValue);
             }
@@ -99,7 +100,7 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvTriggerStates.Length; j+=2){
                 Storylet.TriggerState newTriggerState = new Storylet.TriggerState();
                 newTriggerState.name = csvTriggerStates[j];
-                newTriggerState.state = Boolean.Parse(csvTriggerStates[j+1]);
+                newTriggerState.state = bool.Parse(csvTriggerStates[j+1]);
                 triggerStates.Add(newTriggerState);
             }
 
@@ -109,7 +110,7 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvIntChanges.Length; j+=3){
                 Storylet.IntChange newIntChange = new Storylet.IntChange();
                 newIntChange.name = csvIntChanges[j];
-                newIntChange.value = csvIntChanges[j+1];
+                newIntChange.value = int.Parse(csvIntChanges[j+1]);
                 switch (csvIntChanges[j+2]){
                     case "SET":
                         newIntChange.set = true;
@@ -128,8 +129,8 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvValueChanges.Length; j+=3){
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
                 newValueChange.name = csvValueChanges[j];
-                newValueChange.value = csvValueChanges[j+1];
-                newValueChange.set = csvValueChanges[j+2];
+                newValueChange.value = float.Parse(csvValueChanges[j+1]);
+                newValueChange.set = bool.Parse(csvValueChanges[j+2]);
                 //Do extra parsing
                 valueChanges.Add(newValueChange);
             }
@@ -140,7 +141,7 @@ public class CSVToQuests : MonoBehaviour
             for(int j = 1; j < csvStateChanges.Length; j+=2){
                 Storylet.StateChange newStateChange = new Storylet.StateChange();
                 newStateChange.name = csvStateChanges[j];
-                newStateChange.state = Bool.Parse(csvStateChanges[j+1]);
+                newStateChange.state = bool.Parse(csvStateChanges[j+1]);
                 //Do extra parsing
                 stateChanges.Add(newStateChange);
             }
