@@ -40,7 +40,6 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 newTriggerInt.name = csvTriggerInts[j];
                 newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
-                newTriggerInt.triggerType = new Storylet.NumberTriggerType();
                 //get type of sign
                 Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
                 switch (csvTriggerInts[j+2]){
@@ -63,6 +62,7 @@ public class CSVToQuests : MonoBehaviour
                 newTriggerInt.triggerType = sign;
                 triggerInts.Add(newTriggerInt);
             }
+            newStorylet.triggerInts = triggerInts;
 
             //TRIGGER VALUES
             string[] csvTriggerValues = storyletData[i+3].Split('\t');
@@ -93,6 +93,7 @@ public class CSVToQuests : MonoBehaviour
                 
                 triggerValues.Add(newTriggerValue);
             }
+            newStorylet.triggerValues = triggerValues;
 
             //TRIGGER STATES
             string[] csvTriggerStates = storyletData[i+4].Split('\t');
@@ -103,6 +104,7 @@ public class CSVToQuests : MonoBehaviour
                 newTriggerState.state = bool.Parse(csvTriggerStates[j+1]);
                 triggerStates.Add(newTriggerState);
             }
+            newStorylet.triggerStates = triggerStates;
 
             //INT CHANGES
             string[] csvIntChanges = storyletData[i+5].Split('\t');
@@ -122,6 +124,7 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 intChanges.Add(newIntChange);
             }
+            newStorylet.triggerIntChanges = intChanges;
 
             //VALUE CHANGES
             string[] csvValueChanges = storyletData[i+6].Split('\t');
@@ -130,10 +133,19 @@ public class CSVToQuests : MonoBehaviour
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
                 newValueChange.name = csvValueChanges[j];
                 newValueChange.value = float.Parse(csvValueChanges[j+1]);
+                switch (csvValueChanges[j+2]){
+                    case "SET":
+                        newValueChange.set = true;
+                        break;
+                    case "NOSET":
+                        newValueChange.set = false;
+                        break;
+                }
                 newValueChange.set = bool.Parse(csvValueChanges[j+2]);
                 //Do extra parsing
                 valueChanges.Add(newValueChange);
             }
+            newStorylet.triggerValueChanges = valueChanges;
 
             //STATE CHANGES
             string[] csvStateChanges = storyletData[i+7].Split('\t');
@@ -145,9 +157,7 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 stateChanges.Add(newStateChange);
             }
-
-            
-        
+            newStorylet.triggerStateChanges = stateChanges;
         }
 
     }
@@ -162,14 +172,30 @@ public class CSVToQuests : MonoBehaviour
         for(int i = 0; i < eventData.Length; i += 11){ //15 is however many properties there are
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>(); //this needs a proper constructor
             //basic properties
-            string eventDescription = eventData[i].Split('\t')[1];
+            newEvent.description = eventData[i].Split('\t')[1];
             string stat = eventData[i+1].Split('\t')[1];
-            string dc = eventData[i+1].Split('\t')[2];
-            string time = eventData[i+2].Split('\t')[1];
-            string reward = eventData[i+2].Split('\t')[2];
+            switch(stat){
+                case "Combat":
+                    newEvent.stat =  CharacterSheet.StatDescriptors.Combat;
+                    break;
+                case "Exploration":
+                    newEvent.stat =  CharacterSheet.StatDescriptors.Exploration;
+                    break;
+                case "Negotiation":
+                    newEvent.stat =  CharacterSheet.StatDescriptors.Negotiation;
+                    break;
+                case "Constitution":
+                    newEvent.stat =  CharacterSheet.StatDescriptors.Constitution;
+                    break;
+            }
+            newEvent.DC = int.Parse(eventData[i+1].Split('\t')[2]);
+            newEvent.time = int.Parse(eventData[i+2].Split('\t')[1]);
+            newEvent.Reward = int.Parse(eventData[i+2].Split('\t')[2]);
+
             //success stuff
             string successNode = eventData[i+3].Split('\t')[1];
-            string successString = eventData[i+3].Split('\t')[2];
+            newEvent.successString = eventData[i+3].Split('\t')[2];
+
             string[] csvSuccessIntChanges = eventData[i+4].Split('\t'); //can be multiple
             List<Storylet.IntChange> successIntChanges = new List<Storylet.IntChange>();
             for(int j = 1; j < csvSuccessIntChanges.Length; j+=3){
@@ -197,6 +223,8 @@ public class CSVToQuests : MonoBehaviour
 
                 successIntChanges.Add(newSuccessIntChange);
             }
+            newEvent.successIntChange = successIntChanges;
+
             string[] csvSuccessValueChanges = eventData[i+8].Split('\t'); //can be multiple
             List<Storylet.ValueChange> successValueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvSuccessValueChanges.Length; j+=3){
@@ -221,9 +249,10 @@ public class CSVToQuests : MonoBehaviour
                         break;
                 }
                 Storylet.ValueChange newSuccessValueChange = new Storylet.ValueChange();
-
                 successValueChanges.Add(newSuccessValueChange);
             }
+            newEvent.successValueChange = successValueChanges;
+
             string[] csvSuccessStateChanges = eventData[i+9].Split('\t'); //can be multiple
             List<Storylet.StateChange> successStateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvSuccessStateChanges.Length; j+=2){
@@ -232,9 +261,11 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 successStateChanges.Add(newStateChange);
             }
+            newEvent.successStateChange = successStateChanges;
+
             //fail stuff
-            string failNode = eventData[i+10].Split('\t')[1];
-            string failString = eventData[i+11].Split('\t')[1];
+            string failureNode = eventData[i+10].Split('\t')[1];
+            newEvent.failureString = eventData[i+11].Split('\t')[1];
             string[] csvFailIntChanges = eventData[i+12].Split('\t'); //can be multiple
             List<Storylet.IntChange> failIntChanges = new List<Storylet.IntChange>();
             for(int j = 1; j < csvFailIntChanges.Length; j+=3){
@@ -243,6 +274,8 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 failIntChanges.Add(newIntChange);
             }
+            newEvent.failIntChange = failIntChanges;
+
             string[] csvFailValueChanges = eventData[i+13].Split('\t'); //can be multiple
             List<Storylet.ValueChange> failValueChanges = new List<Storylet.ValueChange>();
             for(int j = 1; j < csvFailValueChanges.Length; j+=3){
@@ -251,6 +284,8 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 failValueChanges.Add(newValueChange);
             }
+            newEvent.failValueChange = failValueChanges;
+
             string[] csvFailStateChanges = eventData[i+14].Split('\t'); //can be multiple
             List<Storylet.StateChange> failStateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvFailStateChanges.Length; j+=2){
@@ -259,7 +294,9 @@ public class CSVToQuests : MonoBehaviour
                 //Do extra parsing
                 failStateChanges.Add(newStateChange);
             }
-            
+            newEvent.failStateChange = failStateChanges;
+
+            //add event to world
         
         }
     
