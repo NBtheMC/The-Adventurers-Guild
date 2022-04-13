@@ -11,7 +11,8 @@ public class QuestDisplayManager : MonoBehaviour
     void Start()
     {
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestAdded += GenerateQuestDisplayUI;
-        questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
+        //questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
+        questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList Redesign/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
     }
 

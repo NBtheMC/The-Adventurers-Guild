@@ -11,6 +11,7 @@ public class QuestBanner : MonoBehaviour
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab; // QuestUI prefab to display
     [HideInInspector] public bool isDisplayed;
+    private bool questIsActive = false;
 
 
     // Start is called before the first frame update
@@ -22,13 +23,19 @@ public class QuestBanner : MonoBehaviour
         isDisplayed = false;
     }
 
-    public void displayQuestUI(bool displayOnly = false)
+    public void ToggleQuestActiveState()
+    {
+        questIsActive = !questIsActive;
+        transform.Find("Active").gameObject.SetActive(questIsActive);
+    }
+
+    public void displayQuestUI()
     {   
         if (!isDisplayed)
         {
             GameObject questUIObj = Instantiate(questUIPrefab);
             
-            if(displayOnly)
+            if(questIsActive)
             {
                 questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
                 GameObject dropPoints = questUIObj.transform.Find("Drop Points").gameObject;
@@ -53,7 +60,7 @@ public class QuestBanner : MonoBehaviour
 
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(questSheet, displayOnly);
+            questUI.SetupQuestUI(questSheet, questIsActive);
             Debug.Log(questSheet.questName);
             isDisplayed = true;
 

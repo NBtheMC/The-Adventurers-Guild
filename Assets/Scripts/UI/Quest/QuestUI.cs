@@ -12,8 +12,6 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private Text questDescription;
     private Text questReward;
     //private GameObject partyFormation;
-    private GameObject sendPartyButton;
-    private GameObject dropPointPrefab;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
     private CharacterSheetManager charSheetManager;
@@ -35,14 +33,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
-        sendPartyButton = transformer.Find("Send Party").gameObject;
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
 
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
-        dropPointPrefab = Resources.Load<GameObject>("SampleDropPoint");
     }
 
     //Creates Quest as a UI GameObject
@@ -112,11 +108,13 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             questingManager.StartQuest(attachedSheet);
 
             questSent = true;
-            DestroyUI();
 
-            Destroy(questBanner);
+            //Destroy(questBanner);
+            //display activequestbanner
+            questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
 
             SoundManagerScript.PlaySound("stamp");
+            DestroyUI();
         }
 
     }
