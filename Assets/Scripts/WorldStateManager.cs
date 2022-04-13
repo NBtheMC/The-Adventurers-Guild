@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class WorldStateManager : MonoBehaviour
 {
+	public static WorldStateManager Instance;
     private Dictionary<string, WorldValue> worldValues;
     private Dictionary<string, WorldState> worldStates;
 	private Dictionary<string, WorldInt> worldInts;
@@ -31,6 +32,9 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the TimeSystem.
 	public TimeSystem timeSystem;
 
+	// the reference to the GameManager
+	public GameManager gameManager;
+
 	// A bunch of events for when the WorldStateManager updates itself.
 	public event EventHandler<string> IntChangeEvent;
 	public event EventHandler<string> StateChangeEvent;
@@ -44,6 +48,8 @@ public class WorldStateManager : MonoBehaviour
 
 		//Set the top of Display to the spacer
 		topOfDisplay = startingSpace;
+
+		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
 	private void Start()
