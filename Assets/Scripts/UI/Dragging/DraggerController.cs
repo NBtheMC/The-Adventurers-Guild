@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -48,6 +49,10 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     {
         beingDragged = true;
 
+        //disable name display on old drop point
+        GameObject oldDropPoint = this.transform.parent.gameObject;
+        oldDropPoint.transform.Find("Name").gameObject.SetActive(false);
+
         this.transform.SetParent(QuestDisplayTransform);
         var i = Random.Range(0, 2);
         if (i == 0) {SoundManagerScript.PlaySound("slipUp1");}
@@ -81,6 +86,11 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 		}
 		transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
         this.transform.SetParent(objectDropPoint.transform);
+
+        //display character name on drop point
+        GameObject characterName = objectDropPoint.transform.Find("Name").gameObject;
+        characterName.SetActive(true);
+        characterName.GetComponent<Text>().text = this.gameObject.GetComponent<CharacterTileController>().characterSheet.name;
     }
 
     public void RefreshCharacterOnDrop(){

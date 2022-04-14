@@ -18,7 +18,8 @@ public class QuestBanner : MonoBehaviour
     public void Awake()
     {
         QuestDisplay = GameObject.Find("QuestDisplay");
-        questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        //questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        questUIPrefab = Resources.Load<GameObject>("QuestUI_V2");
         QuestUISpawn = GameObject.Find("QuestUISpawn");
         isDisplayed = false;
     }
