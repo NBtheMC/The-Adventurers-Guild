@@ -632,6 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2ae497ef6b4704e9f80ce99abd3a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  day: 0
+  timeSystem: {fileID: 0}
   currentScene: 0
 --- !u!4 &1532994878
 Transform:
@@ -1165,5 +1167,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -21
       objectReference: {fileID: 0}
+    - target: {fileID: 7760003237959398351, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ab8f1e00ea645474aba87518b2d35505, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}

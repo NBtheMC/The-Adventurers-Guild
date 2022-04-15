@@ -8,9 +8,11 @@ public class CSVToQuests : MonoBehaviour
     public TextAsset csvStorylets;
     public TextAsset csvEvents;
 
+    public List<Storylet> allStorylets;
+
     public void MakeEverything(){
-        MakeStorylets();
         MakeEvents();
+        MakeStorylets();
         AttachAll();
     }
     // Start is called before the first frame update
@@ -54,7 +56,7 @@ public class CSVToQuests : MonoBehaviour
                     case "<=":
                         sign = Storylet.NumberTriggerType.LessThanEqualTo;
                         break;
-                    case "=":
+                    case "equals":
                         sign = Storylet.NumberTriggerType.EqualTo;
                         break;
                     case ">":
@@ -83,7 +85,7 @@ public class CSVToQuests : MonoBehaviour
                     case "<=":
                         sign = Storylet.NumberTriggerType.LessThanEqualTo;
                         break;
-                    case "=":
+                    case "equals":
                         sign = Storylet.NumberTriggerType.EqualTo;
                         break;
                     case ">":
@@ -213,7 +215,7 @@ public class CSVToQuests : MonoBehaviour
                     case "<=":
                         sign = Storylet.NumberTriggerType.LessThanEqualTo;
                         break;
-                    case "=":
+                    case "equals":
                         sign = Storylet.NumberTriggerType.EqualTo;
                         break;
                     case ">":
@@ -243,7 +245,7 @@ public class CSVToQuests : MonoBehaviour
                     case "<=":
                         sign = Storylet.NumberTriggerType.LessThanEqualTo;
                         break;
-                    case "=":
+                    case "equals":
                         sign = Storylet.NumberTriggerType.EqualTo;
                         break;
                     case ">":
@@ -300,15 +302,19 @@ public class CSVToQuests : MonoBehaviour
                 failStateChanges.Add(newStateChange);
             }
             newEvent.failStateChange = failStateChanges;
-
-            //add event to world
-        
         }
     
     }
 
     //used to connect Event Nodes to each other
     private void AttachAll(){
+        //storylets
+        //event heads
+        
+        //events
 
+        //success node
+
+        //failure node
     }
 }
