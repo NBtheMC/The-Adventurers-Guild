@@ -23,7 +23,9 @@ public class QuestBanner : MonoBehaviour
     }
 
     public void displayQuestUI(bool displayOnly = false)
-    {   
+    {
+        if (PauseMenu.gamePaused)
+            return;
         if (!isDisplayed)
         {
             GameObject questUIObj = Instantiate(questUIPrefab);

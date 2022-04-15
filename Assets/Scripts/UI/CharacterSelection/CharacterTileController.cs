@@ -17,12 +17,16 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        if (PauseMenu.gamePaused)
+            return;
         pointerEventData.useDragThreshold = false;
         clickPos = Input.mousePosition;
     }
 
     public void OnPointerUp(PointerEventData pointerEventData)
     {
+        if (PauseMenu.gamePaused)
+            return;
         float deltaX = Input.mousePosition.x - clickPos.x;
         float deltaY = Input.mousePosition.y - clickPos.y;
 
