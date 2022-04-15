@@ -9,6 +9,7 @@ public class CSVToQuests : MonoBehaviour
     public TextAsset csvEvents;
 
     public List<Storylet> allStorylets;
+    public List<EventNode> allEvents;
 
     public void MakeEverything(){
         MakeEvents();
@@ -37,7 +38,7 @@ public class CSVToQuests : MonoBehaviour
             Debug.Log("Path = " + assetPath);
             string storyletDescription = storyletData[i].Split('\t')[2];
             string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
-            
+            newStorylet.eventHead = allEvents.Find(e => e.);
             //TRIGGER INTS
             string[] csvTriggerInts = storyletData[i+2].Split('\t');
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
@@ -165,6 +166,8 @@ public class CSVToQuests : MonoBehaviour
                 stateChanges.Add(newStateChange);
             }
             newStorylet.triggerStateChanges = stateChanges;
+
+            allStorylets.Add(newStorylet);
         }
 
     }
@@ -302,16 +305,18 @@ public class CSVToQuests : MonoBehaviour
                 failStateChanges.Add(newStateChange);
             }
             newEvent.failStateChange = failStateChanges;
+            allEvents.Add(newEvent);
         }
     
     }
 
     //used to connect Event Nodes to each other
     private void AttachAll(){
-        //storylets
-        //event heads
-        
-        //events
+        foreach(Storylet storylet in allStorylets){
+            //set event heads
+            storylet.eventHead = allEvents.Find(i => i.name == value); 
+        }
+        //for each event in events
 
         //success node
 
