@@ -1302,6 +1302,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestList_V2
       objectReference: {fileID: 0}
+    - target: {fileID: 5102677668315176818, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5698263808483506548, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -119.6355

@@ -11,7 +11,7 @@ public class CharacterInfoUI : MonoBehaviour
     private Text exploration;
     private Text diplomacy;
     private Text stamina;
-    private RectTransform transformer; // defines the rectangle reference for this dragger.
+
     [HideInInspector] public GameObject charObject;
     public CharacterSheet charSheet {get; private set;}
 
@@ -23,8 +23,6 @@ public class CharacterInfoUI : MonoBehaviour
         exploration = transform.Find("Stats/Exploration").gameObject.GetComponent<Text>();
         diplomacy = transform.Find("Stats/Diplomacy").gameObject.GetComponent<Text>();
         stamina = transform.Find("Stats/Stamina").gameObject.GetComponent<Text>();
-
-        transformer = this.GetComponent<RectTransform>();
     }
 
     public void SetupCharacterInfoUI(CharacterSheet characterSheet)
