@@ -54,8 +54,8 @@ public class WorldStateManager : MonoBehaviour
 
 	private void Start()
 	{
-		//create csvtoquests and generate quests
-		CSVToQuests csvToQuests = GameObject.Find("CSVToQuests").GetComponent<CSVToQuests>();
+		//create tsvtoquests and generate quests
+		//TSVToQuests tsvToQuests = GameObject.Find("TSVToQuests").GetComponent<TSVToQuests>();
 
 
 		foreach(Storylet storylet in storylets)

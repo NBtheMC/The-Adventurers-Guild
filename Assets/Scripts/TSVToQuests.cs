@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class TSVToQuests : MonoBehaviour
+public class CSVToQuests : MonoBehaviour
 {
     public TextAsset csvStorylets;
     public TextAsset csvEvents;
@@ -25,8 +25,6 @@ public class TSVToQuests : MonoBehaviour
     public void MakeStorylets(){
         string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
         for(int i = 0; i < storyletData.Length - 8; i += 8){ //8 is however many properties there are
-            //look if there is already a file with the name (DO LATER this is actually complicated as fuck)
-
             Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
             
             //NAME, DESCRIPTION, and HEAD
@@ -34,6 +32,7 @@ public class TSVToQuests : MonoBehaviour
             string assetPath = AssetDatabase.GetAssetPath(newStorylet.GetInstanceID());
             AssetDatabase.RenameAsset(assetPath, storyletName);
             AssetDatabase.SaveAssets();
+            Debug.Log("Path = " + assetPath);
             string storyletDescription = storyletData[i].Split('\t')[2];
             string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
             
@@ -200,7 +199,6 @@ public class TSVToQuests : MonoBehaviour
 
             //success stuff
             string successNode = eventData[i+3].Split('\t')[1];
-            //get actual node later
             newEvent.successString = eventData[i+3].Split('\t')[2];
 
             string[] csvSuccessIntChanges = eventData[i+4].Split('\t'); //can be multiple
@@ -272,7 +270,6 @@ public class TSVToQuests : MonoBehaviour
 
             //fail stuff
             string failureNode = eventData[i+10].Split('\t')[1];
-            //get actual node later
             newEvent.failureString = eventData[i+11].Split('\t')[1];
             string[] csvFailIntChanges = eventData[i+12].Split('\t'); //can be multiple
             List<Storylet.IntChange> failIntChanges = new List<Storylet.IntChange>();
@@ -303,22 +300,15 @@ public class TSVToQuests : MonoBehaviour
                 failStateChanges.Add(newStateChange);
             }
             newEvent.failStateChange = failStateChanges;
-            //add event to world? idk if this is needed
+
+            //add event to world
         
         }
     
     }
 
     //used to connect Event Nodes to each other
-    public void AttachAll(){
-        //storylet head
-        //for each storylet in storylets (idk where these will be)
-        //  currentStorylet.eventhead = findobjectwithname(currentStorylet.tempEventHead)
+    private void AttachAll(){
 
-        //events
-        //for each event in events (idk where these will be either)
-        // currentEvent.succeedNode = findobjectwithname(currentEvent.tempSuccessNode)
-
-        // currentEvent.failureNode = findobjectwithname(currentEvent.tempFailureNode)
     }
 }

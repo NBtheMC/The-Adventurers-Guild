@@ -43,6 +43,7 @@ public class Storylet : ScriptableObject
 
 	public string questName; // The name of the quest they will embark on.
 	public EventNode eventHead; // The head of the event tree that is associated with this event.
+	public string tempEventHead; //a way to keep the event head while loading stuff in
 	[TextAreaAttribute(4,10)]
 	public string questDescription; // The description of the Quest, if there is to be one.
 
