@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -44,7 +44,6 @@ public class CSVToQuests : MonoBehaviour
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
             for(int j = 1; j < csvTriggerInts.Length; j+=3){
                 Storylet.TriggerInt newTriggerInt = new Storylet.TriggerInt();
-                
                 //Do extra parsing
                 newTriggerInt.name = csvTriggerInts[j];
                 newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
@@ -203,7 +202,8 @@ public class CSVToQuests : MonoBehaviour
             newEvent.Reward = int.Parse(eventData[i+2].Split('\t')[2]);
 
             //success stuff
-            string successNode = eventData[i+3].Split('\t')[1];
+            newEvent.tempSuccessNode = eventData[i+3].Split('\t')[1];
+            //newEvent.successNode = allEvents.Find(e => head.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID()))));
             newEvent.successString = eventData[i+3].Split('\t')[2];
 
             string[] csvSuccessIntChanges = eventData[i+4].Split('\t'); //can be multiple
@@ -274,7 +274,7 @@ public class CSVToQuests : MonoBehaviour
             newEvent.successStateChange = successStateChanges;
 
             //fail stuff
-            string failureNode = eventData[i+10].Split('\t')[1];
+            newEvent.tempFailureNode = eventData[i+10].Split('\t')[1];
             newEvent.failureString = eventData[i+11].Split('\t')[1];
             string[] csvFailIntChanges = eventData[i+12].Split('\t'); //can be multiple
             List<Storylet.IntChange> failIntChanges = new List<Storylet.IntChange>();
@@ -307,6 +307,11 @@ public class CSVToQuests : MonoBehaviour
             newEvent.failStateChange = failStateChanges;
             allEvents.Add(newEvent);
         }
-    
+        foreach(EventNode eventToAttach in allEvents){
+            //success node
+            eventToAttach.successNode = allEvents.Find(f => eventToAttach.tempSuccessNode.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID()))));
+            //failure node
+            eventToAttach.failureNode = allEvents.Find(f => eventToAttach.tempFailureNode.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID()))));
+        }
     }
 }
