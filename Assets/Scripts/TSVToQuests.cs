@@ -38,7 +38,11 @@ public class CSVToQuests : MonoBehaviour
             Debug.Log("Path = " + assetPath);
             string storyletDescription = storyletData[i].Split('\t')[2];
             string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
+<<<<<<< Updated upstream
             newStorylet.eventHead = allEvents.Find(e => e.);
+=======
+            newStorylet.eventHead = allEvents.Find(e => e.description.Equals);
+>>>>>>> Stashed changes
             //TRIGGER INTS
             string[] csvTriggerInts = storyletData[i+2].Split('\t');
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
