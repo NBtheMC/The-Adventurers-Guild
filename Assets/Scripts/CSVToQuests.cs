@@ -166,10 +166,9 @@ public class CSVToQuests : MonoBehaviour
                 stateChanges.Add(newStateChange);
             }
             newStorylet.triggerStateChanges = stateChanges;
-
             allStorylets.Add(newStorylet);
+            Debug.Log("Storylet added: " + newStorylet.questName);
         }
-
     }
 
     //Pull data from events csv and makes 1 event per grouping
@@ -307,6 +306,7 @@ public class CSVToQuests : MonoBehaviour
             }
             newEvent.failStateChange = failStateChanges;
             allEvents.Add(newEvent);
+            Debug.Log("Event added: " + newEvent.description);
         }
         foreach(EventNode eventToAttach in allEvents){
             //success node
