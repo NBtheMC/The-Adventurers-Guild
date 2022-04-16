@@ -21,6 +21,7 @@ public class CSVToQuests : MonoBehaviour
     {
         csvStorylets = Resources.Load<TextAsset>("Storylets");
         csvEvents = Resources.Load<TextAsset>("Events");
+        MakeEverything();
     }
 
     //Pull data from storylets csv and makes 1 event per grouping
