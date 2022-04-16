@@ -40,6 +40,12 @@ public class EventNode: ScriptableObject
 
 	private void Awake()
 	{
+		
+		
+	}
+
+	private void Start()
+	{
 		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
 		Debug.Assert(theWorld != null);
 	}

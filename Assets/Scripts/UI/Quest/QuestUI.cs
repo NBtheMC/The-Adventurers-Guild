@@ -131,7 +131,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
 
-        questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+        if (questBanner != null)
+            questBanner.GetComponent<QuestBanner>().isDisplayed = false;
 
         characterPool.RefreshCharacterPool();
         Destroy(this.gameObject);

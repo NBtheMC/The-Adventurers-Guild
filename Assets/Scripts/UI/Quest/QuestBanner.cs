@@ -27,7 +27,8 @@ public class QuestBanner : MonoBehaviour
 
     public void DeleteBanner(object source, QuestSheet questSheet)
     {
-        Destroy(this.gameObject);
+        if (questSheet == this.questSheet)
+            Destroy(this.gameObject);
     }
 
     public void ToggleQuestActiveState()
