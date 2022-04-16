@@ -22,6 +22,12 @@ public class QuestBanner : MonoBehaviour
         questUIPrefab = Resources.Load<GameObject>("QuestUI_V2");
         QuestUISpawn = GameObject.Find("QuestUISpawn");
         isDisplayed = false;
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += DeleteBanner;
+    }
+
+    public void DeleteBanner(object source, QuestSheet questSheet)
+    {
+        Destroy(this.gameObject);
     }
 
     public void ToggleQuestActiveState()
@@ -39,6 +45,7 @@ public class QuestBanner : MonoBehaviour
             if(questIsActive)
             {
                 questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
+                questUIObj.transform.Find("Reject").gameObject.SetActive(false);
                 GameObject dropPoints = questUIObj.transform.Find("Drop Points").gameObject;
 
                 int index = 0;
@@ -71,4 +78,6 @@ public class QuestBanner : MonoBehaviour
             else {SoundManagerScript.PlaySound("parchment3");}
         }
     }
+
+
 }
