@@ -17,7 +17,6 @@ public class QuestSheet
 
 	private WorldStateManager worldStateManager;
 
-
 	public List<EventNode> visitedNodes;
 
 	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
@@ -164,6 +163,17 @@ public class QuestSheet
 
 	public string GetQuestRecap(){
 		return questRecap;
+	}
+
+
+	/// <summary>
+	/// Used to calculate what the maxes and mins of each event are through a 
+	/// </summary>
+	public int CalcualteNodeRanges(CharacterSheet.StatDescriptors inputType)
+	{
+		int returnValue = 0;
+
+		return returnValue;
 	}
 
 	// public string GenerateEventText(){
