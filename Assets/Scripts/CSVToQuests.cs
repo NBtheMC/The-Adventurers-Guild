@@ -39,7 +39,7 @@ public class CSVToQuests : MonoBehaviour
             Debug.Log("Path = " + assetPath);
             string storyletDescription = storyletData[i].Split('\t')[2];
             string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
-            newStorylet.eventHead = allEvents.Find(e => head.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID()))));
+            newStorylet.eventHead = allEvents.Find(e => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID())).Contains(head));
             //TRIGGER INTS
             string[] csvTriggerInts = storyletData[i+2].Split('\t');
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
@@ -310,9 +310,9 @@ public class CSVToQuests : MonoBehaviour
         }
         foreach(EventNode eventToAttach in allEvents){
             //success node
-            eventToAttach.successNode = allEvents.Find(f => eventToAttach.tempSuccessNode.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID()))));
+            eventToAttach.successNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempSuccessNode));
             //failure node
-            eventToAttach.failureNode = allEvents.Find(f => eventToAttach.tempFailureNode.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID()))));
+            eventToAttach.failureNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempFailureNode));
         }
     }
 }
