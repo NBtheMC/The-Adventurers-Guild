@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 //Takes in new quests and creates them on screen as UI objects
 public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
@@ -20,6 +21,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
     private bool questSent = false;
+
+    // UI items to display quest breifing details.
+    public TextMeshProUGUI cmbBriefText;
+    public TextMeshProUGUI xpoBriefText;
+    public TextMeshProUGUI ngoBriefText;
+    public TextMeshProUGUI conBriefText;
 
     // Start is called before the first frame update
     void Awake()
@@ -54,6 +61,11 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //setup reward
         questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
+
+        cmbBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Combat).ToString();
+        xpoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Exploration).ToString();
+        ngoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Negotiation).ToString();
+        conBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
 
         if (!displayOnly)
         {
