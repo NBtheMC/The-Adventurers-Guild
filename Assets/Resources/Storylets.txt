@@ -1,0 +1,200 @@
+Storylet 1	Testing the Waters	Sailor Ambassador: We'd like to set up a base of operations here. Could you help us find a suitable place?																										
+Event Head	SecureMeetingHouse	TRUE	FALSE																									
+Trigger Ints	PaladinManaGreed	>	10	MageManaGreed	>	10																						
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 2	SailorLogisticalPlanning																											
+Event Head		TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE		SailorLogisticalPlans	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	SailorLogisticalPlanning	1	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 3	SailorLogisticalPlanCompletion																											
+Event Head		TRUE	TRUE																									
+Trigger Ints	SailorLogisticalPlanning	>=	100																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes	SailorLogisticalPlans	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 4	SailorDoomEnding	Once friendly, the Sailors suddenly cut off all supplies to the Guild. Then they cut you a deal you can't refuse. You lost control of the Guild, the game is over.																										
+Event Head	SailorEnding	TRUE	TRUE																									
+Trigger Ints	SailorLogisticalPlanImplementation	>=	100																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 5	SailorLogisticalPlanImplementation																											
+Event Head		TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	SailorLogisticalPlans	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	SailorLogisticalPlanImplementation	1	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 6	SailorShippingNeeds																											
+Event Head		TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes	SailorShippingNeeds	0.2	NOSET																									
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 7	Ship Protection	Nervous Captain: We're worried about the dangers of the open seas. Could you send an adventurer or two just in case?																										
+Event Head	ProtectShip	TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values	SailorShippingNeeds	>=	5																									
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 8	PackagePiracy	Sailor Ambassador: Out logistical plans were stolen, and they must be recovered. It is extremely important that NO ONE looks at them, including your adventurers.																										
+Event Head	FindLogisticalPlans	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values	SailorGuildRelation	>=	60																									
+Trigger States	SailorLogisticalPlans	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes	SailorLogisticalPlans	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 9	MeetingWithMages	Sailor Ambassador: There's an important meeting that we need to send a representative to. Could you provide an escort?																										
+Event Head	EscortSailorToMage	TRUE	FALSE																									
+Trigger Ints	MageManaGreed	>	11																									
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 10	MeetingWithPaladins	Sailor Ambassador: There's an important meeting that we need to send a representative to. Could you provide an escort?																										
+Event Head	EscortSailorToPaladin	TRUE	FALSE																									
+Trigger Ints	PaladinManaGreed	>	11																									
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 11	SampleCollection	Bejeweled Official: I've heard that there was a recent discovery of Mana Stones in the nearby Caves. I've come on behalf of the Mages to request some samples.																										
+Event Head	SearchingForSamples	TRUE	FALSE																									
+Trigger Ints	MageSampleCollection	<	3																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 12	FieldTest	Confident Academic: I need an escort out to the Plains so I can test out my newest invention. This might make me crazy rich!																										
+Event Head	BuffaloComms	TRUE	FALSE																									
+Trigger Ints	MageSampleCollection	>	1	MageFieldTest1	<	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	3	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 13	AnotherFieldTest	Confident Academic: Our last test was a blazing success! Our communicators are selling like hot cakes. Speaking of, I need another escort for tests for a magic kettle, this time up in the Mountains.																										
+Event Head	ClimbingAMountain	TRUE	FALSE																									
+Trigger Ints	MageFieldTest1	>	0	MageFieldTest2	<	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	3	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 14	CaveSurvey	Rugged Researcher: I know the Caves are dangerous, but I must see the Mana Stones in person. Please take me to them. Used to be a miner, you see, and I'm burning up with curiosity.																										
+Event Head	SpiderClearing	TRUE	FALSE																									
+Trigger Ints	MageSampleCollection	>=	3	MageManaGreed	>=	3	MageCaveSurvey	<	1																			
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	1	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 15	ForestStroll	Rugged Researcher: I overheard the Paladins talking about a Mana Stone discovery in the Forest. On an unrelated note, could you take me to the forest for a walk?																										
+Event Head	GiantBears	TRUE	FALSE																									
+Trigger Ints	MageSampleCollection	>=	3	MageManaGreed	>=	15	MageForestSurvey	<	1																			
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	15	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 16	MiningLogistics	Rugged Researcher: Hey! It's me again. My entire mining crew wants to look at the Mana Stones inside the Cave. Take us there.																										
+Event Head	RockGolems	TRUE	FALSE																									
+Trigger Ints	MageSampleCollection	>=	3	MageCaveSurvey	>	0	MageMiningLogistics	<	1																			
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	3	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 17	ManaStoneWar	Both factions realize you've been double dealing. They're going to war, but first they're going to wipe you out.																										
+Event Head	ManaStoneWarEndGame	FALSE	FALSE																									
+Trigger Ints	PaladinMageManaStoneThreat	>=	30	PaladinManaGreed	>=	25	MagePaladinManaStoneThreat	>=	25	MageManaGreed	>=	25																
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 18	MageTakeover	The Mages want their Mana Stones. They've showed up to the Guild armed with magic communicators and kettles. You lose control of the Guild. The game is over.																										
+Event Head	MageTakeoverEndGame	FALSE	FALSE																									
+Trigger Ints	PaladinMageManaStoneThreat	<	30	PaladinManaGreed	<	25	MageManaGreed	>=	25	MageMiningLogistics	>=	3																
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 19	ExploreForest	Stone-faced Inquisitor: We've recieved an order from above to investigate the Forest. Don't ask why.																										
+Event Head	WalkingIntoTheForest	TRUE	FALSE																									
+Trigger Ints	PaladinForestExploration	<	3																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 20	FindManaStones	Excitable Knight: Mana Stones! This is an amazing discovery. You must get us some samples!																										
+Event Head	SearchingForManaStones	TRUE	FALSE																									
+Trigger Ints	PaladinForestExploration	>=	3	PaladinManaStone	<	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 21	TotallyNormalEscortQuest	Shady Inquisitor: Our technology has been feeling a little... lacking lately. We have our eyes on a new recruit... Only problem is that they're with the Mages. We need someone to help... uh... "convince" them to join us instead.																										
+Event Head	SneakingIntoMageCamp	FALSE	FALSE																									
+Trigger Ints	PaladinFieldTest1	>	0	PaladinFieldTest2	>	0																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 22	HolyHandCannonTest	Excitable Knight: We've recieved the latest weaponry and have been given full permission to test it! Please, take me to the Forest, I must fire this Holy Hand Cannon right away!																										
+Event Head	SearchingForPracticeTargets	TRUE	FALSE																									
+Trigger Ints	PaladinManaStone	>	0	PaladinFieldTest1	<	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 23	HolyHandGrenadeTest	Stone-faced Inquisitor: The Holy Hand Cannon test went well. Our knights were really excited about getting to shoot it again. Too excited, in fact. Anyways, we need to test out another weapon, the Holy Hand Grenade. Come to the Forest with me.																										
+Event Head	WorthyHoldHandGrenadeTarget	TRUE	FALSE																									
+Trigger Ints	PaladinFieldTest1	>	0	PaladinFieldTest2	<	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 24	ForestOutpostNegotiations	Baby-faced Squire: H-hello. I'm here on behalf of the Paladins to formally request the right to set up an outpost near the Forest. You'd need to come with us to sign some paperwork, is that okay?																										
+Event Head	NegotiateWithPaladins	FALSE	FALSE																									
+Trigger Ints	PaladinManaGreed	>	25	PaladinFieldTest2	>=	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 25	IntroToGuildmastering	Wavy-Haired Clerk: Hi. Welcome to the Adventurer's Guild, Cynbalt branch. Your job as the Guildmaster is to assign adventurers to Quests. Quest success depends on the abilities of your adventurers, which are denoted by the four stats on the top. For this quest, you will need a Combat total of 10. Drag suitable adventurers into the Quest and press Start.																										
+Event Head	TutorialBattle	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	TutorialComplete	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
