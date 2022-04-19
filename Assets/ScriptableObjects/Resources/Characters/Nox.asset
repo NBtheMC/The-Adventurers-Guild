@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
   m_Name: Nox
   m_EditorClassIdentifier: 
-  characterName: Knives
+  characterName: Nox
   hiredAtStart: 1
-  combat: 20
-  exploration: 5
-  negotiation: 3
-  constitution: 50
+  combat: 12
+  exploration: 12
+  negotiation: 12
+  constitution: 9
   portrait: {fileID: 21300000, guid: c7f2343b60fc6b4408ea4960836e5205, type: 3}
+  Biography: An ally? of questionable character and loyalty. Must be paid upfront.
+    A master of disguise of Elvish? origin. Someone somewhere must know more about
+    them, but prying around for that information is going to cost you, big time. 
+    Is very loyal to large piles of cash. Great at literally everything. No one knows
+    their real name.
