@@ -639,6 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBriefingText: {fileID: 466123565}
   debriefTracker: {fileID: 537233322}
+  day: 0
 --- !u!114 &814763388
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class CharacterInfoUI : MonoBehaviour
     private Text exploration;
     private Text diplomacy;
     private Text stamina;
+    private Text biography;
 
     [HideInInspector] public GameObject charObject;
     public CharacterSheet charSheet {get; private set;}
@@ -23,6 +24,7 @@ public class CharacterInfoUI : MonoBehaviour
         exploration = transform.Find("Stats/Exploration").gameObject.GetComponent<Text>();
         diplomacy = transform.Find("Stats/Diplomacy").gameObject.GetComponent<Text>();
         stamina = transform.Find("Stats/Stamina").gameObject.GetComponent<Text>();
+        biography = transform.Find("Bio/Text").gameObject.GetComponent<Text>();
     }
 
     public void SetupCharacterInfoUI(CharacterSheet characterSheet)
@@ -33,6 +35,7 @@ public class CharacterInfoUI : MonoBehaviour
         exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
         diplomacy.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Negotiation).ToString();
         stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
+        biography.text = characterSheet.biography;
     }
 
     public void DestroyUI()
