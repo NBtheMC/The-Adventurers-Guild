@@ -19,6 +19,9 @@ public class CharacterSheet
     //Portrait associated with character
     public Sprite portrait { get; private set; }
 
+    // Text associated with the character.
+    public string biography { get; private set; }
+
     /// <summary>
     /// Constructor with access to change dictionary at any time.
     /// </summary>
@@ -45,6 +48,7 @@ public class CharacterSheet
         adventurer = new Adventurer();
         adventurer.characterSheet = this;
         portrait = characterStats.portrait;
+        biography = characterStats.Biography;
     }
 
     /// <summary>
