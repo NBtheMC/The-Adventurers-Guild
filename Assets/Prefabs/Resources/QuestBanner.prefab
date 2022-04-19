@@ -205,7 +205,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6063333571525052799}
         m_TargetAssemblyTypeName: QuestBanner, Assembly-CSharp
         m_MethodName: displayQuestUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
