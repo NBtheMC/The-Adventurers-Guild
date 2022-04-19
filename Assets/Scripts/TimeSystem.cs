@@ -72,4 +72,6 @@ public class TimeSystem : MonoBehaviour
         timerActive = false;
         StopCoroutine(timeTrackerCoroutine);
     }
+
+    public GameTime getTime() { return gameTime; }
 }
