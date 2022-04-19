@@ -74,4 +74,9 @@ public class TimeSystem : MonoBehaviour
     }
 
     public GameTime getTime() { return gameTime; }
+    
+    public void SetDay(int currentDay){
+        gameTime.day = currentDay;
+        gameTime.hour = 0;
+    }
 }

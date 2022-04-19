@@ -47,6 +47,8 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     /// <param name="eventData"></param>
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (PauseMenu.gamePaused)
+            return;
         beingDragged = true;
 
         //disable name display on old drop point

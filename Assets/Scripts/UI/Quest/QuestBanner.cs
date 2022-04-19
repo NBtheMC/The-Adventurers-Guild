@@ -7,20 +7,16 @@ public class QuestBanner : MonoBehaviour
 {
 
     [HideInInspector] public QuestSheet questSheet;
-    private GameObject QuestDisplay;
     private GameObject QuestUISpawn;
-    private GameObject questUIPrefab; // QuestUI prefab to display
+    private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
     private bool questIsActive = false;
-
 
     // Start is called before the first frame update
     public void Awake()
     {
-        QuestDisplay = GameObject.Find("QuestDisplay");
-        //questUIPrefab = Resources.Load<GameObject>("QuestUI");
-        questUIPrefab = Resources.Load<GameObject>("QuestUI_V2");
-        QuestUISpawn = GameObject.Find("QuestUISpawn");
+        questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        QuestUISpawn = GameObject.Find("CurrentItemDisplay/Quest");
         isDisplayed = false;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += DeleteBanner;
     }
@@ -37,10 +33,18 @@ public class QuestBanner : MonoBehaviour
         transform.Find("Active").gameObject.SetActive(questIsActive);
     }
 
-    public void displayQuestUI()
-    {   
+    public void displayQuestUI(bool displayOnly = false)
+    {
+        if (PauseMenu.gamePaused)
+            return;
         if (!isDisplayed)
         {
+            //if a quest is already displayed
+            if(QuestUISpawn.transform.childCount != 0)
+            {
+                QuestUISpawn.transform.GetChild(0).GetComponent<QuestUI>().DestroyUI();
+            }
+
             GameObject questUIObj = Instantiate(questUIPrefab);
             
             if(questIsActive)
@@ -61,8 +65,7 @@ public class QuestBanner : MonoBehaviour
             questUIObj.GetComponent<QuestUI>().questBanner = this.gameObject;
 
             //add quest to QuestDisplay canvas
-            questUIObj.transform.SetParent(QuestDisplay.transform, false);
-            questUIObj.GetComponent<RectTransform>().anchoredPosition = QuestUISpawn.transform.localPosition;
+            questUIObj.transform.SetParent(QuestUISpawn.transform, false);
 
             //move to bottom of child object hierarchy for rendering order reasons
             questUIObj.transform.SetAsLastSibling();

@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
-  m_Name: Charlie
+  m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
+  m_Name: E
   m_EditorClassIdentifier: 
-  characterName: Charlie
-  hiredAtStart: 1
-  combat: 100
-  exploration: 50
-  negotiation: 50
-  constitution: 1000
-  portrait: {fileID: 21300000, guid: 531ee2396932d8a41ab30850e53956ea, type: 3}
+  locationName: E
+  connections: []
+  d: 3
+  pred: {fileID: 11400000, guid: a9e8ee174d67f544fb1132e2377f9b48, type: 2}
