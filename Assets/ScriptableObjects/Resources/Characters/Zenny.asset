@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
+  m_Name: Zenny
+  m_EditorClassIdentifier: 
+  characterName: Zenny
+  hiredAtStart: 1
+  combat: 7
+  exploration: 9
+  negotiation: 13
+  constitution: 7
+  portrait: {fileID: 21300000, guid: d170171f8fcf7ed4cb1d6008186bbe0a, type: 3}
+  Biography: "A honey-tongued, profit minded individual from the Fennec Fox tribe,
+    who dwell deep within the deserts in Arcanist territory. Gets along with adventurers
+    really well, despite adventurers and adventuring being generally untrustworthy
+    and unprofitable. The smile is all business, but you can\u2019t help but fall
+    for it anyways.   Loves money and people. Great with negotiations. Full name
+    is Zenith. "
