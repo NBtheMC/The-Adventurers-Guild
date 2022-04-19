@@ -33,13 +33,13 @@ public class CSVToQuests : MonoBehaviour
             
             //NAME, DESCRIPTION, and HEAD
             string storyletName = storyletData[i].Split('\t')[1];
-            string assetPath = AssetDatabase.GetAssetPath(newStorylet.GetInstanceID());
-            AssetDatabase.RenameAsset(assetPath, storyletName);
-            AssetDatabase.SaveAssets();
-            Debug.Log("Path = " + assetPath);
+            //string assetPath = AssetDatabase.GetAssetPath(newStorylet.GetInstanceID());
+            //AssetDatabase.RenameAsset(assetPath, storyletName);
+            //AssetDatabase.SaveAssets();
+            //Debug.Log("Path = " + assetPath);
             string storyletDescription = storyletData[i].Split('\t')[2];
             string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
-            newStorylet.eventHead = allEvents.Find(e => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID())).Contains(head));
+            //newStorylet.eventHead = allEvents.Find(e => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID())).Contains(head));
             //TRIGGER INTS
             string[] csvTriggerInts = storyletData[i+2].Split('\t');
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
@@ -310,9 +310,9 @@ public class CSVToQuests : MonoBehaviour
         }
         foreach(EventNode eventToAttach in allEvents){
             //success node
-            eventToAttach.successNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempSuccessNode));
+            //eventToAttach.successNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempSuccessNode));
             //failure node
-            eventToAttach.failureNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempFailureNode));
+            //eventToAttach.failureNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempFailureNode));
         }
     }
 }
