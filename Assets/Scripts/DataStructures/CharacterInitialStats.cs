@@ -9,4 +9,6 @@ public class CharacterInitialStats : ScriptableObject
     public bool hiredAtStart;
     public int combat, exploration, negotiation, constitution;
     public Sprite portrait;
+
+    public string Biography;
 }
