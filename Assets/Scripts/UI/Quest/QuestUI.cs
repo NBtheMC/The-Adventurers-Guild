@@ -21,10 +21,10 @@ public class QuestUI : MonoBehaviour
     [HideInInspector] public GameObject questBanner;
 
     // UI items to display quest breifing details.
-    public TextMeshProUGUI cmbBriefText;
-    public TextMeshProUGUI xpoBriefText;
-    public TextMeshProUGUI ngoBriefText;
-    public TextMeshProUGUI conBriefText;
+    public Text cmbBriefText;
+    public Text xpoBriefText;
+    public Text ngoBriefText;
+    public Text conBriefText;
 
     // Start is called before the first frame update
     void Awake()

@@ -40,11 +40,11 @@ public class EventNode: ScriptableObject
 
 	private WorldStateManager theWorld;
 
-	private void Awake()
-	{
+	// private void Awake()
+	// {
 		
 		
-	}
+	// }
 
 	private void Start()
 	{

@@ -72,4 +72,9 @@ public class TimeSystem : MonoBehaviour
         timerActive = false;
         StopCoroutine(timeTrackerCoroutine);
     }
+
+    public void SetDay(int currentDay){
+        gameTime.day = currentDay;
+        gameTime.hour = 0;
+    }
 }
