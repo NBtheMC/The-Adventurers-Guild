@@ -28,14 +28,18 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
+        if(currentScene != Scene.Menu){
+            timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();    
+        }
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        timeSystem.SetDay(day);
+        if(currentScene != Scene.Menu){
+            timeSystem.SetDay(day);
+        }
     }
 
     public void ChangeScenes(string toSwitchTo){
