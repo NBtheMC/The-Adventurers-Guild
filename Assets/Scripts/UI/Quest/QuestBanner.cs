@@ -68,7 +68,7 @@ public class QuestBanner : MonoBehaviour
             questUIObj.transform.SetParent(QuestUISpawn.transform, false);
 
             //move to bottom of child object hierarchy for rendering order reasons
-            questUIObj.transform.SetAsLastSibling();
+            questUIObj.transform.parent.SetAsLastSibling();
 
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
@@ -80,6 +80,10 @@ public class QuestBanner : MonoBehaviour
             if (i == 0) {SoundManagerScript.PlaySound("parchment1");}
             else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
             else {SoundManagerScript.PlaySound("parchment3");}
+        }
+        else
+        {
+            QuestUISpawn.transform.SetAsLastSibling();
         }
     }
 
