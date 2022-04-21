@@ -42,7 +42,7 @@ public class EventNode: ScriptableObject
 
 	private void Awake()
 	{
-		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
+		//theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
 		Debug.Assert(theWorld != null);
 	}
 
