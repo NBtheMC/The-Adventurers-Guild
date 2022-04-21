@@ -43,7 +43,7 @@ public class EventNode: ScriptableObject
 	private void Awake()
 	{
 		//theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
-		Debug.Assert(theWorld != null);
+		//Debug.Assert(theWorld != null);
 	}
 
 	private List<string> eventRelationships = new List<string>();

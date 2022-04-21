@@ -355,7 +355,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842604781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fd647d5dd142224f84a734b4faa2e17, type: 3}
+  m_Script: {fileID: 11500000, guid: 702c6687b6989f048a43c4e69697e301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   csvStorylets: {fileID: 0}

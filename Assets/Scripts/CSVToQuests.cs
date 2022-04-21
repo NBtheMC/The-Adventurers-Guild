@@ -16,6 +16,7 @@ public class CSVToQuests : MonoBehaviour
         MakeEvents();
         MakeStorylets();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -179,10 +180,28 @@ public class CSVToQuests : MonoBehaviour
     public void MakeEvents(){
         string[] eventData = csvEvents.text.Split(new char[] {'\n'});
         for(int i = 0; i < eventData.Length; i += 11){ //15 is however many properties there are
+            
+            // getting all the properties 
+            string nameString = eventData[i].Split('\t')[1]; // row 1, col b - EventName
+            string eventDescription = eventData[i].Split('\t')[2]; // row 1, col b - Event Name
+            string stat = eventData[i+1].Split('\t')[1]; // row 2, col b - Stat
+            string DCstring = eventData[i+1].Split('\t')[2]; //row 2, col c - DC to check
+            string timeString = eventData[i+2].Split('\t')[1]; //row 3, col b - Time to take
+            string rewardString = eventData[i+2].Split('\t')[2]; // row 3, col c - the reward space
+            string successNodestring = eventData[i+3].Split('\t')[1]; // row 4, col b - success node string
+            string successDetailstring = eventData[i+3].Split('\t')[2]; // row 4, col c - success detail strin
+            string[] successIntChangestring = eventData[i+4].Split('\t'); // row 5 basically the entire success int line.
+
+
+
+            // Making the node.
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>(); //this needs a proper constructor
-            //basic properties
-            newEvent.description = eventData[i].Split('\t')[1];
-            string stat = eventData[i+1].Split('\t')[1];
+            // The following is all dedicated to putting the damn thing into the EventNode
+            newEvent.name = nameString;
+            newEvent.description = eventDescription;
+            newEvent.DC = int.Parse(DCstring);
+            newEvent.time = int.Parse(timeString);
+            if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
             switch(stat){
                 case "Combat":
                     newEvent.stat =  CharacterSheet.StatDescriptors.Combat;
@@ -197,9 +216,6 @@ public class CSVToQuests : MonoBehaviour
                     newEvent.stat =  CharacterSheet.StatDescriptors.Constitution;
                     break;
             }
-            newEvent.DC = int.Parse(eventData[i+1].Split('\t')[2]);
-            newEvent.time = int.Parse(eventData[i+2].Split('\t')[1]);
-            newEvent.Reward = int.Parse(eventData[i+2].Split('\t')[2]);
 
             //success stuff
             newEvent.tempSuccessNode = eventData[i+3].Split('\t')[1];
