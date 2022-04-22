@@ -36,27 +36,37 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         float deltaX = Input.mousePosition.x - clickPos.x;
         float deltaY = Input.mousePosition.y - clickPos.y;
 
-        if ((Mathf.Abs(deltaX) < movementDelta && Mathf.Abs(deltaY) < movementDelta) && !isDisplayed)
+        if ((Mathf.Abs(deltaX) < movementDelta && Mathf.Abs(deltaY) < movementDelta))
         {
-            if (CharInfoSpawn.transform.childCount != 0)
+            if (!isDisplayed)
             {
-                CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
+
+
+                if (CharInfoSpawn.transform.childCount != 0)
+                {
+                    CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
+                }
+
+                //CharBook.DisplayCharacter(characterSheet);
+                GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
+                CharInfoUIObject.transform.parent.SetAsLastSibling();
+                CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
+                characterInfoUI.charObject = this.gameObject;
+                characterInfoUI.SetupCharacterInfoUI(characterSheet);
+
+                //Add character portrait
+                if (characterSheet.portrait != null)
+                {
+                    //CharInfoUIObject.AddComponent<Image>().sprite = character.portrait;
+                    CharInfoUIObject.transform.Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
+                }
+
+                isDisplayed = true;
             }
-
-            //CharBook.DisplayCharacter(characterSheet);
-            GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
-            CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
-            characterInfoUI.charObject = this.gameObject;
-            characterInfoUI.SetupCharacterInfoUI(characterSheet);
-
-            //Add character portrait
-            if (characterSheet.portrait != null)
+            else 
             {
-                //CharInfoUIObject.AddComponent<Image>().sprite = character.portrait;
-                CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
+                CharInfoSpawn.transform.SetAsLastSibling();
             }
-
-            isDisplayed = true;
         }
     }
 }

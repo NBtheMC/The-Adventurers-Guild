@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
                 break;
             case "Game":
                 SceneManager.LoadScene("MainUIScreen");
+                currentScene = Scene.Questing;
                 break;
         }
     }
