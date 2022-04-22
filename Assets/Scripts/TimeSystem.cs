@@ -7,7 +7,7 @@ using UnityEngine;
 public class TimeSystem : MonoBehaviour
 {
 
-    private float tickLength = 2.5f; // Length of a tick in seconds. Equal to one in game hour
+    private float tickLength = 0.5f; // Length of a tick in seconds. Equal to one in game hour
     private GameTime gameTime; // Current in game time
     public bool timerActive { get; private set; } //Can be read by other classes to determine if timer is running
     Coroutine timeTrackerCoroutine; // Used to start/stop timer coroutine
@@ -19,6 +19,8 @@ public class TimeSystem : MonoBehaviour
      * Look at UI/TimeDisplay for a simple example of how this works
      */
     public event EventHandler<GameTime> TickAdded;
+
+    public event EventHandler NewDay;
 
     private void Awake()
     {
@@ -47,6 +49,7 @@ public class TimeSystem : MonoBehaviour
             //Use GameManager to advance day
             GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             //gameManager.ChangeScenes("Recap");
+            NewDay(this, EventArgs.Empty);
         }
 
         if (TickAdded != null)

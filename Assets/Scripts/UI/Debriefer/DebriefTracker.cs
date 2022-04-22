@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class DebriefTracker : MonoBehaviour
 	private void Awake()
 	{
 		cumulatedDebriefReport = new List<List<DebriefReport>>();
+		//add day 0 report list
+		cumulatedDebriefReport.Add(new List<DebriefReport>());
+		timeSystem.NewDay += AddNewDay;
 	}
 
 	/// <summary>
@@ -20,11 +24,16 @@ public class DebriefTracker : MonoBehaviour
 	public void submitLog(string itemToBeLogged)
 	{
 		GameTime timeLogged = timeSystem.getTime();
-		if(timeLogged.day >= cumulatedDebriefReport.Count)
+		cumulatedDebriefReport[timeLogged.day].Add(new DebriefReport(timeLogged,itemToBeLogged));
+	}
+
+	public void AddNewDay(object source, EventArgs e)
+    {
+		GameTime timeLogged = timeSystem.getTime();
+		if (timeLogged.day >= cumulatedDebriefReport.Count)
 		{
 			cumulatedDebriefReport.Add(new List<DebriefReport>());
 		}
-		cumulatedDebriefReport[timeLogged.day].Add(new DebriefReport(timeLogged,itemToBeLogged));
 	}
 
 	private struct DebriefReport
@@ -39,15 +48,16 @@ public class DebriefTracker : MonoBehaviour
 		if (seletedTime < 0) { seletedTime = timeSystem.getTime().day; }
 		if (seletedTime >= cumulatedDebriefReport.Count) { return dayReport; }
 
-		dayReport += $"Day {seletedTime} /n/n";
+		dayReport += $"Day {seletedTime} \n\n";
 
 		foreach(DebriefReport item in cumulatedDebriefReport[seletedTime])
 		{
-			dayReport += $"{item.time.hour}: {item.log}/n";
+			dayReport += $"{item.time.hour}: {item.log}\n";
 		}
 
-		dayReport += "/n End of Report";
+		dayReport += "\n End of Report";
 
 		return dayReport;
 	}
+
 }
