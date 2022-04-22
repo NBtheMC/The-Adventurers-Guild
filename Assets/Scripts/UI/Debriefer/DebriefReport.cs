@@ -14,10 +14,18 @@ public class DebriefReport : MonoBehaviour
 	private void Start()
 	{
 		day = 0;
+		this.gameObject.SetActive(false);
+	}
+
+	public void ToggleDisplay()
+    {
+		print("toggle display");
+		this.gameObject.SetActive(!this.gameObject.activeSelf);
 	}
 
 	private void OnEnable()
 	{
+		day = debriefTracker.timeSystem.getTime().day;
 		mainBriefingText.text = debriefTracker.getCompiledDayReport(day);
 	}
 
