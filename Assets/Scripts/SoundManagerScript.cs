@@ -25,6 +25,8 @@ public class SoundManagerScript : MonoBehaviour
         stampSound = Resources.Load<AudioClip> ("stamp");
 
         audioSrc = GetComponent<AudioSource> ();
+
+        GameObject.Find("PauseMenu").GetComponent<PauseMenu>().volume1Change += UpdateAudioSrcVolume;
     }
 
     void Update()
@@ -80,5 +82,15 @@ public class SoundManagerScript : MonoBehaviour
                 break;
 
         }
+    }
+
+    private void UpdateAudioSrcVolume(object src, float value)
+    {
+        audioSrc.volume = value;
+    }
+
+    public float GetAudioSrcVolume()
+    {
+        return audioSrc.volume;
     }
 }
