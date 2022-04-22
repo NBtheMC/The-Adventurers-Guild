@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private void Awake()
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
-        mainCanvasGroup = GameObject.Find("MainCanvasGroup").GetComponent<CanvasGroup>();
+        mainCanvasGroup = GameObject.Find("QuestDisplayManager").GetComponent<CanvasGroup>();
     }
 
     private void Update()

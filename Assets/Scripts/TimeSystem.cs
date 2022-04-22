@@ -46,7 +46,7 @@ public class TimeSystem : MonoBehaviour
             gameTime.hour = 0;
             //Use GameManager to advance day
             GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gameManager.ChangeScenes("Recap");
+            //gameManager.ChangeScenes("Recap");
         }
 
         if (TickAdded != null)
@@ -71,5 +71,10 @@ public class TimeSystem : MonoBehaviour
     {
         timerActive = false;
         StopCoroutine(timeTrackerCoroutine);
+    }
+
+    public void SetDay(int currentDay){
+        gameTime.day = currentDay;
+        gameTime.hour = 0;
     }
 }

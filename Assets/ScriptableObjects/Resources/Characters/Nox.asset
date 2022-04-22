@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
+  m_Name: Nox
+  m_EditorClassIdentifier: 
+  characterName: Nox
+  hiredAtStart: 1
+  combat: 12
+  exploration: 12
+  negotiation: 12
+  constitution: 9
+  portrait: {fileID: 21300000, guid: c7f2343b60fc6b4408ea4960836e5205, type: 3}
+  Biography: An ally? of questionable character and loyalty. Must be paid upfront.
+    A master of disguise of Elvish? origin. Someone somewhere must know more about
+    them, but prying around for that information is going to cost you, big time. 
+    Is very loyal to large piles of cash. Great at literally everything. No one knows
+    their real name.

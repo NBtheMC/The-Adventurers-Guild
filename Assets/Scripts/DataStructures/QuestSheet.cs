@@ -17,7 +17,6 @@ public class QuestSheet
 
 	private WorldStateManager worldStateManager;
 
-
 	public List<EventNode> visitedNodes;
 
 	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
@@ -164,6 +163,31 @@ public class QuestSheet
 
 	public string GetQuestRecap(){
 		return questRecap;
+	}
+
+
+	/// <summary>
+	/// Used to calculate what the maxes and mins of each event are through a recursive search of the graph.
+	/// </summary>
+	public int CalcualteNodeRanges(CharacterSheet.StatDescriptors inputType, EventNode topConnection = null)
+	{
+		int returnValue = 0;
+		int successValue = 0;
+		int failValue = 0;
+
+		if (topConnection == null){topConnection = headConnection;} // Checks to see if there is a topConnection. Sets the head connection if there isn't.
+
+		// Get the higest of the following nodes, if they exist
+		if (topConnection.successNode != null) { successValue = CalcualteNodeRanges(inputType, topConnection.successNode); } 
+		if (topConnection.failureNode != null) { failValue = CalcualteNodeRanges(inputType, topConnection.failureNode); }
+
+		// Gets the current value as well. If it's of the current type, of course.
+		if (topConnection.stat == inputType) { returnValue = topConnection.DC; }
+
+		if (successValue > returnValue) { returnValue = successValue; }
+		if (failValue > returnValue) { returnValue = failValue; }
+
+		return returnValue;
 	}
 
 	// public string GenerateEventText(){

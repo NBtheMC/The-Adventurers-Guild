@@ -7,8 +7,8 @@ public class DebugWorldStats : MonoBehaviour
 	private WorldStateManager worldStateManager; // our reference to the world manager.
 	private List<(string, WorldStat)> statList;
 
-	private GameObject intPrefab;
-	private GameObject floatPrefab;
+	public GameObject intPrefab;
+	public GameObject floatPrefab;
 	public GameObject boolPrefab;
 
 	public List<GameObject> activeDisplays;
@@ -16,14 +16,13 @@ public class DebugWorldStats : MonoBehaviour
 	private void Awake()
 	{
 		statList = new List<(string, WorldStat)>();
+		activeDisplays = new List<GameObject>();
+	}
+
+	private void Start()
+	{
 		worldStateManager = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
 		worldStateManager.NewStat += AddStat;
-
-		intPrefab = Resources.Load<GameObject>("WorldStateDebug/SampleIntChanger");
-		floatPrefab = Resources.Load<GameObject>("WorldStateDebug/SampleFloatChanger");
-		boolPrefab = Resources.Load<GameObject>("WorldStateDebug/SampleStateChanger");
-
-		activeDisplays = new List<GameObject>();
 	}
 
 	private void AddStat(object sender, WorldStat input)
@@ -34,6 +33,15 @@ public class DebugWorldStats : MonoBehaviour
 	private void OnEnable()
 	{
 		List<WorldStat> foundStats = findStats();
+		displayFoundStats(foundStats);
+	}
+
+	private void OnDisable()
+	{
+		foreach (GameObject display in activeDisplays)
+		{
+			GameObject.Destroy(display.gameObject);
+		}
 	}
 
 	/// <summary>
@@ -48,26 +56,26 @@ public class DebugWorldStats : MonoBehaviour
 			GameObject display;
 
 			// goes in and changes a bunch of things for the prefabricated display.
-			if (worldStat is WorldInt)
-			{
-				display = Instantiate(intPrefab, this.transform);
-				StoryletTesting.WorldValueChanger displayScript = display.GetComponent<StoryletTesting.WorldValueChanger>();
-				displayScript.theWorld = worldStateManager;
-				displayScript.worldStat = name;
-			}
-			else if (worldStat is WorldValue)
+			if (worldStat is WorldValue)
 			{
 				display = Instantiate(floatPrefab, this.transform);
+				StoryletTesting.WorldValueChanger displayScript = display.GetComponent<StoryletTesting.WorldValueChanger>();
+				displayScript.theWorld = worldStateManager;
+				displayScript.worldStat = worldStat.name;
+			}
+			else if (worldStat is WorldInt)
+			{
+				display = Instantiate(intPrefab, this.transform);
 				StoryletTesting.WorldIntChanger displayScript = display.GetComponent<StoryletTesting.WorldIntChanger>();
 				displayScript.theWorld = worldStateManager;
-				displayScript.worldStat = name;
+				displayScript.worldStat = worldStat.name;
 			}
 			else
 			{
 				display = Instantiate(boolPrefab, this.transform) ;
 				StoryletTesting.WorldStateChanger displayScript = display.GetComponent<StoryletTesting.WorldStateChanger>();
 				displayScript.theWorld = worldStateManager;
-				displayScript.worldStat = name;
+				displayScript.worldStat = worldStat.name;
 			}
 
 			// Goes in and displays all of them 

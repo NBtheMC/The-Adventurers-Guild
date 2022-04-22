@@ -22,6 +22,7 @@ public class EventNode: ScriptableObject
 
 	// All the things that happen when we're successful.
 	public EventNode successNode;
+	public string tempSuccessNode; //used while loading stuff in
 	public string successString;
 	// List of all the items that should change if this is successful.
 	public List<Storylet.IntChange> successIntChange;
@@ -31,6 +32,7 @@ public class EventNode: ScriptableObject
 
 	// All the things that happen when we're not successful
 	public EventNode failureNode;
+	public string tempFailureNode; //used while loading stuff in
 	public string failureString;
 	public List<Storylet.IntChange> failIntChange;
 	public List<Storylet.ValueChange> failValueChange;
@@ -38,7 +40,13 @@ public class EventNode: ScriptableObject
 
 	private WorldStateManager theWorld;
 
-	private void Awake()
+	// private void Awake()
+	// {
+		
+		
+	// }
+
+	private void Start()
 	{
 		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
 		Debug.Assert(theWorld != null);

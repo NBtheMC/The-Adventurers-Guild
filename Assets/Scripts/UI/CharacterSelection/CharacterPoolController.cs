@@ -88,7 +88,11 @@ public class CharacterPoolController : MonoBehaviour
     {
         // Makes a new drop point and a new character.
         GameObject newDropPoint = Instantiate(sampleDropPoint, dropPoints.transform);
-        GameObject newCharacter = Instantiate(sampleCharacter, dropPoints.transform);
+        GameObject newCharacter = Instantiate(sampleCharacter,newDropPoint.transform);
+
+        //set up name display on drop point
+        newDropPoint.transform.Find("Name").gameObject.SetActive(true);
+        newDropPoint.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
 
         // Adds both references to our internal tracking script.
         visibleDropAreas.Add((newDropPoint, newCharacter));

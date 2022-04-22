@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 //Takes in new quests and creates them on screen as UI objects
-public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
+public class QuestUI : MonoBehaviour
 {
     private QuestSheet attachedSheet;
     private Text questName;
     private Text questDescription;
     private Text questReward;
-    //private GameObject partyFormation;
-    private GameObject sendPartyButton;
-    private GameObject dropPointPrefab;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
     private CharacterSheetManager charSheetManager;
@@ -21,7 +19,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private RectTransform DropPoints;
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
-    private bool questSent = false;
+
+    // UI items to display quest breifing details.
+    public Text cmbBriefText;
+    public Text xpoBriefText;
+    public Text ngoBriefText;
+    public Text conBriefText;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,14 +38,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
-        sendPartyButton = transformer.Find("Send Party").gameObject;
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
 
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
-        dropPointPrefab = Resources.Load<GameObject>("SampleDropPoint");
     }
 
     //Creates Quest as a UI GameObject
@@ -58,6 +59,11 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //setup reward
         questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
+
+        cmbBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Combat).ToString();
+        xpoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Exploration).ToString();
+        ngoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Negotiation).ToString();
+        conBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
 
         if (!displayOnly)
         {
@@ -111,12 +117,11 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             charSheetManager.SendPartyOnQuest(this, attachedSheet);
             questingManager.StartQuest(attachedSheet);
 
-            questSent = true;
-            DestroyUI();
-
-            Destroy(questBanner);
+            //display activequestbanner
+            questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
 
             SoundManagerScript.PlaySound("stamp");
+            DestroyUI();
         }
 
     }
@@ -133,34 +138,11 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
 
-        questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+        if (questBanner != null)
+            questBanner.GetComponent<QuestBanner>().isDisplayed = false;
 
         characterPool.RefreshCharacterPool();
         Destroy(this.gameObject);
-    }
-
-    /// <summary>
-    /// For when this UI object is being dragged.
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnDrag(PointerEventData eventData)
-    {
-        transformer.position += new Vector3(eventData.delta.x, eventData.delta.y);
-    }
-
-    /// <summary>
-    /// For when this UI object is clicked.
-    /// </summary>
-    public void OnPointerDown(PointerEventData pointerEventData)
-    {
-        pointerEventData.useDragThreshold = false;
-        this.transform.SetAsLastSibling();
-        //remove drop points from dropHandler, then add them again infront
-        foreach(Transform child in DropPoints)
-        {
-            dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
-            dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
-        }
     }
 
 }

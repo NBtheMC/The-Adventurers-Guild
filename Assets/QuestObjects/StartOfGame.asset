@@ -17,10 +17,7 @@ MonoBehaviour:
   questDescription: 
   canBeInstanced: 0
   canBeDuplicated: 0
-  triggerInts:
-  - name: 
-    value: 0
-    triggerType: 0
+  triggerInts: []
   triggerValues: []
   triggerStates: []
   numInstances: 1
@@ -41,3 +38,4 @@ MonoBehaviour:
   triggerStateChanges:
   - name: AnkhegFarm
     state: 1
+  adventurer: 
