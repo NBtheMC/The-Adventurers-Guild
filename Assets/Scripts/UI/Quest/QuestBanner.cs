@@ -7,6 +7,7 @@ public class QuestBanner : MonoBehaviour
 {
 
     [HideInInspector] public QuestSheet questSheet;
+    private ItemDisplayManager displayManager;
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
@@ -16,7 +17,8 @@ public class QuestBanner : MonoBehaviour
     public void Awake()
     {
         questUIPrefab = Resources.Load<GameObject>("QuestUI");
-        QuestUISpawn = GameObject.Find("CurrentItemDisplay/Quest");
+        displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
+        QuestUISpawn = displayManager.questDisplay;
         isDisplayed = false;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += DeleteBanner;
     }
@@ -39,8 +41,11 @@ public class QuestBanner : MonoBehaviour
             return;
         if (!isDisplayed)
         {
+            displayManager.characterDisplay.SetActive(false);
+            displayManager.questDisplay.SetActive(true);
+            displayManager.debriefDisplay.SetActive(false);
             //if a quest is already displayed
-            if(QuestUISpawn.transform.childCount != 0)
+            if (QuestUISpawn.transform.childCount != 0)
             {
                 QuestUISpawn.transform.GetChild(0).GetComponent<QuestUI>().DestroyUI();
             }
@@ -67,9 +72,6 @@ public class QuestBanner : MonoBehaviour
             //add quest to QuestDisplay canvas
             questUIObj.transform.SetParent(QuestUISpawn.transform, false);
 
-            //move to bottom of child object hierarchy for rendering order reasons
-            questUIObj.transform.parent.SetAsLastSibling();
-
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
             questUI.SetupQuestUI(questSheet, questIsActive);
@@ -81,9 +83,11 @@ public class QuestBanner : MonoBehaviour
             else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
             else {SoundManagerScript.PlaySound("parchment3");}
         }
-        else
+        else if (!displayManager.questDisplay.activeInHierarchy)
         {
-            QuestUISpawn.transform.SetAsLastSibling();
+            displayManager.characterDisplay.SetActive(false);
+            displayManager.questDisplay.SetActive(true);
+            displayManager.debriefDisplay.SetActive(false);
         }
     }
 

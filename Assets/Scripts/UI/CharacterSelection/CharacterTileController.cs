@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
-    private CharacterBookManager CharBook;
+    private ItemDisplayManager displayManager;
     private GameObject CharInfoSpawn;
     private GameObject CharInfoUIPrefab;
     [SerializeField] private float movementDelta = 0;
@@ -16,8 +16,8 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void Awake()
     {
-        CharBook = GameObject.Find("CharInfoBook").GetComponent<CharacterBookManager>();
-        CharInfoSpawn = GameObject.Find("CurrentItemDisplay/CharInfo");
+        displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
+        CharInfoSpawn = displayManager.characterDisplay;
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
     }
 
@@ -38,10 +38,11 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
         if ((Mathf.Abs(deltaX) < movementDelta && Mathf.Abs(deltaY) < movementDelta))
         {
-            if (!isDisplayed)
+            if (!isDisplayed || !displayManager.characterDisplay.activeInHierarchy)
             {
-
-
+                displayManager.characterDisplay.SetActive(true);
+                displayManager.questDisplay.SetActive(false);
+                displayManager.debriefDisplay.SetActive(false);
                 if (CharInfoSpawn.transform.childCount != 0)
                 {
                     CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
@@ -52,6 +53,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
                 CharInfoUIObject.transform.parent.SetAsLastSibling();
                 CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
                 characterInfoUI.charObject = this.gameObject;
+
                 characterInfoUI.SetupCharacterInfoUI(characterSheet);
 
                 //Add character portrait
@@ -62,10 +64,6 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
                 }
 
                 isDisplayed = true;
-            }
-            else 
-            {
-                CharInfoSpawn.transform.SetAsLastSibling();
             }
         }
     }
