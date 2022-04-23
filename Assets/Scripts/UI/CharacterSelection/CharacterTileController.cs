@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
-    private ItemDisplayManager displayManager;
+    [HideInInspector] public ItemDisplayManager displayManager;
     private GameObject CharInfoSpawn;
     private GameObject CharInfoUIPrefab;
     [SerializeField] private float movementDelta = 0;
@@ -40,15 +40,12 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         {
             if (!isDisplayed || !displayManager.characterDisplay.activeInHierarchy)
             {
-                displayManager.characterDisplay.SetActive(true);
-                displayManager.questDisplay.SetActive(false);
-                displayManager.debriefDisplay.SetActive(false);
+                displayManager.DisplayCharacter(true);
                 if (CharInfoSpawn.transform.childCount != 0)
                 {
                     CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
                 }
 
-                //CharBook.DisplayCharacter(characterSheet);
                 GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
                 CharInfoUIObject.transform.parent.SetAsLastSibling();
                 CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
@@ -59,11 +56,14 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
                 //Add character portrait
                 if (characterSheet.portrait != null)
                 {
-                    //CharInfoUIObject.AddComponent<Image>().sprite = character.portrait;
                     CharInfoUIObject.transform.Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
                 }
 
                 isDisplayed = true;
+            }
+            else if(isDisplayed && displayManager.characterDisplay.activeInHierarchy)
+            {
+                displayManager.DisplayCharacter(false);
             }
         }
     }

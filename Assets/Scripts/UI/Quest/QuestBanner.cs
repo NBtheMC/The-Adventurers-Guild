@@ -7,7 +7,7 @@ public class QuestBanner : MonoBehaviour
 {
 
     [HideInInspector] public QuestSheet questSheet;
-    private ItemDisplayManager displayManager;
+    [HideInInspector] public ItemDisplayManager displayManager;
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
@@ -41,10 +41,9 @@ public class QuestBanner : MonoBehaviour
             return;
         if (!isDisplayed)
         {
-            displayManager.characterDisplay.SetActive(false);
-            displayManager.questDisplay.SetActive(true);
-            displayManager.debriefDisplay.SetActive(false);
-            //if a quest is already displayed
+            displayManager.DisplayQuest(true);
+
+            //if a different quest is in the display manager, remove it
             if (QuestUISpawn.transform.childCount != 0)
             {
                 QuestUISpawn.transform.GetChild(0).GetComponent<QuestUI>().DestroyUI();
@@ -52,6 +51,7 @@ public class QuestBanner : MonoBehaviour
 
             GameObject questUIObj = Instantiate(questUIPrefab);
             
+            //if quest is marked as active, deactivate extra buttons
             if(questIsActive)
             {
                 questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
@@ -75,7 +75,6 @@ public class QuestBanner : MonoBehaviour
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
             questUI.SetupQuestUI(questSheet, questIsActive);
-            Debug.Log(questSheet.questName);
             isDisplayed = true;
 
             var i = UnityEngine.Random.Range(0, 3);
@@ -83,11 +82,13 @@ public class QuestBanner : MonoBehaviour
             else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
             else {SoundManagerScript.PlaySound("parchment3");}
         }
-        else if (!displayManager.questDisplay.activeInHierarchy)
+        else if (isDisplayed && !displayManager.questDisplay.activeInHierarchy)
         {
-            displayManager.characterDisplay.SetActive(false);
-            displayManager.questDisplay.SetActive(true);
-            displayManager.debriefDisplay.SetActive(false);
+            displayManager.DisplayQuest(true);
+        }
+        else if (isDisplayed && displayManager.questDisplay.activeInHierarchy)
+        {
+            displayManager.DisplayQuest(false);
         }
     }
 

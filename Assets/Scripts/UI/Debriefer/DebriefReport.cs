@@ -6,21 +6,26 @@ using TMPro;
 
 public class DebriefReport : MonoBehaviour
 {
-    public TextMeshProUGUI mainBriefingText;
+	public TextMeshProUGUI mainBriefingText;
 	public DebriefTracker debriefTracker;
 	public Text PageNumber;
+
 	private int day;
+	private ItemDisplayManager displayManager;
+	[HideInInspector]  public bool isDisplayed = false;
 
 	private void Start()
 	{
 		day = 0;
-		this.gameObject.SetActive(false);
+		//this.gameObject.SetActive(false);
+		displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
 	}
 
 	public void ToggleDisplay()
     {
-		print("toggle display");
-		this.gameObject.SetActive(!this.gameObject.activeSelf);
+		isDisplayed = !isDisplayed;
+		print(isDisplayed);
+		displayManager.DisplayDebrief(isDisplayed);
 	}
 
 	private void OnEnable()

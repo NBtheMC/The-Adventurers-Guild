@@ -21,7 +21,6 @@ public class DebriefDisplayController : MonoBehaviour
     public void ButtonPressed()
     {
         isDisplayed = !isDisplayed;
-        itemDisplay.SetActive(!itemDisplay.activeSelf);
         reportIndicator.SetActive(false);
     }
 
