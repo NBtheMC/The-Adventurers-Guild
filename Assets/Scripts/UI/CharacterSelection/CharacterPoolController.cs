@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class CharacterPoolController : MonoBehaviour
 {
     public bool testingScript; // To see if we're in testing mode or not.
-    public DropHandler dropHandler; // So we can tell it whenever we add or remove dropPoints.
-    public GameObject sampleDropPoint; // For us to instantiate new Drop Points with
+    //public DropHandler dropHandler; // So we can tell it whenever we add or remove dropPoints.
+    public GameObject characterSlot; // For us to instantiate new Drop Points with
     public GameObject sampleCharacter; // For us to instantiate new characters with.
     public int maxColSize; // How many characters can appear vertically before we start a new column.
     public int pixelSeperatorWidth; // How much space we want to give to the generated icons.
@@ -15,10 +15,11 @@ public class CharacterPoolController : MonoBehaviour
     private List<CharacterSheet> activeRole; // The current list of characters we're using.
     private int lastPlacedRow;
     private int lastPlacedCol;
+    private int characterSlots; //current number of character slots visible
     private List<(GameObject dropPoint, GameObject character)> visibleDropAreas; // A List of all the drop areas we currently see.
 
     private CharacterSheetManager characterManager;
-    private RectTransform dropPoints;
+    private RectTransform slotPoints;
 
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class CharacterPoolController : MonoBehaviour
         lastPlacedRow = maxColSize;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
-        dropPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
+        slotPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
 	}
 
     // Start is called before the first frame update
@@ -63,7 +64,7 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     public void RefreshCharacterPool()
     {
-        dropHandler.ClearDropPoints();
+        //dropHandler.ClearDropPoints();
 
         foreach ((GameObject, GameObject) thing in visibleDropAreas)
         {
@@ -87,51 +88,21 @@ public class CharacterPoolController : MonoBehaviour
     private void GenerateNewDropPair(CharacterSheet characterToPair)
     {
         // Makes a new drop point and a new character.
-        GameObject newDropPoint = Instantiate(sampleDropPoint, dropPoints.transform);
-        GameObject newCharacter = Instantiate(sampleCharacter,newDropPoint.transform);
+        GameObject newCaracterSlot = Instantiate(characterSlot, slotPoints.transform);
+        GameObject newCharacter = Instantiate(sampleCharacter,newCaracterSlot.transform);
 
         //set up name display on drop point
-        newDropPoint.transform.Find("Name").gameObject.SetActive(true);
-        newDropPoint.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
+        newCaracterSlot.transform.Find("Name").gameObject.SetActive(true);
+        newCaracterSlot.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
 
-        // Adds both references to our internal tracking script.
-        visibleDropAreas.Add((newDropPoint, newCharacter));
-
-        // Reference to their scripts.
-        ObjectDropPoint dropPointController = newDropPoint.GetComponent<ObjectDropPoint>();
-        DraggerController characterController = newCharacter.GetComponent<DraggerController>();
-
-        //give newCharacter object reference to the CharacterSheet
         newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
 
-        // Tells drop point who is suppose to sit on it.
-        dropPointController.heldObject = characterController;
+        //set positions of character slots
+        newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(20,-30 - (characterSlots*50),0);
+        newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
 
-        // Places the drop point where it's suppose to go.
-        if (lastPlacedRow == maxColSize)
-        {
-            lastPlacedCol++;
-            lastPlacedRow = 0;
-        }
-        else { lastPlacedRow++; }
-        float calcXPos = 15 + (lastPlacedRow * (newCharacter.GetComponent<RectTransform>().rect.width + pixelSeperatorWidth));
-        float calcYPos = -20 + (lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height + pixelSeperatorWidth) * -1);
+        characterSlots++;
 
-        dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
-
-        // Tells dropHandler that we have a new dropPoint.
-        //This is where drop points are added in the drop handler
-        dropHandler.AddDropPoint(dropPointController);
-
-        // Tells the dropPointController that it should only take characters.
-        dropPointController.dropType = DropHandler.DropType.character;
-
-        // Gives the new character a home drop point, hands it the new dropHandler, and tells it what it's purpose is.
-        characterController.objectDropPoint = dropPointController;
-        characterController.dropHandler = dropHandler;
-        characterController.dropType = DropHandler.DropType.character;
-
-        //assign portrait if it exists
         if(characterToPair.portrait != null)
         {
             newCharacter.GetComponent<Image>().sprite = characterToPair.portrait;
