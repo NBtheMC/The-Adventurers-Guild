@@ -13,21 +13,17 @@ public class CharacterPoolController : MonoBehaviour
     public int pixelSeperatorWidth; // How much space we want to give to the generated icons.
 
     private List<CharacterSheet> activeRole; // The current list of characters we're using.
-    private int lastPlacedRow;
-    private int lastPlacedCol;
-    private int characterSlots; //current number of character slots visible
-    private List<(GameObject dropPoint, GameObject character)> visibleDropAreas; // A List of all the drop areas we currently see.
+    private int numCharacterSlots; //current number of character slots visible
+    private List<(GameObject slot, GameObject character)> characterSlots; // A List of all the drop areas we currently see.
 
     private CharacterSheetManager characterManager;
     private RectTransform slotPoints;
 
     private void Awake()
     {
-        visibleDropAreas = new List<(GameObject dropPoint, GameObject character)>();
+        characterSlots = new List<(GameObject dropPoint, GameObject character)>();
         activeRole = new List<CharacterSheet>();
         // We're assuming some previous point to set the last point.
-        lastPlacedCol = -1;
-        lastPlacedRow = maxColSize;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         slotPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
@@ -39,7 +35,6 @@ public class CharacterPoolController : MonoBehaviour
         foreach (CharacterSheet character in characterManager.FreeAdventurers)
         {
             activeRole.Add(character);
-
         }
         RefreshCharacterPool();
 
@@ -66,7 +61,7 @@ public class CharacterPoolController : MonoBehaviour
     {
         //dropHandler.ClearDropPoints();
 
-        foreach ((GameObject, GameObject) thing in visibleDropAreas)
+        foreach ((GameObject, GameObject) thing in characterSlots)
         {
             Destroy(thing.Item1);
             Destroy(thing.Item2);
@@ -76,9 +71,6 @@ public class CharacterPoolController : MonoBehaviour
         {
             GenerateNewDropPair(character);
         }
-
-        lastPlacedCol = -1;
-        lastPlacedRow = maxColSize;
     }
 
     /// <summary>
@@ -98,10 +90,11 @@ public class CharacterPoolController : MonoBehaviour
         newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
 
         //set positions of character slots
-        newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(20,-30 - (characterSlots*50),0);
+        newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(20,-30 - (numCharacterSlots*50),0);
         newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
 
-        characterSlots++;
+        numCharacterSlots++;
+        characterSlots.Add((newCaracterSlot, newCharacter));
 
         if(characterToPair.portrait != null)
         {
