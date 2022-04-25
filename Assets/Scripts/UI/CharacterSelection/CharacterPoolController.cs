@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class CharacterPoolController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class CharacterPoolController : MonoBehaviour
 
     private CharacterSheetManager characterManager;
     private RectTransform slotPoints;
+
+    public event EventHandler<CharacterSheet> CharacterClickedOnEvent;
 
     private void Awake()
     {
@@ -39,6 +42,8 @@ public class CharacterPoolController : MonoBehaviour
         RefreshCharacterPool();
 
         GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterChange += CharacterPoolController_RosterChange;
+
+        CharacterClickedOnEvent += TestEvent;
     }
 
     private void CharacterPoolController_RosterChange(object source, System.EventArgs e)
@@ -93,14 +98,22 @@ public class CharacterPoolController : MonoBehaviour
         newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(20,-30 - (numCharacterSlots*50),0);
         newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
 
+        newCharacter.GetComponent<Button>().onClick.AddListener(delegate { CharacterClickedOnEvent(this, characterToPair); });
+        
         numCharacterSlots++;
         characterSlots.Add((newCaracterSlot, newCharacter));
+
 
         if(characterToPair.portrait != null)
         {
             newCharacter.GetComponent<Image>().sprite = characterToPair.portrait;
             newCharacter.GetComponent<Image>().color = Color.white;
         }
+    }
+
+    public void TestEvent(object src, CharacterSheet sheet)
+    {
+        Debug.Log("Clicked on: " + sheet.name);
     }
 
     /// <summary>
