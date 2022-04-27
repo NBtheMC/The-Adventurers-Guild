@@ -191,17 +191,19 @@ public class CSVToQuests : MonoBehaviour
             string successNodestring = eventData[i+3].Split('\t')[1]; // row 4, col b - success node string
             string successDetailstring = eventData[i+3].Split('\t')[2]; // row 4, col c - success detail strin
             string[] successIntChangestring = eventData[i+4].Split('\t'); // row 5 basically the entire success int line.
-
-
+            string[] successFloatChangestring = eventData[i+5].Split('\t'); // row 6, all succcess value lines.
+            string[] successBoolChangestring = eventData[i+6].Split('\t'); // row 7, all success boolean lines.
+            string failNodestring = eventData[i+7].Split('\t')[1]; // row 8, col b - fail node
+            string failDetailstring = eventData[i+7].Split('\t')[2]; // row 8, col c - fail detail string.
+            string[] failIntChangeString = eventData[i + 8].Split('\t'); // row 9, all fail int lines.
+            string[] failFloatChangeString = eventData[i + 9].Split('\t'); // row 10, all fail float lines.
+            string[] failBoolChangestring = eventData[i + 10].Split('\t'); // row 11, all bool float lines.
 
             // Making the node.
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>(); //this needs a proper constructor
             // The following is all dedicated to putting the damn thing into the EventNode
             newEvent.name = nameString;
             newEvent.description = eventDescription;
-            newEvent.DC = int.Parse(DCstring);
-            newEvent.time = int.Parse(timeString);
-            if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
             switch(stat){
                 case "Combat":
                     newEvent.stat =  CharacterSheet.StatDescriptors.Combat;
@@ -215,49 +217,41 @@ public class CSVToQuests : MonoBehaviour
                 case "Constitution":
                     newEvent.stat =  CharacterSheet.StatDescriptors.Constitution;
                     break;
+                default:
+                    Debug.LogError($"Stat not correct in line {i+1}");
+                    break;
             }
+            newEvent.DC = int.Parse(DCstring);
+            newEvent.time = int.Parse(timeString);
+            if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
 
             //success stuff
             newEvent.tempSuccessNode = eventData[i+3].Split('\t')[1];
             //newEvent.successNode = allEvents.Find(e => head.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID()))));
             newEvent.successString = eventData[i+3].Split('\t')[2];
 
-            string[] csvSuccessIntChanges = eventData[i+4].Split('\t'); //can be multiple
             List<Storylet.IntChange> successIntChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < csvSuccessIntChanges.Length; j+=3){
-                Storylet.NumberTriggerType sign;
-                //get type of sign
-                switch (csvSuccessIntChanges[j+1]){
-                    case "<":
-                        sign = Storylet.NumberTriggerType.LessThan;
-                        break;
-                    case "<=":
-                        sign = Storylet.NumberTriggerType.LessThanEqualTo;
-                        break;
-                    case "equals":
-                        sign = Storylet.NumberTriggerType.EqualTo;
-                        break;
-                    case ">":
-                        sign = Storylet.NumberTriggerType.GreaterThan;
-                        break;
-                    case ">=":
-                        sign = Storylet.NumberTriggerType.GreaterThanEqualTo;
-                        break;
-                }
+            for(int j = 1; j < successIntChangestring.Length; j+=2){
+                // get the three string values.
+                string nameOfVariable = successIntChangestring[j];
+                if(nameOfVariable == "") { continue; }
+                string valueString = successIntChangestring[j+1];
+
                 //Do extra parsing
                 Storylet.IntChange newSuccessIntChange = new Storylet.IntChange();
-
+                newSuccessIntChange.name = nameOfVariable;
+                newSuccessIntChange.value = int.Parse(valueString);
                 successIntChanges.Add(newSuccessIntChange);
             }
             newEvent.successIntChange = successIntChanges;
 
-            string[] csvSuccessValueChanges = eventData[i+8].Split('\t'); //can be multiple
+            // Success Float Parsing.
             List<Storylet.ValueChange> successValueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < csvSuccessValueChanges.Length; j+=3){
+            for(int j = 1; j < successFloatChangestring.Length; j+=3){
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
                 Storylet.NumberTriggerType sign;
                 //get type of sign
-                switch (csvSuccessValueChanges[j+1]){
+                switch (successFloatChangestring[j+1]){
                     case "<":
                         sign = Storylet.NumberTriggerType.LessThan;
                         break;
