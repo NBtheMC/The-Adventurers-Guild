@@ -12,6 +12,8 @@ public class CSVToQuests : MonoBehaviour
     public List<Storylet> allStorylets;
     public List<EventNode> allEvents;
 
+    private Dictionary<string,EventNode> eventLookup;
+
     public void MakeEverything(){
         MakeEvents();
         MakeStorylets();
@@ -28,6 +30,8 @@ public class CSVToQuests : MonoBehaviour
     //Pull data from storylets csv and makes 1 event per grouping
     //New event denoted by Storylet name row
     public void MakeStorylets(){
+        if (eventLookup == null) {Debug.LogError("MakeStorylets() was callled before MakeEvents. Call MakeEvents first");}
+
         string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
         for(int i = 0; i < storyletData.Length - 8; i += 8){ //8 is however many properties there are
             Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
@@ -179,28 +183,44 @@ public class CSVToQuests : MonoBehaviour
     //failure string, 
     public void MakeEvents(){
         string[] eventData = csvEvents.text.Split(new char[] {'\n'});
-        for(int i = 0; i < eventData.Length; i += 11){ //15 is however many properties there are
+        List<string[]> eventNodeStringPackages = new List<string[]>();
+        eventLookup = new Dictionary<string, EventNode>();
+        // Gets every single event package and seperates them into nice little packets.
+        for(int i = 0; i < eventData.Length; i += 11){
+            string[] eventNodepackage = new string[11];
+            System.Array.Copy(eventData, i,eventNodepackage,0,11); //If it errors out here, it's most likely the inputs aren't on 11 scale anymore.
+        }
+
+        //Premake an event Node connection for assignment later.
+        foreach(string[] eventNodePackage in eventNodeStringPackages){
+            EventNode newEvent = ScriptableObject.CreateInstance<EventNode>();
+            string eventDescription = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
+            eventLookup.Add(eventDescription, newEvent);
+        }
+
+
+        foreach(string[] eventNodePackage in eventNodeStringPackages) { //11 is however many properties there are
             
             // getting all the properties 
-            string nameString = eventData[i].Split('\t')[1]; // row 1, col b - EventName
-            string eventDescription = eventData[i].Split('\t')[2]; // row 1, col b - Event Name
-            string stat = eventData[i+1].Split('\t')[1]; // row 2, col b - Stat
-            string DCstring = eventData[i+1].Split('\t')[2]; //row 2, col c - DC to check
-            string timeString = eventData[i+2].Split('\t')[1]; //row 3, col b - Time to take
-            string rewardString = eventData[i+2].Split('\t')[2]; // row 3, col c - the reward space
-            string successNodestring = eventData[i+3].Split('\t')[1]; // row 4, col b - success node string
-            string successDetailstring = eventData[i+3].Split('\t')[2]; // row 4, col c - success detail strin
-            string[] successIntChangestring = eventData[i+4].Split('\t'); // row 5 basically the entire success int line.
-            string[] successFloatChangestring = eventData[i+5].Split('\t'); // row 6, all succcess value lines.
-            string[] successBoolChangestring = eventData[i+6].Split('\t'); // row 7, all success boolean lines.
-            string failNodestring = eventData[i+7].Split('\t')[1]; // row 8, col b - fail node
-            string failDetailstring = eventData[i+7].Split('\t')[2]; // row 8, col c - fail detail string.
-            string[] failIntChangeString = eventData[i + 8].Split('\t'); // row 9, all fail int lines.
-            string[] failFloatChangeString = eventData[i + 9].Split('\t'); // row 10, all fail float lines.
-            string[] failBoolChangestring = eventData[i + 10].Split('\t'); // row 11, all bool float lines.
+            string nameString = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
+            string eventDescription = eventNodePackage[0].Split('\t')[2]; // row 1, col c - Event Description
+            string stat = eventNodePackage[1].Split('\t')[1]; // row 2, col b - Stat
+            string DCstring = eventNodePackage[1].Split('\t')[2]; //row 2, col c - DC to check
+            string timeString = eventNodePackage[2].Split('\t')[1]; //row 3, col b - Time to take
+            string rewardString = eventNodePackage[2].Split('\t')[2]; // row 3, col c - the reward space
+            string successNodestring = eventNodePackage[3].Split('\t')[1]; // row 4, col b - success node string
+            string successDetailstring = eventNodePackage[3].Split('\t')[2]; // row 4, col c - success detail strin
+            string[] successIntChangestring = eventNodePackage[4].Split('\t'); // row 5 basically the entire success int line.
+            string[] successFloatChangestring = eventNodePackage[5].Split('\t'); // row 6, all succcess value lines.
+            string[] successBoolChangestring = eventNodePackage[6].Split('\t'); // row 7, all success boolean lines.
+            string failNodestring = eventNodePackage[7].Split('\t')[1]; // row 8, col b - fail node
+            string failDetailstring = eventNodePackage[7].Split('\t')[2]; // row 8, col c - fail detail string.
+            string[] failIntChangeString = eventNodePackage[8].Split('\t'); // row 9, all fail int lines.
+            string[] failFloatChangeString = eventNodePackage[9].Split('\t'); // row 10, all fail float lines.
+            string[] failBoolChangestring = eventNodePackage[10].Split('\t'); // row 11, all bool float lines.
 
             // Making the node.
-            EventNode newEvent = ScriptableObject.CreateInstance<EventNode>(); //this needs a proper constructor
+            EventNode newEvent = eventLookup[nameString]; //this needs a proper constructor
             // The following is all dedicated to putting the damn thing into the EventNode
             newEvent.name = nameString;
             newEvent.description = eventDescription;
@@ -218,111 +238,121 @@ public class CSVToQuests : MonoBehaviour
                     newEvent.stat =  CharacterSheet.StatDescriptors.Constitution;
                     break;
                 default:
-                    Debug.LogError($"Stat not correct in line {i+1}");
+                    Debug.LogError($"Stat not correct in node {nameString}");
                     break;
             }
             newEvent.DC = int.Parse(DCstring);
             newEvent.time = int.Parse(timeString);
             if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
 
-            //success stuff
-            newEvent.tempSuccessNode = eventData[i+3].Split('\t')[1];
-            //newEvent.successNode = allEvents.Find(e => head.Equals(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID()))));
-            newEvent.successString = eventData[i+3].Split('\t')[2];
+            // adds new connection to the successNode.
+            newEvent.successNode = eventLookup[successNodestring];
+            newEvent.successString = successDetailstring;
 
+            // Success Int Parsing.
             List<Storylet.IntChange> successIntChanges = new List<Storylet.IntChange>();
             for(int j = 1; j < successIntChangestring.Length; j+=2){
-                // get the three string values.
+                // get the two string variables: name, and change amount.
                 string nameOfVariable = successIntChangestring[j];
                 if(nameOfVariable == "") { continue; }
                 string valueString = successIntChangestring[j+1];
+                if(valueString == "") { Debug.LogError($"Int Variable for node {nameString} success, column {j+1} is not formated correctly."); continue; }
 
-                //Do extra parsing
-                Storylet.IntChange newSuccessIntChange = new Storylet.IntChange();
-                newSuccessIntChange.name = nameOfVariable;
-                newSuccessIntChange.value = int.Parse(valueString);
-                successIntChanges.Add(newSuccessIntChange);
+                // Create the new items from storylets.
+                Storylet.IntChange newSuccessIntChange = new Storylet.IntChange(); //instantiate the storylet.
+                newSuccessIntChange.name = nameOfVariable; //put the name in.
+                newSuccessIntChange.value = int.Parse(valueString); //put the value of the int in.
+                successIntChanges.Add(newSuccessIntChange); // put the trigger in
             }
-            newEvent.successIntChange = successIntChanges;
+            newEvent.successIntChange = successIntChanges; // put all the triggers into the node.
 
             // Success Float Parsing.
             List<Storylet.ValueChange> successValueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < successFloatChangestring.Length; j+=3){
-                Storylet.ValueChange newValueChange = new Storylet.ValueChange();
-                Storylet.NumberTriggerType sign;
-                //get type of sign
-                switch (successFloatChangestring[j+1]){
-                    case "<":
-                        sign = Storylet.NumberTriggerType.LessThan;
-                        break;
-                    case "<=":
-                        sign = Storylet.NumberTriggerType.LessThanEqualTo;
-                        break;
-                    case "equals":
-                        sign = Storylet.NumberTriggerType.EqualTo;
-                        break;
-                    case ">":
-                        sign = Storylet.NumberTriggerType.GreaterThan;
-                        break;
-                    case ">=":
-                        sign = Storylet.NumberTriggerType.GreaterThanEqualTo;
-                        break;
-                }
-                Storylet.ValueChange newSuccessValueChange = new Storylet.ValueChange();
-                successValueChanges.Add(newSuccessValueChange);
-            }
-            newEvent.successValueChange = successValueChanges;
+            for(int j = 1; j < successFloatChangestring.Length; j+=2){
+                // get the values out.
+                string nameOfVariable = successFloatChangestring[j];
+                if(nameOfVariable ==  "") {continue;}
+                float inputFloat;
+                if(!float.TryParse(successFloatChangestring[j+1], out inputFloat)){ Debug.LogError($"Float Variable for node {nameString} success, column {j+1} is not formated correctly."); continue; }
 
-            string[] csvSuccessStateChanges = eventData[i+9].Split('\t'); //can be multiple
+                // Create the new items from storylets.
+                Storylet.ValueChange newSuccessFloatChange = new Storylet.ValueChange();
+                newSuccessFloatChange.name = nameOfVariable; // put the name in.
+                newSuccessFloatChange.value = inputFloat; // put the value in.
+                successValueChanges.Add(newSuccessFloatChange); // add the new change to the list.
+            }
+            newEvent.successValueChange = successValueChanges; // add the list to the node.\
+
+            // Succcess Bool Parsing
             List<Storylet.StateChange> successStateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < csvSuccessStateChanges.Length; j+=2){
-                Storylet.StateChange newStateChange = new Storylet.StateChange();
-                string successStateChange = csvSuccessStateChanges[j];
-                //Do extra parsing
-                successStateChanges.Add(newStateChange);
+            for(int j = 1; j < successBoolChangestring.Length; j+=2){
+                // get the values out.
+                string nameOfVariable = successBoolChangestring[j];
+                if(nameOfVariable ==  "") {continue;}
+                bool inputBool;
+                if(!bool.TryParse(successBoolChangestring[j+1], out inputBool)){ Debug.LogError($"Bool Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
+
+                // Create the new items from storylets.
+                Storylet.StateChange newSuccessBoolChange = new Storylet.StateChange();
+                newSuccessBoolChange.name = nameOfVariable; // put the name in.
+                newSuccessBoolChange.state = inputBool; // put the value in.
+                successStateChanges.Add(newSuccessBoolChange); // add the new change to the list.
             }
             newEvent.successStateChange = successStateChanges;
 
-            //fail stuff
-            newEvent.tempFailureNode = eventData[i+10].Split('\t')[1];
-            newEvent.failureString = eventData[i+11].Split('\t')[1];
-            string[] csvFailIntChanges = eventData[i+12].Split('\t'); //can be multiple
+            newEvent.failureNode = eventLookup[failNodestring];
+            newEvent.failureString = failDetailstring;
+
+            // Fail Int Parsing
             List<Storylet.IntChange> failIntChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < csvFailIntChanges.Length; j+=3){
-                Storylet.IntChange newIntChange = new Storylet.IntChange();
-                string failIntChange = csvFailIntChanges[j];
-                //Do extra parsing
-                failIntChanges.Add(newIntChange);
+            for(int j = 1; j < failIntChangeString.Length; j+=2){
+                // get the two string variables: name, and change amount.
+                string nameOfVariable = failIntChangeString[j];
+                if(nameOfVariable == "") { continue; }
+                int inputInt;
+                if(!int.TryParse(failFloatChangeString[j+1], out inputInt)) { Debug.LogError($"Int Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
+
+                // Create the new items from storylets.
+                Storylet.IntChange newFailIntChange = new Storylet.IntChange(); //instantiate the storylet.
+                newFailIntChange.name = nameOfVariable; //put the name in.
+                newFailIntChange.value = inputInt; //put the value of the int in.
+                failIntChanges.Add(newFailIntChange); // put the trigger in
             }
             newEvent.failIntChange = failIntChanges;
 
-            string[] csvFailValueChanges = eventData[i+13].Split('\t'); //can be multiple
+            // Fail Value Parsing.
             List<Storylet.ValueChange> failValueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < csvFailValueChanges.Length; j+=3){
-                Storylet.ValueChange newValueChange = new Storylet.ValueChange();
-                string failValueChange = csvFailValueChanges[j];
-                //Do extra parsing
-                failValueChanges.Add(newValueChange);
-            }
-            newEvent.failValueChange = failValueChanges;
+            for(int j = 1; j < failFloatChangeString.Length; j+=3){
+                // get the values out.
+                string nameOfVariable = successFloatChangestring[j];
+                if(nameOfVariable ==  "") {continue;}
+                float inputFloat;
+                if(!float.TryParse(successFloatChangestring[j+1], out inputFloat)){ Debug.LogError($"Float Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
 
-            string[] csvFailStateChanges = eventData[i+14].Split('\t'); //can be multiple
+                // Create the new items from storylets.
+                Storylet.ValueChange newFloatChange = new Storylet.ValueChange();
+                newFloatChange.name = nameOfVariable; // put the name in.
+                newFloatChange.value = inputFloat; // put the value in.
+                failValueChanges.Add(newFloatChange); // add the new change to the list.
+            }
+            newEvent.failValueChange = failValueChanges; // add the list to the node.\
+
+            // Fail Bool Parsing
             List<Storylet.StateChange> failStateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < csvFailStateChanges.Length; j+=2){
-                Storylet.StateChange newStateChange = new Storylet.StateChange();
-                string failStateChange = csvFailStateChanges[j];
-                //Do extra parsing
-                failStateChanges.Add(newStateChange);
+            for(int j = 1; j < failBoolChangestring.Length; j+=2){
+                // get the values out.
+                string nameOfVariable = failBoolChangestring[j];
+                if(nameOfVariable ==  "") {continue;}
+                bool inputBool;
+                if(!bool.TryParse(failBoolChangestring[j+1], out inputBool)){ Debug.LogError($"Bool Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
+
+                // Create the new items from storylets.
+                Storylet.StateChange newBoolChange = new Storylet.StateChange();
+                newBoolChange.name = nameOfVariable; // put the name in.
+                newBoolChange.state = inputBool; // put the value in.
+                failStateChanges.Add(newBoolChange); // add the new change to the list.
             }
             newEvent.failStateChange = failStateChanges;
-            allEvents.Add(newEvent);
-            Debug.Log("Event added: " + newEvent.description);
-        }
-        foreach(EventNode eventToAttach in allEvents){
-            //success node
-            eventToAttach.successNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempSuccessNode));
-            //failure node
-            eventToAttach.failureNode = allEvents.Find(f => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(f.GetInstanceID())).Contains(eventToAttach.tempFailureNode));
         }
     }
 }
