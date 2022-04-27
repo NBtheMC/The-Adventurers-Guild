@@ -98,7 +98,7 @@ public class CharacterPoolController : MonoBehaviour
         newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(20,-30 - (numCharacterSlots*50),0);
         newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
 
-        newCharacter.GetComponent<Button>().onClick.AddListener(delegate { CharacterClickedOnEvent(this, characterToPair); });
+        // newCharacter.GetComponent<Button>().onClick.AddListener(delegate { CharacterClickedOnEvent(this, characterToPair); });
         
         numCharacterSlots++;
         characterSlots.Add((newCaracterSlot, newCharacter));
