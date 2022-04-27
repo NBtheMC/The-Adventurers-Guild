@@ -90,6 +90,10 @@ public class CharacterPoolController : MonoBehaviour
         GameObject newDropPoint = Instantiate(sampleDropPoint, dropPoints.transform);
         GameObject newCharacter = Instantiate(sampleCharacter,newDropPoint.transform);
 
+        //scale character up and set its position
+        newCharacter.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        newCharacter.transform.localPosition = newDropPoint.transform.Find("Portrait").localPosition;
+
         //set up name display on drop point
         newDropPoint.transform.Find("Name").gameObject.SetActive(true);
         newDropPoint.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
@@ -114,8 +118,8 @@ public class CharacterPoolController : MonoBehaviour
             lastPlacedRow = 0;
         }
         else { lastPlacedRow++; }
-        float calcXPos = 15 + (lastPlacedRow * (newCharacter.GetComponent<RectTransform>().rect.width + pixelSeperatorWidth));
-        float calcYPos = -20 + (lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height + pixelSeperatorWidth) * -1);
+        float calcXPos = (lastPlacedRow * (newCharacter.GetComponent<RectTransform>().rect.width + pixelSeperatorWidth));
+        float calcYPos = -10 + (lastPlacedCol * (newCharacter.GetComponent<RectTransform>().rect.height + pixelSeperatorWidth) * -1);
 
         dropPointController.GetComponent<RectTransform>().anchoredPosition = new Vector3(calcXPos, calcYPos);
 
@@ -137,6 +141,8 @@ public class CharacterPoolController : MonoBehaviour
             newCharacter.GetComponent<Image>().sprite = characterToPair.portrait;
             newCharacter.GetComponent<Image>().color = Color.white;
         }
+
+        print(newCharacter.transform.localPosition);
     }
 
     /// <summary>

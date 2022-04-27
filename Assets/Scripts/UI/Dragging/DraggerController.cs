@@ -21,17 +21,23 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
     private bool beingDragged = false;
     private Transform QuestDisplayTransform;
+    private Transform Portrait;
 
     void Awake()
     {
         transformer = this.GetComponent<RectTransform>();
         QuestDisplayTransform = GameObject.Find("QuestDisplayManager/QuestDisplay").transform;
+        Portrait = transform.parent.Find("Portrait");
     }
 
     void Update()
 	{
         // Keeps character locked to their drop point as long as it's not being dragged.
-        if (beingDragged == false) { transformer.position = objectDropPoint.GetComponent<RectTransform>().position; }
+        if (beingDragged == false) 
+        {
+            //transformer.position = objectDropPoint.GetComponent<RectTransform>().position;
+            transformer.position = Portrait.position;
+        }
         //this.transform.parent.transform.SetAsLastSibling();
 	}
 
@@ -51,9 +57,11 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             return;
         beingDragged = true;
 
-        //disable name display on old drop point
+        //set character drop point to unassigned state
         GameObject oldDropPoint = this.transform.parent.gameObject;
         oldDropPoint.transform.Find("Name").gameObject.SetActive(false);
+        oldDropPoint.transform.Find("EmptyCharacter").gameObject.SetActive(true);
+        oldDropPoint.transform.Find("FilledCharacter").gameObject.SetActive(false);
 
         this.transform.SetParent(QuestDisplayTransform);
         var i = Random.Range(0, 2);
@@ -93,6 +101,11 @@ public class DraggerController : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         GameObject characterName = objectDropPoint.transform.Find("Name").gameObject;
         characterName.SetActive(true);
         characterName.GetComponent<Text>().text = this.gameObject.GetComponent<CharacterTileController>().characterSheet.name;
+
+        objectDropPoint.transform.Find("EmptyCharacter").gameObject.SetActive(false);
+        objectDropPoint.transform.Find("FilledCharacter").gameObject.SetActive(true);
+
+        Portrait = transform.parent.Find("Portrait");
     }
 
     public void RefreshCharacterOnDrop(){

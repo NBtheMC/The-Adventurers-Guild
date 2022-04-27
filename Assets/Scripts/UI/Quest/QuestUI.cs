@@ -58,7 +58,7 @@ public class QuestUI : MonoBehaviour
         //setup first event
 
         //setup reward
-        questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
+        questReward.text = string.Format("{0}", attachedSheet.EstimatedRewardTotal());
 
         cmbBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Combat).ToString();
         xpoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Exploration).ToString();

@@ -422,10 +422,10 @@ RectTransform:
   m_Father: {fileID: 5698263808138649697}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -98.5188, y: -0.7999878}
-  m_SizeDelta: {x: 157.7665, y: 416.526}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 701.4812, y: 0}
+  m_SizeDelta: {x: 157.76648, y: 416.526}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5698263808483506551
 CanvasRenderer:
@@ -455,9 +455,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 88818addfb90f4d4c906d57550e15443, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -692,8 +692,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -17.7}
-  m_SizeDelta: {x: 177.9537, y: 140.1579}
+  m_AnchoredPosition: {x: -4.3377, y: -19.0267}
+  m_SizeDelta: {x: 136.5762, y: 361.4343}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &4327769260489425810
 PrefabInstance:
@@ -705,6 +705,14 @@ PrefabInstance:
     - target: {fileID: 8865451745521401354, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_Value
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865451745521401355, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 252.3738
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865451745521401355, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -15.0686
       objectReference: {fileID: 0}
     - target: {fileID: 8865451745700564650, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_AnchorMax.x
@@ -725,7 +733,7 @@ PrefabInstance:
     - target: {fileID: 8865451746118314392, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 30d32d35b3ddbee4592acad150fdc16d, type: 3}
     - target: {fileID: 8865451746118314392, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_Color.b
       value: 0.47450984
