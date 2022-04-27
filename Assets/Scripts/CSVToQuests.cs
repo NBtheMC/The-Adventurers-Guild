@@ -31,11 +31,20 @@ public class CSVToQuests : MonoBehaviour
     //New event denoted by Storylet name row
     public void MakeStorylets(){
         if (eventLookup == null) {Debug.LogError("MakeStorylets() was callled before MakeEvents. Call MakeEvents first");}
-
         string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
+        List<string[]> storyletStringPackages = new List<string[]>();
+
+        // Seperate all items into packages.
+        for(int i = 0; i < storyletData.Length - 1; i += 8){
+            string[] storyletPackage = new string[8];
+            System.Array.Copy(storyletData, i,storyletPackage,0,8);
+            storyletStringPackages.Add(storyletPackage);
+        }
+
+        
         for(int i = 0; i < storyletData.Length - 8; i += 8){ //8 is however many properties there are
             Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
-            
+
             //NAME, DESCRIPTION, and HEAD
             string storyletName = storyletData[i].Split('\t')[1];
             string assetPath = AssetDatabase.GetAssetPath(newStorylet.GetInstanceID());
@@ -186,7 +195,7 @@ public class CSVToQuests : MonoBehaviour
         List<string[]> eventNodeStringPackages = new List<string[]>();
         eventLookup = new Dictionary<string, EventNode>();
         // Gets every single event package and seperates them into nice little packets.
-        for(int i = 0; i < eventData.Length; i += 11){
+        for(int i = 0; i < eventData.Length - 1; i += 11){
             string[] eventNodepackage = new string[11];
             System.Array.Copy(eventData, i,eventNodepackage,0,11); //If it errors out here, it's most likely the inputs aren't on 11 scale anymore.
         }
