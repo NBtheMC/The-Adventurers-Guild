@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CharacterTileController : MonoBehaviour
+public class CharacterTileController : MonoBehaviour, IPointerClickHandler
 {
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
-    private CharacterBookManager CharBook;
     private GameObject CharInfoSpawn;
     private GameObject CharInfoUIPrefab;
     [SerializeField] private float movementDelta = 0;
@@ -16,7 +15,6 @@ public class CharacterTileController : MonoBehaviour
 
     public void Awake()
     {
-        CharBook = GameObject.Find("CharInfoBook").GetComponent<CharacterBookManager>();
         CharInfoSpawn = GameObject.Find("CurrentItemDisplay/CharInfo");
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
     }
@@ -32,7 +30,6 @@ public class CharacterTileController : MonoBehaviour
                 CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
             }
 
-            //CharBook.DisplayCharacter(characterSheet);
             GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
             CharInfoUIObject.transform.parent.SetAsLastSibling();
             CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
@@ -52,5 +49,11 @@ public class CharacterTileController : MonoBehaviour
         {
             CharInfoSpawn.transform.SetAsLastSibling();
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+            CharacterClicked();
     }
 }
