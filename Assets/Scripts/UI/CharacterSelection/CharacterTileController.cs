@@ -58,7 +58,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
                 if (characterSheet.portrait != null)
                 {
                     //CharInfoUIObject.AddComponent<Image>().sprite = character.portrait;
-                    CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
+                    CharInfoUIObject.transform.Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
                 }
 
                 isDisplayed = true;

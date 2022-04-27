@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
+  m_Name: Calliope
+  m_EditorClassIdentifier: 
+  characterName: Calliope
+  hiredAtStart: 1
+  combat: 7
+  exploration: 11
+  negotiation: 11
+  constitution: 8
+  portrait: {fileID: 21300000, guid: 7a8255cad7592444cb931445e23a64fc, type: 3}
+  Biography: A wandering bard. Compulsive wanderer, but their wanderlust has sated
+    a bit after meeting the varied personalities of the Guild. Carries strings around,
+    but would rather listen to people over drink rather than play to a crowd. Cannot
+    keep a secret. Gossip is part of their being.  Knowledgeable about both people
+    and the outdoors. Not the best in a fight. There is no correct pronunciation.
