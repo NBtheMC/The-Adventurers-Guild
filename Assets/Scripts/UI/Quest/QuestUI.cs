@@ -20,7 +20,7 @@ public class QuestUI : MonoBehaviour
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
 
-    private GameObject[] characterSlots;
+    
     private int assignedCharacters = 0;
 
     // UI items to display quest breifing details.
@@ -33,13 +33,26 @@ public class QuestUI : MonoBehaviour
     {
         public GameObject gameObject;
         public GameObject textObject;
+        public GameObject portraitObject;
         public Text name;
+        public Image portrait;
+
+        public CharacterSlot(GameObject obj)
+        {
+            gameObject = obj;
+            textObject = obj.transform.Find("Name").gameObject;
+            name = obj.transform.Find("Name").gameObject.GetComponent<Text>();
+            portraitObject = obj.transform.Find("Portrait").gameObject;
+            portrait = obj.transform.Find("Portrait").gameObject.GetComponent<Image>();
+        }
     }
+
+    private CharacterSlot[] characterSlots;
 
     // Start is called before the first frame update
     void Awake()
     {
-        characterSlots = new GameObject[4];
+        characterSlots = new CharacterSlot[4];
         
 
         transformer = this.GetComponent<RectTransform>();
@@ -54,7 +67,8 @@ public class QuestUI : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            characterSlots[i] = DropPoints.GetChild(i).gameObject;
+            GameObject temp = DropPoints.GetChild(i).gameObject;
+            characterSlots[i] = new CharacterSlot(temp);
         }
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
@@ -167,12 +181,12 @@ public class QuestUI : MonoBehaviour
     {
         if (assignedCharacters >= 4) return;
 
-        characterSlots[assignedCharacters].transform.Find("Name").gameObject.SetActive(true);
-        characterSlots[assignedCharacters].transform.Find("Name").GetComponent<Text>().text = character.name;
+        characterSlots[assignedCharacters].textObject.SetActive(true);
+        characterSlots[assignedCharacters].name.text = character.name;
 
         //CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
-        characterSlots[assignedCharacters].transform.Find("Portrait").gameObject.SetActive(true);
-        characterSlots[assignedCharacters].transform.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+        characterSlots[assignedCharacters].portraitObject.SetActive(true);
+        characterSlots[assignedCharacters].portrait.sprite = character.portrait;
         assignedCharacters++;
     }
 
