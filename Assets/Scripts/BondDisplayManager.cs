@@ -11,6 +11,7 @@ public class BondDisplayManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        allBonds = new Dictionary<Adventurer, BondDisplay>();
         numBonds = 0;
         //get whatever character this is linked to
         bonder = transform.parent.GetComponent<CharacterInfoUI>().charSheet;
