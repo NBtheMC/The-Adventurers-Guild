@@ -9,6 +9,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     private CharacterBookManager CharBook;
     [SerializeField] private float movementDelta = 0;
     private Vector3 clickPos;
+    private bool isDisplayed = false;
 
     public void Awake()
     {
@@ -17,6 +18,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        pointerEventData.useDragThreshold = false;
         clickPos = Input.mousePosition;
     }
 

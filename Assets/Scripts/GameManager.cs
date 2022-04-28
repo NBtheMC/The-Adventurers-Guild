@@ -9,14 +9,14 @@ public class GameManager : MonoBehaviour
     public int day;
     public TimeSystem timeSystem;
     
-    public Scene currentScene;
+    // public Scene currentScene;
 
-    public enum Scene{
-        Menu,
-        Questing,
-        Instructions,
-        Recap
-    };
+    // public enum Scene{
+    //     Menu,
+    //     Questing,
+    //     Instructions,
+    //     Recap
+    // };
 
     private void Awake()
     {
@@ -42,17 +42,17 @@ public class GameManager : MonoBehaviour
         switch (toSwitchTo){
             case "Menu":
                 SceneManager.LoadScene("Menu");
-                currentScene = Scene.Menu;
+                //currentScene = Scene.Menu;
                 break;
             case "Credits":
                 SceneManager.LoadScene("Credits");
                 break;    
             case "Instructions":
                 SceneManager.LoadScene("Instructions");
-                currentScene = Scene.Instructions;
+                //currentScene = Scene.Instructions;
                 break;
             case "Recap":
-                SceneManager.LoadScene("Recap");
+                SceneManager.LoadScene("EventRecap");
                 break;
             case "Game":
                 SceneManager.LoadScene("MainUIScreen");
@@ -68,3 +68,7 @@ public class GameManager : MonoBehaviour
         this.day = currentDay;
     }
 }
+
+// public class SaveData{
+        
+// }

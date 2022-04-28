@@ -11,26 +11,42 @@ public class QuestBanner : MonoBehaviour
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab; // QuestUI prefab to display
     [HideInInspector] public bool isDisplayed;
+    private bool questIsActive = false;
 
 
     // Start is called before the first frame update
     public void Awake()
     {
         QuestDisplay = GameObject.Find("QuestDisplay");
-        questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        //questUIPrefab = Resources.Load<GameObject>("QuestUI");
+        questUIPrefab = Resources.Load<GameObject>("QuestUI_V2");
         QuestUISpawn = GameObject.Find("QuestUISpawn");
         isDisplayed = false;
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += DeleteBanner;
     }
 
-    public void displayQuestUI(bool displayOnly = false)
+    public void DeleteBanner(object source, QuestSheet questSheet)
+    {
+        if (questSheet == this.questSheet)
+            Destroy(this.gameObject);
+    }
+
+    public void ToggleQuestActiveState()
+    {
+        questIsActive = !questIsActive;
+        transform.Find("Active").gameObject.SetActive(questIsActive);
+    }
+
+    public void displayQuestUI()
     {   
         if (!isDisplayed)
         {
             GameObject questUIObj = Instantiate(questUIPrefab);
             
-            if(displayOnly)
+            if(questIsActive)
             {
                 questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
+                questUIObj.transform.Find("Reject").gameObject.SetActive(false);
                 GameObject dropPoints = questUIObj.transform.Find("Drop Points").gameObject;
 
                 int index = 0;
@@ -53,7 +69,7 @@ public class QuestBanner : MonoBehaviour
 
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(questSheet, displayOnly);
+            questUI.SetupQuestUI(questSheet, questIsActive);
             Debug.Log(questSheet.questName);
             isDisplayed = true;
 
@@ -63,4 +79,6 @@ public class QuestBanner : MonoBehaviour
             else {SoundManagerScript.PlaySound("parchment3");}
         }
     }
+
+
 }

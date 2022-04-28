@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe184588fdc54bf4e8909742b6bd9914, type: 3}
   m_Name: 20 - FindManaStones
   m_EditorClassIdentifier: 
-  questName: Find Mana Stones
+  questName: '[Paladin] Find Mana Stones'
   eventHead: {fileID: 11400000, guid: 49c74b3e33a88104baf8f2a50ca66955, type: 2}
   questDescription: 'Excitable Knight: Mana Stones! This is an amazing discovery.
     You must get us some samples!'
@@ -20,10 +20,10 @@ MonoBehaviour:
   canBeDuplicated: 0
   triggerInts:
   - name: PaladinForestExploration
-    value: 15
-    triggerType: 1
-  - name: PaladinManaStone
     value: 3
+    triggerType: 2
+  - name: PaladinManaStone
+    value: 1
     triggerType: -2
   triggerValues: []
   triggerStates: []

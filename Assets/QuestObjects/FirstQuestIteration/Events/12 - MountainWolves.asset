@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 12 - MountainWolves
@@ -16,7 +16,7 @@ MonoBehaviour:
   stat: 1
   DC: 30
   time: 6
-  Reward: 50
+  Reward: 100
   successNode: {fileID: 0}
   successString: and kept them at bay long enough to capture all the wolves.
   successIntChange:
@@ -24,10 +24,7 @@ MonoBehaviour:
     value: 1
     set: 0
   - name: MageManaGreed
-    value: 2
-    set: 0
-  - name: PlayerGold
-    value: 50
+    value: 6
     set: 0
   successValueChange: []
   successStateChange: []

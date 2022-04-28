@@ -31,5 +31,8 @@ MonoBehaviour:
   - name: CurrentDay
     value: 1
     set: 0
+  - name: PlayerGold
+    value: -50
+    set: 0
   triggerValueChanges: []
   triggerStateChanges: []

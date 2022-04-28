@@ -73,7 +73,7 @@ public class ActiveQuestDisplayManager : MonoBehaviour
 
             questBox.gameObject.SetActive(true);
             questBox.questBanner.questSheet = activeQuest;
-            questBox.button.onClick.AddListener(delegate { questBox.questBanner.displayQuestUI(true); });
+            questBox.button.onClick.AddListener(delegate { questBox.questBanner.displayQuestUI(); });
             questBoxes[i].text.text = questBox.questBanner.questSheet.questName;
         }
 

@@ -12,8 +12,6 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     private Text questDescription;
     private Text questReward;
     //private GameObject partyFormation;
-    private GameObject sendPartyButton;
-    private GameObject dropPointPrefab;
     private QuestingManager questingManager;
     private CharacterPoolController characterPool;
     private CharacterSheetManager charSheetManager;
@@ -35,14 +33,12 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
-        sendPartyButton = transformer.Find("Send Party").gameObject;
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
 
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
         dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
-        dropPointPrefab = Resources.Load<GameObject>("SampleDropPoint");
     }
 
     //Creates Quest as a UI GameObject
@@ -112,11 +108,13 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             questingManager.StartQuest(attachedSheet);
 
             questSent = true;
-            DestroyUI();
 
-            Destroy(questBanner);
+            //Destroy(questBanner);
+            //display activequestbanner
+            questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
 
             SoundManagerScript.PlaySound("stamp");
+            DestroyUI();
         }
 
     }
@@ -133,7 +131,8 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
 
-        questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+        if (questBanner != null)
+            questBanner.GetComponent<QuestBanner>().isDisplayed = false;
 
         characterPool.RefreshCharacterPool();
         Destroy(this.gameObject);
@@ -153,6 +152,7 @@ public class QuestUI : MonoBehaviour, IDragHandler, IPointerDownHandler
     /// </summary>
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        pointerEventData.useDragThreshold = false;
         this.transform.SetAsLastSibling();
         //remove drop points from dropHandler, then add them again infront
         foreach(Transform child in DropPoints)

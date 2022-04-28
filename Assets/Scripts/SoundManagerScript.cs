@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SoundManagerScript : MonoBehaviour
 {
-
     public static AudioClip bellSound, bookCloseSound, bookOpenSound, bookPage1Sound, bookPage2Sound, bookPage3Sound, parchment1Sound, parchment2Sound, parchment3Sound, slipDown1Sound, slipDown2Sound, slipUp1Sound, slipUp2Sound, stampSound;
     static AudioSource audioSrc;
 
@@ -78,7 +77,6 @@ public class SoundManagerScript : MonoBehaviour
                 break;
             case "stamp":
                 audioSrc.PlayOneShot (stampSound);
-                Debug.Log("Stamp");
                 break;
 
         }

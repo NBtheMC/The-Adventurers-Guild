@@ -10,9 +10,6 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
     private GameObject CharInfoUIPrefab;
     private GameObject CharInfoSpawn;
     private List<GameObject> adventurers;
-    private GameObject activeObject;
-    private GameObject pageIndicator;
-    private GameObject indicator;
     private int displayIndex = 0;
     // Start is called before the first frame update
 
@@ -21,8 +18,6 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
         CharInfoSpawn = GameObject.Find("CharInfoBook");
         QuestDisplay = GameObject.Find("QuestDisplay");
-        pageIndicator = CharInfoSpawn.transform.Find("PageIndicator").gameObject;
-        indicator = Resources.Load<GameObject>("Dot");
     }
     void Start()
     {
@@ -35,37 +30,7 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
         {
             AddCharacter(character);
         }
-        adventurers[0].SetActive(true);
-        activeObject = adventurers[0];
-    }
-
-    public void DisplayNext()
-    {
-        adventurers[displayIndex].SetActive(false);
-
-        displayIndex++;
-        if (displayIndex == adventurers.Count)
-            displayIndex = 0;
-
-        adventurers[displayIndex].SetActive(true);
-        adventurers[displayIndex].transform.position = transform.position;
-
-        activeObject = adventurers[displayIndex];
-        SetActiveIndicator();
-    }
-    public void DisplayPrev()
-    {
-        adventurers[displayIndex].SetActive(false);
-
-        displayIndex--;
-        if (displayIndex == -1)
-            displayIndex = adventurers.Count - 1;
-
-        adventurers[displayIndex].SetActive(true);
-        adventurers[displayIndex].transform.position = transform.position;
-
-        activeObject = adventurers[displayIndex];
-        SetActiveIndicator();
+        //adventurers[0].SetActive(true);
     }
 
     public void DisplayCharacter(CharacterSheet character)
@@ -79,10 +44,10 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
                 adventurers[i].SetActive(true);
                 displayIndex = i;
                 adventurers[displayIndex].transform.position = transform.position;
-                activeObject = adventurers[displayIndex];
             }
         }
-        SetActiveIndicator();
+
+        this.transform.SetAsLastSibling();
     }
 
     public void AddCharacter(CharacterSheet character)
@@ -103,34 +68,8 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
         }
 
         adventurers.Add(CharInfoUIObject);
-        
-        GameObject dot = Instantiate(indicator);
-        dot.transform.SetParent(pageIndicator.transform, false);
-        SetPageIndicatorPositions();
-        SetActiveIndicator();
     }
 
-    public void SetPageIndicatorPositions()
-    {
-        RectTransform rt = pageIndicator.GetComponent<RectTransform>();
-        float spaces = rt.rect.width / (adventurers.Count + 1);
-        for(int i = 0; i < adventurers.Count; i++)
-        {
-            pageIndicator.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = new Vector3(spaces * (i+1), 0, 0);
-        }
-    }
-
-    public void SetActiveIndicator()
-    {
-        for(int i = 0; i < pageIndicator.transform.childCount; i++)
-        {
-            Transform child = pageIndicator.transform.GetChild(i);
-            if(i != displayIndex)
-                child.GetChild(1).gameObject.SetActive(false);
-            else
-                child.GetChild(1).gameObject.SetActive(true);
-        }
-    }
 
     /// <summary>
     /// For when this UI object is being dragged.
@@ -143,6 +82,7 @@ public class CharacterBookManager : MonoBehaviour, IDragHandler, IPointerDownHan
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
+        pointerEventData.useDragThreshold = false;
         this.transform.SetAsLastSibling();
     }
 }

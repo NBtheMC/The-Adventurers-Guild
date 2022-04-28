@@ -7,12 +7,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71ec344c0a875db49a0a4caf6325631c, type: 3}
   m_Name: 23 - SearchingForPracticeTargets
   m_EditorClassIdentifier: 
-  description: The party serached for practice targets
+  description: The party searched for practice targets
   stat: 2
   DC: 15
   time: 6
@@ -23,7 +23,7 @@ MonoBehaviour:
   successValueChange: []
   successStateChange: []
   failureNode: {fileID: 0}
-  failureString: but couldn't find anything
+  failureString: but couldn't find anything (XPO).
   failIntChange: []
   failValueChange: []
   failStateChange: []
