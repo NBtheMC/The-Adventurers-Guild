@@ -20,8 +20,6 @@ public class CharacterPoolController : MonoBehaviour
     private CharacterSheetManager characterManager;
     private RectTransform slotPoints;
 
-    public event EventHandler<CharacterSheet> CharacterClickedOnEvent;
-
     private void Awake()
     {
         characterSlots = new List<(GameObject dropPoint, GameObject character)>();
@@ -42,8 +40,6 @@ public class CharacterPoolController : MonoBehaviour
         RefreshCharacterPool();
 
         GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterChange += CharacterPoolController_RosterChange;
-
-        CharacterClickedOnEvent += TestEvent;
     }
 
     private void CharacterPoolController_RosterChange(object source, System.EventArgs e)
@@ -84,6 +80,8 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     private void GenerateNewDropPair(CharacterSheet characterToPair)
     {
+        QUestUIController questController = GameObject.Find("QuestDisplayManager").transform
+            .Find("QuestDisplay").Find("CurrentItemDisplay").Find("Quest").GetComponent<QUestUIController>();
         // Makes a new drop point and a new character.
         GameObject newCaracterSlot = Instantiate(characterSlot, slotPoints.transform);
         GameObject newCharacter = Instantiate(sampleCharacter,newCaracterSlot.transform);
@@ -93,6 +91,8 @@ public class CharacterPoolController : MonoBehaviour
         newCaracterSlot.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
 
         newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
+        newCharacter.GetComponent<CharacterTileController>().CharacterRightClickedOnEvent += questController.QuestTestMethod;
+
 
         //set positions of character slots
         newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(20,-30 - (numCharacterSlots*50),0);

@@ -20,6 +20,9 @@ public class QuestUI : MonoBehaviour
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
 
+    private GameObject[] characterSlots;
+    private int assignedCharacters = 0;
+
     // UI items to display quest breifing details.
     public Text cmbBriefText;
     public Text xpoBriefText;
@@ -29,6 +32,9 @@ public class QuestUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        characterSlots = new GameObject[4];
+        
+
         transformer = this.GetComponent<RectTransform>();
 
         //quest info objects
@@ -38,6 +44,11 @@ public class QuestUI : MonoBehaviour
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
+
+        for(int i = 0; i < 4; i++)
+        {
+            characterSlots[i] = DropPoints.GetChild(i).gameObject;
+        }
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
@@ -143,6 +154,15 @@ public class QuestUI : MonoBehaviour
 
         characterPool.RefreshCharacterPool();
         Destroy(this.gameObject);
+    }
+
+    public void AddCharacter(CharacterSheet character)
+    {
+        if (assignedCharacters >= 4) return;
+
+        characterSlots[assignedCharacters].transform.Find("Name").gameObject.SetActive(true);
+        characterSlots[assignedCharacters].transform.Find("Name").GetComponent<Text>().text = character.name;
+        assignedCharacters++;
     }
 
 }

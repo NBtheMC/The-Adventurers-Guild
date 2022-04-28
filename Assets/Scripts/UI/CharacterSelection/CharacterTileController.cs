@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private float movementDelta = 0;
     private Vector3 clickPos;
     [HideInInspector] public bool isDisplayed = false;
+
+    public event EventHandler<CharacterSheet> CharacterLeftClickedOnEvent;
+    public event EventHandler<CharacterSheet> CharacterRightClickedOnEvent;
 
     public void Awake()
     {
@@ -54,6 +58,13 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
+        {
             CharacterClicked();
+            CharacterLeftClickedOnEvent?.Invoke(this, characterSheet);
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            CharacterRightClickedOnEvent?.Invoke(this, characterSheet);
+        }
     }
 }
