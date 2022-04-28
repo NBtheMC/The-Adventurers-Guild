@@ -20,7 +20,7 @@ public class BondDisplay : MonoBehaviour
     public void InitialSet(Adventurer a, int initialBond){
         //assign character/portrait
         character = a.characterSheet;
-        GameObject.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+        transform.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
         //set visuals both to 0
         SetBond(initialBond);
     }
