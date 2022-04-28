@@ -42,135 +42,143 @@ public class CSVToQuests : MonoBehaviour
         }
 
         
-        for(int i = 0; i < storyletData.Length - 8; i += 8){ //8 is however many properties there are
+        foreach(string[] storyletPacket in storyletStringPackages){ //8 is however many properties there are
             Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
+            
+            //list all the damn things we need.
+            string storyletName = storyletData[0].Split('\t')[1]; //row 1, col b storylet name.
+            string storyletDetails = storyletData[0].Split('\t')[2]; // row 1, col c storylet details.
+            string eventHeadName = storyletData[1].Split('\t')[1]; // row 2, col b event name.
+            string toBeInstancedString = storyletData[1].Split('\t')[2]; // row 2, col c, to be instanced.
+            string toBeDuplicated = storyletData[1].Split('\t')[3]; // row 2, col d, to be duplicated.
+            string[] triggerIntStrings = storyletData[2].Split('\t'); // row 3, all the trigger ints.
+            string[] triggerFloatStrings = storyletData[3].Split('\t'); // row 4, all the trigger floats.
+            string[] triggerBoolStrings = storyletData[4].Split('\t'); // row 5, all the trigger bools.
+            string[] changeIntStrings = storyletData[5].Split('\t'); // row 6, all changing ints.
+            string[] changeFloatStrings = storyletData[6].Split('\t'); // row 7, all changing floats.
+            string[] changeBoolStrings = storyletData[7].Split('\t'); // row 8, all changing bools.
 
-            //NAME, DESCRIPTION, and HEAD
-            string storyletName = storyletData[i].Split('\t')[1];
-            string assetPath = AssetDatabase.GetAssetPath(newStorylet.GetInstanceID());
-            AssetDatabase.RenameAsset(assetPath, storyletName);
-            AssetDatabase.SaveAssets();
-            Debug.Log("Path = " + assetPath);
-            string storyletDescription = storyletData[i].Split('\t')[2];
-            string head = storyletData[i+1].Split('\t')[1]; //get actual head with this later in AttachAll()
-            newStorylet.eventHead = allEvents.Find(e => Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(e.GetInstanceID())).Contains(head));
-            //TRIGGER INTS
-            string[] csvTriggerInts = storyletData[i+2].Split('\t');
+            newStorylet.questName = storyletName;
+            newStorylet.questDescription = storyletDetails;
+            
+            // Put the event node in.
+            EventNode temporaryLookupNode;
+            if (!eventLookup.TryGetValue(eventHeadName,out temporaryLookupNode)){Debug.LogError($"{storyletName}'s eventNode could not be found, skipping."); continue; }
+
+            // The trigger ints.
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
-            for(int j = 1; j < csvTriggerInts.Length; j+=3){
+            for(int j = 1; j < triggerIntStrings.Length-1; j+=3){
                 Storylet.TriggerInt newTriggerInt = new Storylet.TriggerInt();
-                //Do extra parsing
-                newTriggerInt.name = csvTriggerInts[j];
-                newTriggerInt.value = int.Parse(csvTriggerInts[j+1]);
+                //Set the name.
+                if(triggerIntStrings[j] == ""){continue;}
+                newTriggerInt.name = triggerIntStrings[j];
+
                 //get type of sign
                 Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
-                switch (csvTriggerInts[j+2]){
-                    case "<":
-                        sign = Storylet.NumberTriggerType.LessThan;
-                        break;
-                    case "<=":
-                        sign = Storylet.NumberTriggerType.LessThanEqualTo;
-                        break;
-                    case "equals":
-                        sign = Storylet.NumberTriggerType.EqualTo;
-                        break;
-                    case ">":
-                        sign = Storylet.NumberTriggerType.GreaterThan;
-                        break;
-                    case ">=":
-                        sign = Storylet.NumberTriggerType.GreaterThanEqualTo;
-                        break;
-                }
+                if (!tryFindSign(triggerIntStrings[j+1], ref sign)){ Debug.LogError($"Sign not recognized in {storyletName}'s Trigger Ints, column {j+1}, skipping"); continue; }
                 newTriggerInt.triggerType = sign;
+
+                // Get the value.
+                int inputValue;
+                if (!int.TryParse(triggerIntStrings[j+2], out inputValue)){Debug.Log($"Int unable to be parsed in {storyletName}'s Trigger Ints, colum {j+2}, skipping"); continue; }
+                newTriggerInt.value = inputValue;
+                
+                //Add it to the list.
                 triggerInts.Add(newTriggerInt);
             }
-            newStorylet.triggerInts = triggerInts;
+            newStorylet.triggerInts = triggerInts; // Add the list to the storylet.
 
             //TRIGGER VALUES
-            string[] csvTriggerValues = storyletData[i+3].Split('\t');
             List<Storylet.TriggerValue> triggerValues = new List<Storylet.TriggerValue>();
-            for(int j = 1; j < csvTriggerValues.Length; j+=3){
-                Storylet.TriggerValue newTriggerValue = new Storylet.TriggerValue();
-                newTriggerValue.name = csvTriggerValues[j];
+            for(int j = 1; j < triggerFloatStrings.Length-1; j+=3){
+                Storylet.TriggerValue newTriggerFloat = new Storylet.TriggerValue();
+                //Set the name.
+                if(triggerFloatStrings[j] == ""){continue;}
+                newTriggerFloat.name = triggerFloatStrings[j];
+
+                //Set the sign.
                 Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
-                switch (csvTriggerValues[j+1]){
-                    case "<":
-                        sign = Storylet.NumberTriggerType.LessThan;
-                        break;
-                    case "<=":
-                        sign = Storylet.NumberTriggerType.LessThanEqualTo;
-                        break;
-                    case "equals":
-                        sign = Storylet.NumberTriggerType.EqualTo;
-                        break;
-                    case ">":
-                        sign = Storylet.NumberTriggerType.GreaterThan;
-                        break;
-                    case ">=":
-                        sign = Storylet.NumberTriggerType.GreaterThanEqualTo;
-                        break;
-                }
-                newTriggerValue.triggerType = sign;
-                newTriggerValue.value = float.Parse(csvTriggerValues[j+2]);
-                
-                triggerValues.Add(newTriggerValue);
+                if (!tryFindSign(triggerFloatStrings[j+1], ref sign)){ Debug.LogError($"Sign not recognized in {storyletName}'s Trigger Values, column {j+1}, skipping"); continue; }
+                newTriggerFloat.triggerType = sign;
+
+                // Get the value.
+                float inputValue;
+                if (!float.TryParse(triggerIntStrings[j+2], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Trigger Ints, colum {j+2}, skipping"); continue; }
+                triggerValues.Add(newTriggerFloat);
             }
             newStorylet.triggerValues = triggerValues;
 
             //TRIGGER STATES
-            string[] csvTriggerStates = storyletData[i+4].Split('\t');
-            List<Storylet.TriggerState> triggerStates = new List<Storylet.TriggerState>();
-            for(int j = 1; j < csvTriggerStates.Length; j+=2){
+            List<Storylet.TriggerState> triggerBools = new List<Storylet.TriggerState>();
+            for(int j = 1; j < triggerBoolStrings.Length-1; j+=3){
                 Storylet.TriggerState newTriggerState = new Storylet.TriggerState();
-                newTriggerState.name = csvTriggerStates[j];
-                newTriggerState.state = bool.Parse(csvTriggerStates[j+1]);
-                triggerStates.Add(newTriggerState);
+                //Set the name.
+                if(triggerBoolStrings[j] == ""){continue;}
+                newTriggerState.name = triggerFloatStrings[j];
+
+                // Get the value.
+                bool inputValue;
+                if (!bool.TryParse(triggerIntStrings[j+2], out inputValue)){Debug.Log($"bool unable to be parsed in {storyletName}'s Trigger States, colum {j+1}, skipping"); continue; }
+                triggerBools.Add(newTriggerState);
             }
-            newStorylet.triggerStates = triggerStates;
+            newStorylet.triggerStates = triggerBools;
 
             //INT CHANGES
-            string[] csvIntChanges = storyletData[i+5].Split('\t');
             List<Storylet.IntChange> intChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < csvIntChanges.Length; j+=3){
+            for(int j = 1; j < changeIntStrings.Length; j+=3){
+                // Create the new items.
                 Storylet.IntChange newIntChange = new Storylet.IntChange();
-                newIntChange.name = csvIntChanges[j];
-                newIntChange.value = int.Parse(csvIntChanges[j+1]);
-                switch (csvIntChanges[j+2]){
+                if(changeIntStrings[j] == ""){continue;}
+                newIntChange.name = changeIntStrings[j];
+
+                // The value to change.
+                int inputValue;
+                if (!int.TryParse(triggerIntStrings[j+1], out inputValue)){Debug.Log($"Int unable to be parsed in {storyletName}'s Int Changes, colum {j+1}, skipping"); continue; }
+                newIntChange.value = inputValue;
+
+                // The set value.
+                switch (changeIntStrings[j+2]){
                     case "SET":
                         newIntChange.set = true;
                         break;
-                    case "NOSET":
+                    default:
                         newIntChange.set = false;
                         break;
                 }
-                //Do extra parsing
+
                 intChanges.Add(newIntChange);
             }
             newStorylet.triggerIntChanges = intChanges;
 
             //VALUE CHANGES
-            string[] csvValueChanges = storyletData[i+6].Split('\t');
             List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < csvValueChanges.Length; j+=3){
+            for(int j = 1; j < changeFloatStrings.Length; j+=3){
+                // Create the new items.
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
-                newValueChange.name = csvValueChanges[j];
-                newValueChange.value = float.Parse(csvValueChanges[j+1]);
-                switch (csvValueChanges[j+2]){
+                if(changeFloatStrings[j] == ""){continue;}
+                newValueChange.name = changeFloatStrings[j];
+
+                // The valeu to change.
+                float inputValue;
+                if (!float.TryParse(triggerIntStrings[j+1], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Float Changes, colum {j+1}, skipping"); continue; }
+                newValueChange.value = inputValue;
+
+                // the set value
+                switch (changeFloatStrings[j+2]){
                     case "SET":
                         newValueChange.set = true;
                         break;
-                    case "NOSET":
+                    default:
                         newValueChange.set = false;
                         break;
                 }
-                newValueChange.set = bool.Parse(csvValueChanges[j+2]);
                 //Do extra parsing
                 valueChanges.Add(newValueChange);
             }
             newStorylet.triggerValueChanges = valueChanges;
 
             //STATE CHANGES
-            string[] csvStateChanges = storyletData[i+7].Split('\t');
+            string[] csvStateChanges = storyletData[7].Split('\t');
             List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
             for(int j = 1; j < csvStateChanges.Length; j+=2){
                 Storylet.StateChange newStateChange = new Storylet.StateChange();
@@ -363,5 +371,30 @@ public class CSVToQuests : MonoBehaviour
             }
             newEvent.failStateChange = failStateChanges;
         }
+    }
+
+    private bool tryFindSign(string inputType, ref Storylet.NumberTriggerType changer){
+        bool correctCase = true;
+        switch (inputType){
+            case "<":
+                changer = Storylet.NumberTriggerType.LessThan;
+                break;
+            case "<=":
+                changer = Storylet.NumberTriggerType.LessThanEqualTo;
+                break;
+            case "equals":
+                changer = Storylet.NumberTriggerType.EqualTo;
+                break;
+            case ">":
+                changer = Storylet.NumberTriggerType.GreaterThan;
+                break;
+            case ">=":
+                changer = Storylet.NumberTriggerType.GreaterThanEqualTo;
+                break;
+            default:
+                correctCase = false;
+                break;
+        }
+        return correctCase;
     }
 }
