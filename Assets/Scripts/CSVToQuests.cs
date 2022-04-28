@@ -64,6 +64,7 @@ public class CSVToQuests : MonoBehaviour
             // Put the event node in.
             EventNode temporaryLookupNode;
             if (!eventLookup.TryGetValue(eventHeadName,out temporaryLookupNode)){Debug.LogError($"{storyletName}'s eventNode could not be found, skipping."); continue; }
+            newStorylet.eventHead = temporaryLookupNode;
 
             // The trigger ints.
             List<Storylet.TriggerInt> triggerInts = new List<Storylet.TriggerInt>();
@@ -178,12 +179,16 @@ public class CSVToQuests : MonoBehaviour
             newStorylet.triggerValueChanges = valueChanges;
 
             //STATE CHANGES
-            string[] csvStateChanges = storyletData[7].Split('\t');
             List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < csvStateChanges.Length; j+=2){
+            for(int j = 1; j < changeBoolStrings.Length; j+=2){
                 Storylet.StateChange newStateChange = new Storylet.StateChange();
-                newStateChange.name = csvStateChanges[j];
-                newStateChange.state = bool.Parse(csvStateChanges[j+1]);
+                if(changeBoolStrings[j] == ""){continue;}
+                newStateChange.name = changeBoolStrings[j];
+
+                // The valeu to change.
+                bool inputValue;
+                if (!bool.TryParse(triggerIntStrings[j+1], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Float Changes, colum {j+1}, skipping"); continue; }
+                newStateChange.state = inputValue;
                 //Do extra parsing
                 stateChanges.Add(newStateChange);
             }
@@ -206,6 +211,8 @@ public class CSVToQuests : MonoBehaviour
         for(int i = 0; i < eventData.Length - 1; i += 11){
             string[] eventNodepackage = new string[11];
             System.Array.Copy(eventData, i,eventNodepackage,0,11); //If it errors out here, it's most likely the inputs aren't on 11 scale anymore.
+            
+            eventNodeStringPackages.Add(eventNodepackage);
         }
 
         //Premake an event Node connection for assignment later.
@@ -213,6 +220,7 @@ public class CSVToQuests : MonoBehaviour
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>();
             string eventDescription = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
             eventLookup.Add(eventDescription, newEvent);
+            Debug.Log($"Added {eventDescription}");
         }
 
 
@@ -263,7 +271,9 @@ public class CSVToQuests : MonoBehaviour
             if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
 
             // adds new connection to the successNode.
-            newEvent.successNode = eventLookup[successNodestring];
+            EventNode temporaryLookupNode;
+            if (!eventLookup.TryGetValue(successNodestring,out temporaryLookupNode)){Debug.LogError($"{nameString}'s success Node could not be found, skipping."); continue; }
+            newEvent.successNode = temporaryLookupNode;
             newEvent.successString = successDetailstring;
 
             // Success Int Parsing.
@@ -317,7 +327,8 @@ public class CSVToQuests : MonoBehaviour
             }
             newEvent.successStateChange = successStateChanges;
 
-            newEvent.failureNode = eventLookup[failNodestring];
+            if (!eventLookup.TryGetValue(failNodestring,out temporaryLookupNode)){Debug.LogError($"{nameString}'s failure Node could not be found, skipping."); continue; }
+            newEvent.failureNode = temporaryLookupNode;
             newEvent.failureString = failDetailstring;
 
             // Fail Int Parsing
