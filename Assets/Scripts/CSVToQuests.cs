@@ -272,8 +272,12 @@ public class CSVToQuests : MonoBehaviour
 
             // adds new connection to the successNode.
             EventNode temporaryLookupNode;
-            if (!eventLookup.TryGetValue(successNodestring,out temporaryLookupNode)){Debug.LogError($"{nameString}'s success Node could not be found, skipping."); continue; }
-            newEvent.successNode = temporaryLookupNode;
+            if (successNodestring == ""){}
+            else if (!eventLookup.TryGetValue(successNodestring,out temporaryLookupNode)){
+                Debug.LogError($"{nameString}'s success Node could not be found, skipping.");
+                continue;
+            }
+            else {newEvent.successNode = temporaryLookupNode;}
             newEvent.successString = successDetailstring;
 
             // Success Int Parsing.
