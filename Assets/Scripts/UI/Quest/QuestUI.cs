@@ -29,6 +29,13 @@ public class QuestUI : MonoBehaviour
     public Text ngoBriefText;
     public Text conBriefText;
 
+    private struct CharacterSlot
+    {
+        public GameObject gameObject;
+        public GameObject textObject;
+        public Text name;
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -162,6 +169,10 @@ public class QuestUI : MonoBehaviour
 
         characterSlots[assignedCharacters].transform.Find("Name").gameObject.SetActive(true);
         characterSlots[assignedCharacters].transform.Find("Name").GetComponent<Text>().text = character.name;
+
+        //CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+        characterSlots[assignedCharacters].transform.Find("Portrait").gameObject.SetActive(true);
+        characterSlots[assignedCharacters].transform.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
         assignedCharacters++;
     }
 
