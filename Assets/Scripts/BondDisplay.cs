@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BondDisplay : MonoBehaviour
 {
     public CharacterSheet character;
-    //public int currentBond;
+    public int currentBond; //we might want to store this here too? idk tbh
     public Image greenBar;
     public Image redBar;
 
@@ -16,15 +16,17 @@ public class BondDisplay : MonoBehaviour
         
     }
 
-    // //called after BondDisplayManager figures stuff out
-    // void InitialSet(){
-    //     //assign portrait
-    //     //GameObject.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
-    //     //set visuals both to 0
-    //     SetBond(0);
-    // }
+    //called after BondDisplayManager figures stuff out
+    public void InitialSet(Adventurer a, int initialBond){
+        //assign character/portrait
+        character = a.characterSheet;
+        GameObject.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+        //set visuals both to 0
+        SetBond(initialBond);
+    }
 
     public void SetBond(int bond){
+        currentBond = bond;
         float percentage = bond/10f; //should be from 0-1
         //length is equal to initial size times the percentage
         if(bond < 0){
