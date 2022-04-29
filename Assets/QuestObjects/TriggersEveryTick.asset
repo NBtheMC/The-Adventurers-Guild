@@ -22,9 +22,6 @@ MonoBehaviour:
   triggerStates: []
   numInstances: 12
   triggerIntChanges:
-  - name: AnkhegCapturingTicks
-    value: 1
-    set: 0
   - name: DayTicks
     value: 1
     set: 0
@@ -33,3 +30,4 @@ MonoBehaviour:
     value: -0.01
     set: 0
   triggerStateChanges: []
+  adventurer: 

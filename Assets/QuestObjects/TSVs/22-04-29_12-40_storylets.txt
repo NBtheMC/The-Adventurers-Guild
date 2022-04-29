@@ -1,0 +1,376 @@
+Storylet 1	Testing the Waters	Sailor Ambassador: We'd like to set up a base of operations here. Could you help us find a suitable place?																										
+Event Head	SecureMeetingHouse	TRUE	FALSE																									
+Trigger Ints	PaladinManaGreed	>	10	MageManaGreed	>	10																						
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE			FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 2	SailorLogisticalPlanning																											
+Event Head		TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE		SailorLogisticalPlans	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	SailorLogisticalPlanning	1	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 3	SailorLogisticalPlanCompletion																											
+Event Head		TRUE	TRUE																									
+Trigger Ints	SailorLogisticalPlanning	>=	100																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes	SailorLogisticalPlans	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 4	[Merchant] SailorDoomEnding	Once friendly, the Sailors suddenly cut off all supplies to the Guild. Then they cut you a deal you can't refuse. You lost control of the Guild, the game is over.																										
+Event Head	SailorEnding	TRUE	TRUE																									
+Trigger Ints	SailorLogisticalPlanImplementation	>=	100																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 5	SailorLogisticalPlanImplementation																											
+Event Head		TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	SailorLogisticalPlans	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	SailorLogisticalPlanImplementation	1	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 6	SailorShippingNeeds																											
+Event Head		TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes	SailorShippingNeeds	0.2	NOSET																									
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 7	[Merchant] Ship Protection	Nervous Captain: We're worried about the dangers of the open seas. Could you send an adventurer or two just in case?																										
+Event Head	ProtectShip	TRUE	TRUE																									
+Trigger Ints																												
+Trigger Values	SailorShippingNeeds	>=	5																									
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 8	[Merchant] Package Piracy	Sailor Ambassador: Out logistical plans were stolen, and they must be recovered. It is extremely important that NO ONE looks at them, including your adventurers.																										
+Event Head	FindLogisticalPlans	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values	SailorGuildRelation	>=	60																									
+Trigger States	SailorLogisticalPlans	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes	SailorLogisticalPlans	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 9	[Archanists] Meeting With Mages	Sailor Ambassador: There's an important meeting that we need to send a representative to. Could you provide an escort?																										
+Event Head	EscortSailorToMage	TRUE	FALSE																									
+Trigger Ints	MageManaGreed	>	11																									
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 10	[Order] Meeting With Paladins	Sailor Ambassador: There's an important meeting that we need to send a representative to. Could you provide an escort?																										
+Event Head	EscortSailorToPaladin	TRUE	FALSE																									
+Trigger Ints	PaladinManaGreed	>	11																									
+Trigger Values																												
+Trigger States	SailorOutpostConstructed	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 11	[Archanist] Cave Search	Bejeweled Official: Hey~ Rumor has it that the nearby Caves contain something interesting. Can you have your adventurers take a look?																										
+Event Head	SearchingForSamples	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageArrived	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 12	[Archanist] Super Secret Test	Confident Academic: I need an escort out to the Plains so I can test out my newest invention. This might make me crazy rich!																										
+Event Head	BuffaloComms	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageMiningOperation	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 13	[Archanist] Suspicious Device Test	Confident Academic: Our last test was a blazing success! The El-, I mean, my professor will be amazed by all of this data. Speaking of, I need to do another test, this time up in the Mountains. Also, here are some more NDAs to sign.																										
+Event Head	ClimbingAMountain	TRUE	FALSE																									
+Trigger Ints	MageFieldTest1	>	0	MageFieldTest2	<	1																						
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	3	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 14	[Archanist] Cave Survey	Rugged Researcher: Hey! A friend of mine told me about the Caves. Sounded like it's a swell place. I know the Caves are dangerous around this time, but I must see it in person. Oh, and do you mind if a couple of my buddies come along?																										
+Event Head	SpiderClearing	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageMineAmbition	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 15	[Archanist] Forest Stroll	Rugged Researcher: I overheard the Paladins talking about a Mana Stone discovery in the Forest. On an unrelated note, could you take me to the forest for a walk?																										
+Event Head	Sneaking to the Mages	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	PaladinForestBase	TRUE		MageMiningOperation	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	15	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 16	[Archanist] Mining Operations	Rugged Researcher: Hey. Thanks for your help with the spiders, so let me tell you the truth. We're actually a mining crew hired by the Arcanists to bring back some Mana Stones, but we're in a pickle because those Caves seem to be dangerous. Want to help? I'll throw in a big cut of our earnings.																										
+Event Head	RockGolems	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageSpidersEliminated	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinMageManaStoneThreat	3	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 17	[CRITICAL] Surprise War - Order	It's an emergency! The Order has grown afraid of the Arcanist's advances in Mana Stone tech and launched a surprise attack on them overnight. They're coming here now because they think you're the source of their Mana Stone problems! They've declared you a heretic and seem hell-bent on catching you, you need to do something!																										
+Event Head	FightOffthePaladins	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values	PaladinMagePercievedThreat	>=	200																									
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 18	[CRITICAL] Surprise War - Arcanists	It's an emergency! The Arcanists have grown afraid of the Order's advances in Mana Stone tech and launched  a surprise attack on them overnight. They're coming here now because they think you're the source of their Mana Stone problems! A group of them are headed to you right now, saying that you owe them a great debt and that they're open to negotiation on how to proceed forward. What will you do?																										
+Event Head	NegotiatewithMages	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values	MagePaladinPercievedThreat	>=	200																									
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 19	[Order] Explore Forest	Stone-faced Inquisitor: We need some folks to map the nearby forest.																										
+Event Head	WalkingIntoTheForest	TRUE	FALSE																									
+Trigger Ints	PaladinForestExploration	<	3																									
+Trigger Values																												
+Trigger States	PaladinForestInitialExploration	FALSE		PaladinArrived	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 20	[Order] Mana Stones!	Excitable Knight: Mana Stones! Our people over at the outpost reported Mana Stones in the area. They're deep within the nearby Forest. Please bring back some Mana Stones!																										
+Event Head	SearchingForManaStones	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	PaladinForestBase	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 21	[Order] Totally Normal Escort Quest	Shady Inquisitor:  Our technology has been feeling a little... lacking lately. We have our eyes on a new recruit... Only problem is that they're with the Arcanists. We need someone to help... uh... "convince" them to join us instead.																										
+Event Head	SneakingIntoMageCamp	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	PaladinCannonTest	TRUE		MageFireTest	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 22	[Order] Holy Hand Cannon Test	Excitable Knight: We've received the latest weaponry and have been given full permission to test it! Please, take me to the Forest, I must fire this Holy Hand Cannon right away!																										
+Event Head	SearchingForPracticeTargets	TRUE	FALSE																									
+Trigger Ints	PaladinManaStone	>	0																									
+Trigger Values																												
+Trigger States		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 23	[Order] Holy Hand Grenade Test	Stone-faced Inquisitor: The Holy Hand Cannon test went well. Our knights were really excited about getting to shoot it again. Too excited, in fact. Anyways, we need to test out another weapon, the Holy Hand Grenade. Come to the Forest with me.																										
+Event Head	WorthyHoldHandGrenadeTarget	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	PaladinCannonTest	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 24	[Order] Forest Outpost Construction	Baby-faced Squire: H-hello. I'm here on behalf of the Paladins to formally request the right to set up an outpost near the Forest. You'd need to come with us to sign some paperwork, is that okay?																										
+Event Head	NegotiateWithPaladins	FALSE	FALSE																									
+Trigger Ints	PaladinForestExploration	>=	3	PaladinForestBaseConstruction	<	1																						
+Trigger Values																												
+Trigger States	PaladinForestBase	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 25	[Guild] Intro To Guildmastering	Baby-faced Squire: H-hello. I'm here on behalf of the Order of the Paladins to negotiate some local labor for the construction of the Forest Outpost.																										
+Event Head	TutorialBattle	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	TutorialComplete	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 26	[Town] Lost Cat	Crazy Cat Lady: One of my dear little kittens has disappeared, could you lovely people please help find him?																										
+Event Head	LookingforCat	FALSE	FALSE																									
+Trigger Ints	TownPrestige	<	50																									
+Trigger Values																												
+Trigger States	TutorialComplete	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 27	[Town] The River Is Suspicious	Wavy-Haired Clerk: The farmers out by the river feel like something's been watching them lately. It won't pay well, but I think it could be a good idea to have regular patrols take out some monsters.																										
+Event Head	InvestigatingTheRiver	TRUE	FALSE																									
+Trigger Ints	TownPrestige	<	50																									
+Trigger Values																												
+Trigger States	TutorialComplete	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 28	[Town] Dispute Resolution	Wavy-Haired Clerk: Barrett and Parmpreet got into an argument with the merchants about grain prices again. Could you send someone good at negotiating to talk them down?																										
+Event Head	Resolvingthedispute	TRUE	FALSE																									
+Trigger Ints	TownPrestige	<	50																									
+Trigger Values																												
+Trigger States	TutorialComplete	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 29	[Guild] The Order Arrives	Wavy-Haired Clerk: A representative of The Order of Paladins has requested an escort for an incoming representative of The Order. We're to meet them and show them around the settlement.																										
+Event Head	OrderAtThePass	FALSE	FALSE																									
+Trigger Ints	TownPrestige	>	50																									
+Trigger Values																												
+Trigger States	PaladinArrived	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 30	[Guild] The Arcanists Arrives	Wavy-Haired Clerk: A representative of The  Arcanists has requested an escort for a field researcher. We're to meet them and show them around the settlement.																										
+Event Head	ArcanistsAtThePass	FALSE	FALSE																									
+Trigger Ints	TownPrestige	>	50																									
+Trigger Values																												
+Trigger States	MageArrived	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 31	BuildingForestExplorationNeed																											
+Event Head		TRUE	TRUE																									
+Trigger Ints	PaladinForestExploration	<	3																									
+Trigger Values																												
+Trigger States	PaladinForestInitialExploration	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinExplorationNeed	1	NOSET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 32	[Order] Explore Forest More	Stone-faced Inquisitor: We would like another expedition to the Forest.																										
+Event Head	WalkingIntoTheForest	TRUE	FALSE																									
+Trigger Ints	PaladinForestExploration	<	3	PaladinExplorationNeed	>	5																						
+Trigger Values																												
+Trigger States	PaladinForestInitialExploration	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes	PaladinExplorationNeed	0	SET																									
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 33	[Arcanists] Cave Search Again	Bejeweled Official: That last expedition... didn't go so well. But we all make mistakes. Send another group of adventurers. Intuition says there's still  something there...																										
+Event Head	SearchingForSamples	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageSampleCollected	FALSE		MageSampleFailed	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 34	[Arcanists] Sample Collection	Exhausted Arcanist: *huff* *huff* I heard... that there were Mana Stones here. Please, take me to where they are! *huff* It's been... *huff* so long since I've been out of the lab...																										
+Event Head	MoreManaStoneSearching	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageSampleCollected	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 35	[Order] Forest Outpost Construction 3	Baby-faced Squire: H-hello. There's a few more parts of the outpost that we need to get built. Could you help us once again.																										
+Event Head	NegotiateWithPaladins3	FALSE	FALSE																									
+Trigger Ints	PaladinForestExploration	>=	3	PaladinForestBaseConstruction	equals	2																						
+Trigger Values																												
+Trigger States	PaladinForestBase	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 36	[Order] Forest Outpost Construction 2	Baby-faced Squire: H-hello. We still need some help constructing the outpost. Could you show up around town again?																										
+Event Head	NegotiateWithPaladins2	FALSE	FALSE																									
+Trigger Ints	PaladinForestExploration	>=	3	PaladinForestBaseConstruction	equals	1																						
+Trigger Values																												
+Trigger States	PaladinForestBase	FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 37	[Order] Scour the Forest	Excitable Knight: Hey! Look at all this cool new gear we got assigned. The higher-ups must really like this Mana Stone thing. Oh right, could you lend us some people to go search the Forest for more?																										
+Event Head	SearchingForManaStones	TRUE	FALSE																									
+Trigger Ints	PaladinManaStone	<	5																									
+Trigger Values																												
+Trigger States	PaladinCollectionQuest	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 38	[Order] Shambler Hunt	Stone-faced Inquisitor: Shamblers in the nearby Forest have Mana Stones stuck in what I can only refer to as their heads. Go hunt some shamblers and bring back their Mana Stones.																										
+Event Head	ManaShamblerHunting	TRUE	FALSE																									
+Trigger Ints	PaladinManaStone	<	5																									
+Trigger Values																												
+Trigger States	PaladinCollectionQuest	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 39	[Arcanists] Too Many Moths	Rugged Researcher: Killing those cave monsters really helped us explore the caves more. But turns out there are huge moths whose sole natural predators were those monsters. They're eating our clothes, but more importantly, our miners! Get rid of those moths please. There's a lot of them																										
+Event Head	MineMothCombat	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageSpidersEliminated	TRUE		MageMiningOperation	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 40	[Arcanists] Spider Schenanigans	Rugged Researcher: AAAAAAAAAAAAAAAAAAAAAAAAH SPIDERSSSSSSSSSS																										
+Event Head	MineMothCombat	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageFledFromSpider	TRUE		MageSpidersEliminated	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 41	[Arcanists] Got Rocked On	Rugged Researcher: That rock golem really did a number on us, huh? Thankfully, the crew and the equipment are fine, just a little shook. You willing to give this another go?																										
+Event Head	RockGolems	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageGolemAlive	TRUE		MageMiningOperation	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 42	[Order] Holiest of Hand Cannons	Excitable Knight: We've failed to achieve the results we wanted, but I'm not too worried because I get to shoot the thing again! Let's go!																										
+Event Head	SearchingForPracticeTargets	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	PaladinCannonTestFailed	TRUE		PaladinCannonTest	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 43	[Order] Holiest of Grenades	Stone-faced Inquisitor: We didn't achieve the results we wanted with that last Holy Hand Grenade. We've worked hard to make some improvements. Let's go back to that rabbit.																										
+Event Head	WorthyHoldHandGrenadeTarget	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	PaladinRabbitLoss	TRUE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 44	[Arcanists] Super Secret Re-do	Slightly Less Confident Arcanist: I'm sure it'll go well this time... I don't see anything wrong with my magic. Er, do you have some stronger adventurers? I'd like to go back out there for some more testing.																										
+Event Head	BuffaloComms	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageFireTest	FALSE		MageFireTestFail	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 45	[Arcanists] Wolf Problem	Noticeably Less Confident Arcanist: Er, do you have adventurers that are... better at dealing with wolves (or mountains)? I'll pay another fee to take me up to the Mountains again, so please give me some veterans.																										
+Event Head	ClimbingAMountain	TRUE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	MageTamingTestFail	TRUE		MageTamingTest	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 46	[GAME OVER] Living Ending	Well, you lived, congratulations. The fate of the Town is will now be determined by your actions.																										
+Event Head	BlankEnding	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	EndGame	TRUE		YouLive	TRUE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Storylet 47	[GAME OVER] Death Ending	Despite your best efforts, it seems the powers at be have gotten the better of you. As in got your neck around a rope hung up high. Well, at least you won't have to worry about the business of adventuring no more.																										
+Event Head	BlankEnding	FALSE	FALSE																									
+Trigger Ints																												
+Trigger Values																												
+Trigger States	EndGame	TRUE		YouLive	FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Trigger Int Changes																												
+Trigger Values Changes																												
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE	FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE

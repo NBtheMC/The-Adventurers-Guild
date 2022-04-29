@@ -1109,11 +1109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5557836477504879741, guid: d840b446b049a7a49afe06fd4c904997, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 147.14
+      value: 147.14001
       objectReference: {fileID: 0}
     - target: {fileID: 5557836477504879741, guid: d840b446b049a7a49afe06fd4c904997, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 31.410004
+      value: 31.410034
       objectReference: {fileID: 0}
     - target: {fileID: 5557836477504879741, guid: d840b446b049a7a49afe06fd4c904997, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1590,6 +1590,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 61.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: csvEvents
+      value: 
+      objectReference: {fileID: 4900000, guid: 627ba2a48fdf39a4790697d54b58e39c, type: 3}
+    - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: csvStorylets
+      value: 
+      objectReference: {fileID: 4900000, guid: 79f28d2586233f64890897c6199ac2e0, type: 3}
     - target: {fileID: 4294269731876948076, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_Name
       value: CharInfoBook

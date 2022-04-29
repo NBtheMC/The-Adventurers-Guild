@@ -1,0 +1,429 @@
+Event 1	SecureMeetingHouse	The party set out to find a suitable for the Sailors 																						
+Stat - DC	Exploration	16																						
+Time / Reward	12	150																						
+Success Event		and found a suitable location!																						
+Success Int Change	PlayerGold	150																						
+Success Value Change																								
+Success State Change	SailorOutpostConstructed	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but no place was found (XPO)																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 2	SailorEnding	THE GAME IS OVER, BUT YOU CAN KEEP PLAYING I GUESS.																						
+Stat - DC	Exploration	20000																						
+Time / Reward	20000	0																						
+Success Event		HOW YOU GET HERE?																						
+Success Int Change																								
+Success Value Change	ShippingNeeds																							
+Success State Change	SailorOutpostConstructed	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		yeah, that wasn't really a quest																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 3	ProtectShip	The party set out with the sailors																						
+Stat - DC	Constitution	22																						
+Time / Reward	12	40																						
+Success Event		and had a great time with them																						
+Success Int Change	PlayerGold	40																						
+Success Value Change	GuildSailorRelation	5	SailorGuildRelation	5																				
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and was seasick the entire time.																						
+Failure Int Change	PlayerGold	10																						
+Failure Value Change	GuildSailorRelation	0.5	SailorGuildRelation	0.5																				
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 4	FindLogisticalPlans	The party set out to find the logistical plans 																						
+Stat - DC	Exploration	40																						
+Time / Reward	6																							
+Success Event	ResistTheUrge	and were successful.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but were not able to.																						
+Failure Int Change																								
+Failure Value Change	GuildSailorRelation	0.5	SailorGuildRelation	0.5																				
+Failure State Change	MageSailorLogisticalPlansKnown	TRUE	PaladinSailorLogisticalPlansKnown	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 5	ResistTheUrge	The party was tempted to look at the documents 																						
+Stat - DC	Negotiation	25																						
+Time / Reward	6	300																						
+Success Event		but managed to hold back the temptation.																						
+Success Int Change	PlayerGold	300																						
+Success Value Change	SailorGuildRelation	10																						
+Success State Change	SailorLogisticalPlans	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and learned of some pretty unsavort things about the sailors.																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	PlayerSailorLogisticalPlansKnown	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 6	EscortSailorToMage	The party travels with the sailor to meet the mages																						
+Stat - DC	Exploration	25																						
+Time / Reward	6	60																						
+Success Event		and successfully made their point of contact																						
+Success Int Change	PlayerGold	60																						
+Success Value Change	SailorGuildRelation	10	SailorMageRelation	10	MageSailorRelation	10																		
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event	ExplainPartyToPaladins	ExplainParty																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 7	ExplainPartyToPaladins	The Paladins interrogated the party 																						
+Stat - DC	Negotiation	30																						
+Time / Reward	6	60																						
+Success Event		but the party negotiated their safe release and made their point of contact																						
+Success Int Change	PlayerGold	60																						
+Success Value Change	GuildSailorRelation	10	SailorMageRelation	10	MageSailorRelation	10																		
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and the party couldn't explain so paladins arrest the sailor. (DPO)																						
+Failure Int Change																								
+Failure Value Change	PaladinGuildRelation	-20	PaladinSailorRelation	-20	PaladinMageRelation	-30																		
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 8	EscortSailorToPaladin	The party travels with the sailor to meet the paladins																						
+Stat - DC	Exploration	25																						
+Time / Reward	6	60																						
+Success Event	ExplainPartyToMages	and successfully made their point of contact																						
+Success Int Change	PlayerGold	60																						
+Success Value Change	SailorGuildRelation	10	SailorPaladinRelation	10	PaladinSailorRelation	10																		
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event	ExplainPartyToMages	but were caught by mages. (XPO)																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 9	ExplainPartyToMages	The Mages interrogated the party																						
+Stat - DC	Negotiation	30																						
+Time / Reward	6	60																						
+Success Event		but the party negotiated the safe release and made their point of contact.																						
+Success Int Change	PlayerGold	60																						
+Success Value Change	GuildSailorRelation	10	SailorPaladinRelation	10	PaladinSailorRelation	10																		
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event																								
+Failure Int Change																								
+Failure Value Change	MageGuildRelation	-20	MageSailorRelation	-20	MagePaladinRelation	-30																		
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 10	SearchingForSamples	The party searched the Caves for Mana Stones																						
+Stat - DC	Exploration	15																						
+Time / Reward	4	50																						
+Success Event		and found a rare deposit of Mana Stones.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change	MageSampleCollected	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but failed to find anything (Bad Exploration Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageSampleFailed	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 11	BuffaloComms	The party was charged by a herd of buffalo on the Plains																						
+Stat - DC	Combat	20																						
+Time / Reward	4	250																						
+Success Event		but were able to fend them off while the client conducted some tests																						
+Success Int Change																								
+Success Value Change	PaladinMagePercievedThreat	100																						
+Success State Change	MageFireTest	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and were forced to flee (CMB).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageFireTestFail	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 12	MountainWolves	Then the party ran into a pack of wolves up in the Mountains																						
+Stat - DC	Combat	30																						
+Time / Reward	1	300																						
+Success Event		and kept them at bay long enough to capture all the wolves.																						
+Success Int Change																								
+Success Value Change	MagePaladinPercievedThreat	100																						
+Success State Change	MageTamingTest	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and were forced to flee (CMB).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageTamingTestFail	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 13	ClimbingAMountain	The party departed for the Mountains																						
+Stat - DC	Constitution	15																						
+Time / Reward	7																							
+Success Event	MountainWolves	and made the climb without any major incidents.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but failed (Bad Constitution Check) the climb.																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageTamingTestFail	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 14	SpiderClearing	The party and a bunch of suspiciously bulky Arcanists encountered a giant spider nest in the Caves																						
+Stat - DC	Combat	25																						
+Time / Reward	7	120																						
+Success Event		and torched every last spider and cocoon.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change	MageSpidersEliminated	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		tried to fend them off, but had to run away as fast as they could (Bad Combat Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageFledFromSpider	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 15	Sneaking to the Mages	The party and the researcher snuck into the Forest past the Order outpost																						
+Stat - DC	Exploration	20																						
+Time / Reward	8	180																						
+Success Event		and were able to "scout the area" and "collect some samples."																						
+Success Int Change																								
+Success Value Change	MagePaladinPercievedThreat	15																						
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and had to flee because they were discovered by Order Paladins (XPO).																						
+Failure Int Change																								
+Failure Value Change	PaladinMagePercievedThreat	10																						
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 16	RockGolems	The party and the crew of miners proceeded carefully, but encountered a rock golem																						
+Stat - DC	Combat	30																						
+Time / Reward	4	200																						
+Success Event		and sucessfully pummeled it into powder.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change	MageMiningOperation	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and ran away before they were smashed to bits (Bad Combat Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageGolemAlive	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 17	FightOffthePaladins	The party tried to repel the invading Paladins																						
+Stat - DC	Combat	50																						
+Time / Reward	12	0																						
+Success Event		and held them off for just long enough for you to escape town.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change	YouLive	TRUE	EndGame	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but crumbled immediately under their superior firepower (CMB).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	YouLive	FALSE	EndGame	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 18	NegotiatewithMages	The party tried to negotiate with the angry Arcanists																						
+Stat - DC	Negotiation	50																						
+Time / Reward	12	0																						
+Success Event		and held them off for just long enough for you to escape town.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change	YouLive	TRUE	EndGame	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but the Arcanists talked circles around them (NGO) and found you in the back room anyways.																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	YouLive	TRUE	EndGame	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 19	WalkingIntoTheForest	The party headed out into the forest																						
+Stat - DC	Exploration	15																						
+Time / Reward	6	55																						
+Success Event		and mapped out the area a little!																						
+Success Int Change	PaladinForestExploration	1																						
+Success Value Change																								
+Success State Change	PaladinForestInitialExploration	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but failed to make any progress on the map (Bad Exploration Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	PaladinForestInitialExploration	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 20	SearchingForManaStones	The party went searching for Mana Stones																						
+Stat - DC	Exploration	25																						
+Time / Reward	12	90																						
+Success Event		and found some in the claws of the local wildlife																						
+Success Int Change	PaladinManaStone	1																						
+Success Value Change																								
+Success State Change	PaladinCollectionQuest	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but failed to find anything (XPO).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	PaladinCollectionQuest	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 21	SneakingIntoMageCamp	The party snuck into a Mage camp																						
+Stat - DC	Exploration	35																						
+Time / Reward	12	150																						
+Success Event		and retrieved the "item" without a struggle																						
+Success Int Change																								
+Success Value Change	PaladinMagePercievedThreat	10																						
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and got immediately caught (Bad Exploration Check)																						
+Failure Int Change																								
+Failure Value Change	MagePaladinPercievedThreat	15																						
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 22	FightingBoarsWithCannon	The client suddenly opened fire on the boars																						
+Stat - DC	Combat	20																						
+Time / Reward	6	110																						
+Success Event		and the party took care of the rest.																						
+Success Int Change																								
+Success Value Change			MagePaladinPercievedThreat	100																				
+Success State Change	PaladinCannonTest	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and the party wasn't ready, so they had to flee (CMB).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	PaladinCannonTestFailed	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 23	SearchingForPracticeTargets	The party searched for practice targets																						
+Stat - DC	Exploration	15																						
+Time / Reward	3																							
+Success Event	FightingBoarsWithCannon	and found a pack of wild boars																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but couldn't find anything to test it on. (Bad Exploration Check)																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 24	RabbitHolyHandGrenade	The party engaged the rabbits using the Holy Hand Grenade																						
+Stat - DC	Combat	30																						
+Time / Reward	1	130																						
+Success Event		and wiped them out along with their extended family.																						
+Success Int Change																								
+Success Value Change	PaladinMagePercievedThreat	100																						
+Success State Change	PaladinCannonTest	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but still lost (CMB).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 25	WorthyHoldHandGrenadeTarget	The party searched for a worthy foe 																						
+Stat - DC	Exploration	15																						
+Time / Reward	3																							
+Success Event	RabbitHolyHandGrenade	and found some rabbits.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but couldn't find any (XPO).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	PaladinRabbitLoss	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 26	NegotiateWithPaladins	The party tried to negotiate a good deal with the Paladins																						
+Stat - DC	Negotiation	40																						
+Time / Reward	12	300																						
+Success Event		and the job contracts are secured. They're building the new Paladin outpost as we speak.																						
+Success Int Change	PaladinManaGreed	10																						
+Success Value Change																								
+Success State Change	PaladinForestBase	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but could not secure all of the contracts for them. More negotiations need to be done.																						
+Failure Int Change	PlayerGold	50	PaladinForestBaseConstruction	1																				
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 27	TutorialBattle	Wavy-Haired Assistant: Thanks for waiting! Quest is complete. Let's see...																						
+Stat - DC	Combat	10																						
+Time / Reward	5	20																						
+Success Event		Great! You succeeded. Each successful Quest will return Gold, and potentially unlock more Quests. If you run out of Gold, you'll starve to death. Not right away, but after a couple of turns. Good luck out there!																						
+Success Int Change	PlayerGold	20																						
+Success Value Change																								
+Success State Change	TutorialComplete	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		You failed. Try again.																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 28	LookingforCat	The party went looking for the cat																						
+Stat - DC	Exploration	10																						
+Time / Reward	2																							
+Success Event	FightScaredCat	and found him stuck in a tree.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but couldn't find hide nor hair of him (Bad Exploration Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 29	FightScaredCat	The cat was scared and fought the party trying to save him,																						
+Stat - DC	Combat	10																						
+Time / Reward	1	10																						
+Success Event		but they managed to calm him down and retrieve him.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		running off after scratching someone in the face (Bad Combat Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 30	InvestigatingTheRiver	The party ran into an ankheg while doing the rounds																						
+Stat - DC	Combat	10																						
+Time / Reward	2	30																						
+Success Event		and killed it dead.																						
+Success Int Change	TownPrestige	20																						
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and couldn't take it down, so they ran all the way back to the Guild.																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 31	Resolvingthedispute	The party tried to calm all parties involved																						
+Stat - DC	Negotiation	10																						
+Time / Reward	1	30																						
+Success Event		and came up with a wonderful compromise.																						
+Success Int Change	TownPrestige	30																						
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and only made the situation worse (Bad Negotiation Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 32	OrderAtThePass	The party sets out to the tunnel pass																						
+Stat - DC	Exploration	5																						
+Time / Reward	4	30																						
+Success Event		and escorts the representative around.																						
+Success Int Change																								
+Success Value Change	PaladinPlayerRelation	10																						
+Success State Change	PaladinArrived	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but could not find the representative.																						
+Failure Int Change																								
+Failure Value Change	PaladinPlayerRelation	-10																						
+Failure State Change	PaladinArrived	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 33	ArcanistsAtThePass	The party sets out to the tunnel pass																						
+Stat - DC	Exploration	5																						
+Time / Reward	2	30																						
+Success Event		and escorts the representative around.																						
+Success Int Change																								
+Success Value Change	MagePlayerRelation	10																						
+Success State Change	MageArrived	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but could not find the representative.																						
+Failure Int Change																								
+Failure Value Change	MagePlayerRelation	-10																						
+Failure State Change	MageArrived	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 34	MoreManaStoneSearching	The party and the exhausted Arcanist searched the Caves for more Mana Stones																						
+Stat - DC	Exploration	20																						
+Time / Reward	5	50																						
+Success Event		and found an even rarer deposit of Mana Stones.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change	MageMineAmbition	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but failed to find anything (Bad Exploration Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change	MageMineAmbition	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 35	NegotiateWithPaladins2	The party tried to negotiate a good deal with the Paladins																						
+Stat - DC	Negotiation	30																						
+Time / Reward	4	200																						
+Success Event		and the job contracts are secured. They're building the new Paladin outpost as we speak.																						
+Success Int Change	PaladinManaGreed	10																						
+Success Value Change																								
+Success State Change	PaladinForestBase	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		 but could not secure all of the contracts for them. More negotiations need to be done.																						
+Failure Int Change	PlayerGold	50	PaladinForestBaseConstruction	1																				
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 36	NegotiateWithPaladins3	The party tried to negotiate a good deal with the Paladins																						
+Stat - DC	Negotiation	20																						
+Time / Reward	4	1000																						
+Success Event		 and the job contracts are all secured. They're building the new Paladin outpost as we speak.																						
+Success Int Change	PaladinManaGreed	10																						
+Success Value Change																								
+Success State Change	PaladinForestBase	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		 but could not secure all of the contracts for them. The Order planned to ship in experts.																						
+Failure Int Change	PlayerGold	50	PaladinForestBaseConstruction	1																				
+Failure Value Change																								
+Failure State Change	PaladinForestBase	TRUE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 37	ManaShamblerHunting	The party went shambler hunting																						
+Stat - DC	Combat	30																						
+Time / Reward	7	90																						
+Success Event		and brought back an ample stash of Mana Stones.																						
+Success Int Change	PaladinManaStone	1																						
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		but it went miserably (Bad Combat Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 38	MineMothCombat	The party ventured into the deepest parts of the mine																						
+Stat - DC	Combat	50																						
+Time / Reward	5	100																						
+Success Event		and destroyed the main moth nest.																						
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event		and ran away before they were eaten alive (Bad Combat Check).																						
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Event 39	BlankEnding	weeeee																						
+Stat - DC	Combat	20000																						
+Time / Reward	50000	0																						
+Success Event																								
+Success Int Change																								
+Success Value Change																								
+Success State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
+Failure Event																								
+Failure Int Change																								
+Failure Value Change																								
+Failure State Change		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE		FALSE
