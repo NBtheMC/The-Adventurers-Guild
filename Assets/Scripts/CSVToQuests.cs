@@ -20,7 +20,7 @@ public class CSVToQuests : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         csvStorylets = Resources.Load<TextAsset>("Storylets");
         csvEvents = Resources.Load<TextAsset>("Events");
@@ -46,24 +46,38 @@ public class CSVToQuests : MonoBehaviour
             Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
             
             //list all the damn things we need.
-            string storyletName = storyletData[0].Split('\t')[1]; //row 1, col b storylet name.
-            string storyletDetails = storyletData[0].Split('\t')[2]; // row 1, col c storylet details.
-            string eventHeadName = storyletData[1].Split('\t')[1]; // row 2, col b event name.
-            string toBeInstancedString = storyletData[1].Split('\t')[2]; // row 2, col c, to be instanced.
-            string toBeDuplicated = storyletData[1].Split('\t')[3]; // row 2, col d, to be duplicated.
-            string[] triggerIntStrings = storyletData[2].Split('\t'); // row 3, all the trigger ints.
-            string[] triggerFloatStrings = storyletData[3].Split('\t'); // row 4, all the trigger floats.
-            string[] triggerBoolStrings = storyletData[4].Split('\t'); // row 5, all the trigger bools.
-            string[] changeIntStrings = storyletData[5].Split('\t'); // row 6, all changing ints.
-            string[] changeFloatStrings = storyletData[6].Split('\t'); // row 7, all changing floats.
-            string[] changeBoolStrings = storyletData[7].Split('\t'); // row 8, all changing bools.
+            string storyletName = storyletPacket[0].Split('\t')[1]; //row 1, col b storylet name.
+            string storyletDetails = storyletPacket[0].Split('\t')[2]; // row 1, col c storylet details.
+            string eventHeadName = storyletPacket[1].Split('\t')[1]; // row 2, col b event name.
+            string toBeInstancedString = storyletPacket[1].Split('\t')[2]; // row 2, col c, to be instanced.
+            string toBeDuplicated = storyletPacket[1].Split('\t')[3]; // row 2, col d, to be duplicated.
+            string[] triggerIntStrings = storyletPacket[2].Split('\t'); // row 3, all the trigger ints.
+            string[] triggerFloatStrings = storyletPacket[3].Split('\t'); // row 4, all the trigger floats.
+            string[] triggerBoolStrings = storyletPacket[4].Split('\t'); // row 5, all the trigger bools.
+            string[] changeIntStrings = storyletPacket[5].Split('\t'); // row 6, all changing ints.
+            string[] changeFloatStrings = storyletPacket[6].Split('\t'); // row 7, all changing floats.
+            string[] changeBoolStrings = storyletPacket[7].Split('\t'); // row 8, all changing bools.
 
+            // Storylet names and description.
+            newStorylet.name = storyletName;
             newStorylet.questName = storyletName;
             newStorylet.questDescription = storyletDetails;
             
+            // Get the instancing box.
+            bool temporaryHoldBool = false;
+            if (!bool.TryParse(toBeInstancedString.ToLower(), out temporaryHoldBool))
+            {Debug.Log($"bool unable to be parsed in {storyletName}'s instance box, colum c. Has {toBeInstancedString.ToLower()}. set to false.");}
+            newStorylet.canBeInstanced = temporaryHoldBool;
+
+            // Get the duplication box.
+            temporaryHoldBool = false;
+            if (!bool.TryParse(toBeDuplicated.ToLower(), out temporaryHoldBool))
+            {Debug.Log($"bool unable to be parsed in {storyletName}'s duplication box, colum d. Has {toBeInstancedString.ToLower()}. set to false.");}
+            newStorylet.canBeDuplicated = temporaryHoldBool;
+
             // Put the event node in.
-            EventNode temporaryLookupNode;
-            if (!eventLookup.TryGetValue(eventHeadName,out temporaryLookupNode)){Debug.LogError($"{storyletName}'s eventNode could not be found, skipping."); continue; }
+            EventNode temporaryLookupNode = null;
+            if (eventHeadName!= "" && !eventLookup.TryGetValue(eventHeadName,out temporaryLookupNode)){Debug.LogError($"{storyletName}'s eventNode could not be found, skipping."); continue; }
             newStorylet.eventHead = temporaryLookupNode;
 
             // The trigger ints.
@@ -104,7 +118,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // Get the value.
                 float inputValue;
-                if (!float.TryParse(triggerIntStrings[j+2], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Trigger Ints, colum {j+2}, skipping"); continue; }
+                if (!float.TryParse(triggerFloatStrings[j+2], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Trigger Values, colum {j+2}, skipping"); continue; }
                 triggerValues.Add(newTriggerFloat);
             }
             newStorylet.triggerValues = triggerValues;
@@ -115,18 +129,21 @@ public class CSVToQuests : MonoBehaviour
                 Storylet.TriggerState newTriggerState = new Storylet.TriggerState();
                 //Set the name.
                 if(triggerBoolStrings[j] == ""){continue;}
-                newTriggerState.name = triggerFloatStrings[j];
+                newTriggerState.name = triggerBoolStrings[j];
 
                 // Get the value.
                 bool inputValue;
-                if (!bool.TryParse(triggerIntStrings[j+2], out inputValue)){Debug.Log($"bool unable to be parsed in {storyletName}'s Trigger States, colum {j+1}, skipping"); continue; }
+                if (!bool.TryParse(triggerBoolStrings[j+1].ToLower(), out inputValue)){
+                    Debug.Log($"bool unable to be parsed in {storyletName}'s Trigger States, colum {j+1}. Has {triggerBoolStrings[j + 1].ToLower()}. skipping");
+                    continue; }
+                newTriggerState.state = inputValue;
                 triggerBools.Add(newTriggerState);
             }
             newStorylet.triggerStates = triggerBools;
 
             //INT CHANGES
             List<Storylet.IntChange> intChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < changeIntStrings.Length; j+=3){
+            for(int j = 1; j < changeIntStrings.Length-1; j+=3){
                 // Create the new items.
                 Storylet.IntChange newIntChange = new Storylet.IntChange();
                 if(changeIntStrings[j] == ""){continue;}
@@ -134,7 +151,9 @@ public class CSVToQuests : MonoBehaviour
 
                 // The value to change.
                 int inputValue;
-                if (!int.TryParse(triggerIntStrings[j+1], out inputValue)){Debug.Log($"Int unable to be parsed in {storyletName}'s Int Changes, colum {j+1}, skipping"); continue; }
+                if (!int.TryParse(changeIntStrings[j+1], out inputValue)){
+                    Debug.Log($"Int unable to be parsed in {storyletName}'s Int Changes, colum {j+1}, skipping");
+                    continue; }
                 newIntChange.value = inputValue;
 
                 // The set value.
@@ -153,7 +172,7 @@ public class CSVToQuests : MonoBehaviour
 
             //VALUE CHANGES
             List<Storylet.ValueChange> valueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < changeFloatStrings.Length; j+=3){
+            for(int j = 1; j < changeFloatStrings.Length-1; j+=3){
                 // Create the new items.
                 Storylet.ValueChange newValueChange = new Storylet.ValueChange();
                 if(changeFloatStrings[j] == ""){continue;}
@@ -161,7 +180,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // The valeu to change.
                 float inputValue;
-                if (!float.TryParse(triggerIntStrings[j+1], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Float Changes, colum {j+1}, skipping"); continue; }
+                if (!float.TryParse(changeFloatStrings[j+1], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Float Changes, colum {j+1}, skipping"); continue; }
                 newValueChange.value = inputValue;
 
                 // the set value
@@ -180,19 +199,23 @@ public class CSVToQuests : MonoBehaviour
 
             //STATE CHANGES
             List<Storylet.StateChange> stateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < changeBoolStrings.Length; j+=2){
+            for(int j = 1; j < changeBoolStrings.Length-1; j+=3){
                 Storylet.StateChange newStateChange = new Storylet.StateChange();
                 if(changeBoolStrings[j] == ""){continue;}
                 newStateChange.name = changeBoolStrings[j];
 
                 // The valeu to change.
                 bool inputValue;
-                if (!bool.TryParse(triggerIntStrings[j+1], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Float Changes, colum {j+1}, skipping"); continue; }
+                if (!bool.TryParse(changeBoolStrings[j+1].ToLower(), out inputValue)){
+                    Debug.Log($"Bool unable to be parsed in {storyletName}'s bool Changes. has {changeBoolStrings[j + 1].ToLower()}, colum {j+1}, skipping");
+                    continue; }
                 newStateChange.state = inputValue;
                 //Do extra parsing
                 stateChanges.Add(newStateChange);
             }
             newStorylet.triggerStateChanges = stateChanges;
+
+            // Add the damn thing.
             allStorylets.Add(newStorylet);
             Debug.Log("Storylet added: " + newStorylet.questName);
         }
@@ -220,7 +243,6 @@ public class CSVToQuests : MonoBehaviour
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>();
             string eventDescription = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
             eventLookup.Add(eventDescription, newEvent);
-            Debug.Log($"Added {eventDescription}");
         }
 
 
@@ -272,7 +294,7 @@ public class CSVToQuests : MonoBehaviour
 
             // adds new connection to the successNode.
             EventNode temporaryLookupNode;
-            if (successNodestring == ""){}
+            if (successNodestring == ""){ newEvent.successNode = null; }
             else if (!eventLookup.TryGetValue(successNodestring,out temporaryLookupNode)){
                 Debug.LogError($"{nameString}'s success Node could not be found, skipping.");
                 continue;
@@ -331,8 +353,13 @@ public class CSVToQuests : MonoBehaviour
             }
             newEvent.successStateChange = successStateChanges;
 
-            if (!eventLookup.TryGetValue(failNodestring,out temporaryLookupNode)){Debug.LogError($"{nameString}'s failure Node could not be found, skipping."); continue; }
-            newEvent.failureNode = temporaryLookupNode;
+            // adds new connections to the failureNode.
+            if (successNodestring == "") { newEvent.failureNode = null; }
+            else if (!eventLookup.TryGetValue(failNodestring,out temporaryLookupNode)){
+                Debug.LogError($"{nameString}'s failure Node could not be found, skipping.");
+                continue;
+            }
+            else { newEvent.failureNode = temporaryLookupNode; }
             newEvent.failureString = failDetailstring;
 
             // Fail Int Parsing
@@ -385,6 +412,9 @@ public class CSVToQuests : MonoBehaviour
                 failStateChanges.Add(newBoolChange); // add the new change to the list.
             }
             newEvent.failStateChange = failStateChanges;
+
+            allEvents.Add(newEvent);
+            Debug.Log($"Added Event {eventDescription}");
         }
     }
 
