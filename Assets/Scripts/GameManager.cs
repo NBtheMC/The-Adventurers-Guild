@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
         if(currentScene != Scene.Menu){
             timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();    
         }
