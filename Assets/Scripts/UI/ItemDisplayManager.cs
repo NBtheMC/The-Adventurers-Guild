@@ -67,7 +67,8 @@ public class ItemDisplayManager : MonoBehaviour
 
     private void DisplayLastActive(GameObject g)
     {
-        g.SetActive(true);
+        if(g != null)
+            g.SetActive(true);
         lastActiveDisplay = null;
     }
 }
