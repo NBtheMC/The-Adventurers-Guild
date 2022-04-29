@@ -7,6 +7,7 @@ public class QuestBanner : MonoBehaviour
 {
 
     [HideInInspector] public QuestSheet questSheet;
+    [HideInInspector] public ItemDisplayManager displayManager;
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
@@ -16,7 +17,8 @@ public class QuestBanner : MonoBehaviour
     public void Awake()
     {
         questUIPrefab = Resources.Load<GameObject>("QuestUI");
-        QuestUISpawn = GameObject.Find("CurrentItemDisplay/Quest");
+        displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
+        QuestUISpawn = displayManager.questDisplay;
         isDisplayed = false;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += DeleteBanner;
     }
@@ -39,14 +41,17 @@ public class QuestBanner : MonoBehaviour
             return;
         if (!isDisplayed)
         {
-            //if a quest is already displayed
-            if(QuestUISpawn.transform.childCount != 0)
+            displayManager.DisplayQuest(true);
+
+            //if a different quest is in the display manager, remove it
+            if (QuestUISpawn.transform.childCount != 0)
             {
                 QuestUISpawn.transform.GetChild(0).GetComponent<QuestUI>().DestroyUI();
             }
 
             GameObject questUIObj = Instantiate(questUIPrefab);
             
+            //if quest is marked as active, deactivate extra buttons
             if(questIsActive)
             {
                 questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
@@ -67,13 +72,9 @@ public class QuestBanner : MonoBehaviour
             //add quest to QuestDisplay canvas
             questUIObj.transform.SetParent(QuestUISpawn.transform, false);
 
-            //move to bottom of child object hierarchy for rendering order reasons
-            questUIObj.transform.parent.SetAsLastSibling();
-
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
             questUI.SetupQuestUI(questSheet, questIsActive);
-            Debug.Log(questSheet.questName);
             isDisplayed = true;
 
             var i = UnityEngine.Random.Range(0, 3);
@@ -81,9 +82,13 @@ public class QuestBanner : MonoBehaviour
             else if (i == 1) {SoundManagerScript.PlaySound("parchment2");}
             else {SoundManagerScript.PlaySound("parchment3");}
         }
-        else
+        else if (isDisplayed && !displayManager.questDisplay.activeInHierarchy)
         {
-            QuestUISpawn.transform.SetAsLastSibling();
+            displayManager.DisplayQuest(true);
+        }
+        else if (isDisplayed && displayManager.questDisplay.activeInHierarchy)
+        {
+            displayManager.DisplayQuest(false);
         }
     }
 

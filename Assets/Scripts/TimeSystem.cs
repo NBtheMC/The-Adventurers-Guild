@@ -20,6 +20,8 @@ public class TimeSystem : MonoBehaviour
      */
     public event EventHandler<GameTime> TickAdded;
 
+    public event EventHandler NewDay;
+
     private void Awake()
     {
         Debug.Log("Starting time");
@@ -47,6 +49,7 @@ public class TimeSystem : MonoBehaviour
             //Use GameManager to advance day
             GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             //gameManager.ChangeScenes("Recap");
+            NewDay(this, EventArgs.Empty);
         }
 
         if (TickAdded != null)
@@ -73,6 +76,8 @@ public class TimeSystem : MonoBehaviour
         StopCoroutine(timeTrackerCoroutine);
     }
 
+    public GameTime getTime() { return gameTime; }
+    
     public void SetDay(int currentDay){
         gameTime.day = currentDay;
         gameTime.hour = 0;

@@ -41,7 +41,11 @@ public class CharacterInfoUI : MonoBehaviour
     public void DestroyUI()
     {
        if(charObject != null)
-            charObject.GetComponent<CharacterTileController>().isDisplayed = false;
+        {
+            CharacterTileController c = charObject.GetComponent<CharacterTileController>();
+            c.isDisplayed = false;
+            c.displayManager.DisplayCharacter(false);
+        }
 
         Destroy(this.gameObject);
     }

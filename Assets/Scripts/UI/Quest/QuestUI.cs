@@ -139,7 +139,12 @@ public class QuestUI : MonoBehaviour
         }
 
         if (questBanner != null)
-            questBanner.GetComponent<QuestBanner>().isDisplayed = false;
+        {
+            QuestBanner q = questBanner.GetComponent<QuestBanner>();
+            q.isDisplayed = false;
+            q.displayManager.DisplayQuest(false);
+        }
+            
 
         characterPool.RefreshCharacterPool();
         Destroy(this.gameObject);

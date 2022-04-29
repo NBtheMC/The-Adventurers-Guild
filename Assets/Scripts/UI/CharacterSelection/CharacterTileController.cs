@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
-    private CharacterBookManager CharBook;
+    [HideInInspector] public ItemDisplayManager displayManager;
     private GameObject CharInfoSpawn;
     private GameObject CharInfoUIPrefab;
     [SerializeField] private float movementDelta = 0;
@@ -16,8 +16,8 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void Awake()
     {
-        CharBook = GameObject.Find("CharInfoBook").GetComponent<CharacterBookManager>();
-        CharInfoSpawn = GameObject.Find("CurrentItemDisplay/CharInfo");
+        displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
+        CharInfoSpawn = displayManager.characterDisplay;
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
     }
 
@@ -38,34 +38,32 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
         if ((Mathf.Abs(deltaX) < movementDelta && Mathf.Abs(deltaY) < movementDelta))
         {
-            if (!isDisplayed)
+            if (!isDisplayed || !displayManager.characterDisplay.activeInHierarchy)
             {
-
-
+                displayManager.DisplayCharacter(true);
                 if (CharInfoSpawn.transform.childCount != 0)
                 {
                     CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
                 }
 
-                //CharBook.DisplayCharacter(characterSheet);
                 GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
                 CharInfoUIObject.transform.parent.SetAsLastSibling();
                 CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
                 characterInfoUI.charObject = this.gameObject;
+
                 characterInfoUI.SetupCharacterInfoUI(characterSheet);
 
                 //Add character portrait
                 if (characterSheet.portrait != null)
                 {
-                    //CharInfoUIObject.AddComponent<Image>().sprite = character.portrait;
                     CharInfoUIObject.transform.Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
                 }
 
                 isDisplayed = true;
             }
-            else 
+            else if(isDisplayed && displayManager.characterDisplay.activeInHierarchy)
             {
-                CharInfoSpawn.transform.SetAsLastSibling();
+                displayManager.DisplayCharacter(false);
             }
         }
     }
