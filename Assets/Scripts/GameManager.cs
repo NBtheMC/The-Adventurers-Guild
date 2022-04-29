@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void QuitGame(){
+        Debug.Log("GET ME OUT");
         Application.Quit();
     }
 
