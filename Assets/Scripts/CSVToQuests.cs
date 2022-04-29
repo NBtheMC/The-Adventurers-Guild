@@ -22,8 +22,8 @@ public class CSVToQuests : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        csvStorylets = Resources.Load<TextAsset>("Storylets");
-        csvEvents = Resources.Load<TextAsset>("Events");
+        if (csvStorylets == null) { csvStorylets = Resources.Load<TextAsset>("Storylets"); }
+        if (csvEvents == null) { csvEvents = Resources.Load<TextAsset>("Events"); }
         MakeEverything();
     }
 
@@ -119,6 +119,9 @@ public class CSVToQuests : MonoBehaviour
                 // Get the value.
                 float inputValue;
                 if (!float.TryParse(triggerFloatStrings[j+2], out inputValue)){Debug.Log($"Float unable to be parsed in {storyletName}'s Trigger Values, colum {j+2}, skipping"); continue; }
+                newTriggerFloat.value = inputValue;
+
+                //Add it to the list.
                 triggerValues.Add(newTriggerFloat);
             }
             newStorylet.triggerValues = triggerValues;
@@ -137,6 +140,8 @@ public class CSVToQuests : MonoBehaviour
                     Debug.Log($"bool unable to be parsed in {storyletName}'s Trigger States, colum {j+1}. Has {triggerBoolStrings[j + 1].ToLower()}. skipping");
                     continue; }
                 newTriggerState.state = inputValue;
+
+                // Add it to the list.
                 triggerBools.Add(newTriggerState);
             }
             newStorylet.triggerStates = triggerBools;
