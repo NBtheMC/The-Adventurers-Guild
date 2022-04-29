@@ -174,4 +174,8 @@ public class CharacterPoolController : MonoBehaviour
         // Makes a new list of characters, to be augmentable by themselves.
         activeRole = new List<CharacterSheet>(listofCharacters);
     }
+
+    public List<CharacterSheet> GetActiveCharacters(){
+        return activeRole;
+    }
 }
