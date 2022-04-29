@@ -25,7 +25,7 @@ public class BondDisplayManager : MonoBehaviour
             Debug.Log("CharacterSheet: " + c.adventurer);
             //Debug.Log("Character adding to sheet: " + friendship.Key + " = " + friendship.Value);
             //set gameobject of bond display active
-            GameObject currentBondObject = this.transform.GetChild(numBonds).gameObject;
+            GameObject currentBondObject = this.transform.GetChild(0).GetChild(0).GetChild(numBonds).gameObject;
             currentBondObject.SetActive(true);
             BondDisplay currentBondDisplay = currentBondObject.GetComponent<BondDisplay>();
             Debug.Log("BondDisplay: " + currentBondDisplay);
