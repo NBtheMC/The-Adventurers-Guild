@@ -23,6 +23,8 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
     }
 
+
+
     public void CharacterClicked()
     {
         if (PauseMenu.gamePaused)
@@ -55,6 +57,11 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void GrayOutPortrait()
+    {
+        transform.GetComponent<Image>().color = new Color32(0, 0, 0, 255);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -64,6 +71,7 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
+            GrayOutPortrait();
             CharacterRightClickedOnEvent?.Invoke(this, characterSheet);
         }
     }

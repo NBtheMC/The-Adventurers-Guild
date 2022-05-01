@@ -18,7 +18,7 @@ public class QUestUIController : MonoBehaviour
         
     }
 
-    public void QuestTestMethod(object src, CharacterSheet character)
+    public void QuestAddCharacter(object src, CharacterSheet character)
     {
         QuestUI questUI = transform.GetComponentInChildren<QuestUI>();
         if (questUI == null) return;

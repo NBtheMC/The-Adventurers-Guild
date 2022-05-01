@@ -91,7 +91,7 @@ public class CharacterPoolController : MonoBehaviour
         newCaracterSlot.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
 
         newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
-        newCharacter.GetComponent<CharacterTileController>().CharacterRightClickedOnEvent += questController.QuestTestMethod;
+        newCharacter.GetComponent<CharacterTileController>().CharacterRightClickedOnEvent += questController.QuestAddCharacter;
 
 
         //set positions of character slots
