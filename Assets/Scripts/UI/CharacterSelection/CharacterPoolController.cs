@@ -60,7 +60,7 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     public void RefreshCharacterPool()
     {
-        //dropHandler.ClearDropPoints();
+        numCharacterSlots = 0;
 
         foreach ((GameObject, GameObject) thing in characterSlots)
         {

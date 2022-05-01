@@ -160,6 +160,7 @@ public class QuestUI : MonoBehaviour
 
     public void DestroyUI()
     {
+        /*
         foreach (Transform child in DropPoints)
         {
             DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
@@ -169,6 +170,7 @@ public class QuestUI : MonoBehaviour
             }
             dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
         }
+        */
 
         if (questBanner != null)
             questBanner.GetComponent<QuestBanner>().isDisplayed = false;
