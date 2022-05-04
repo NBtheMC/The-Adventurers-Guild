@@ -10,7 +10,7 @@ public class CreditsText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0;
+        maxSpeed = 0;
     }
 
     // Update is called once per frame

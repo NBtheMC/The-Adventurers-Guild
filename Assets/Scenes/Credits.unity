@@ -248,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230675895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.55, y: 3.7, z: -97.98317}
+  m_LocalPosition: {x: -4.55, y: 0.49, z: -97.98317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -833,8 +833,7 @@ MonoBehaviour:
   - {fileID: 5733505193557875102, guid: caacab328e4b67f49be5c907c15a70cb, type: 3}
   textDropzone: {fileID: 248710719}
   portraitDropzone: {fileID: 230675896}
-  speed: 10
-  cooldown: 1
+  speed: 0.01
 --- !u!4 &1984114602
 Transform:
   m_ObjectHideFlags: 0
@@ -963,7 +962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5733505193557875100, guid: caacab328e4b67f49be5c907c15a70cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.19
+      value: 10.32
       objectReference: {fileID: 0}
     - target: {fileID: 5733505193557875100, guid: caacab328e4b67f49be5c907c15a70cb, type: 3}
       propertyPath: m_LocalPosition.z

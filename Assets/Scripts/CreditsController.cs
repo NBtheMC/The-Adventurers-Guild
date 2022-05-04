@@ -11,7 +11,8 @@ public class CreditsController : MonoBehaviour
     public Transform portraitDropzone;
 
     public float speed; //speed of objects as they move across the screen
-    public float cooldown; //time between each credit
+    public const float MAXCOOLDOWN = 5; //time between each credit
+    private float cooldown; 
 
     private int currentCredit;
     private int totalCredits;
@@ -21,6 +22,8 @@ public class CreditsController : MonoBehaviour
     {
         currentCredit = 1;
         totalCredits = 12; //change later?
+
+        cooldown = MAXCOOLDOWN;
     }
 
     // Update is called once per frame
@@ -28,9 +31,13 @@ public class CreditsController : MonoBehaviour
     {
         cooldown -= Time.deltaTime;
         if (cooldown <= 0 && (currentCredit <= totalCredits)){
+            Debug.Log("Dropping theoretically");
             //deploy objects
-            Instantiate(creditsText[currentCredit - 1], textDropzone);
-            Instantiate(creditsPortrait[currentCredit - 1], portraitDropzone);
+            GameObject newCredit = Instantiate(creditsText[currentCredit - 1], textDropzone);
+            newCredit.GetComponent<CreditsText>().SetSpeed(speed);
+            GameObject newPortrait = Instantiate(creditsPortrait[currentCredit - 1], portraitDropzone);
+            newPortrait.GetComponent<CreditsPortrait>().SetSpeed(speed);
+            cooldown = MAXCOOLDOWN;
         }
         else if(currentCredit > totalCredits || Input.GetKeyDown("escape")){
             EndCredits();
