@@ -294,7 +294,8 @@ public class CSVToQuests : MonoBehaviour
                     break;
             }
             newEvent.DC = int.Parse(DCstring);
-            newEvent.time = int.Parse(timeString);
+            float eventHours = float.Parse(timeString);
+            newEvent.time = Mathf.CeilToInt(eventHours * 4);
             if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
 
             // adds new connection to the successNode.

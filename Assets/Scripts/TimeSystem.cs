@@ -10,6 +10,13 @@ public class TimeSystem : MonoBehaviour
     private float tickLength = 2.5f; // Length of a tick in seconds. Equal to one in game hour
     private GameTime gameTime; // Current in game time
     public bool timerActive { get; private set; } //Can be read by other classes to determine if timer is running
+
+    public int hoursInDay; // How many hours are there in a day.
+    public int ticksperHour; // How many ticks do we want to trigger per hour.
+    public int activeHours; // How many hours is the player allowed to play though before the ticker accelerates to the next day?
+    public int totalTicksperDay() { return hoursInDay * ticksperHour; } // Get the mathatical ticks per 
+    public int totalTicksperActive() { return activeHours * ticksperHour; } // Get the total number of ticks that the player exists in.
+
     Coroutine timeTrackerCoroutine; // Used to start/stop timer coroutine
 
     /*

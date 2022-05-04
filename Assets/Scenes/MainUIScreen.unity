@@ -301,6 +301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50597db5a5ee038449f6c322a14050d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoursInDay: 24
+  ticksperHour: 4
+  activeHours: 16
 --- !u!4 &563469175
 Transform:
   m_ObjectHideFlags: 0
@@ -1625,7 +1628,7 @@ PrefabInstance:
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: csvStorylets
       value: 
-      objectReference: {fileID: 4900000, guid: 79f28d2586233f64890897c6199ac2e0, type: 3}
+      objectReference: {fileID: 4900000, guid: 80fec804b7a989e40895b5d10ac70009, type: 3}
     - target: {fileID: 4294269731876948076, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_Name
       value: CharInfoBook
