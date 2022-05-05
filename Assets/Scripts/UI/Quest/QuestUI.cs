@@ -20,8 +20,8 @@ public class QuestUI : MonoBehaviour
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
 
-    
-    private int assignedCharacters = 0;
+
+    public int AssignedCharacters { get; private set; } = 0;
 
     // UI items to display quest breifing details.
     public Text cmbBriefText;
@@ -181,15 +181,15 @@ public class QuestUI : MonoBehaviour
 
     public void AddCharacter(CharacterSheet character)
     {
-        if (assignedCharacters >= 4) return;
+        if (AssignedCharacters >= 4) return;
 
-        characterSlots[assignedCharacters].textObject.SetActive(true);
-        characterSlots[assignedCharacters].name.text = character.name;
+        characterSlots[AssignedCharacters].textObject.SetActive(true);
+        characterSlots[AssignedCharacters].name.text = character.name;
 
         //CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
-        characterSlots[assignedCharacters].portraitObject.SetActive(true);
-        characterSlots[assignedCharacters].portrait.sprite = character.portrait;
-        assignedCharacters++;
+        characterSlots[AssignedCharacters].portraitObject.SetActive(true);
+        characterSlots[AssignedCharacters].portrait.sprite = character.portrait;
+        AssignedCharacters++;
     }
 
 }

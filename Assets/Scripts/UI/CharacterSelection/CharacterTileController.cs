@@ -14,6 +14,8 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
     private Vector3 clickPos;
     [HideInInspector] public bool isDisplayed = false;
 
+    private GameObject questUI;
+
     public event EventHandler<CharacterSheet> CharacterLeftClickedOnEvent;
     public event EventHandler<CharacterSheet> CharacterRightClickedOnEvent;
 
@@ -71,8 +73,14 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            GrayOutPortrait();
-            CharacterRightClickedOnEvent?.Invoke(this, characterSheet);
+            questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");
+            if (questUI == null) return;
+
+            if (questUI.GetComponent<QuestUI>().AssignedCharacters < 4)
+            {
+                GrayOutPortrait();
+                CharacterRightClickedOnEvent?.Invoke(this, characterSheet);
+            }
         }
     }
 }
