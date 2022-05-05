@@ -177,6 +177,7 @@ public class QuestUI : MonoBehaviour
 
     public void AddCharacter(CharacterSheet character)
     {
+        if (questBanner.GetComponent<QuestBanner>().questIsActive) return;
         if (AssignedCharacters >= 4) return;
         if (IsCharacterAssigned(character)) return;
 
@@ -203,6 +204,7 @@ public class QuestUI : MonoBehaviour
 
     public void RemoveCharacter(int slot)
     {
+        if (questBanner.GetComponent<QuestBanner>().questIsActive) return;
         characterSlots[slot].name.text = "";
         characterSlots[slot].textObject.SetActive(false);
         characterSlots[slot].portrait.sprite = null;
