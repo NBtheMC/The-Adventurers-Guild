@@ -16,9 +16,6 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
 
     private GameObject questUI;
 
-    public event EventHandler<CharacterSheet> CharacterLeftClickedOnEvent;
-    public event EventHandler<CharacterSheet> CharacterRightClickedOnEvent;
-
     public void Awake()
     {
         CharInfoSpawn = GameObject.Find("CurrentItemDisplay/CharInfo");
@@ -69,7 +66,6 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             CharacterClicked();
-            CharacterLeftClickedOnEvent?.Invoke(this, characterSheet);
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -79,7 +75,7 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
             if (questUI.GetComponent<QuestUI>().AssignedCharacters < 4)
             {
                 GrayOutPortrait();
-                CharacterRightClickedOnEvent?.Invoke(this, characterSheet);
+                questUI.GetComponent<QuestUI>().AddCharacter(characterSheet);
             }
         }
     }
