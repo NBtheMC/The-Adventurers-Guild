@@ -12,10 +12,14 @@ public class ClockHandler : MonoBehaviour
     Text dayCounter;
     [Range(0.0f, 1.0f)]
     [SerializeField] private float speed;
+
+    private TimeSystem currentTimeSystem;
+
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += UpdateClock;
+        currentTimeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
+        currentTimeSystem.TickAdded += UpdateClock;
         dayCounter = transform.parent.Find("DayCounter/Days").GetComponent<Text>();
     }
 
@@ -31,7 +35,7 @@ public class ClockHandler : MonoBehaviour
     void UpdateClock(object source, GameTime gameTime)
     {
         canUpdate = true;
-        hour = hour == 23 ? 0 : hour + 1;
+        hour = hour == (currentTimeSystem.totalTicksperActive() - 1)? 0 : hour + 1;
 
         if(hour == 0)
         {
@@ -40,8 +44,20 @@ public class ClockHandler : MonoBehaviour
         }
         
         //calculate next clock hand position
-        float theta = (0.261799f * hour) / 2;
+        float theta = 2*Mathf.PI/currentTimeSystem.totalTicksperActive() * hour / 2;
         float z = Mathf.Sin(theta);
         nextRotation = new Quaternion(0f, 0f, -z, Mathf.Cos(theta));
     }
+
+    void EndDay()
+	{
+        // Reset rotation to the top of the clock.
+        nextRotation = new Quaternion(0f, 0f, -Mathf.Sin(0f), Mathf.Cos(0f)); canUpdate = true;
+
+	}
+
+    void BeginDay()
+	{
+
+	}
 }
