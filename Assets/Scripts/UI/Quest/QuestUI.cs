@@ -132,34 +132,26 @@ public class QuestUI : MonoBehaviour
     /// </summary>
     public void SendParty()
     {
+        if (AssignedCharacters == 0) return;
         //create new partySheet and add all selected adventurers
         PartySheet partyToSend = new PartySheet();
 
         //find all characters on QuestUI object and add to partyToSend
-        foreach (Transform child in DropPoints)
+        foreach(CharacterSlot charSlot in characterSlots)
         {
-            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            if (character)
-            {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
-                partyToSend.addMember(charSheet);
-            }
+            if (charSlot.characterAssigned)
+                partyToSend.addMember(charSlot.character);
         }
 
-        //assign partyToSend to the current quest
-        if (partyToSend.Party_Members.Count > 0)
-        {
-            attachedSheet.assignParty(partyToSend);
-            charSheetManager.SendPartyOnQuest(this, attachedSheet);
-            questingManager.StartQuest(attachedSheet);
+        attachedSheet.assignParty(partyToSend);
+        charSheetManager.SendPartyOnQuest(this, attachedSheet);
+        questingManager.StartQuest(attachedSheet);
 
-            //display activequestbanner
-            questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
+        //display activequestbanner
+        questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
 
-            SoundManagerScript.PlaySound("stamp");
-            DestroyUI();
-        }
-
+        SoundManagerScript.PlaySound("stamp");
+        DestroyUI();
     }
 
     public void DestroyUI()
