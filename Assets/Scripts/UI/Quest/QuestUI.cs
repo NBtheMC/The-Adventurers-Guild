@@ -186,6 +186,7 @@ public class QuestUI : MonoBehaviour
     public void AddCharacter(CharacterSheet character)
     {
         if (AssignedCharacters >= 4) return;
+        if (IsCharacterAssigned(character)) return;
 
         int freeSlot = 0;
         for(int i = 0; i < 4; i++)
@@ -217,5 +218,16 @@ public class QuestUI : MonoBehaviour
         characterSlots[slot].character = null;
         characterSlots[slot].characterAssigned = false;
         AssignedCharacters--;
+    }
+
+    //returns true if a character has already been assigned to a quest
+    public bool IsCharacterAssigned(CharacterSheet character)
+    {
+        foreach(CharacterSlot charSlot in characterSlots)
+        {
+            if (charSlot.character == character)
+                return true;
+        }
+        return false;
     }
 }
