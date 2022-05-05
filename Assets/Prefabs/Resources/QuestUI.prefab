@@ -82,6 +82,32 @@ MonoBehaviour:
     Your job as the Guildmaster is to assign adventurers to Quests. Quest success
     depends on the abilities of your adventurers.  For this quest, you will need
     a Combat total of 10. Drag suitable adventurers into the Quest and press Start.'
+--- !u!114 &3725510151352120310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411073751097704531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c2e9faf2215924db4b9d50f33f490a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 2
+--- !u!114 &5334475333305002502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764506458603988313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c2e9faf2215924db4b9d50f33f490a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 1
 --- !u!1 &779008345482925423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,6 +1037,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7483166654184598048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890855776378539735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c2e9faf2215924db4b9d50f33f490a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 3
+--- !u!114 &4152564939750571259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5024304467943872258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c2e9faf2215924db4b9d50f33f490a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 0
 --- !u!1 &5502189500800538251
 GameObject:
   m_ObjectHideFlags: 0
@@ -2104,6 +2156,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+--- !u!1 &411073751097704531 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1589404588675040785, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+  m_PrefabInstance: {fileID: 1421693185258718786}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &411073751097704528 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1589404588675040786, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
@@ -2206,6 +2263,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+--- !u!1 &764506458603988313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1589404588675040785, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+  m_PrefabInstance: {fileID: 2058885687118078792}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &764506458603988314 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1589404588675040786, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
@@ -2313,6 +2375,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1589404588675040786, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
   m_PrefabInstance: {fileID: 6032388384266768659}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5024304467943872258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1589404588675040785, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+  m_PrefabInstance: {fileID: 6032388384266768659}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6183860545296255174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2413,5 +2480,10 @@ PrefabInstance:
 --- !u!224 &4890855776378539732 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1589404588675040786, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+  m_PrefabInstance: {fileID: 6183860545296255174}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4890855776378539735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1589404588675040785, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
   m_PrefabInstance: {fileID: 6183860545296255174}
   m_PrefabAsset: {fileID: 0}

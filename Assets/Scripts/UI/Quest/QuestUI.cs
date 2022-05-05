@@ -36,6 +36,8 @@ public class QuestUI : MonoBehaviour
         public GameObject portraitObject;
         public Text name;
         public Image portrait;
+        public CharacterSheet character;
+        public bool characterAssigned;
 
         public CharacterSlot(GameObject obj)
         {
@@ -44,6 +46,8 @@ public class QuestUI : MonoBehaviour
             name = obj.transform.Find("Name").gameObject.GetComponent<Text>();
             portraitObject = obj.transform.Find("Portrait").gameObject;
             portrait = obj.transform.Find("Portrait").gameObject.GetComponent<Image>();
+            character = null;
+            characterAssigned = false;
         }
     }
 
@@ -183,13 +187,35 @@ public class QuestUI : MonoBehaviour
     {
         if (AssignedCharacters >= 4) return;
 
-        characterSlots[AssignedCharacters].textObject.SetActive(true);
-        characterSlots[AssignedCharacters].name.text = character.name;
+        int freeSlot = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            if (!characterSlots[i].characterAssigned)
+            {
+                freeSlot = i;
+                break;
+            }
+        }
+
+        characterSlots[freeSlot].textObject.SetActive(true);
+        characterSlots[freeSlot].name.text = character.name;
 
         //CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
-        characterSlots[AssignedCharacters].portraitObject.SetActive(true);
-        characterSlots[AssignedCharacters].portrait.sprite = character.portrait;
+        characterSlots[freeSlot].portraitObject.SetActive(true);
+        characterSlots[freeSlot].portrait.sprite = character.portrait;
+        characterSlots[freeSlot].character = character;
+        characterSlots[freeSlot].characterAssigned = true;
         AssignedCharacters++;
     }
 
+    public void RemoveCharacter(int slot)
+    {
+        characterSlots[slot].name.text = "";
+        characterSlots[slot].textObject.SetActive(false);
+        characterSlots[slot].portrait.sprite = null;
+        characterSlots[slot].portraitObject.SetActive(false);
+        characterSlots[slot].character = null;
+        characterSlots[slot].characterAssigned = false;
+        AssignedCharacters--;
+    }
 }
