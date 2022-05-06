@@ -189,6 +189,20 @@ public class QuestUI : MonoBehaviour
         AssignedCharacters++;
     }
 
+    public void RemoveCharacter(int slot)
+    {
+        if (questBanner.GetComponent<QuestBanner>().questIsActive) return;
+
+        characterPool.UnselectCharacter(characterSlots[slot].character);
+        characterSlots[slot].name.text = "";
+        characterSlots[slot].textObject.SetActive(false);
+        characterSlots[slot].portrait.sprite = null;
+        characterSlots[slot].portraitObject.SetActive(false);
+        characterSlots[slot].character = null;
+        characterSlots[slot].characterAssigned = false;
+        AssignedCharacters--;
+    }
+
     public bool IsCharacterAssigned(CharacterSheet character)
     {
         foreach (CharacterSlot charSlot in characterSlots)

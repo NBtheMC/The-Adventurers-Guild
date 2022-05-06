@@ -134,6 +134,15 @@ public class CharacterPoolController : MonoBehaviour
         //this.RefreshCharacterPool();
     }
 
+    public void UnselectCharacter(CharacterSheet character)
+    {
+        foreach (var item in characterSlots)
+        {
+            if (item.character.GetComponent<CharacterTileController>().characterSheet == character)
+                item.character.GetComponent<CharacterTileController>().UngrayPortrait();
+        }
+    }
+
     /// <summary>
     /// Removes a character from the character pool
     /// </summary>
