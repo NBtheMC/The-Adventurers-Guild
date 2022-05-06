@@ -29,7 +29,7 @@ public class QuestBanner : MonoBehaviour
 
     public void DeleteBanner(object source, QuestSheet questSheet)
     {
-        if (questSheet == this.questSheet)
+        if (questSheet == this.questSheet && this != null)
             Destroy(this.gameObject);
     }
 
@@ -40,7 +40,6 @@ public class QuestBanner : MonoBehaviour
 
     public void displayQuestUI(bool displayOnly = false)
     {
-        print(questSheet.isActive);
         if (PauseMenu.gamePaused)
             return;
         if (!isDisplayed)
@@ -63,14 +62,16 @@ public class QuestBanner : MonoBehaviour
                 GameObject dropPoints = questUIObj.transform.Find("Drop Points").gameObject;
 
                 int index = 0;
+                //display characters assigned to this quest
                 foreach(CharacterSheet character in questSheet.PartyMembers)
                 {
-                    dropPoints.transform.GetChild(index).Find("Portrait").GetComponent<Image>().sprite = character.portrait;
-                    dropPoints.transform.GetChild(index).Find("Portrait").gameObject.SetActive(true);
-                    dropPoints.transform.GetChild(index).Find("EmptyCharacter").gameObject.SetActive(false);
-                    dropPoints.transform.GetChild(index).Find("FilledCharacter").gameObject.SetActive(true);
-                    dropPoints.transform.GetChild(index).Find("Name").gameObject.SetActive(true);
-                    dropPoints.transform.GetChild(index).Find("Name").gameObject.GetComponent<Text>().text = character.name;
+                    Transform child = dropPoints.transform.GetChild(index);
+                    child.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+                    child.Find("Portrait").gameObject.SetActive(true);
+                    child.Find("EmptyCharacter").gameObject.SetActive(false);
+                    child.Find("FilledCharacter").gameObject.SetActive(true);
+                    child.Find("Name").gameObject.SetActive(true);
+                    child.Find("Name").gameObject.GetComponent<Text>().text = character.name;
                     index++;
                 }
             }

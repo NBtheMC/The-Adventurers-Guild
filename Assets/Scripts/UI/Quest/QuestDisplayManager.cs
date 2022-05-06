@@ -20,11 +20,13 @@ public class QuestDisplayManager : MonoBehaviour
         pageNumber = 0;
         currentQuestsDisplayed = true;
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
-        questingManager.QuestAdded += AddNewQuest;
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
         pageNumberText = transform.Find("QuestDisplay/QuestList/PageNumber/Text").gameObject.GetComponent<Text>();
+
+        questingManager.QuestAdded += AddNewQuest;
+        questingManager.QuestFinished += AddFinishedQuest;
         timeSystem.NewDay += SetPagetoCurrentDay;
     }
 
@@ -33,15 +35,22 @@ public class QuestDisplayManager : MonoBehaviour
         if (currentQuestsDisplayed)
         {
             pageNumber = timeSystem.getTime().day;
-            pageNumberText.text = pageNumber + "";
-        }
-            
+            pageNumberText.text = "current";
+        }     
     }
 
     public void AddNewQuest(object o, QuestSheet quest)
     {
         if (currentQuestsDisplayed)
             GenerateQuestDisplayUI(quest);
+    }
+
+    public void AddFinishedQuest(object o, QuestSheet quest)
+    {
+        if(pageNumber == timeSystem.getTime().day && !currentQuestsDisplayed)
+        {
+            GenerateQuestDisplayUI(quest);
+        }
     }
 
     private void GenerateQuestDisplayUI(QuestSheet quest)
@@ -107,14 +116,14 @@ public class QuestDisplayManager : MonoBehaviour
             if(pageNumber != currentDay)
             {
                 pageNumber++;
+                pageNumberText.text = pageNumber + "";
             }
             else
             {
                 currentQuestsDisplayed = true;
+                pageNumberText.text = "current";
             }
             DisplayQuests();
-        }      
-
-        pageNumberText.text = pageNumber + "";
+        }              
     }
 }
