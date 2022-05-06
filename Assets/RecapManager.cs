@@ -9,23 +9,28 @@ public class RecapManager : MonoBehaviour
     void Start()
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
+        timeSystem.TickAdded += CheckForRecap;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    //listens to tick tracker. when its 24
+    void CheckForRecap(object source, GameTime gameTime){
+        if(gameTime.hour == timeSystem.activeHours) StartRecap();
     }
 
     //Go into recap mode
     public void StartRecap(){
-        transform.Find("Filter").gameObject.SetActive(true);
+        foreach(Transform child in transform){
+            child.gameObject.SetActive(true);
+        }
         timeSystem.StopTimer();
     }
 
     //Get out of recap mode
     public void EndRecap(){
-        transform.Find("Filter").gameObject.SetActive(false);
+        foreach(Transform child in transform){
+            child.gameObject.SetActive(false);
+        }
+        timeSystem.SetDay(timeSystem.getTime().day + 1);
         timeSystem.StartTimer();
     }
 }

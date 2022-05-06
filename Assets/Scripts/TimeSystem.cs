@@ -51,12 +51,13 @@ public class TimeSystem : MonoBehaviour
         gameTime.hour += 1;
         if (gameTime.hour == 24)
         {
-            gameTime.day += 1;
-            gameTime.hour = 0;
+            // NOTE: USING RECAP MANAGER NOW
+            // gameTime.day += 1;
+            // gameTime.hour = 0;
             //Use GameManager to advance day
-            GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            //GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             //gameManager.ChangeScenes("Recap");
-            NewDay(this, EventArgs.Empty);
+            //NewDay(this, EventArgs.Empty);
         }
 
         if (TickAdded != null)
@@ -85,6 +86,7 @@ public class TimeSystem : MonoBehaviour
 
     public GameTime getTime() { return gameTime; }
     
+    //probably want this to lerp later? just thoughts while working on recap - Naman
     public void SetDay(int currentDay){
         gameTime.day = currentDay;
         gameTime.hour = 0;
