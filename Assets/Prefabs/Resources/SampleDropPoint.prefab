@@ -160,7 +160,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1589404588675040786}
   - component: {fileID: 1589404588675040789}
-  - component: {fileID: 1589404588675040787}
   m_Layer: 0
   m_Name: SampleDropPoint
   m_TagString: Untagged
@@ -199,20 +198,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589404588675040785}
   m_CullTransparentMesh: 1
---- !u!114 &1589404588675040787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589404588675040785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63d4438aff32c1d468cef593cd0e7abb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropType: 0
-  heldObject: {fileID: 0}
 --- !u!1 &2983829072214593872
 GameObject:
   m_ObjectHideFlags: 0
