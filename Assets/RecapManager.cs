@@ -31,6 +31,7 @@ public class RecapManager : MonoBehaviour
         foreach(Transform child in transform){
             child.gameObject.SetActive(false);
         }
+        //set day and clock correct ANIMATE LATER?
         timeSystem.SetDay(timeSystem.getTime().day + 1);
         timeSystem.StartTimer();
     }
