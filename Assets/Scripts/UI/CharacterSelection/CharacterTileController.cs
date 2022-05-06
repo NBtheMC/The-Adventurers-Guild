@@ -13,6 +13,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     [SerializeField] private float movementDelta = 0;
     private Vector3 clickPos;
     [HideInInspector] public bool isDisplayed = false;
+    bool adventurerBusy = false;
 
     public void Awake()
     {
@@ -74,8 +75,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            /*
-            questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");
+            GameObject questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");
             if (questUI == null || questUI.GetComponent<QuestUI>().questIsActive() || adventurerBusy) return;
 
             if (questUI.GetComponent<QuestUI>().AssignedCharacters < 4)
@@ -83,7 +83,29 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
                 GrayOutPortrait();
                 questUI.GetComponent<QuestUI>().AddCharacter(characterSheet);
             }
-            */
         }
+    }
+
+
+    public void GrayOutPortrait()
+    {
+        transform.GetComponent<Image>().color = new Color32(0, 0, 0, 255);
+    }
+
+    public void UngrayPortrait()
+    {
+        transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    }
+
+    public void MarkAdventurerAsFree()
+    {
+        adventurerBusy = false;
+        transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    }
+
+    public void MarkAdventurerAsBusy()
+    {
+        adventurerBusy = true;
+        transform.GetComponent<Image>().color = new Color32(150, 150, 150, 200);
     }
 }

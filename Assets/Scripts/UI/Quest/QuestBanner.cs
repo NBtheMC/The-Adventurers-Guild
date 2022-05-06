@@ -11,8 +11,7 @@ public class QuestBanner : MonoBehaviour
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
-    private bool questIsActive = false;
-
+    public bool questIsActive { get; private set; } = false;
     // Start is called before the first frame update
     public void Awake()
     {

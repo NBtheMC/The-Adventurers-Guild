@@ -55,7 +55,17 @@ public class CharacterPoolController : MonoBehaviour
             activeRole.Add(character);
         }
 
-        RefreshCharacterPool();
+        foreach (var item in characterSlots)
+        {
+            CharacterTileController tileController = item.character.GetComponent<CharacterTileController>();
+            CharacterSheet character = tileController.characterSheet;
+            if (activeRole.Contains(character))
+                tileController.MarkAdventurerAsFree();
+            else
+                tileController.MarkAdventurerAsBusy();
+        }
+
+        //RefreshCharacterPool();
     }
 
     /// <summary>
