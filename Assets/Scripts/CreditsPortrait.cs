@@ -9,15 +9,15 @@ public class CreditsPortrait : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    // Start is called before the first frame update
     void Start()
     {
-        maxSpeed = .1f;
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        maxSpeed = 0.0f;
+        rb = gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
+        rb.gravityScale = 0;
+        Debug.Log("Does rb2d exist? " + rb);
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //move down by currentSpeed depending on y position
         //rigidbody2d
@@ -32,6 +32,10 @@ public class CreditsPortrait : MonoBehaviour
     public void SetSpeed(float newSpeed){
         maxSpeed = newSpeed;
         currentSpeed = maxSpeed;
-        rb.velocity = new Vector2(0, maxSpeed);
+        Debug.Log("new speed = " + newSpeed);
+        Debug.Log("max speed = " + maxSpeed);
+
+        Debug.Log("rb velocity = " + rb.velocity);
+        rb.velocity = new Vector2(0.0f, newSpeed);
     }
 }

@@ -30,16 +30,18 @@ public class CreditsController : MonoBehaviour
     void Update()
     {
         cooldown -= Time.deltaTime;
+        //Debug.Log("Current cooldown: " + cooldown);
         if (cooldown <= 0 && (currentCredit <= totalCredits)){
-            Debug.Log("Dropping theoretically");
+            Debug.Log("Max cooldown: " + MAXCOOLDOWN);
+            cooldown = MAXCOOLDOWN;
+            //Debug.Log("Dropping theoretically");
             //deploy objects
-            GameObject newCredit = Instantiate(creditsText[currentCredit - 1], textDropzone);
-            newCredit.GetComponent<CreditsText>().SetSpeed(speed);
             GameObject newPortrait = Instantiate(creditsPortrait[currentCredit - 1], portraitDropzone);
             newPortrait.GetComponent<CreditsPortrait>().SetSpeed(speed);
-            cooldown = MAXCOOLDOWN;
+            GameObject newCredit = Instantiate(creditsText[currentCredit - 1], textDropzone);
+            newCredit.GetComponent<CreditsText>().SetSpeed(speed);
         }
-        else if(currentCredit > totalCredits || Input.GetKeyDown("escape")){
+        if(currentCredit > totalCredits || Input.GetKeyDown("escape")){
             EndCredits();
         }
     }
