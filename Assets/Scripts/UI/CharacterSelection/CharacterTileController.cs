@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
 {
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
     [HideInInspector] public ItemDisplayManager displayManager;
@@ -29,42 +29,61 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         clickPos = Input.mousePosition;
     }
 
+    /*
     public void OnPointerUp(PointerEventData pointerEventData)
+
+    */
+    public void CharacterClicked()
     {
         if (PauseMenu.gamePaused)
             return;
-        float deltaX = Input.mousePosition.x - clickPos.x;
-        float deltaY = Input.mousePosition.y - clickPos.y;
 
-        if ((Mathf.Abs(deltaX) < movementDelta && Mathf.Abs(deltaY) < movementDelta))
+        if (!isDisplayed || !displayManager.characterDisplay.activeInHierarchy)
         {
-            if (!isDisplayed || !displayManager.characterDisplay.activeInHierarchy)
+            displayManager.DisplayCharacter(true);
+            if (CharInfoSpawn.transform.childCount != 0)
             {
-                displayManager.DisplayCharacter(true);
-                if (CharInfoSpawn.transform.childCount != 0)
-                {
-                    CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
-                }
-
-                GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
-                CharInfoUIObject.transform.parent.SetAsLastSibling();
-                CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
-                characterInfoUI.charObject = this.gameObject;
-
-                characterInfoUI.SetupCharacterInfoUI(characterSheet);
-
-                //Add character portrait
-                if (characterSheet.portrait != null)
-                {
-                    CharInfoUIObject.transform.Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
-                }
-
-                isDisplayed = true;
+                CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
             }
-            else if(isDisplayed && displayManager.characterDisplay.activeInHierarchy)
+
+            GameObject CharInfoUIObject = Instantiate(CharInfoUIPrefab, CharInfoSpawn.transform);
+            CharInfoUIObject.transform.parent.SetAsLastSibling();
+            CharacterInfoUI characterInfoUI = CharInfoUIObject.GetComponent<CharacterInfoUI>();
+            characterInfoUI.charObject = this.gameObject;
+
+            characterInfoUI.SetupCharacterInfoUI(characterSheet);
+
+            //Add character portrait
+            if (characterSheet.portrait != null)
             {
-                displayManager.DisplayCharacter(false);
+                CharInfoUIObject.transform.Find("Portrait").GetComponent<Image>().sprite = characterSheet.portrait;
             }
+
+            isDisplayed = true;
+        }
+        else if(isDisplayed && displayManager.characterDisplay.activeInHierarchy)
+        {
+            displayManager.DisplayCharacter(false);
+        }
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            CharacterClicked();
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            /*
+            questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");
+            if (questUI == null || questUI.GetComponent<QuestUI>().questIsActive() || adventurerBusy) return;
+
+            if (questUI.GetComponent<QuestUI>().AssignedCharacters < 4)
+            {
+                GrayOutPortrait();
+                questUI.GetComponent<QuestUI>().AddCharacter(characterSheet);
+            }
+            */
         }
     }
 }
