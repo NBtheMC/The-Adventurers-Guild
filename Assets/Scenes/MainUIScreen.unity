@@ -1765,6 +1765,10 @@ PrefabInstance:
       propertyPath: dropHandler
       value: 
       objectReference: {fileID: 1980350958}
+    - target: {fileID: 5698263808483506549, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: pixelSeperatorWidth
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5698263809325270840, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: dropHandler
       value: 
