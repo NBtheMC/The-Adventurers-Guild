@@ -5,6 +5,7 @@ using UnityEngine;
 public class RecapManager : MonoBehaviour
 {
     private TimeSystem timeSystem;
+    private GameObject recapObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,5 +33,14 @@ public class RecapManager : MonoBehaviour
         }
         timeSystem.SetDay(timeSystem.getTime().day + 1);
         timeSystem.StartTimer();
+    }
+
+
+    public void UpdateRecapScreen(){
+        //update with gold earned ANIMATE LATER
+
+        //update with gold lost ANIMATE LATER
+
+        //other recap GONNA BE HONEST I DONT KNOW WHAT THIS IS
     }
 }
