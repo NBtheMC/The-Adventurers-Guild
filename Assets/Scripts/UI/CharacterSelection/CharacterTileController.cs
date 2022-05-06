@@ -15,6 +15,7 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
     [HideInInspector] public bool isDisplayed = false;
 
     private GameObject questUI;
+    private bool adventurerBusy = false;
 
     public void Awake()
     {
@@ -75,7 +76,7 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
             questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");
-            if (questUI == null || questUI.GetComponent<QuestUI>().questIsActive()) return;
+            if (questUI == null || questUI.GetComponent<QuestUI>().questIsActive() || adventurerBusy) return;
 
             if (questUI.GetComponent<QuestUI>().AssignedCharacters < 4)
             {
@@ -83,5 +84,17 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
                 questUI.GetComponent<QuestUI>().AddCharacter(characterSheet);
             }
         }
+    }
+
+    public void MarkAdventurerAsFree()
+    {
+        adventurerBusy = false;
+        transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    }
+
+    public void MarkAdventurerAsBusy()
+    {
+        adventurerBusy = true;
+        transform.GetComponent<Image>().color = new Color32(150, 150, 150, 200);
     }
 }
