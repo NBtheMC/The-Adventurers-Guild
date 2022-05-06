@@ -65,7 +65,7 @@ public class QuestUI : MonoBehaviour
         ngoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Negotiation).ToString();
         conBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
 
-        if (!displayOnly)
+        if (!questSheet.isActive)
         {
             //add drop points to drop handler
             foreach (Transform child in DropPoints)
@@ -114,6 +114,7 @@ public class QuestUI : MonoBehaviour
         if (partyToSend.Party_Members.Count > 0)
         {
             attachedSheet.assignParty(partyToSend);
+            attachedSheet.isActive = true;
             charSheetManager.SendPartyOnQuest(this, attachedSheet);
             questingManager.StartQuest(attachedSheet);
 

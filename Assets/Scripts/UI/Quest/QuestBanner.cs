@@ -11,7 +11,6 @@ public class QuestBanner : MonoBehaviour
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
-    private bool questIsActive = false;
 
     // Start is called before the first frame update
     public void Awake()
@@ -21,6 +20,11 @@ public class QuestBanner : MonoBehaviour
         QuestUISpawn = displayManager.questDisplay;
         isDisplayed = false;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += DeleteBanner;
+        
+    }
+    public void Start()
+    {
+        transform.Find("Active").gameObject.SetActive(questSheet.isActive);
     }
 
     public void DeleteBanner(object source, QuestSheet questSheet)
@@ -31,12 +35,12 @@ public class QuestBanner : MonoBehaviour
 
     public void ToggleQuestActiveState()
     {
-        questIsActive = !questIsActive;
-        transform.Find("Active").gameObject.SetActive(questIsActive);
+        transform.Find("Active").gameObject.SetActive(questSheet.isActive);
     }
 
     public void displayQuestUI(bool displayOnly = false)
     {
+        print(questSheet.isActive);
         if (PauseMenu.gamePaused)
             return;
         if (!isDisplayed)
@@ -52,7 +56,7 @@ public class QuestBanner : MonoBehaviour
             GameObject questUIObj = Instantiate(questUIPrefab);
             
             //if quest is marked as active, deactivate extra buttons
-            if(questIsActive)
+            if(questSheet.isActive || questSheet.isComplete)
             {
                 questUIObj.transform.Find("Send Party").gameObject.SetActive(false);
                 questUIObj.transform.Find("Reject").gameObject.SetActive(false);
@@ -63,6 +67,10 @@ public class QuestBanner : MonoBehaviour
                 {
                     dropPoints.transform.GetChild(index).Find("Portrait").GetComponent<Image>().sprite = character.portrait;
                     dropPoints.transform.GetChild(index).Find("Portrait").gameObject.SetActive(true);
+                    dropPoints.transform.GetChild(index).Find("EmptyCharacter").gameObject.SetActive(false);
+                    dropPoints.transform.GetChild(index).Find("FilledCharacter").gameObject.SetActive(true);
+                    dropPoints.transform.GetChild(index).Find("Name").gameObject.SetActive(true);
+                    dropPoints.transform.GetChild(index).Find("Name").gameObject.GetComponent<Text>().text = character.name;
                     index++;
                 }
             }
@@ -74,7 +82,7 @@ public class QuestBanner : MonoBehaviour
 
             //pass quest info to quest UI
             QuestUI questUI = questUIObj.GetComponent<QuestUI>();
-            questUI.SetupQuestUI(questSheet, questIsActive);
+            questUI.SetupQuestUI(questSheet, questSheet.isActive);
             isDisplayed = true;
 
             var i = UnityEngine.Random.Range(0, 3);

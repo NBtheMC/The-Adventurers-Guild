@@ -10,6 +10,8 @@ public class QuestSheet
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
 	public int partySize = 4;
+	public bool isActive = false;
+	public bool isComplete = false;
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,17 @@ public class QuestDisplayManager : MonoBehaviour
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
         pageNumberText = transform.Find("QuestDisplay/QuestList/PageNumber/Text").gameObject.GetComponent<Text>();
+        timeSystem.NewDay += SetPagetoCurrentDay;
+    }
+
+    public void SetPagetoCurrentDay(object o, EventArgs e)
+    {
+        if (currentQuestsDisplayed)
+        {
+            pageNumber = timeSystem.getTime().day;
+            pageNumberText.text = pageNumber + "";
+        }
+            
     }
 
     public void AddNewQuest(object o, QuestSheet quest)
