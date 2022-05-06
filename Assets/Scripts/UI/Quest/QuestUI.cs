@@ -20,7 +20,7 @@ public class QuestUI : MonoBehaviour
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner;
 
-
+    public CharacterPoolController characterPoolController;
     public int AssignedCharacters { get; private set; } = 0;
 
     // UI items to display quest breifing details.
@@ -56,6 +56,8 @@ public class QuestUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        characterPoolController = GameObject.Find("QuestDisplayManager/QuestDisplay/CharacterPool")
+            .GetComponent<CharacterPoolController>();
         characterSlots = new CharacterSlot[4];
         
 
@@ -205,6 +207,8 @@ public class QuestUI : MonoBehaviour
     public void RemoveCharacter(int slot)
     {
         if (questBanner.GetComponent<QuestBanner>().questIsActive) return;
+
+        characterPoolController.UnselectCharacter(characterSlots[slot].character);
         characterSlots[slot].name.text = "";
         characterSlots[slot].textObject.SetActive(false);
         characterSlots[slot].portrait.sprite = null;
@@ -223,5 +227,10 @@ public class QuestUI : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public bool questIsActive()
+    {
+        return questBanner.GetComponent<QuestBanner>().questIsActive;
     }
 }

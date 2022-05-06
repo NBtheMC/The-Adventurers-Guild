@@ -141,4 +141,13 @@ public class CharacterPoolController : MonoBehaviour
         // Makes a new list of characters, to be augmentable by themselves.
         activeRole = new List<CharacterSheet>(listofCharacters);
     }
+
+    public void UnselectCharacter(CharacterSheet character)
+    {
+        foreach(var item in characterSlots)
+        {
+            if (item.character.GetComponent<CharacterTileController>().characterSheet == character)
+                item.character.GetComponent<CharacterTileController>().UngrayPortrait();
+        }
+    }
 }

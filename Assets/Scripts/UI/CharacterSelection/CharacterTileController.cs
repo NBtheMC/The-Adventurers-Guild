@@ -61,6 +61,11 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         transform.GetComponent<Image>().color = new Color32(0, 0, 0, 255);
     }
 
+    public void UngrayPortrait()
+    {
+        transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -70,7 +75,7 @@ public class CharacterTileController : MonoBehaviour, IPointerClickHandler
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
             questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");
-            if (questUI == null) return;
+            if (questUI == null || questUI.GetComponent<QuestUI>().questIsActive()) return;
 
             if (questUI.GetComponent<QuestUI>().AssignedCharacters < 4)
             {
