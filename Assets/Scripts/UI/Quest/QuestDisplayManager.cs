@@ -126,4 +126,14 @@ public class QuestDisplayManager : MonoBehaviour
             DisplayQuests();
         }              
     }
+
+    public void JumpToPage(string page)
+    {
+        int num = int.Parse(page);
+        print(num);
+        Mathf.Clamp(num, 0, timeSystem.getTime().day);
+        pageNumber = num;
+        pageNumberText.text = pageNumber + "";
+        DisplayQuests();
+    }
 }
