@@ -13,6 +13,7 @@ public class CreditsPortrait : MonoBehaviour
     {
         maxSpeed = 0.0f;
         rb = gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
+        rb.bodyType = RigidbodyType2D.Kinematic;
         rb.gravityScale = 0;
         Debug.Log("Does rb2d exist? " + rb);
     }
@@ -36,6 +37,6 @@ public class CreditsPortrait : MonoBehaviour
         Debug.Log("max speed = " + maxSpeed);
 
         Debug.Log("rb velocity = " + rb.velocity);
-        rb.velocity = new Vector2(0.0f, newSpeed);
+        rb.velocity = new Vector2(0.0f, 2.0f);
     }
 }
