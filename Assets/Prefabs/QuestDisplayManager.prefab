@@ -848,6 +848,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: debb8063ebd951140bc796e789103fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  earnedText: {fileID: 8200482910576626356}
+  lostText: {fileID: 8502354699665714612}
+  totalText: {fileID: 2833543190018718742}
 --- !u!1 &4811074411285606239
 GameObject:
   m_ObjectHideFlags: 0

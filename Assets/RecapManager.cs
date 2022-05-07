@@ -8,9 +8,9 @@ public class RecapManager : MonoBehaviour
     private TimeSystem timeSystem;
     private GameObject recapObject;
 
-    private Text earnedText;
-    private Text lostText;
-    private Text totalText;
+    public Text earnedText;
+    public Text lostText;
+    public Text totalText;
     private int goldEarned;
     private int goldLost;
     private int goldTotal;
@@ -20,9 +20,9 @@ public class RecapManager : MonoBehaviour
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         timeSystem.TickAdded += CheckForRecap;
-        earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
-        lostText = transform.Find("LostNumber").GetComponent<Text>();
-        totalText = transform.Find("TotalNumber").GetComponent<Text>();
+        // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
+        // lostText = transform.Find("LostNumber").GetComponent<Text>();
+        // totalText = transform.Find("TotalNumber").GetComponent<Text>();
     }
 
     //listens to tick tracker. when its 24
