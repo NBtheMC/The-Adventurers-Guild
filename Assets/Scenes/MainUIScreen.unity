@@ -2013,6 +2013,10 @@ PrefabInstance:
       propertyPath: dropHandler
       value: 
       objectReference: {fileID: 1980350958}
+    - target: {fileID: 5698263808483506549, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: characterSlot
+      value: 
+      objectReference: {fileID: 1589404588675040785, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
     - target: {fileID: 5698263809325270840, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: dropHandler
       value: 
