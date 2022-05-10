@@ -108,7 +108,7 @@ public class CharacterPoolController : MonoBehaviour
         newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
 
         //set positions of character slots
-        newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -30 - (numCharacterSlots*50), 0);
+        newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -30 - (numCharacterSlots*pixelSeperatorWidth), 0);
         newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(30, 0, 0);
         newCharacter.GetComponent<RectTransform>().sizeDelta = new Vector2(55, 55);
 
