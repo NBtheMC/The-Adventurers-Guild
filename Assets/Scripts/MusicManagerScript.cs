@@ -4,29 +4,102 @@ using UnityEngine;
 
 public class MusicManagerScript : MonoBehaviour
 {
-    public static AudioClip ricercare16Music;
-    static AudioSource audioSrc;
+    public static AudioClip ricercareMusic;
+    public static AudioClip fantasiaMusic;
+    static AudioSource musicSrc;
+    private static bool paused1;
+    private static bool paused2;
+    public static float fadeTime = 1;
 
     void Start()
     {
-        ricercare16Music = Resources.Load<AudioClip> ("ricercarePre");
+        ricercareMusic = Resources.Load<AudioClip> ("ricercare");
+        fantasiaMusic = Resources.Load<AudioClip> ("fantasia");
         
-        audioSrc = GetComponent<AudioSource> ();
-        PlayMusic ("ricercare16");
-    }
+        musicSrc = GetComponent<AudioSource> ();
 
-    void Update()
-    {        
-
+        paused1 = true;
+        paused2 = true;
     }
 
     public static void PlayMusic (string clip)
     {
         switch (clip)
         {            
-            case "ricercare16":
-                audioSrc.PlayOneShot (ricercare16Music);
+            case "ricercare":
+                musicSrc.clip = ricercareMusic;
+                musicSrc.Play(0);
+                paused1 = false;
+                FadeSoundUp();
+                break;
+            case "fantasia":
+                musicSrc.clip = fantasiaMusic;
+                musicSrc.Play(0);
+                paused2 = false;
+                FadeSoundUp();
                 break;
         }
+    }
+
+    public static void PauseMusic()
+    {
+        if (!paused1)
+        {
+            FadeSound();
+            musicSrc.Pause();
+            paused1 = true;
+        } else if (!paused2)
+        {
+            FadeSound();
+            musicSrc.Pause();
+            paused2 = true;
+        } else
+        {
+            return;
+        }
+    }
+
+    public void FadeSound()
+    {
+        if (fadeTime == 0)
+        {
+            musicSrc.volume = 0;
+            return;
+        }
+        StartCoroutine(_FadeSound());
+    }
+
+    IEnumerator _FadeSound()
+    {
+        float t = fadeTime;
+        while (t > 0)
+        {
+            yield return null;
+            t-= Time.deltaTime;
+            musicSrc.volume = t/fadeTime;
+        }
+        yield break;
+    }
+
+    public void FadeSoundUp()
+    {
+        if (fadeTime == 0)
+        {
+            musicSrc.volume = 0;
+            return;
+        }
+        StartCoroutine(_FadeSound());
+    }
+
+    IEnumerator _FadeSoundUp()
+    {
+        float t = 0;
+        while (t > fadeTime)
+        {
+            yield return null;
+            t+= Time.deltaTime;
+            musicSrc.volume = t/fadeTime;
+        }
+        yield break;
     }
 }
