@@ -13,7 +13,7 @@ public class QuestingManager : MonoBehaviour
     public TimeSystem timeSystem; // a reference to the time system to update quest with.
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
-    public List<QuestSheet> finishedQuests; //All quests that have been finished(failed or succeeded)
+    public List<List<QuestSheet>> finishedQuests; //All quests that have been finished(failed or succeeded)
 
     public event EventHandler<QuestSheet> QuestStarted;
     public event EventHandler<QuestSheet> QuestFinished;
@@ -26,7 +26,8 @@ public class QuestingManager : MonoBehaviour
         //timeSystem.TickAdded += AdvanceAllQuests;
         bankedQuests = new List<QuestSheet>();
         activeQuests = new List<QuestSheet>();
-        finishedQuests = new List<QuestSheet>();
+        finishedQuests = new List<List<QuestSheet>>();
+        finishedQuests.Add(new List<QuestSheet>());
 
         if (Instance != null)
         {
@@ -39,7 +40,16 @@ public class QuestingManager : MonoBehaviour
 
     private void Start()
     {
-        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += AdvanceAllQuests;
+        timeSystem.TickAdded += AdvanceAllQuests;
+        timeSystem.NewDay += AddFinishedQuestPage;
+    }
+
+    /// <summary>
+    /// Adds new page to Finished Quest log
+    /// </summary>
+    private void AddFinishedQuestPage(object source, EventArgs e)
+    {
+        finishedQuests.Add(new List<QuestSheet>());
     }
 
     /// <summary>
@@ -65,7 +75,8 @@ public class QuestingManager : MonoBehaviour
         foreach (QuestSheet quest in markForDeletion)
         {
             activeQuests.Remove(quest);
-            finishedQuests.Add(quest);
+            int currentDay = timeSystem.getTime().day;
+            finishedQuests[currentDay].Add(quest);
             QuestFinished(this, quest);
         }
     }

@@ -142,7 +142,7 @@ public class CharacterPoolController : MonoBehaviour
             newCharacter.GetComponent<Image>().color = Color.white;
         }
 
-        print(newCharacter.transform.localPosition);
+        //print(newCharacter.transform.localPosition);
     }
 
     /// <summary>

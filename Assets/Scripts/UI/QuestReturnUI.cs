@@ -13,6 +13,9 @@ public class QuestReturnUI : MonoBehaviour
     }
     public void GenerateQuestReturnBox(object source, QuestSheet questSheet)
     {
+        questSheet.isActive = false;
+        questSheet.isComplete = true;
+
         GameObject prefab = Resources.Load<GameObject>("QuestReturnBox");
         GameObject returnBox = Instantiate(prefab);
         returnBox.transform.Find("Canvas").Find("OkButton").GetComponent<Button>().onClick.AddListener(delegate { DeleteReturnBox(returnBox); });
