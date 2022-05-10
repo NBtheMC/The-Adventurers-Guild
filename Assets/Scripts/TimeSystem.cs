@@ -7,7 +7,7 @@ using UnityEngine;
 public class TimeSystem : MonoBehaviour
 {
 
-    private float tickLength = 2.5f; // Length of a tick in seconds. Equal to one in game hour
+    private float tickLength = 0.5f; // Length of a tick in seconds. Equal to one in game hour
     private GameTime gameTime; // Current in game time
     public bool timerActive { get; private set; } //Can be read by other classes to determine if timer is running
 
@@ -90,5 +90,10 @@ public class TimeSystem : MonoBehaviour
     public void SetDay(int currentDay){
         gameTime.day = currentDay;
         gameTime.hour = 0;
+    }
+
+    public void StartNewDay()
+    {
+        NewDay(this, EventArgs.Empty);
     }
 }

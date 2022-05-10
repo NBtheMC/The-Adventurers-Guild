@@ -48,6 +48,7 @@ public class RecapManager : MonoBehaviour
         goldLost = 0;
         //set day and clock correct ANIMATE LATER?
         timeSystem.SetDay(timeSystem.getTime().day + 1);
+        timeSystem.StartNewDay();
         timeSystem.StartTimer();
     }
 

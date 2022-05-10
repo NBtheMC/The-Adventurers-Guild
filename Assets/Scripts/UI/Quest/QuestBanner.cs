@@ -36,12 +36,14 @@ public class QuestBanner : MonoBehaviour
     public void ToggleQuestActiveState()
     {
         transform.Find("Active").gameObject.SetActive(questSheet.isActive);
+        questIsActive = questSheet.isActive;
     }
 
     public void displayQuestUI(bool displayOnly = false)
     {
         if (PauseMenu.gamePaused)
             return;
+
         if (!isDisplayed)
         {
             displayManager.DisplayQuest(true);

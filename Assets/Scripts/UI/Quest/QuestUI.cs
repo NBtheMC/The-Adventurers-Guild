@@ -31,6 +31,8 @@ public class QuestUI : MonoBehaviour
         public GameObject gameObject;
         public GameObject textObject;
         public GameObject portraitObject;
+        public GameObject emptyCharFrame;
+        public GameObject filledCharFrame;
         public Text name;
         public Image portrait;
         public CharacterSheet character;
@@ -43,6 +45,8 @@ public class QuestUI : MonoBehaviour
             name = obj.transform.Find("Name").gameObject.GetComponent<Text>();
             portraitObject = obj.transform.Find("Portrait").gameObject;
             portrait = obj.transform.Find("Portrait").gameObject.GetComponent<Image>();
+            emptyCharFrame = obj.transform.Find("EmptyCharacter").gameObject;
+            filledCharFrame = obj.transform.Find("FilledCharacter").gameObject;
             character = null;
             characterAssigned = false;
         }
@@ -181,6 +185,14 @@ public class QuestUI : MonoBehaviour
             QuestBanner q = questBanner.GetComponent<QuestBanner>();
             q.isDisplayed = false;
             q.displayManager.DisplayQuest(false);
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (characterSlots[i].characterAssigned)
+                {
+                    RemoveCharacter(i);
+                }
+            }
         }
 
         Destroy(this.gameObject);
@@ -188,7 +200,7 @@ public class QuestUI : MonoBehaviour
 
     public void AddCharacter(CharacterSheet character)
     {
-        if (questBanner.GetComponent<QuestBanner>().questIsActive) return;
+        if (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete) return;
         if (AssignedCharacters >= 4) return;
         if (IsCharacterAssigned(character)) return;
 
@@ -210,12 +222,14 @@ public class QuestUI : MonoBehaviour
         characterSlots[freeSlot].portrait.sprite = character.portrait;
         characterSlots[freeSlot].character = character;
         characterSlots[freeSlot].characterAssigned = true;
+        characterSlots[freeSlot].emptyCharFrame.SetActive(false);
+        characterSlots[freeSlot].filledCharFrame.SetActive(true);
         AssignedCharacters++;
     }
 
     public void RemoveCharacter(int slot)
     {
-        if (questBanner.GetComponent<QuestBanner>().questIsActive) return;
+        if (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete) return;
 
         characterPool.UnselectCharacter(characterSlots[slot].character);
         characterSlots[slot].name.text = "";
@@ -224,6 +238,8 @@ public class QuestUI : MonoBehaviour
         characterSlots[slot].portraitObject.SetActive(false);
         characterSlots[slot].character = null;
         characterSlots[slot].characterAssigned = false;
+        characterSlots[slot].emptyCharFrame.SetActive(true);
+        characterSlots[slot].filledCharFrame.SetActive(false);
         AssignedCharacters--;
     }
 
@@ -239,6 +255,6 @@ public class QuestUI : MonoBehaviour
 
     public bool questIsActive()
     {
-        return questBanner.GetComponent<QuestBanner>().questIsActive;
+        return (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete);
     }
 }
