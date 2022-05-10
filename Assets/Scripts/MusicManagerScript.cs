@@ -22,8 +22,9 @@ public class MusicManagerScript : MonoBehaviour
         paused2 = true;
     }
 
-    public static void PlayMusic (string clip)
+    public void PlayMusic (string clip)
     {
+        Debug.Log("Music played");
         switch (clip)
         {            
             case "ricercare":
@@ -41,8 +42,9 @@ public class MusicManagerScript : MonoBehaviour
         }
     }
 
-    public static void PauseMusic()
+    public void PauseMusic()
     {
+        Debug.Log("Music paused");
         if (!paused1)
         {
             FadeSound();

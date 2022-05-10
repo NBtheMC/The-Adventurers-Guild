@@ -7,6 +7,7 @@ public class RecapManager : MonoBehaviour
 {
     private TimeSystem timeSystem;
     private GameObject recapObject;
+    private MusicManagerScript musicManager;
 
     public Text earnedText;
     public Text lostText;
@@ -20,6 +21,7 @@ public class RecapManager : MonoBehaviour
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         timeSystem.TickAdded += CheckForRecap;
+        musicManager = GameObject.Find("MusicManager").GetComponent<MusicManagerScript>();
         // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
         // lostText = transform.Find("LostNumber").GetComponent<Text>();
         // totalText = transform.Find("TotalNumber").GetComponent<Text>();
@@ -37,6 +39,7 @@ public class RecapManager : MonoBehaviour
             child.gameObject.SetActive(true);
         }
         timeSystem.StopTimer();
+        musicManager.PlayMusic("ricercare");
     }
 
     //Get out of recap mode
@@ -50,6 +53,7 @@ public class RecapManager : MonoBehaviour
         timeSystem.SetDay(timeSystem.getTime().day + 1);
         timeSystem.StartNewDay();
         timeSystem.StartTimer();
+        musicManager.PlayMusic("fantasia");
     }
 
     public void AddDayGold(int goldAdded){
