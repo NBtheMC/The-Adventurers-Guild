@@ -26,6 +26,12 @@ public class QuestUI : MonoBehaviour
     public Text ngoBriefText;
     public Text conBriefText;
 
+    //Total party stat details
+    public Text cmbTotalParty;
+    public Text xpoTotalParty;
+    public Text ngoTotalParty;
+    public Text conTotalParty;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -79,15 +85,34 @@ public class QuestUI : MonoBehaviour
 
 
     //To be used by QuestSheet in order to update with new quests
+    //Figure out later
     public void UpdateQuestUI(QuestSheet.EventInfo newEvent)
     {
         //setup description
         questDescription.text = newEvent.description;
-        //setup first event
-
+        //update total stats
+        int cmbTotal = 0;
+        int xpoTotal = 0;
+        int ngoTotal = 0;
+        int conTotal = 0;
+        foreach (Transform child in DropPoints)
+        {
+            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
+            if (character)
+            {
+                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
+                cmbTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Combat);
+                xpoTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
+                ngoTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Negotiation);
+                conTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Constitution);
+            }
+        }
+        cmbTotalParty.text = cmbTotal.ToString();
+        xpoTotalParty.text = xpoTotal.ToString();
+        ngoTotalParty.text = ngoTotal.ToString();
+        conTotalParty.text = conTotal.ToString();
         //setup reward
         questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
-
         return;
     }
 
