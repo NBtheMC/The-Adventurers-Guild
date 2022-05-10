@@ -18,7 +18,7 @@ MonoBehaviour:
   exploration: 6
   negotiation: 13
   constitution: 3
-  portrait: {fileID: 21300000, guid: d514967096b717f489891313c3cfca57, type: 3}
+  portrait: {fileID: 21300000, guid: 977736edba378804a9d01182145c14b1, type: 3}
   Biography: "An epicurean, hedonistic vampire who hides within the somber cathedrals
     of the Order. Dislikes light, but their name, Ellanore, means \u201Cshining light.\u201D
     Wants to see new and interesting places, but hates travelling. Everything about
