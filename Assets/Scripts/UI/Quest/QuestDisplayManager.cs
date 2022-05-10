@@ -23,20 +23,20 @@ public class QuestDisplayManager : MonoBehaviour
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
-        pageNumberText = transform.Find("QuestDisplay/QuestList/PageNumber/Text").gameObject.GetComponent<Text>();
+        pageNumberText = transform.Find("QuestDisplay/QuestList/PageBackground/CurrentPage").gameObject.GetComponent<Text>();
 
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
-        timeSystem.NewDay += SetPagetoCurrentDay;
+        timeSystem.NewDay += UpdateCurrentDayPage;
     }
 
-    public void SetPagetoCurrentDay(object o, EventArgs e)
+    public void UpdateCurrentDayPage(object o, EventArgs e)
     {
         if (currentQuestsDisplayed)
         {
             pageNumber = timeSystem.getTime().day;
-            pageNumberText.text = "current";
-        }     
+            pageNumberText.text = pageNumber + "";
+        }
     }
 
     public void AddNewQuest(object o, QuestSheet quest)
@@ -121,7 +121,7 @@ public class QuestDisplayManager : MonoBehaviour
             else
             {
                 currentQuestsDisplayed = true;
-                pageNumberText.text = "current";
+                pageNumberText.text = "Current";
             }
             DisplayQuests();
         }              
