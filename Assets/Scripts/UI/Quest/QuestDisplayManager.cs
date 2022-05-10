@@ -11,31 +11,40 @@ public class QuestDisplayManager : MonoBehaviour
     private GameObject questBannerPrefab;
     private GameObject questListContent;
     private QuestingManager questingManager;
-    private Text pageNumberText;
+    private InputField input;
+    private Text PageCountText;
+    private int currentDay;
     public int pageNumber;
     public bool currentQuestsDisplayed;
     // Start is called before the first frame update
     void Start()
     {
-        pageNumber = 0;
-        currentQuestsDisplayed = true;
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
-        pageNumberText = transform.Find("QuestDisplay/QuestList/PageBackground/CurrentPage").gameObject.GetComponent<Text>();
+        input = transform.Find("QuestDisplay/QuestList/PageNumberInput").gameObject.GetComponent<InputField>();
+        PageCountText = transform.Find("QuestDisplay/QuestList/PageCount/Text").gameObject.GetComponent<Text>();
 
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
         timeSystem.NewDay += UpdateCurrentDayPage;
+
+        pageNumber = 0;
+        currentDay = 0;
+        currentQuestsDisplayed = true;
+        input.text = "1";
+        PageCountText.text = "/ 1";
     }
 
     public void UpdateCurrentDayPage(object o, EventArgs e)
     {
+        currentDay = timeSystem.getTime().day;
+        PageCountText.text = "/ " + (currentDay + 1);
         if (currentQuestsDisplayed)
         {
-            pageNumber = timeSystem.getTime().day;
-            pageNumberText.text = pageNumber + "";
+            pageNumber = currentDay;
+            input.text = 1 + pageNumber + "";
         }
     }
 
@@ -47,7 +56,7 @@ public class QuestDisplayManager : MonoBehaviour
 
     public void AddFinishedQuest(object o, QuestSheet quest)
     {
-        if(pageNumber == timeSystem.getTime().day && !currentQuestsDisplayed)
+        if(pageNumber == currentDay && !currentQuestsDisplayed)
         {
             GenerateQuestDisplayUI(quest);
         }
@@ -92,7 +101,6 @@ public class QuestDisplayManager : MonoBehaviour
 
     public void PrevPage() 
     {
-        int currentDay = timeSystem.getTime().day;
         //if not showing current day
         if (currentQuestsDisplayed)
         {
@@ -104,24 +112,23 @@ public class QuestDisplayManager : MonoBehaviour
         }
         DisplayQuests();
 
-        pageNumberText.text = pageNumber + "";
+        input.text = pageNumber.ToString();
     }
 
     public void NextPage()
     {
-        int currentDay = timeSystem.getTime().day;
         //if not showing current day
         if (!currentQuestsDisplayed)
         {
             if(pageNumber != currentDay)
             {
                 pageNumber++;
-                pageNumberText.text = pageNumber + "";
+                input.text = pageNumber.ToString();
             }
             else
             {
                 currentQuestsDisplayed = true;
-                pageNumberText.text = "Current";
+                input.text = currentDay + 1 + "";
             }
             DisplayQuests();
         }              
@@ -130,10 +137,19 @@ public class QuestDisplayManager : MonoBehaviour
     public void JumpToPage(string page)
     {
         int num = int.Parse(page);
-        print(num);
-        Mathf.Clamp(num, 0, timeSystem.getTime().day);
-        pageNumber = num;
-        pageNumberText.text = pageNumber + "";
+        int currentDay = timeSystem.getTime().day;
+        if (num > currentDay)
+        {
+            currentQuestsDisplayed = true;
+            pageNumber = currentDay;
+            input.text = currentDay + 1 + "";
+        }
+        else
+        {
+            currentQuestsDisplayed = false;
+            pageNumber = Mathf.Clamp(num, 0, currentDay);
+            input.text = pageNumber.ToString();   
+        }
         DisplayQuests();
     }
 }
