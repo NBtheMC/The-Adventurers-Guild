@@ -47,7 +47,7 @@ public class QuestingManager : MonoBehaviour
     /// <summary>
     /// Adds new page to Finished Quest log
     /// </summary>
-    private void AddFinishedQuestPage(object source, EventArgs e)
+    private void AddFinishedQuestPage(object source, GameTime gameTime)
     {
         finishedQuests.Add(new List<QuestSheet>());
     }

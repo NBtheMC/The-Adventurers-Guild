@@ -19,24 +19,18 @@ public class RecapManager : MonoBehaviour
     void Start()
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
-        timeSystem.TickAdded += CheckForRecap;
+        timeSystem.EndOfDay += StartRecap;
         // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
         // lostText = transform.Find("LostNumber").GetComponent<Text>();
         // totalText = transform.Find("TotalNumber").GetComponent<Text>();
     }
 
-    //listens to tick tracker. when its 24
-    void CheckForRecap(object source, GameTime gameTime){
-        if(gameTime.hour == timeSystem.activeHours) StartRecap();
-    }
-
     //Go into recap mode
-    public void StartRecap(){
+    public void StartRecap(object sender, GameTime gameTime){
         UpdateRecapScreen();
         foreach(Transform child in transform){
             child.gameObject.SetActive(true);
         }
-        timeSystem.StopTimer();
     }
 
     //Get out of recap mode
@@ -47,9 +41,7 @@ public class RecapManager : MonoBehaviour
         goldEarned = 0;
         goldLost = 0;
         //set day and clock correct ANIMATE LATER?
-        timeSystem.SetDay(timeSystem.getTime().day + 1);
         timeSystem.StartNewDay();
-        timeSystem.StartTimer();
     }
 
     public void AddDayGold(int goldAdded){
