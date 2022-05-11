@@ -8,7 +8,11 @@ public class QuestSheet
 	public string questDescription { get; private set; } // What the description of the quest is.
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
+	private EventNode.EventPackage nextConnection; // What we use to tell us what to do before proceeding on the quest.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
+
+	private int timeUntilProgression; // How much time this questsheet will wait until it progresses.
+
 	public int partySize = 4;
 
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
@@ -44,7 +48,7 @@ public class QuestSheet
 	}
 
 	/// <summary>
-	/// Assigns a part to the quest.
+	/// Assigns a party to the quest.
 	/// </summary>
 	/// <param name="party_input">The party to assign to the quest.</param>
 	public void assignParty(PartySheet partyInput)
@@ -58,12 +62,13 @@ public class QuestSheet
 	/// <returns>A 0 if the quest is still ongoing. A 1 if the quest is complete.</returns>
 	public int advancebyTick()
 	{
-		if (eventTicksElapsed >= currentConnection.time)
+		if ()
+		if (eventTicksElapsed >= timeUntilProgression)
 		{
 			// Reset the event tick timer.
 			eventTicksElapsed = 0;
 
-			// Request the event package.
+			// Request the next event package.
 			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
 			accumutatedGold += returnMessage.givenReward;
 			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
