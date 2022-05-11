@@ -11,6 +11,7 @@ public class RelationshipManager : MonoBehaviour
 
     public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
     public GameObject relationshipPopup; //the prefab that will be modified with a string each time
+    public Transform popupLocation;
     public const float POPUPTIMER = 5f;
     private float currentTimer;
 
@@ -28,7 +29,7 @@ public class RelationshipManager : MonoBehaviour
         currentTimer -= Time.deltaTime;
         if(currentTimer <= 0){
             //make popup
-            
+            Instantiate(relationshipPopup, popupLocation);
             currentTimer = POPUPTIMER;
         }
     }
