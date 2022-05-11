@@ -10,7 +10,7 @@ public class RelationshipManager : MonoBehaviour
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
     public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
-
+    public GameObject relationshipPopup; //the prefab that will be modified with a string each time
     //all the relevant info that occured with relationships in a given update
     // public struct RelationshipsInfo{
     //     List<(Adventurer, Adventurer, int)> relationshipChanges; //describes how much each relationship changed by
@@ -83,6 +83,15 @@ public class RelationshipManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    //takes 2 random adventurers that are in party and puts out blurb about them. excel sheet? idk
+    public string RandomRelationshipUpdate(){
+        //randomly pick adventurer A
+        //randomly pick adventurer B
+        //Get relationship between A and B
+        //Look in spreadsheet for random line
+        return "Adventurers A and B are getting along quite nicely";
     }
 
 }
