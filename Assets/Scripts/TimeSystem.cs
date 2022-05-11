@@ -76,6 +76,10 @@ public class TimeSystem : MonoBehaviour
         }
         timerActive = true;
         timeTrackerCoroutine = StartCoroutine(TimeTracker());
+        var i = UnityEngine.Random.Range(0, 2);
+        if (i == 0) {MusicManagerScript.PlayMusic("ricercare");}
+        else {MusicManagerScript.PlayMusic("fantasia");}
+        
     }
 
     public void StopTimer()
