@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using StoryletTesting;
 
 public class RecapManager : MonoBehaviour
 {
@@ -13,13 +14,14 @@ public class RecapManager : MonoBehaviour
     public Text totalText;
     private int goldEarned;
     private int goldLost;
-    private int goldTotal;
+    private WorldIntChanger totalGold;
 
     // Start is called before the first frame update
     void Start()
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         timeSystem.EndOfDay += StartRecap;
+        totalGold = GameObject.Find("Gold").GetComponent<WorldIntChanger>();
         // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
         // lostText = transform.Find("LostNumber").GetComponent<Text>();
         // totalText = transform.Find("TotalNumber").GetComponent<Text>();
@@ -52,7 +54,7 @@ public class RecapManager : MonoBehaviour
         //update with gold earned, lost, and total ANIMATE LATER
         earnedText.text = goldEarned.ToString();
         lostText.text = goldLost.ToString();
-        //totalText = worldstate gold total
+        totalText.text = totalGold.value.ToString();
         //other recap GONNA BE HONEST I DONT KNOW WHAT THIS IS
     }
 }
