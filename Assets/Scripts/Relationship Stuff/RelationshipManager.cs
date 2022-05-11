@@ -11,11 +11,27 @@ public class RelationshipManager : MonoBehaviour
 
     public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
     public GameObject relationshipPopup; //the prefab that will be modified with a string each time
+    public const float POPUPTIMER = 5f;
+    private float currentTimer;
+
     //all the relevant info that occured with relationships in a given update
     // public struct RelationshipsInfo{
     //     List<(Adventurer, Adventurer, int)> relationshipChanges; //describes how much each relationship changed by
     //     List<string> relationshipStories; //anything notable that happens
     // }
+
+    public void Start(){
+        currentTimer = POPUPTIMER;
+    }
+
+    public void Update(){
+        currentTimer -= Time.deltaTime;
+        if(currentTimer <= 0){
+            //make popup
+            
+            currentTimer = POPUPTIMER;
+        }
+    }
 
     //called after relationships are updated
     //loops all rules through all people 's volitions, relationships, etc, in order to
