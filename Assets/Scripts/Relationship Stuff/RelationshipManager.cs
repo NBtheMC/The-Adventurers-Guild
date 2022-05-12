@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Handles all processing of social models
 public class RelationshipManager : MonoBehaviour
@@ -9,10 +10,10 @@ public class RelationshipManager : MonoBehaviour
     // Predicates: Sets of variables that will bind to characters during evaluation. eg (Friend ?x ?y)
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
-    public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
+    public CharacterSheetManager characterSheetManager; //all characters
     public GameObject relationshipPopup; //the prefab that will be modified with a string each time
-    public Transform popupLocation;
     public const float POPUPTIMER = 5f;
+    public Transform popupLocation;
     private float currentTimer;
 
     //all the relevant info that occured with relationships in a given update
@@ -29,7 +30,10 @@ public class RelationshipManager : MonoBehaviour
         currentTimer -= Time.deltaTime;
         if(currentTimer <= 0){
             //make popup
-            Instantiate(relationshipPopup, popupLocation);
+            Debug.Log("Making Popup");
+            GameObject newPopup = Instantiate(relationshipPopup, popupLocation);
+            newPopup.transform.Find("UpdateText").GetComponent<Text>().text = RandomRelationshipUpdate();
+            newPopup.transform.Find("Close").GetComponent<Button>().onClick.AddListener(() => Destroy(newPopup));
             currentTimer = POPUPTIMER;
         }
     }

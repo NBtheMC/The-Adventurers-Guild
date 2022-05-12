@@ -930,6 +930,41 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Start Next Day
+--- !u!1 &5184988472567525882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5069788143306309205}
+  m_Layer: 5
+  m_Name: RelationshipPopups
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5069788143306309205
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184988472567525882}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5698263808138649697}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 35}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5197576917372296754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +1038,7 @@ RectTransform:
   - {fileID: 7280735044324053916}
   - {fileID: 8533235322368750348}
   - {fileID: 6247758660238653355}
+  - {fileID: 5069788143306309205}
   m_Father: {fileID: 5698263809325270841}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1281,7 +1317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testingScript: 0
   dropHandler: {fileID: 0}
-  sampleDropPoint: {fileID: 1589404588675040785, guid: dd970012fe9b23e4fbccc5c669d79446, type: 3}
+  characterSlot: {fileID: 0}
   sampleCharacter: {fileID: 5122144849775249647, guid: 8feff9809f2b4d94eb5c2344dd480d24, type: 3}
   maxColSize: 0
   pixelSeperatorWidth: 25
@@ -1329,6 +1365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e70aa3fcca063848947569673249479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSystem: {fileID: 0}
+  pageNumber: 0
+  currentQuestsDisplayed: 0
 --- !u!1 &5698263809420594478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,7 +1822,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8865451745521401354, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8865451745521401355, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1807,7 +1846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865451745748155722, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 155.32002
+      value: 126.18498
       objectReference: {fileID: 0}
     - target: {fileID: 8865451746118314392, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_Sprite
