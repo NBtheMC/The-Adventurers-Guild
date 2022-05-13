@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -109,10 +110,37 @@ public class RelationshipManager : MonoBehaviour
     //takes 2 random adventurers that are in party and puts out blurb about them. excel sheet? idk
     public string RandomRelationshipUpdate(){
         //randomly pick adventurer A
+        int aIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count - 1);
+        Adventurer a = characterSheetManager.FreeAdventurers.ElementAt(aIndex).adventurer;
         //randomly pick adventurer B
+        int bIndex;
+        do {
+            bIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count - 1);
+        } while(bIndex == aIndex);
+        Adventurer b = characterSheetManager.FreeAdventurers.ElementAt(bIndex).adventurer;
         //Get relationship between A and B
+        int bondValue = a.GetFriendship(b);
         //Look in spreadsheet for random line
-        return "Adventurers A and B are getting along quite nicely";
+        string relationshipUpdate;
+        switch(bondValue){
+            case bondValue < -7:
+                relationshipUpdate = String.Format("{0} and {1} were very unfriendly", a.characterSheet.name, b.characterSheet.name);
+                break;
+            case bondValue < -3:
+                relationshipUpdate = String.Format("{0} and {1} were slightly unfriendly", a.characterSheet.name, b.characterSheet.name);
+                break;
+            case bondValue < 3:
+                relationshipUpdate = String.Format("{0} and {1} were neutral", a.characterSheet.name, b.characterSheet.name);
+                break;
+            case bondValue < 7:
+                relationshipUpdate = String.Format("{0} and {1} were slightly friendly", a.characterSheet.name, b.characterSheet.name);
+                break;
+            default:
+                relationshipUpdate = String.Format("{0} and {1} were very friendly", a.characterSheet.name, b.characterSheet.name);
+                break;
+        }
+        //return "Adventurers A and B are getting along quite nicely";
+        return relationshipUpdate;
     }
 
 }
