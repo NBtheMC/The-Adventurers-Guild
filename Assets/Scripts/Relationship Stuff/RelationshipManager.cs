@@ -126,22 +126,21 @@ public class RelationshipManager : MonoBehaviour
         string bName = b.characterSheet.name;
         switch(bondValue){
             case int n when (n >= -10 && n <= -7):
-                relationshipUpdate = "{aName} and {bName} were very unfriendly";
+                relationshipUpdate = $"{aName} and {bName} were very unfriendly";
                 break;
             case int n when (n >= -6 && n <= -3):
-                relationshipUpdate = "{aName} and {bName} were slightly unfriendly";
+                relationshipUpdate = $"{aName} and {bName} were slightly unfriendly";
                 break;
             case int n when (n >= -2 && n <= 2):
-                relationshipUpdate = "{aName} and {bName} were neutral";
+                relationshipUpdate = $"{aName} and {bName} were neutral";
                 break;
             case int n when (n >= 3 && n <= 6):
-                relationshipUpdate = "{aName} and {bName} were slightly friendly";
+                relationshipUpdate = $"{aName} and {bName} were slightly friendly";
                 break;
             case int n when (n >= 7 && n <= 10):
-                relationshipUpdate = "{aName} and {bName} were very friendly";
+                relationshipUpdate = $"{aName} and {bName} were very friendly";
                 break;
         }
-        //return "Adventurers A and B are getting along quite nicely";
         return relationshipUpdate;
     }
 
