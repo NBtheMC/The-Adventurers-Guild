@@ -121,22 +121,24 @@ public class RelationshipManager : MonoBehaviour
         //Get relationship between A and B
         int bondValue = a.GetFriendship(b);
         //Look in spreadsheet for random line
-        string relationshipUpdate;
+        string relationshipUpdate = "Relationship Update Text";
+        string aName = a.characterSheet.name;
+        string bName = b.characterSheet.name;
         switch(bondValue){
-            case bondValue < -7:
-                relationshipUpdate = String.Format("{0} and {1} were very unfriendly", a.characterSheet.name, b.characterSheet.name);
+            case int n when (n >= -10 && n <= -7):
+                relationshipUpdate = "{aName} and {bName} were very unfriendly";
                 break;
-            case bondValue < -3:
-                relationshipUpdate = String.Format("{0} and {1} were slightly unfriendly", a.characterSheet.name, b.characterSheet.name);
+            case int n when (n >= -6 && n <= -3):
+                relationshipUpdate = "{aName} and {bName} were slightly unfriendly";
                 break;
-            case bondValue < 3:
-                relationshipUpdate = String.Format("{0} and {1} were neutral", a.characterSheet.name, b.characterSheet.name);
+            case int n when (n >= -2 && n <= 2):
+                relationshipUpdate = "{aName} and {bName} were neutral";
                 break;
-            case bondValue < 7:
-                relationshipUpdate = String.Format("{0} and {1} were slightly friendly", a.characterSheet.name, b.characterSheet.name);
+            case int n when (n >= 3 && n <= 6):
+                relationshipUpdate = "{aName} and {bName} were slightly friendly";
                 break;
-            default:
-                relationshipUpdate = String.Format("{0} and {1} were very friendly", a.characterSheet.name, b.characterSheet.name);
+            case int n when (n >= 7 && n <= 10):
+                relationshipUpdate = "{aName} and {bName} were very friendly";
                 break;
         }
         //return "Adventurers A and B are getting along quite nicely";
