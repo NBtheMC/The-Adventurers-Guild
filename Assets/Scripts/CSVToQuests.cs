@@ -14,6 +14,10 @@ public class CSVToQuests : MonoBehaviour
 
     private Dictionary<string,EventNode> eventLookup;
 
+    private WorldStateManager worldStateReference;
+
+    private int ticksPerHour;
+
     public void MakeEverything(){
         MakeEvents();
         MakeStorylets();
@@ -27,9 +31,16 @@ public class CSVToQuests : MonoBehaviour
         MakeEverything();
     }
 
-    //Pull data from storylets csv and makes 1 event per grouping
-    //New event denoted by Storylet name row
-    public void MakeStorylets(){
+	private void Start()
+    {
+        // Geting our time ticks from the system.
+        worldStateReference = this.GetComponent<WorldStateManager>();
+        ticksPerHour = worldStateReference.timeSystem.ticksperHour;
+    }
+
+	//Pull data from storylets csv and makes 1 event per grouping
+	//New event denoted by Storylet name row
+	public void MakeStorylets(){
         if (eventLookup == null) {Debug.LogError("MakeStorylets() was callled before MakeEvents. Call MakeEvents first");}
         string[] storyletData = csvStorylets.text.Split(new char[] {'\n'});
         List<string[]> storyletStringPackages = new List<string[]>();
@@ -236,12 +247,25 @@ public class CSVToQuests : MonoBehaviour
         List<string[]> eventNodeStringPackages = new List<string[]>();
         eventLookup = new Dictionary<string, EventNode>();
         // Gets every single event package and seperates them into nice little packets.
-        for(int i = 0; i < eventData.Length - 1; i += 11){
-            string[] eventNodepackage = new string[11];
-            System.Array.Copy(eventData, i,eventNodepackage,0,11); //If it errors out here, it's most likely the inputs aren't on 11 scale anymore.
-            
-            eventNodeStringPackages.Add(eventNodepackage);
-        }
+
+        // Iterates through the entire array of string lists to chunk out our packets.
+        int dataIter = 1;
+        int packetStartPoint = 0;
+        string[] currentPackage;
+        //Loops through the entirety of the data.
+        while (dataIter < eventData.Length){
+            string firstItem = eventData[dataIter].Split('\t')[1]; // Get the first item.
+            if (firstItem.Substring(0,5) == "Event") // If it's an event head, package the last bit and start anew.
+			{
+                currentPackage = new string[dataIter - packetStartPoint];
+                System.Array.Copy(eventData,packetStartPoint, currentPackage, 0,dataIter-packetStartPoint);
+                packetStartPoint = dataIter;
+			}
+            dataIter++;
+		}
+        // Repeat it one more time to catch the last one.
+        currentPackage = new string[dataIter - packetStartPoint];
+        System.Array.Copy(eventData, packetStartPoint, currentPackage, 0, dataIter - packetStartPoint);
 
         //Premake an event Node connection for assignment later.
         foreach(string[] eventNodePackage in eventNodeStringPackages){
@@ -256,26 +280,66 @@ public class CSVToQuests : MonoBehaviour
             // getting all the properties 
             string nameString = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
             string eventDescription = eventNodePackage[0].Split('\t')[2]; // row 1, col c - Event Description
-            string stat = eventNodePackage[1].Split('\t')[1]; // row 2, col b - Stat
-            string DCstring = eventNodePackage[1].Split('\t')[2]; //row 2, col c - DC to check
-            string timeString = eventNodePackage[2].Split('\t')[1]; //row 3, col b - Time to take
-            string rewardString = eventNodePackage[2].Split('\t')[2]; // row 3, col c - the reward space
-            string successNodestring = eventNodePackage[3].Split('\t')[1]; // row 4, col b - success node string
-            string successDetailstring = eventNodePackage[3].Split('\t')[2]; // row 4, col c - success detail strin
-            string[] successIntChangestring = eventNodePackage[4].Split('\t'); // row 5 basically the entire success int line.
-            string[] successFloatChangestring = eventNodePackage[5].Split('\t'); // row 6, all succcess value lines.
-            string[] successBoolChangestring = eventNodePackage[6].Split('\t'); // row 7, all success boolean lines.
-            string failNodestring = eventNodePackage[7].Split('\t')[1]; // row 8, col b - fail node
-            string failDetailstring = eventNodePackage[7].Split('\t')[2]; // row 8, col c - fail detail string.
-            string[] failIntChangeString = eventNodePackage[8].Split('\t'); // row 9, all fail int lines.
-            string[] failFloatChangeString = eventNodePackage[9].Split('\t'); // row 10, all fail float lines.
-            string[] failBoolChangestring = eventNodePackage[10].Split('\t'); // row 11, all bool float lines.
 
             // Making the node.
             EventNode newEvent = eventLookup[nameString]; //this needs a proper constructor
             // The following is all dedicated to putting the damn thing into the EventNode
             newEvent.name = nameString;
             newEvent.description = eventDescription;
+
+            // Chunk out the Cases.
+            List<string[]> casePackets = new List<string[]>();
+            for (int i = 1; i < eventNodePackage.Length; i += 8)
+            {
+                string[] casePacket = new string[8];
+                System.Array.Copy(casePacket, i, eventNodePackage, 0, 8);
+                casePackets.Add(casePacket);
+            }
+
+            // Get the default case.
+            string[] defaultCase = new string[4];
+            System.Array.Copy(eventNodePackage, eventNodePackage.Length-4,defaultCase,0,4);
+
+            
+
+            // Iterate through all the case Packets.
+            foreach(string[] casePacket in casePackets)
+			{
+                //Identify all items in the packet.
+                string nextNode = eventNodePackage[0].Split('\t')[1]; // row 1, col b - Next Node.
+                string timeString = eventNodePackage[0].Split('\t')[2]; //row 1, col c - Time to take
+                string rewardString = eventNodePackage[0].Split('\t')[3]; // row 1, col d - the reward space
+                string partyBond = eventNodePackage[0].Split('\t')[4]; // row 1, col e - the reward space
+                string nodeCompletionString = eventNodePackage[0].Split('\t')[5]; // row 1, col f - node completion string
+                string[] partyTriggerStrings = eventNodePackage[1].Split('\t'); // row 2, party stat triggers.
+                string[] triggerIntStrings = eventNodePackage[2].Split('\t'); // row 3, trigger Ints.
+                string[] triggerFloatStrings = eventNodePackage[3].Split('\t'); // row 4, trigger Floats.
+                string[] triggerBoolStrings = eventNodePackage[4].Split('\t'); // row 5, trigger Bools.
+                string[] intChangeStrings = eventNodePackage[5].Split('\t'); // row 6, int changes.
+                string[] floatChangeStrings = eventNodePackage[6].Split('\t'); // row 7, float changes.
+                string[] boolChangeStrings = eventNodePackage[7].Split('\t'); // row 8, bool changes.
+
+                // Create the Event Case
+                EventNode.EventCase tempEventCase = new EventNode.EventCase();
+
+                // Lookup the progressionNode
+                EventNode temporaryLookupNode;
+                if (nextNode == "") { tempEventCase.nextNode = null; }
+                else if (!eventLookup.TryGetValue(nextNode, out temporaryLookupNode))
+                {
+                    Debug.LogError($"{nameString}'s success Node could not be found, skipping.");
+                    continue;
+                }
+
+                // Input a bunch of descriptors and values for the node.
+                if (rewardString != "") { tempEventCase.reward = int.Parse(rewardString); }
+                tempEventCase.bondupdate = int.Parse(partyBond);
+                tempEventCase.progressionDescription = nodeCompletionString;
+
+
+                float eventHours = float.Parse(timeString);
+                tempEventCase.time = Mathf.CeilToInt(eventHours * ticksPerHour);
+            }
             switch(stat){
                 case "Combat":
                     newEvent.stat =  CharacterSheet.StatDescriptors.Combat;
@@ -294,17 +358,9 @@ public class CSVToQuests : MonoBehaviour
                     break;
             }
             newEvent.DC = int.Parse(DCstring);
-            float eventHours = float.Parse(timeString);
-            
-            // Try to get the ticks per time from the time manager.
-            WorldStateManager worldStateReference = this.GetComponent<WorldStateManager>();
-            int ticksPerHour = worldStateReference.timeSystem.ticksperHour;
-
-            newEvent.time = Mathf.CeilToInt(eventHours * ticksPerHour);
-            if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
+      
 
             // adds new connection to the successNode.
-            EventNode temporaryLookupNode;
             if (successNodestring == ""){ newEvent.successNode = null; }
             else if (!eventLookup.TryGetValue(successNodestring,out temporaryLookupNode)){
                 Debug.LogError($"{nameString}'s success Node could not be found, skipping.");

@@ -8,13 +8,12 @@ public class QuestSheet
 	public string questDescription { get; private set; } // What the description of the quest is.
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
-	private EventNode.EventPackage nextConnection; // What we use to tell us what to do before proceeding on the quest.
+	private EventNode.EventCase nextConnection; // What we use to tell us what to do before proceeding on the quest.
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
-
-	private int timeUntilProgression; // How much time this questsheet will wait until it progresses.
 
 	public int partySize = 4;
 
+	private int timeUntilProgression; // How much time this questsheet will wait until it progresses. Start at 0.
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
 	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
@@ -24,7 +23,7 @@ public class QuestSheet
 	public List<EventNode> visitedNodes;
 
 	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
-	public string questRecap;
+	public string questRecap { get; private set; }
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -33,15 +32,23 @@ public class QuestSheet
 	/// <param name="name_Input">Name of the Quest</param>
 	public QuestSheet(EventNode connection_input, string name_Input, WorldStateManager inputWorld, string inputQuestDescription = "")
 	{
+		// Set our connections right.
 		headConnection = connection_input;
 		currentConnection = headConnection;
-		eventTicksElapsed = 0;
-		questName = name_Input;
-		QuestComplete = false;
-		accumutatedGold = 0;
-		questDescription = inputQuestDescription;
+		nextConnection = currentConnection.resolveEvent(adventuring_party);
+		visitedNodes.Add(currentConnection);
 		worldStateManager = inputWorld;
 		Debug.Assert(worldStateManager != null);
+
+		// Initialize our tracking variables.
+		eventTicksElapsed = 0;
+		timeUntilProgression = nextConnection.time;
+		accumutatedGold = 0;
+
+		// Initialize out descriptor variables.
+		questName = name_Input;
+		QuestComplete = false;
+		questDescription = inputQuestDescription;
 
         visitedNodes = new List<EventNode>();
 		questRecap = "";
@@ -57,65 +64,42 @@ public class QuestSheet
 	}
 
 	/// <summary>
-	/// Calls on the current event to see what's going on.
+	/// This function is used by Questing Manager to control the flow of a quest as acording to ticks.
+	/// 
 	/// </summary>
 	/// <returns>A 0 if the quest is still ongoing. A 1 if the quest is complete.</returns>
 	public int advancebyTick()
 	{
-		if ()
+		// Base Case, check if we've reached the end. Does things if it has.
 		if (eventTicksElapsed >= timeUntilProgression)
 		{
 			// Reset the event tick timer.
 			eventTicksElapsed = 0;
 
-			// Request the next event package.
-			EventNode.EventPackage returnMessage = currentConnection.resolveEvent(adventuring_party);
-			accumutatedGold += returnMessage.givenReward;
-			adventuring_party.UpdateRelationshipStory(returnMessage.relationshipsUpdate);
-            visitedNodes.Add(currentConnection);
-			questRecap += (returnMessage.resultsString + " ");
+			// Add everything specified by the Event Case
+			accumutatedGold += nextConnection.reward;
+			adventuring_party.UpdateRelationshipStory(UpdatePartyRelationships(adventuring_party, nextConnection.bondupdate));
+			visitedNodes.Add(currentConnection);
+			questRecap += nextConnection.progressionDescription + "";
 
-			// Changes the world based on Event Package
-			switch (returnMessage.objectiveComplete)
-			{
-				case true:
-					foreach (Storylet.IntChange change in currentConnection.successIntChange)
-					{
-						Debug.Log($"{change.name} changed {change.value}");
-						worldStateManager.ChangeWorldInt(change.name, change.value, change.set);
-					}
-					foreach (Storylet.StateChange change in currentConnection.successStateChange)
-					{
-						Debug.Log($"{change.name} changed {change.state}");
-						Debug.Log($"WorldStateManager Exists: {worldStateManager != null}");
-						worldStateManager.ChangeWorldState(change.name, change.state);
-					}
-					foreach (Storylet.ValueChange change in currentConnection.successValueChange)
-					{
-						Debug.Log($"{change.name} changed {change.value}");
-						worldStateManager.ChangeWorldValue(change.name, change.value, change.set);
-					}
-					break;
-				case false:
-					foreach (Storylet.IntChange change in currentConnection.failIntChange) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
-					foreach (Storylet.StateChange change in currentConnection.failStateChange) { worldStateManager.ChangeWorldState(change.name, change.state); }
-					foreach (Storylet.ValueChange change in currentConnection.failValueChange) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
-					break;
-			}
+			// Update the world values according to the triggers.
+			foreach (Storylet.IntChange change in nextConnection.IntChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+			foreach (Storylet.StateChange change in nextConnection.BoolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
+			foreach (Storylet.ValueChange change in nextConnection.FloatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
 
-			// Progress to the next event.
-			if (returnMessage.nextEvent != null)
+			// End the quest if we hit a null.
+			if (nextConnection.nextNode != null)
 			{
-				currentConnection = returnMessage.nextEvent;
-				//TODO: add onto corresponding quest UI object
-				// return advancebyTick();
+				currentConnection = nextConnection.nextNode;
 			}
 			else
 			{
 				QuestComplete = true;
-				//TODO: add finished node onto UI object
 				return 1;
 			}
+
+			// Request the next event package.
+			nextConnection = currentConnection.resolveEvent(adventuring_party);
 		}
 		eventTicksElapsed++;
 
@@ -134,8 +118,6 @@ public class QuestSheet
 	public struct EventInfo
 	{
 		public string description; //not currently implemented yet, but events will need to have this soon
-		public string stat; //type of check that is done
-		public int DC; //requirement
 	}
 
 	/// <summary>
@@ -147,8 +129,6 @@ public class QuestSheet
 	{
 		EventInfo currentEvent;
 		currentEvent.description = currentConnection.description; //placeholder text
-		currentEvent.stat = currentConnection.stat.ToString();
-		currentEvent.DC = currentConnection.DC;
 		return currentEvent;
 	}
 
@@ -237,4 +217,44 @@ public class QuestSheet
 	// 	questDone.events = visitedNodes;
 	// 	return questDone;
 	// }
+
+	/// <summary>
+	/// called first by quest when quest is done. updates friendships based on win or loss
+	/// done on current party, change is determined by quest
+	/// </summary>
+	/// <param name="party">The PartySheet used to calculate and assign bond updates to</param>
+	/// <param name="change">The amount of change specified by Event Case</param>
+	/// <returns>A list of strings specifiying what happened.</returns>
+	private List<string> UpdatePartyRelationships(PartySheet party, int change)
+	{
+		List<string> partyUpdates = new List<string>();
+
+		//IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
+		List<Adventurer> partyMembers = new List<Adventurer>();
+
+		foreach (CharacterSheet a in party.Party_Members)
+		{
+			//Debug.Log(a.name);
+			partyMembers.Add(a.adventurer);
+			//Debug.Log(a.adventurer.characterSheet.name);
+		}
+
+		//Actual updating
+		for (int i = 0; i < partyMembers.Count; i++)
+		{
+			Adventurer a = partyMembers[i];
+			Debug.Log(a.characterSheet.name);
+			for (int j = i + 1; j < partyMembers.Count; j++)
+			{
+
+				Adventurer b = partyMembers[j];
+				//update friendship between a and b
+				a.ChangeFriendship(b, change);
+				b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
+											   //get string based on change
+				partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
+			}
+		}
+		return partyUpdates;
+	}
 }

@@ -28,18 +28,6 @@ public class EventNode: ScriptableObject
 		Debug.Assert(theWorld != null);
 	}
 
-	private List<string> eventRelationships = new List<string>();
-
-	public class EventPackage
-	{
-		public int timeToCompletion;
-		public int givenReward = 0;
-		public EventNode nextEvent = null;
-		public List<string> relationshipsUpdate = new List<string>(); //relationships update
-		public string resultsString; //what actually happened
-		//TODO Adventurer levelling
-	}
-
 	/// <summary>
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
@@ -51,19 +39,19 @@ public class EventNode: ScriptableObject
 	public class EventCase
 	{
 		// All the specific details of going down this event.
-		public EventNode nextNode = null;
-		public int time = 0;
-		public int reward = 0;
-		public int bondupdate = 0;
-		public string progressionDescription;
+		public EventNode nextNode = null; // What event node to progress to when it hits this case.
+		public int time = 0; // How much time to wait after triggering EventCase
+		public int reward = 0; // How much gold to provide after waiting/
+		public int bondupdate = 0; // How much bond to increse after event.
+		public string progressionDescription; // The string given to follow up after the 
 
-		// All our triggers.
+		// All our triggers for how this Event Case sets off.
 		public List<PartyCheck> statTriggers;
 		public List<Storylet.TriggerInt> IntTriggers;
 		public List<Storylet.TriggerValue> FloatTriggers;
 		public List<Storylet.TriggerState> BoolTriggers;
 
-		// All the changes upon entering this event.
+		// All the changes upon entering this Event Case.
 		public List<Storylet.IntChange> IntChanges;
 		public List<Storylet.ValueChange> FloatChanges;
 		public List<Storylet.StateChange> BoolChanges;
@@ -75,7 +63,7 @@ public class EventNode: ScriptableObject
 	/// </summary>
 	/// <param name="adventurers">The party sheet that this event will resolve with.</param>
 	/// <returns></returns>
-	public EventPackage resolveEvent(PartySheet adventurers)
+	public EventCase resolveEvent(PartySheet adventurers)
 	{
 		bool foundEvent = false;
 		EventCase nextEvent = null;
@@ -124,46 +112,6 @@ public class EventNode: ScriptableObject
 			nextEvent = defaultCase;
 		}
 
-		EventPackage message = new EventPackage();
-		message.nextEvent = nextEvent.nextNode;
-		message.givenReward = nextEvent.reward;
-		message.resultsString = nextEvent.progressionDescription;
-		message.timeToCompletion = nextEvent.time;
-		message.relationshipsUpdate = UpdatePartyRelationships(adventurers, nextEvent.bondupdate);
-
-		return message;
+		return nextEvent;
 	}
-
-	//called first by quest when quest is done. updates friendships based on win or loss
-    //done on current party, change is determined by quest
-    private List<string> UpdatePartyRelationships(PartySheet party, int change){
-		List<string> partyUpdates = new List<string>();
-
-        //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
-        List<Adventurer> partyMembers = new List<Adventurer>();
-
-        foreach(CharacterSheet a in party.Party_Members){
-			//Debug.Log(a.name);
-            partyMembers.Add(a.adventurer);
-			//Debug.Log(a.adventurer.characterSheet.name);
-        }
-
-        //Actual updating
-        for(int i  = 0; i < partyMembers.Count; i++){
-            Adventurer a = partyMembers[i];
-			Debug.Log(a.characterSheet.name);
-            for(int j  = i+1; j < partyMembers.Count; j++){
-
-                Adventurer b = partyMembers[j];
-                //update friendship between a and b
-                a.ChangeFriendship(b, change);
-                b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
-                //get string based on change
-				partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
-            }
-        }
-		return partyUpdates;
-    }
-
-	
 }
