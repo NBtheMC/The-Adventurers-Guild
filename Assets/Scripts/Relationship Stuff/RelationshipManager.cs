@@ -13,7 +13,7 @@ public class RelationshipManager : MonoBehaviour
 
     public CharacterSheetManager characterSheetManager; //all characters
     public GameObject relationshipPopup; //the prefab that will be modified with a string each time
-    public const float POPUPTIMER = 5f;
+    public const float POPUPTIMER = 20f;
     public Transform popupLocation;
     private float currentTimer;
 
