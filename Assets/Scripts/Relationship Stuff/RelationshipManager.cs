@@ -132,7 +132,7 @@ public class RelationshipManager : MonoBehaviour
                 relationshipUpdate = $"{aName} and {bName} were slightly unfriendly";
                 break;
             case int n when (n >= -2 && n <= 2):
-                relationshipUpdate = $"{aName} and {bName} were neutral";
+                relationshipUpdate = $"{aName} and {bName} are talking in the halls";
                 break;
             case int n when (n >= 3 && n <= 6):
                 relationshipUpdate = $"{aName} and {bName} were slightly friendly";
