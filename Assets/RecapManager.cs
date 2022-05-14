@@ -39,7 +39,7 @@ public class RecapManager : MonoBehaviour
             child.gameObject.SetActive(true);
         }
         timeSystem.StopTimer();
-        musicManager.PlayMusic("ricercare");
+        MusicManagerScript.StopMusic();
     }
 
     //Get out of recap mode
@@ -53,7 +53,7 @@ public class RecapManager : MonoBehaviour
         timeSystem.SetDay(timeSystem.getTime().day + 1);
         timeSystem.StartNewDay();
         timeSystem.StartTimer();
-        musicManager.PlayMusic("fantasia");
+        MusicManagerScript.PlayMusic("fantasia");
     }
 
     public void AddDayGold(int goldAdded){
