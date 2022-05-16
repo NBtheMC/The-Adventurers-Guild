@@ -335,28 +335,48 @@ public class CSVToQuests : MonoBehaviour
                 if (rewardString != "") { tempEventCase.reward = int.Parse(rewardString); }
                 tempEventCase.bondupdate = int.Parse(partyBond);
                 tempEventCase.progressionDescription = nodeCompletionString;
-
-
+                //Get Time
                 float eventHours = float.Parse(timeString);
                 tempEventCase.time = Mathf.CeilToInt(eventHours * ticksPerHour);
+
+                //Parsing through the party Triggers.
+                for (int i = 1; i < partyTriggerStrings.Length; i+=3)
+				{
+                    // Get the Stat to check against.
+                    EventNode.PartyCheck partyCheck = new EventNode.PartyCheck();
+                    switch (partyTriggerStrings[i])
+                    {
+                        case "Combat":
+                            partyCheck.stat = CharacterSheet.StatDescriptors.Combat;
+                            break;
+                        case "Exploration":
+                            partyCheck.stat = CharacterSheet.StatDescriptors.Exploration;
+                            break;
+                        case "Negotiation":
+                            partyCheck.stat = CharacterSheet.StatDescriptors.Negotiation;
+                            break;
+                        case "Constitution":
+                            partyCheck.stat = CharacterSheet.StatDescriptors.Constitution;
+                            break;
+                        default:
+                            Debug.LogError($"Stat not correct in node {nameString}");
+                            break;
+                    }
+                    
+                    // Get the Trigger Type.
+                    Storylet.NumberTriggerType triggerType = new Storylet.NumberTriggerType();
+                    if (!tryFindSign(partyTriggerStrings[i+1], ref triggerType)) {
+                        Debug.LogError($"Sign not recognized in {nameString}'s case towards {nextNode}, column {i + 1}, skipping"); continue; }
+                    partyCheck.triggerType = triggerType;
+
+                    // Get the number.
+                    int inputValue;
+                    if (!int.TryParse(partyTriggerStrings[i + 2], out inputValue)) { Debug.Log($"Int unable to be parsed in {nameString}'s case towards {nextNode}, colum {i + 2}, skipping"); continue; }
+                    partyCheck.value = inputValue;
+                }
+
             }
-            switch(stat){
-                case "Combat":
-                    newEvent.stat =  CharacterSheet.StatDescriptors.Combat;
-                    break;
-                case "Exploration":
-                    newEvent.stat =  CharacterSheet.StatDescriptors.Exploration;
-                    break;
-                case "Negotiation":
-                    newEvent.stat =  CharacterSheet.StatDescriptors.Negotiation;
-                    break;
-                case "Constitution":
-                    newEvent.stat =  CharacterSheet.StatDescriptors.Constitution;
-                    break;
-                default:
-                    Debug.LogError($"Stat not correct in node {nameString}");
-                    break;
-            }
+            
             newEvent.DC = int.Parse(DCstring);
       
 
