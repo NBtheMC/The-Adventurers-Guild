@@ -26,10 +26,45 @@ public class QuestUI : MonoBehaviour
     public Text ngoBriefText;
     public Text conBriefText;
 
+    private struct CharacterSlot
+    {
+        public GameObject gameObject;
+        public GameObject textObject;
+        public GameObject portraitObject;
+        public GameObject emptyCharFrame;
+        public GameObject filledCharFrame;
+        public Text name;
+        public Image portrait;
+        public CharacterSheet character;
+        public bool characterAssigned;
+
+        public CharacterSlot(GameObject obj)
+        {
+            gameObject = obj;
+            textObject = obj.transform.Find("Name").gameObject;
+            name = obj.transform.Find("Name").gameObject.GetComponent<Text>();
+            portraitObject = obj.transform.Find("Portrait").gameObject;
+            portrait = obj.transform.Find("Portrait").gameObject.GetComponent<Image>();
+            emptyCharFrame = obj.transform.Find("EmptyCharacter").gameObject;
+            filledCharFrame = obj.transform.Find("FilledCharacter").gameObject;
+            character = null;
+            characterAssigned = false;
+        }
+    }
+
+    private CharacterSlot[] characterSlots;
+    public int AssignedCharacters { get; private set; } = 0;
+    //Total party stat details
+    public Text cmbTotalParty;
+    public Text xpoTotalParty;
+    public Text ngoTotalParty;
+    public Text conTotalParty;
+
     // Start is called before the first frame update
     void Awake()
     {
         transformer = this.GetComponent<RectTransform>();
+        characterSlots = new CharacterSlot[4];
 
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
@@ -38,6 +73,12 @@ public class QuestUI : MonoBehaviour
 
         //party formation objects
         DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject temp = DropPoints.GetChild(i).gameObject;
+            characterSlots[i] = new CharacterSlot(temp);
+        }
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
@@ -79,15 +120,34 @@ public class QuestUI : MonoBehaviour
 
 
     //To be used by QuestSheet in order to update with new quests
+    //Figure out later
     public void UpdateQuestUI(QuestSheet.EventInfo newEvent)
     {
         //setup description
         questDescription.text = newEvent.description;
-        //setup first event
-
+        //update total stats
+        int cmbTotal = 0;
+        int xpoTotal = 0;
+        int ngoTotal = 0;
+        int conTotal = 0;
+        foreach (Transform child in DropPoints)
+        {
+            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
+            if (character)
+            {
+                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
+                cmbTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Combat);
+                xpoTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
+                ngoTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Negotiation);
+                conTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Constitution);
+            }
+        }
+        cmbTotalParty.text = cmbTotal.ToString();
+        xpoTotalParty.text = xpoTotal.ToString();
+        ngoTotalParty.text = ngoTotal.ToString();
+        conTotalParty.text = conTotal.ToString();
         //setup reward
         questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
-
         return;
     }
 
@@ -96,59 +156,105 @@ public class QuestUI : MonoBehaviour
     /// </summary>
     public void SendParty()
     {
+        if (AssignedCharacters == 0) return;
         //create new partySheet and add all selected adventurers
         PartySheet partyToSend = new PartySheet();
 
         //find all characters on QuestUI object and add to partyToSend
-        foreach (Transform child in DropPoints)
+        foreach (CharacterSlot charSlot in characterSlots)
         {
-            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            if (character)
-            {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
-                partyToSend.addMember(charSheet);
-            }
+            if (charSlot.characterAssigned)
+                partyToSend.addMember(charSlot.character);
         }
 
-        //assign partyToSend to the current quest
-        if (partyToSend.Party_Members.Count > 0)
-        {
-            attachedSheet.assignParty(partyToSend);
-            attachedSheet.isActive = true;
-            charSheetManager.SendPartyOnQuest(this, attachedSheet);
-            questingManager.StartQuest(attachedSheet);
+        attachedSheet.assignParty(partyToSend);
+        charSheetManager.SendPartyOnQuest(this, attachedSheet);
+        questingManager.StartQuest(attachedSheet);
 
-            //display activequestbanner
-            questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
+        //display activequestbanner
+        questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
 
-            SoundManagerScript.PlaySound("stamp");
-            DestroyUI();
-        }
-
+        SoundManagerScript.PlaySound("stamp");
+        DestroyUI();
     }
 
     public void DestroyUI()
     {
-        foreach (Transform child in DropPoints)
-        {
-            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            if (character)
-            {
-                Destroy(character.gameObject);
-            }
-            dropHandler.dropPoints.Remove(child.GetComponent<ObjectDropPoint>());
-        }
-
         if (questBanner != null)
         {
             QuestBanner q = questBanner.GetComponent<QuestBanner>();
             q.isDisplayed = false;
             q.displayManager.DisplayQuest(false);
-        }
-            
 
-        characterPool.RefreshCharacterPool();
+            for (int i = 0; i < 4; i++)
+            {
+                if (characterSlots[i].characterAssigned)
+                {
+                    RemoveCharacter(i);
+                }
+            }
+        }
+
         Destroy(this.gameObject);
     }
 
+    public void AddCharacter(CharacterSheet character)
+    {
+        if (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete) return;
+        if (AssignedCharacters >= 4) return;
+        if (IsCharacterAssigned(character)) return;
+
+        int freeSlot = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (!characterSlots[i].characterAssigned)
+            {
+                freeSlot = i;
+                break;
+            }
+        }
+
+        characterSlots[freeSlot].textObject.SetActive(true);
+        characterSlots[freeSlot].name.text = character.name;
+
+        //CharInfoUIObject.transform.Find("PortraitFrame").Find("Portrait").GetComponent<Image>().sprite = character.portrait;
+        characterSlots[freeSlot].portraitObject.SetActive(true);
+        characterSlots[freeSlot].portrait.sprite = character.portrait;
+        characterSlots[freeSlot].character = character;
+        characterSlots[freeSlot].characterAssigned = true;
+        characterSlots[freeSlot].emptyCharFrame.SetActive(false);
+        characterSlots[freeSlot].filledCharFrame.SetActive(true);
+        AssignedCharacters++;
+    }
+
+    public void RemoveCharacter(int slot)
+    {
+        if (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete) return;
+
+        characterPool.UnselectCharacter(characterSlots[slot].character);
+        characterSlots[slot].name.text = "";
+        characterSlots[slot].textObject.SetActive(false);
+        characterSlots[slot].portrait.sprite = null;
+        characterSlots[slot].portraitObject.SetActive(false);
+        characterSlots[slot].character = null;
+        characterSlots[slot].characterAssigned = false;
+        characterSlots[slot].emptyCharFrame.SetActive(true);
+        characterSlots[slot].filledCharFrame.SetActive(false);
+        AssignedCharacters--;
+    }
+
+    public bool IsCharacterAssigned(CharacterSheet character)
+    {
+        foreach (CharacterSlot charSlot in characterSlots)
+        {
+            if (charSlot.character == character)
+                return true;
+        }
+        return false;
+    }
+
+    public bool questIsActive()
+    {
+        return (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete);
+    }
 }

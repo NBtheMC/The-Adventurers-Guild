@@ -47,7 +47,7 @@ public class QuestingManager : MonoBehaviour
     /// <summary>
     /// Adds new page to Finished Quest log
     /// </summary>
-    private void AddFinishedQuestPage(object source, EventArgs e)
+    private void AddFinishedQuestPage(object source, GameTime gameTime)
     {
         finishedQuests.Add(new List<QuestSheet>());
     }
@@ -66,7 +66,8 @@ public class QuestingManager : MonoBehaviour
             if (quest.QuestComplete == true)
             {
                 quest.AddGuildGold();
-
+                quest.isActive = false;
+                quest.isComplete = true;
                 // Add quest to a list for deletion (Move to archive really)
                 markForDeletion.Add(quest);
             }
@@ -91,6 +92,7 @@ public class QuestingManager : MonoBehaviour
 		bankedQuests.Remove(questToBeMoved);
 		activeQuests.Add(questToBeMoved);
         QuestStarted(this, questToBeMoved);
+        questToBeMoved.isActive = true;
 		return true;
 	}
 

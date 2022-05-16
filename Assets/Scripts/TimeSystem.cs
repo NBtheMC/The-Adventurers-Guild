@@ -14,7 +14,7 @@ public class TimeSystem : MonoBehaviour
     public int hoursInDay; // How many hours are there in a day.
     public int ticksperHour; // How many ticks do we want to trigger per hour.
     public int activeHours; // How many hours is the player allowed to play though before the ticker accelerates to the next day?
-    public int totalTicksperDay() { return hoursInDay * ticksperHour; } // Get the mathatical ticks per 
+    public int totalTicksperDay() { return hoursInDay * ticksperHour; } // Get the mathatical ticks per active day.
     public int totalTicksperActive() { return activeHours * ticksperHour; } // Get the total number of ticks that the player exists in.
 
     Coroutine timeTrackerCoroutine; // Used to start/stop timer coroutine
@@ -25,14 +25,14 @@ public class TimeSystem : MonoBehaviour
      * are passed the current GameTime.
      * Look at UI/TimeDisplay for a simple example of how this works
      */
-    public event EventHandler<GameTime> TickAdded;
+    public event EventHandler<GameTime> TickAdded; // Invoked every tick.
+    public event EventHandler<GameTime> EndOfDay; // Invoked when active hours are over.
+    public event EventHandler<GameTime> NewHour; // Invoked when there's a new hour.
 
-    public event EventHandler NewDay;
+    public event EventHandler<GameTime> NewDay;
 
     private void Awake()
     {
-        Debug.Log("Starting time");
-        StartTimer();
     }
 
     // While the Coroutine is running, a tick passes every tickLength
@@ -48,15 +48,16 @@ public class TimeSystem : MonoBehaviour
     // Updates gameTime and fire all methods hooked into TickAdded event
     private void AddTick()
     {
-        gameTime.hour += 1;
-        if (gameTime.hour == 24)
+        gameTime.tick += 1;
+        if (gameTime.tick >= ticksperHour)
         {
-            gameTime.day += 1;
-            gameTime.hour = 0;
-            //Use GameManager to advance day
-            GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            //gameManager.ChangeScenes("Recap");
-            NewDay(this, EventArgs.Empty);
+            gameTime.tick = 0;
+            gameTime.hour += 1;
+            if (NewHour!= null) {NewHour(this, gameTime);}
+            if (gameTime.hour >= activeHours){
+                if (EndOfDay != null) {EndOfDay(this, gameTime);}
+                StopTimer();
+            }
         }
 
         if (TickAdded != null)
@@ -84,9 +85,28 @@ public class TimeSystem : MonoBehaviour
     }
 
     public GameTime getTime() { return gameTime; }
-    
-    public void SetDay(int currentDay){
-        gameTime.day = currentDay;
+
+    /// <summary>
+    /// Defunct function. Do not use unless neccessary.
+    /// </summary>
+    public void SetDay(int number){
+        gameTime.day = number;
+    }
+
+    public void StartNewDay()
+    {
+        NewDay(this, gameTime);
+        while(gameTime.hour < hoursInDay){
+            gameTime.tick++;
+            if (gameTime.tick >= ticksperHour)
+            {
+                gameTime.tick = 0;
+                gameTime.hour += 1;
+                if (NewHour!= null) {NewHour(this, gameTime);}
+            }
+        }
         gameTime.hour = 0;
+        gameTime.day += 1;
+        StartTimer();
     }
 }

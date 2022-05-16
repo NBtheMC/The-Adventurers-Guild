@@ -11,7 +11,7 @@ public class QuestBanner : MonoBehaviour
     private GameObject QuestUISpawn;
     private GameObject questUIPrefab;
     [HideInInspector] public bool isDisplayed;
-
+    public bool questIsActive { get; private set; } = false;
     // Start is called before the first frame update
     public void Awake()
     {
@@ -36,12 +36,14 @@ public class QuestBanner : MonoBehaviour
     public void ToggleQuestActiveState()
     {
         transform.Find("Active").gameObject.SetActive(questSheet.isActive);
+        questIsActive = questSheet.isActive;
     }
 
     public void displayQuestUI(bool displayOnly = false)
     {
         if (PauseMenu.gamePaused)
             return;
+
         if (!isDisplayed)
         {
             displayManager.DisplayQuest(true);

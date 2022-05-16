@@ -295,7 +295,12 @@ public class CSVToQuests : MonoBehaviour
             }
             newEvent.DC = int.Parse(DCstring);
             float eventHours = float.Parse(timeString);
-            newEvent.time = Mathf.CeilToInt(eventHours * 4);
+            
+            // Try to get the ticks per time from the time manager.
+            WorldStateManager worldStateReference = this.GetComponent<WorldStateManager>();
+            int ticksPerHour = worldStateReference.timeSystem.ticksperHour;
+
+            newEvent.time = Mathf.CeilToInt(eventHours * ticksPerHour);
             if(rewardString != ""){newEvent.Reward = int.Parse(rewardString);}
 
             // adds new connection to the successNode.

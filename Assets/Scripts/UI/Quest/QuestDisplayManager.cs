@@ -37,7 +37,7 @@ public class QuestDisplayManager : MonoBehaviour
         PageCountText.text = "/ 1";
     }
 
-    public void UpdateCurrentDayPage(object o, EventArgs e)
+    public void UpdateCurrentDayPage(object o, GameTime gameTime)
     {
         currentDay = timeSystem.getTime().day;
         PageCountText.text = "/ " + (currentDay + 1);

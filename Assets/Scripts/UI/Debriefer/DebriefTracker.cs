@@ -29,7 +29,7 @@ public class DebriefTracker : MonoBehaviour
 		//mark that page as unread
 	}
 
-	public void AddNewDay(object source, EventArgs e)
+	public void AddNewDay(object source, GameTime gameTime)
     {
 		GameTime timeLogged = timeSystem.getTime();
 		if (timeLogged.day >= cumulatedDebriefReport.Count)
