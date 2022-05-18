@@ -16,7 +16,7 @@ public class EventNode: ScriptableObject
 
 	public CharacterSheet.StatDescriptors stat; // the stat to be checked against. Should correspond with PartySheet
 
-	public List<EventCase> EventCases;
+	public List<EventCase> eventCases;
 
 	public EventCase defaultCase; // The node to go to in case all eventNodes fail.
 

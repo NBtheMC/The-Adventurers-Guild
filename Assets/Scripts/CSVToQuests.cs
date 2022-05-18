@@ -270,12 +270,12 @@ public class CSVToQuests : MonoBehaviour
         //Premake an event Node connection for assignment later.
         foreach(string[] eventNodePackage in eventNodeStringPackages){
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>();
-            string eventDescription = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
-            eventLookup.Add(eventDescription, newEvent);
+            string eventName = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
+            eventLookup.Add(eventName, newEvent);
         }
 
 
-        foreach(string[] eventNodePackage in eventNodeStringPackages) { //11 is however many properties there are
+        foreach(string[] eventNodePackage in eventNodeStringPackages) {
             
             // getting all the properties 
             string nameString = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
@@ -301,7 +301,6 @@ public class CSVToQuests : MonoBehaviour
             System.Array.Copy(eventNodePackage, eventNodePackage.Length-4,defaultCase,0,4);
 
             
-
             // Iterate through all the case Packets.
             foreach(string[] casePacket in casePackets)
 			{
@@ -339,6 +338,7 @@ public class CSVToQuests : MonoBehaviour
                 float eventHours = float.Parse(timeString);
                 tempEventCase.time = Mathf.CeilToInt(eventHours * ticksPerHour);
 
+                List<EventNode.PartyCheck> casePartyChecks = new List<EventNode.PartyCheck>();
                 //Parsing through the party Triggers.
                 for (int i = 1; i < partyTriggerStrings.Length; i+=3)
 				{
@@ -366,139 +366,161 @@ public class CSVToQuests : MonoBehaviour
                     // Get the Trigger Type.
                     Storylet.NumberTriggerType triggerType = new Storylet.NumberTriggerType();
                     if (!tryFindSign(partyTriggerStrings[i+1], ref triggerType)) {
-                        Debug.LogError($"Sign not recognized in {nameString}'s case towards {nextNode}, column {i + 1}, skipping"); continue; }
+                        Debug.LogError($"Sign not recognized in {nameString}'s case towards {nextNode}, Stat Check - column {i + 1}, skipping"); continue; }
                     partyCheck.triggerType = triggerType;
 
                     // Get the number.
                     int inputValue;
-                    if (!int.TryParse(partyTriggerStrings[i + 2], out inputValue)) { Debug.Log($"Int unable to be parsed in {nameString}'s case towards {nextNode}, colum {i + 2}, skipping"); continue; }
+                    if (!int.TryParse(partyTriggerStrings[i + 2], out inputValue)) { Debug.Log($"Int unable to be parsed in {nameString}'s case towards {nextNode}, Stat Check - colum {i + 2}, skipping"); continue; }
                     partyCheck.value = inputValue;
+
+                    // Put the party check into the case Party Check
+                    casePartyChecks.Add(partyCheck);
                 }
+                tempEventCase.statTriggers = casePartyChecks;
+
+                // Now the int Triggers.
+                List<Storylet.TriggerInt> caseTriggerInts = new List<Storylet.TriggerInt>();
+                for (int i = 1; i < triggerIntStrings.Length; i+=3)
+                {
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(triggerIntStrings, i, triggerPackage, 0, 3);
+
+                    Storylet.TriggerInt tempTriggerInt;
+                    string errorMessage;
+                    switch (tryParseTriggerInt(triggerPackage, out tempTriggerInt, out errorMessage))
+                    {
+                        case 0:
+                            caseTriggerInts.Add(tempTriggerInt);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Debug.LogError($"{errorMessage} At {nameString}'s case towards {nextNode}. Trigger Ints {(i + 2) / 3}");
+                            break;
+                    }
+                }
+                tempEventCase.IntTriggers = caseTriggerInts;
+
+                // The Float Triggers.
+                List<Storylet.TriggerValue> caseTriggerFloats = new List<Storylet.TriggerValue>();
+                for (int i = 1; i < triggerFloatStrings.Length; i += 3)
+                {
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(triggerFloatStrings, i, triggerPackage, 0, 3);
+
+                    Storylet.TriggerValue tempTrigger;
+                    string errorMessage;
+                    switch (tryParseTriggerFloat(triggerPackage, out tempTrigger, out errorMessage))
+                    {
+                        case 0:
+                            caseTriggerFloats.Add(tempTrigger);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Debug.LogError($"{errorMessage} At {nameString}'s case towards {nextNode}. Trigger Floats {(i + 2) / 3}");
+                            break;
+                    }
+                }
+                tempEventCase.FloatTriggers = caseTriggerFloats;
+
+                // The Bool Triggers.
+                List<Storylet.TriggerState> caseTriggerBools = new List<Storylet.TriggerState>();
+                for (int i = 1; i < triggerBoolStrings.Length; i += 3)
+                {
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(triggerBoolStrings, i, triggerPackage, 0, 3);
+
+                    Storylet.TriggerState tempTrigger;
+                    string errorMessage;
+                    switch (tryParseTriggerBool(triggerPackage, out tempTrigger, out errorMessage))
+                    {
+                        case 0:
+                            caseTriggerBools.Add(tempTrigger);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Debug.LogError($"{errorMessage} At {nameString}'s case towards {nextNode}. Trigger Bools {(i + 2) / 3}");
+                            break;
+                    }
+                }
+                tempEventCase.BoolTriggers = caseTriggerBools;
+
+                // The Int Changes
+                List<Storylet.IntChange> caseIntChanges = new List<Storylet.IntChange>();
+                for (int i = 1; i < intChangeStrings.Length; i += 3)
+                {
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(intChangeStrings, i, triggerPackage, 0, 3);
+
+                    Storylet.IntChange tempChange;
+                    string errorMessage;
+                    switch (tryParseIntChange(triggerPackage, out tempChange, out errorMessage))
+                    {
+                        case 0:
+                            caseIntChanges.Add(tempChange);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Debug.LogError($"{errorMessage} At {nameString}'s case towards {nextNode}. Int Change {(i + 2) / 3}");
+                            break;
+                    }
+                }
+                tempEventCase.IntChanges = caseIntChanges;
+
+                // The Float Changes
+                List<Storylet.ValueChange> caseFloatChanges = new List<Storylet.ValueChange>();
+                for (int i = 1; i < floatChangeStrings.Length; i += 3)
+                {
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(floatChangeStrings, i, triggerPackage, 0, 3);
+
+                    Storylet.ValueChange tempChange;
+                    string errorMessage;
+                    switch (tryParseFloatChange(triggerPackage, out tempChange, out errorMessage))
+                    {
+                        case 0:
+                            caseFloatChanges.Add(tempChange);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Debug.LogError($"{errorMessage} At {nameString}'s case towards {nextNode}. Float Change {(i + 2) / 3}");
+                            break;
+                    }
+                }
+                tempEventCase.FloatChanges = caseFloatChanges;
+
+                // The Float Changes
+                List<Storylet.StateChange> caseBoolChanges = new List<Storylet.StateChange>();
+                for (int i = 1; i < boolChangeStrings.Length; i += 3)
+                {
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(boolChangeStrings, i, triggerPackage, 0, 3);
+
+                    Storylet.StateChange tempChange;
+                    string errorMessage;
+                    switch (tryParseBoolChange(triggerPackage, out tempChange, out errorMessage))
+                    {
+                        case 0:
+                            caseBoolChanges.Add(tempChange);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            Debug.LogError($"{errorMessage} At {nameString}'s case towards {nextNode}. Bool Change {(i + 2) / 3}");
+                            break;
+                    }
+                }
+                tempEventCase.BoolChanges = caseBoolChanges;
+
+                // All the event case to the node.
+                newEvent.eventCases.Add(tempEventCase);
 
             }
-            
-            newEvent.DC = int.Parse(DCstring);
-      
-
-            // adds new connection to the successNode.
-            if (successNodestring == ""){ newEvent.successNode = null; }
-            else if (!eventLookup.TryGetValue(successNodestring,out temporaryLookupNode)){
-                Debug.LogError($"{nameString}'s success Node could not be found, skipping.");
-                continue;
-            }
-            else {newEvent.successNode = temporaryLookupNode;}
-            newEvent.successString = successDetailstring;
-
-            // Success Int Parsing.
-            List<Storylet.IntChange> successIntChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < successIntChangestring.Length; j+=2){
-                // get the two string variables: name, and change amount.
-                string nameOfVariable = successIntChangestring[j];
-                if(nameOfVariable == "") { continue; }
-                string valueString = successIntChangestring[j+1];
-                if(valueString == "") { Debug.LogError($"Int Variable for node {nameString} success, column {j+1} is not formated correctly."); continue; }
-
-                // Create the new items from storylets.
-                Storylet.IntChange newSuccessIntChange = new Storylet.IntChange(); //instantiate the storylet.
-                newSuccessIntChange.name = nameOfVariable; //put the name in.
-                newSuccessIntChange.value = int.Parse(valueString); //put the value of the int in.
-                successIntChanges.Add(newSuccessIntChange); // put the trigger in
-            }
-            newEvent.successIntChange = successIntChanges; // put all the triggers into the node.
-
-            // Success Float Parsing.
-            List<Storylet.ValueChange> successValueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < successFloatChangestring.Length; j+=2){
-                // get the values out.
-                string nameOfVariable = successFloatChangestring[j];
-                if(nameOfVariable ==  "") {continue;}
-                float inputFloat;
-                if(!float.TryParse(successFloatChangestring[j+1], out inputFloat)){ Debug.LogError($"Float Variable for node {nameString} success, column {j+1} is not formated correctly."); continue; }
-
-                // Create the new items from storylets.
-                Storylet.ValueChange newSuccessFloatChange = new Storylet.ValueChange();
-                newSuccessFloatChange.name = nameOfVariable; // put the name in.
-                newSuccessFloatChange.value = inputFloat; // put the value in.
-                successValueChanges.Add(newSuccessFloatChange); // add the new change to the list.
-            }
-            newEvent.successValueChange = successValueChanges; // add the list to the node.\
-
-            // Succcess Bool Parsing
-            List<Storylet.StateChange> successStateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < successBoolChangestring.Length; j+=2){
-                // get the values out.
-                string nameOfVariable = successBoolChangestring[j];
-                if(nameOfVariable ==  "") {continue;}
-                bool inputBool;
-                if(!bool.TryParse(successBoolChangestring[j+1], out inputBool)){ Debug.LogError($"Bool Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
-
-                // Create the new items from storylets.
-                Storylet.StateChange newSuccessBoolChange = new Storylet.StateChange();
-                newSuccessBoolChange.name = nameOfVariable; // put the name in.
-                newSuccessBoolChange.state = inputBool; // put the value in.
-                successStateChanges.Add(newSuccessBoolChange); // add the new change to the list.
-            }
-            newEvent.successStateChange = successStateChanges;
-
-            // adds new connections to the failureNode.
-            if (successNodestring == "") { newEvent.failureNode = null; }
-            else if (!eventLookup.TryGetValue(failNodestring,out temporaryLookupNode)){
-                Debug.LogError($"{nameString}'s failure Node could not be found, skipping.");
-                continue;
-            }
-            else { newEvent.failureNode = temporaryLookupNode; }
-            newEvent.failureString = failDetailstring;
-
-            // Fail Int Parsing
-            List<Storylet.IntChange> failIntChanges = new List<Storylet.IntChange>();
-            for(int j = 1; j < failIntChangeString.Length; j+=2){
-                // get the two string variables: name, and change amount.
-                string nameOfVariable = failIntChangeString[j];
-                if(nameOfVariable == "") { continue; }
-                int inputInt;
-                if(!int.TryParse(failFloatChangeString[j+1], out inputInt)) { Debug.LogError($"Int Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
-
-                // Create the new items from storylets.
-                Storylet.IntChange newFailIntChange = new Storylet.IntChange(); //instantiate the storylet.
-                newFailIntChange.name = nameOfVariable; //put the name in.
-                newFailIntChange.value = inputInt; //put the value of the int in.
-                failIntChanges.Add(newFailIntChange); // put the trigger in
-            }
-            newEvent.failIntChange = failIntChanges;
-
-            // Fail Value Parsing.
-            List<Storylet.ValueChange> failValueChanges = new List<Storylet.ValueChange>();
-            for(int j = 1; j < failFloatChangeString.Length; j+=3){
-                // get the values out.
-                string nameOfVariable = successFloatChangestring[j];
-                if(nameOfVariable ==  "") {continue;}
-                float inputFloat;
-                if(!float.TryParse(successFloatChangestring[j+1], out inputFloat)){ Debug.LogError($"Float Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
-
-                // Create the new items from storylets.
-                Storylet.ValueChange newFloatChange = new Storylet.ValueChange();
-                newFloatChange.name = nameOfVariable; // put the name in.
-                newFloatChange.value = inputFloat; // put the value in.
-                failValueChanges.Add(newFloatChange); // add the new change to the list.
-            }
-            newEvent.failValueChange = failValueChanges; // add the list to the node.\
-
-            // Fail Bool Parsing
-            List<Storylet.StateChange> failStateChanges = new List<Storylet.StateChange>();
-            for(int j = 1; j < failBoolChangestring.Length; j+=2){
-                // get the values out.
-                string nameOfVariable = failBoolChangestring[j];
-                if(nameOfVariable ==  "") {continue;}
-                bool inputBool;
-                if(!bool.TryParse(failBoolChangestring[j+1], out inputBool)){ Debug.LogError($"Bool Variable for node {nameString} fail, column {j+1} is not formated correctly."); continue; }
-
-                // Create the new items from storylets.
-                Storylet.StateChange newBoolChange = new Storylet.StateChange();
-                newBoolChange.name = nameOfVariable; // put the name in.
-                newBoolChange.state = inputBool; // put the value in.
-                failStateChanges.Add(newBoolChange); // add the new change to the list.
-            }
-            newEvent.failStateChange = failStateChanges;
 
             allEvents.Add(newEvent);
             Debug.Log($"Added Event {eventDescription}");
@@ -528,5 +550,170 @@ public class CSVToQuests : MonoBehaviour
                 break;
         }
         return correctCase;
+    }
+
+
+    /// <summary>
+    /// Tries to parse the trigger Ints from a TSV.
+    /// </summary>
+    /// <param name="inputs">A 3 item string array.</param>
+    /// <param name="trigger">The outputed trigger.</param>
+    /// <param name="error">The outputed error log.</param>
+    /// <returns>0 if correctly parsed. 1 if skipped (no error). 2 if format error.</returns>
+    private int tryParseTriggerInt(string[] inputs, out Storylet.TriggerInt trigger, out string error){
+
+        Storylet.TriggerInt newTriggerInt = new Storylet.TriggerInt();
+        trigger = newTriggerInt;
+
+        //Set the name.
+        if (inputs[0] == ""){error = "No name of world stat, skipped."; return 1;}
+        newTriggerInt.name = inputs[0];
+
+        //get type of sign
+        Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
+        if (!tryFindSign(inputs[1], ref sign)){ error = "Sign not recognized, skipping"; return 2; }
+        newTriggerInt.triggerType = sign;
+
+        // Get the value.
+        int inputValue;
+        if (!int.TryParse(inputs[2], out inputValue)){error = "Int unable to be parsed, skipping"; return 2; }
+        newTriggerInt.value = inputValue;
+
+        error = "none";
+        return 0;
+    }
+
+    /// <summary>
+    /// Tries to parse the trigger Floats from a TSV.
+    /// </summary>
+    /// <param name="inputs">A 3 item string array.</param>
+    /// <param name="trigger">The outputed trigger.</param>
+    /// <param name="error">The outputed error log.</param>
+    /// <returns>0 if correctly parsed. 1 if skipped (no error). 2 if format error.</returns>
+    private int tryParseTriggerFloat(string[] inputs, out Storylet.TriggerValue trigger, out string error)
+    {
+
+        Storylet.TriggerValue newTrigger = new Storylet.TriggerValue();
+        trigger = newTrigger;
+
+        //Set the name.
+        if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
+        newTrigger.name = inputs[0];
+
+        //get type of sign
+        Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
+        if (!tryFindSign(inputs[1], ref sign)) { error = "Sign not recognized, skipping"; return 2; }
+        newTrigger.triggerType = sign;
+
+        // Get the value.
+        float inputValue;
+        if (!float.TryParse(inputs[2], out inputValue)) { error = "Float unable to be parsed, skipping"; return 2; }
+        newTrigger.value = inputValue;
+
+        error = "none";
+        return 0;
+    }
+
+    /// <summary>
+    /// Tries to parse the trigger Bools from a TSV.
+    /// </summary>
+    /// <param name="inputs">A 3 item string array.</param>
+    /// <param name="trigger">The outputed trigger.</param>
+    /// <param name="error">The outputed error log.</param>
+    /// <returns>0 if correctly parsed. 1 if skipped (no error). 2 if format error.</returns>
+    private int tryParseTriggerBool(string[] inputs, out Storylet.TriggerState trigger, out string error)
+	{
+        Storylet.TriggerState newTrigger = new Storylet.TriggerState();
+        trigger = newTrigger;
+
+        //Set the name.
+        if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
+        newTrigger.name = inputs[0];
+
+        // Get the value.
+        bool inputValue;
+        if (!bool.TryParse(inputs[1].ToLower(), out inputValue)) { error = "Bool unable to be parsed, skipping"; return 2;}
+        newTrigger.state = inputValue;
+
+        // Return it.
+        error = "none";
+        return 0;
+    }
+
+    private int tryParseIntChange(string[] inputs, out Storylet.IntChange change, out string error)
+	{
+        Storylet.IntChange newChange = new Storylet.IntChange();
+        change = newChange;
+
+        // Set the name.
+        if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
+        newChange.name = inputs[0];
+
+        // get the change amount
+        int inputValue;
+        if (!int.TryParse(inputs[1], out inputValue)) { error = "Int unable to be parsed, skipping"; return 2; }
+        newChange.value = inputValue;
+
+		// Set or noSet? 
+		switch (inputs[2])
+		{
+            case "SET":
+                newChange.set = true; break;
+            case "NOSET":
+                newChange.set = false; break;
+            default:
+                error = "SET NOSET unable to be parsed, skipping"; return 2;
+        }
+
+        error = "none";
+        return 0;
+    }
+
+    private int tryParseFloatChange(string[] inputs, out Storylet.ValueChange change, out string error)
+    {
+        Storylet.ValueChange newChange = new Storylet.ValueChange();
+        change = newChange;
+
+        // Set the name.
+        if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
+        newChange.name = inputs[0];
+
+        // get the change amount
+        float inputValue;
+        if (!float.TryParse(inputs[1], out inputValue)) { error = "Float unable to be parsed, skipping"; return 2; }
+        newChange.value = inputValue;
+
+        // Set or noSet? 
+        switch (inputs[2])
+        {
+            case "SET":
+                newChange.set = true; break;
+            case "NOSET":
+                newChange.set = false; break;
+            default:
+                error = "SET NOSET unable to be parsed, skipping"; return 2;
+        }
+
+        error = "none";
+        return 0;
+    }
+
+    private int tryParseBoolChange(string[] inputs, out Storylet.StateChange change, out string error)
+    {
+        Storylet.StateChange newChange = new Storylet.StateChange();
+        change = newChange;
+
+        // Set the name.
+        if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
+        newChange.name = inputs[0];
+
+        // Get the value.
+        bool inputValue;
+        if (!bool.TryParse(inputs[1].ToLower(), out inputValue)) { error = "Bool unable to be parsed, skipping"; return 2; }
+        newChange.state = inputValue;
+
+
+        error = "none";
+        return 0;
     }
 }
