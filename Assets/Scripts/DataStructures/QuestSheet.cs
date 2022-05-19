@@ -136,7 +136,7 @@ public class QuestSheet
 		return MaxReward(headConnection);
 	}
 
-	// Calculates the reward if party succeeds. change later
+	// Calculates through a recursive tree through the entire damn thing.
 	private int MaxReward(EventNode currentNode)
 	{
 		int totalRewards = 0;
@@ -164,6 +164,8 @@ public class QuestSheet
 		int currentHighest = 0;
 
 		if (topConnection == null){topConnection = headConnection;} // Checks to see if there is a topConnection. Sets the head connection if there isn't.
+
+		// Make a list of all the cases.
 
 		// Search through all the items in default node cases
 		foreach (EventNode.EventCase eCase in topConnection.eventCases)
