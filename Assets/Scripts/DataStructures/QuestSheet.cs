@@ -83,9 +83,9 @@ public class QuestSheet
 			questRecap += nextConnection.progressionDescription + "";
 
 			// Update the world values according to the triggers.
-			foreach (Storylet.IntChange change in nextConnection.IntChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
-			foreach (Storylet.StateChange change in nextConnection.BoolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
-			foreach (Storylet.ValueChange change in nextConnection.FloatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+			foreach (Storylet.IntChange change in nextConnection.intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+			foreach (Storylet.StateChange change in nextConnection.boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
+			foreach (Storylet.ValueChange change in nextConnection.floatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
 
 			// End the quest if we hit a null.
 			if (nextConnection.nextNode != null)
