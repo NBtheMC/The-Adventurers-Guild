@@ -338,25 +338,25 @@ public class CSVToQuests : MonoBehaviour
                 float eventHours = float.Parse(timeString);
                 tempEventCase.time = Mathf.CeilToInt(eventHours * ticksPerHour);
 
-                List<EventNode.PartyCheck> casePartyChecks = new List<EventNode.PartyCheck>();
+                List<EventNode.StatCheck> caseStatChecks = new List<EventNode.StatCheck>();
                 //Parsing through the party Triggers.
                 for (int i = 1; i < partyTriggerStrings.Length; i+=3)
 				{
                     // Get the Stat to check against.
-                    EventNode.PartyCheck partyCheck = new EventNode.PartyCheck();
+                    EventNode.StatCheck statCheck = new EventNode.StatCheck();
                     switch (partyTriggerStrings[i])
                     {
                         case "Combat":
-                            partyCheck.stat = CharacterSheet.StatDescriptors.Combat;
+                            statCheck.stat = CharacterSheet.StatDescriptors.Combat;
                             break;
                         case "Exploration":
-                            partyCheck.stat = CharacterSheet.StatDescriptors.Exploration;
+                            statCheck.stat = CharacterSheet.StatDescriptors.Exploration;
                             break;
                         case "Negotiation":
-                            partyCheck.stat = CharacterSheet.StatDescriptors.Negotiation;
+                            statCheck.stat = CharacterSheet.StatDescriptors.Negotiation;
                             break;
                         case "Constitution":
-                            partyCheck.stat = CharacterSheet.StatDescriptors.Constitution;
+                            statCheck.stat = CharacterSheet.StatDescriptors.Constitution;
                             break;
                         default:
                             Debug.LogError($"Stat not correct in node {nameString}");
@@ -367,17 +367,17 @@ public class CSVToQuests : MonoBehaviour
                     Storylet.NumberTriggerType triggerType = new Storylet.NumberTriggerType();
                     if (!tryFindSign(partyTriggerStrings[i+1], ref triggerType)) {
                         Debug.LogError($"Sign not recognized in {nameString}'s case towards {nextNode}, Stat Check - column {i + 1}, skipping"); continue; }
-                    partyCheck.triggerType = triggerType;
+                    statCheck.triggerType = triggerType;
 
                     // Get the number.
                     int inputValue;
                     if (!int.TryParse(partyTriggerStrings[i + 2], out inputValue)) { Debug.Log($"Int unable to be parsed in {nameString}'s case towards {nextNode}, Stat Check - colum {i + 2}, skipping"); continue; }
-                    partyCheck.value = inputValue;
+                    statCheck.value = inputValue;
 
                     // Put the party check into the case Party Check
-                    casePartyChecks.Add(partyCheck);
+                    caseStatChecks.Add(statCheck);
                 }
-                tempEventCase.statTriggers = casePartyChecks;
+                tempEventCase.statTriggers = caseStatChecks;
 
                 // Now the int Triggers.
                 List<Storylet.TriggerInt> caseTriggerInts = new List<Storylet.TriggerInt>();
@@ -552,7 +552,7 @@ public class CSVToQuests : MonoBehaviour
             defaultCase.time = Mathf.CeilToInt(dEventHours * ticksPerHour);
 
             // Null all the triggers.
-            defaultCase.statTriggers = new List<EventNode.PartyCheck>();
+            defaultCase.statTriggers = new List<EventNode.StatCheck>();
             defaultCase.intTriggers = new List<Storylet.TriggerInt>();
             defaultCase.floatTriggers = new List<Storylet.TriggerValue>();
             defaultCase.boolTriggers = new List<Storylet.TriggerState>();

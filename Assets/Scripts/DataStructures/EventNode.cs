@@ -31,7 +31,7 @@ public class EventNode: ScriptableObject
 	/// <summary>
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
-	public struct PartyCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
+	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
 	
 	/// <summary>
 	/// Used to specify a case for use in this event.
@@ -46,7 +46,7 @@ public class EventNode: ScriptableObject
 		public string progressionDescription; // The string given to follow up after the 
 
 		// All our triggers for how this Event Case sets off.
-		public List<PartyCheck> statTriggers;
+		public List<StatCheck> statTriggers;
 		public List<Storylet.TriggerInt> intTriggers;
 		public List<Storylet.TriggerValue> floatTriggers;
 		public List<Storylet.TriggerState> boolTriggers;
@@ -74,7 +74,7 @@ public class EventNode: ScriptableObject
 			bool validEvent = true;
 			
 			// This chunk loops through the party checks.
-			foreach(PartyCheck i in eventToCheck.statTriggers)
+			foreach(StatCheck i in eventToCheck.statTriggers)
 			{
 				if (!Storylet.SignEvaluator(adventurers.getStatSummed(i.stat), i.triggerType, i.value)) { validEvent = false; break; }
 			}

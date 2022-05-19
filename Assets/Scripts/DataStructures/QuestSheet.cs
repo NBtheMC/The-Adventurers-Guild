@@ -80,7 +80,7 @@ public class QuestSheet
 			accumutatedGold += nextConnection.reward;
 			adventuring_party.UpdateRelationshipStory(UpdatePartyRelationships(adventuring_party, nextConnection.bondupdate));
 			visitedNodes.Add(currentConnection);
-			questRecap += nextConnection.progressionDescription + "";
+			questRecap += nextConnection.progressionDescription + " ";
 
 			// Update the world values according to the triggers.
 			foreach (Storylet.IntChange change in nextConnection.intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
@@ -173,7 +173,7 @@ public class QuestSheet
 			int tempHigh = 0;
 			if (eCase.nextNode != null) { tempHigh = CalcualteNodeRanges(inputType, eCase.nextNode); }
 			if (tempHigh > currentHighest) { currentHighest = tempHigh; }
-			foreach (EventNode.PartyCheck statCheck in eCase.statTriggers)
+			foreach (EventNode.StatCheck statCheck in eCase.statTriggers)
 			{
 				if(statCheck.stat == inputType && statCheck.value > currentHighest)
 				{
