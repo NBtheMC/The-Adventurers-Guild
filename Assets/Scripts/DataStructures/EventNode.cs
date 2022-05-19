@@ -47,14 +47,14 @@ public class EventNode: ScriptableObject
 
 		// All our triggers for how this Event Case sets off.
 		public List<PartyCheck> statTriggers;
-		public List<Storylet.TriggerInt> IntTriggers;
-		public List<Storylet.TriggerValue> FloatTriggers;
-		public List<Storylet.TriggerState> BoolTriggers;
+		public List<Storylet.TriggerInt> intTriggers;
+		public List<Storylet.TriggerValue> floatTriggers;
+		public List<Storylet.TriggerState> boolTriggers;
 
 		// All the changes upon entering this Event Case.
-		public List<Storylet.IntChange> IntChanges;
-		public List<Storylet.ValueChange> FloatChanges;
-		public List<Storylet.StateChange> BoolChanges;
+		public List<Storylet.IntChange> intChanges;
+		public List<Storylet.ValueChange> floatChanges;
+		public List<Storylet.StateChange> boolChanges;
 	}
 
 
@@ -69,7 +69,7 @@ public class EventNode: ScriptableObject
 		EventCase nextEvent = null;
 
 		// Loops through every single item in EventCase to check if there's a valid value.
-		foreach (EventCase eventToCheck in EventCases)
+		foreach (EventCase eventToCheck in eventCases)
 		{
 			bool validEvent = true;
 			
@@ -81,21 +81,21 @@ public class EventNode: ScriptableObject
 			if (!validEvent) { continue; }
 
 			// Next all the Trigger Ints.
-			foreach(Storylet.TriggerInt i in eventToCheck.IntTriggers)
+			foreach(Storylet.TriggerInt i in eventToCheck.intTriggers)
 			{
 				if (!Storylet.SignEvaluator(theWorld.GetWorldInt(i.name), i.triggerType, i.value)) { validEvent = false; break; }
 			}
 			if (!validEvent) { continue; }
 
 			// Then the Trigger Floats.
-			foreach (Storylet.TriggerValue i in eventToCheck.FloatTriggers)
+			foreach (Storylet.TriggerValue i in eventToCheck.floatTriggers)
 			{
 				if (!Storylet.SignEvaluator(theWorld.GetWorldValue(i.name), i.triggerType, i.value)) { validEvent = false; break; }
 			}
 			if (!validEvent) { continue; }
 
 			// Then finally the Trigger Bools.
-			foreach (Storylet.TriggerState i in eventToCheck.BoolTriggers)
+			foreach (Storylet.TriggerState i in eventToCheck.boolTriggers)
 			{
 				if (theWorld.GetWorldState(i.name) != i.state) { validEvent = false; break; }
 			}
