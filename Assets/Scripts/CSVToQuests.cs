@@ -297,8 +297,8 @@ public class CSVToQuests : MonoBehaviour
             }
 
             // Get the default case.
-            string[] defaultCase = new string[4];
-            System.Array.Copy(eventNodePackage, eventNodePackage.Length-4,defaultCase,0,4);
+            string[] defaultCaseString = new string[4];
+            System.Array.Copy(eventNodePackage, eventNodePackage.Length-4, defaultCaseString, 0,4);
 
             
             // Iterate through all the case Packets.
@@ -400,7 +400,7 @@ public class CSVToQuests : MonoBehaviour
                             break;
                     }
                 }
-                tempEventCase.IntTriggers = caseTriggerInts;
+                tempEventCase.intTriggers = caseTriggerInts;
 
                 // The Float Triggers.
                 List<Storylet.TriggerValue> caseTriggerFloats = new List<Storylet.TriggerValue>();
@@ -423,7 +423,7 @@ public class CSVToQuests : MonoBehaviour
                             break;
                     }
                 }
-                tempEventCase.FloatTriggers = caseTriggerFloats;
+                tempEventCase.floatTriggers = caseTriggerFloats;
 
                 // The Bool Triggers.
                 List<Storylet.TriggerState> caseTriggerBools = new List<Storylet.TriggerState>();
@@ -446,7 +446,7 @@ public class CSVToQuests : MonoBehaviour
                             break;
                     }
                 }
-                tempEventCase.BoolTriggers = caseTriggerBools;
+                tempEventCase.boolTriggers = caseTriggerBools;
 
                 // The Int Changes
                 List<Storylet.IntChange> caseIntChanges = new List<Storylet.IntChange>();
@@ -469,7 +469,7 @@ public class CSVToQuests : MonoBehaviour
                             break;
                     }
                 }
-                tempEventCase.IntChanges = caseIntChanges;
+                tempEventCase.intChanges = caseIntChanges;
 
                 // The Float Changes
                 List<Storylet.ValueChange> caseFloatChanges = new List<Storylet.ValueChange>();
@@ -492,7 +492,7 @@ public class CSVToQuests : MonoBehaviour
                             break;
                     }
                 }
-                tempEventCase.FloatChanges = caseFloatChanges;
+                tempEventCase.floatChanges = caseFloatChanges;
 
                 // The Float Changes
                 List<Storylet.StateChange> caseBoolChanges = new List<Storylet.StateChange>();
@@ -515,15 +515,123 @@ public class CSVToQuests : MonoBehaviour
                             break;
                     }
                 }
-                tempEventCase.BoolChanges = caseBoolChanges;
+                tempEventCase.boolChanges = caseBoolChanges;
 
                 // All the event case to the node.
                 newEvent.eventCases.Add(tempEventCase);
 
             }
 
+            // Parse the default package.
+            string dNextNode = defaultCaseString[0].Split('\t')[1]; // row 1, col b - Next Node.
+            string dTimeString = defaultCaseString[0].Split('\t')[2]; //row 1, col c - Time to take
+            string dRewardString = defaultCaseString[0].Split('\t')[3]; // row 1, col d - the reward space
+            string dPartyBond = defaultCaseString[0].Split('\t')[4]; // row 1, col e - the reward space
+            string dNodeCompletionString = defaultCaseString[0].Split('\t')[5]; // row 1, col f - node completion string
+            string[] dIntChangeStrings = defaultCaseString[1].Split('\t'); // row 2, int changes.
+            string[] dFloatChangeStrings = defaultCaseString[2].Split('\t'); // row 3, float changes.
+            string[] dBoolChangeStrings = defaultCaseString[3].Split('\t'); // row 4, bool changes.
+
+            EventNode.EventCase defaultCase = new EventNode.EventCase();
+
+            // Lookup the progressionNode
+            EventNode dTemporaryLookupNode;
+            if (dNextNode == "") { defaultCase.nextNode = null; }
+            else if (!eventLookup.TryGetValue(dNextNode, out dTemporaryLookupNode))
+            {
+                Debug.LogError($"{nameString}'s success Node could not be found, skipping.");
+                continue;
+            }
+
+            // Input a bunch of descriptors and values for the node.
+            if (dRewardString != "") { defaultCase.reward = int.Parse(dRewardString); }
+            defaultCase.bondupdate = int.Parse(dPartyBond);
+            defaultCase.progressionDescription = dNodeCompletionString;
+            //Get Time
+            float dEventHours = float.Parse(dTimeString);
+            defaultCase.time = Mathf.CeilToInt(dEventHours * ticksPerHour);
+
+            // Null all the triggers.
+            defaultCase.statTriggers = new List<EventNode.PartyCheck>();
+            defaultCase.intTriggers = new List<Storylet.TriggerInt>();
+            defaultCase.floatTriggers = new List<Storylet.TriggerValue>();
+            defaultCase.boolTriggers = new List<Storylet.TriggerState>();
+            
+            // The Int Changes
+            List<Storylet.IntChange> dCaseIntChanges = new List<Storylet.IntChange>();
+            for (int i = 1; i < dIntChangeStrings.Length; i += 3)
+            {
+                string[] triggerPackage = new string[3];
+                System.Array.Copy(dIntChangeStrings, i, triggerPackage, 0, 3);
+
+                Storylet.IntChange tempChange;
+                string errorMessage;
+                switch (tryParseIntChange(triggerPackage, out tempChange, out errorMessage))
+                {
+                    case 0:
+                        dCaseIntChanges.Add(tempChange);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        Debug.LogError($"{errorMessage} At {nameString}'s case towards {dNextNode}. Int Change {(i + 2) / 3}");
+                        break;
+                }
+            }
+            defaultCase.intChanges = dCaseIntChanges;
+
+            // The Float Changes
+            List<Storylet.ValueChange> dCaseFloatChanges = new List<Storylet.ValueChange>();
+            for (int i = 1; i < dFloatChangeStrings.Length; i += 3)
+            {
+                string[] triggerPackage = new string[3];
+                System.Array.Copy(dFloatChangeStrings, i, triggerPackage, 0, 3);
+
+                Storylet.ValueChange tempChange;
+                string errorMessage;
+                switch (tryParseFloatChange(triggerPackage, out tempChange, out errorMessage))
+                {
+                    case 0:
+                        dCaseFloatChanges.Add(tempChange);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        Debug.LogError($"{errorMessage} At {nameString}'s case towards {dNextNode}. Float Change {(i + 2) / 3}");
+                        break;
+                }
+            }
+            defaultCase.floatChanges = dCaseFloatChanges;
+
+            // The Float Changes
+            List<Storylet.StateChange> dCaseBoolChanges = new List<Storylet.StateChange>();
+            for (int i = 1; i < dBoolChangeStrings.Length; i += 3)
+            {
+                string[] triggerPackage = new string[3];
+                System.Array.Copy(dBoolChangeStrings, i, triggerPackage, 0, 3);
+
+                Storylet.StateChange tempChange;
+                string errorMessage;
+                switch (tryParseBoolChange(triggerPackage, out tempChange, out errorMessage))
+                {
+                    case 0:
+                        dCaseBoolChanges.Add(tempChange);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        Debug.LogError($"{errorMessage} At {nameString}'s case towards {dNextNode}. Bool Change {(i + 2) / 3}");
+                        break;
+                }
+            }
+            defaultCase.boolChanges = dCaseBoolChanges;
+
+            // Add the default case to the list and the reference.
+            newEvent.eventCases.Add(defaultCase);
+            newEvent.defaultCase = defaultCase;
+
             allEvents.Add(newEvent);
-            Debug.Log($"Added Event {eventDescription}");
+            Debug.Log($"Added Event {nameString}");
         }
     }
 

@@ -133,17 +133,22 @@ public class QuestSheet
 	}
 
 	public int EstimatedRewardTotal(){
-		return MaxReward(headConnection, 0);
+		return MaxReward(headConnection);
 	}
 
 	// Calculates the reward if party succeeds. change later
-	private int MaxReward(EventNode currentNode, int previousTotal)
+	private int MaxReward(EventNode currentNode)
 	{
-		if(currentNode == null){
-			return previousTotal;
+		int totalRewards = 0;
+
+		foreach(EventNode.EventCase eCase in currentConnection.eventCases)
+		{
+			int nodeGold = eCase.reward;
+			if (eCase.nextNode != null) { nodeGold += MaxReward(eCase.nextNode); }
+			if (nodeGold > totalRewards) { totalRewards = nodeGold; }
 		}
-		int countingTotal = previousTotal + currentNode.Reward;
-		return MaxReward(currentNode.successNode, countingTotal);
+
+		return totalRewards;
 	}
 
 	public string GetQuestRecap(){
@@ -152,27 +157,30 @@ public class QuestSheet
 
 
 	/// <summary>
-	/// Used to calculate what the maxes and mins of each event are through a recursive search of the graph.
+	/// Used to calculate what the maxs are of each event are through a recursive search of the graph.
 	/// </summary>
 	public int CalcualteNodeRanges(CharacterSheet.StatDescriptors inputType, EventNode topConnection = null)
 	{
-		int returnValue = 0;
-		int successValue = 0;
-		int failValue = 0;
+		int currentHighest = 0;
 
 		if (topConnection == null){topConnection = headConnection;} // Checks to see if there is a topConnection. Sets the head connection if there isn't.
 
-		// Get the higest of the following nodes, if they exist
-		if (topConnection.successNode != null) { successValue = CalcualteNodeRanges(inputType, topConnection.successNode); } 
-		if (topConnection.failureNode != null) { failValue = CalcualteNodeRanges(inputType, topConnection.failureNode); }
+		// Search through all the items in default node cases
+		foreach (EventNode.EventCase eCase in topConnection.eventCases)
+		{
+			int tempHigh = 0;
+			if (eCase.nextNode != null) { tempHigh = CalcualteNodeRanges(inputType, eCase.nextNode); }
+			if (tempHigh > currentHighest) { currentHighest = tempHigh; }
+			foreach (EventNode.PartyCheck statCheck in eCase.statTriggers)
+			{
+				if(statCheck.stat == inputType && statCheck.value > currentHighest)
+				{
+					currentHighest = statCheck.value;
+				}
+			}
+		}
 
-		// Gets the current value as well. If it's of the current type, of course.
-		if (topConnection.stat == inputType) { returnValue = topConnection.DC; }
-
-		if (successValue > returnValue) { returnValue = successValue; }
-		if (failValue > returnValue) { returnValue = failValue; }
-
-		return returnValue;
+		return currentHighest;
 	}
 
 	// public string GenerateEventText(){
