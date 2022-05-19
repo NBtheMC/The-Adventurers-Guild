@@ -9,6 +9,8 @@ public class CSVToQuests : MonoBehaviour
     public TextAsset csvStorylets;
     public TextAsset csvEvents;
 
+    public List<CharacterSheet> allCharacters; //All characters that are about to be unlocked.
+
     public List<Storylet> allStorylets;
     public List<EventNode> allEvents;
 
@@ -310,13 +312,14 @@ public class CSVToQuests : MonoBehaviour
                 string rewardString = eventNodePackage[0].Split('\t')[3]; // row 1, col d - the reward space
                 string partyBond = eventNodePackage[0].Split('\t')[4]; // row 1, col e - the reward space
                 string nodeCompletionString = eventNodePackage[0].Split('\t')[5]; // row 1, col f - node completion string
-                string[] partyTriggerStrings = eventNodePackage[1].Split('\t'); // row 2, party stat triggers.
+                string[] statTriggerStrings = eventNodePackage[1].Split('\t'); // row 2, party stat triggers.
                 string[] triggerIntStrings = eventNodePackage[2].Split('\t'); // row 3, trigger Ints.
                 string[] triggerFloatStrings = eventNodePackage[3].Split('\t'); // row 4, trigger Floats.
                 string[] triggerBoolStrings = eventNodePackage[4].Split('\t'); // row 5, trigger Bools.
-                string[] intChangeStrings = eventNodePackage[5].Split('\t'); // row 6, int changes.
-                string[] floatChangeStrings = eventNodePackage[6].Split('\t'); // row 7, float changes.
-                string[] boolChangeStrings = eventNodePackage[7].Split('\t'); // row 8, bool changes.
+                string[] partyTriggerStrings = eventNodePackage[5].Split('\t'); // row 6, party triggers.
+                string[] intChangeStrings = eventNodePackage[6].Split('\t'); // row 7, int changes.
+                string[] floatChangeStrings = eventNodePackage[7].Split('\t'); // row 8, float changes.
+                string[] boolChangeStrings = eventNodePackage[8].Split('\t'); // row 9, bool changes.
 
                 // Create the Event Case
                 EventNode.EventCase tempEventCase = new EventNode.EventCase();
@@ -340,11 +343,11 @@ public class CSVToQuests : MonoBehaviour
 
                 List<EventNode.StatCheck> caseStatChecks = new List<EventNode.StatCheck>();
                 //Parsing through the party Triggers.
-                for (int i = 1; i < partyTriggerStrings.Length; i+=3)
+                for (int i = 1; i < statTriggerStrings.Length; i+=3)
 				{
                     // Get the Stat to check against.
                     EventNode.StatCheck statCheck = new EventNode.StatCheck();
-                    switch (partyTriggerStrings[i])
+                    switch (statTriggerStrings[i])
                     {
                         case "Combat":
                             statCheck.stat = CharacterSheet.StatDescriptors.Combat;
@@ -365,13 +368,13 @@ public class CSVToQuests : MonoBehaviour
                     
                     // Get the Trigger Type.
                     Storylet.NumberTriggerType triggerType = new Storylet.NumberTriggerType();
-                    if (!tryFindSign(partyTriggerStrings[i+1], ref triggerType)) {
+                    if (!tryFindSign(statTriggerStrings[i+1], ref triggerType)) {
                         Debug.LogError($"Sign not recognized in {nameString}'s case towards {nextNode}, Stat Check - column {i + 1}, skipping"); continue; }
                     statCheck.triggerType = triggerType;
 
                     // Get the number.
                     int inputValue;
-                    if (!int.TryParse(partyTriggerStrings[i + 2], out inputValue)) { Debug.Log($"Int unable to be parsed in {nameString}'s case towards {nextNode}, Stat Check - colum {i + 2}, skipping"); continue; }
+                    if (!int.TryParse(statTriggerStrings[i + 2], out inputValue)) { Debug.Log($"Int unable to be parsed in {nameString}'s case towards {nextNode}, Stat Check - colum {i + 2}, skipping"); continue; }
                     statCheck.value = inputValue;
 
                     // Put the party check into the case Party Check
@@ -447,6 +450,28 @@ public class CSVToQuests : MonoBehaviour
                     }
                 }
                 tempEventCase.boolTriggers = caseTriggerBools;
+
+                // The Party Triggers
+                tempEventCase.partyTriggers = new List<EventNode.PartyCheck>();
+                for (int i = 1; i < partyTriggerStrings.Length; i+= 3)
+				{
+                    string[] triggerPackage = new string[3];
+                    System.Array.Copy(partyTriggerStrings, i, triggerPackage, 0, 3);
+
+                    EventNode.PartyCheck tempTrigger = new EventNode.PartyCheck();
+                    if(!tryFindCharacterSheet(triggerPackage[0],out tempTrigger.character))
+					{
+                        Debug.LogError($"Invalid Character at {nameString}'s case towards {nextNode}.");
+                        continue;
+					}
+
+                    // Get the value.
+                    bool inputValue;
+                    if (!bool.TryParse(triggerPackage[1].ToLower(), out inputValue)) { Debug.LogError("Bool unable to be parsed, skipping"); continue; }
+                    tempTrigger.present = inputValue;
+
+                    tempEventCase.partyTriggers.Add(tempTrigger);
+                }
 
                 // The Int Changes
                 List<Storylet.IntChange> caseIntChanges = new List<Storylet.IntChange>();
@@ -824,4 +849,19 @@ public class CSVToQuests : MonoBehaviour
         error = "none";
         return 0;
     }
+
+    private bool tryFindCharacterSheet(string name, out CharacterSheet foundCharacter)
+	{
+        foundCharacter = null;
+        foreach (CharacterSheet character in allCharacters)
+		{
+            if(character.name == name)
+			{
+                foundCharacter = character;
+                return true;
+			}
+		}
+
+        return false;
+	}
 }

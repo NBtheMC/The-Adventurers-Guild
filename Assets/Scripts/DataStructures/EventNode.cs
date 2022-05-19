@@ -32,6 +32,8 @@ public class EventNode: ScriptableObject
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
 	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
+
+	public struct PartyCheck { public CharacterSheet character; public bool present; }
 	
 	/// <summary>
 	/// Used to specify a case for use in this event.
@@ -50,6 +52,7 @@ public class EventNode: ScriptableObject
 		public List<Storylet.TriggerInt> intTriggers;
 		public List<Storylet.TriggerValue> floatTriggers;
 		public List<Storylet.TriggerState> boolTriggers;
+		public List<PartyCheck> partyTriggers;
 
 		// All the changes upon entering this Event Case.
 		public List<Storylet.IntChange> intChanges;
@@ -72,7 +75,7 @@ public class EventNode: ScriptableObject
 		foreach (EventCase eventToCheck in eventCases)
 		{
 			bool validEvent = true;
-			
+
 			// This chunk loops through the party checks.
 			foreach(StatCheck i in eventToCheck.statTriggers)
 			{
@@ -100,6 +103,14 @@ public class EventNode: ScriptableObject
 				if (theWorld.GetWorldState(i.name) != i.state) { validEvent = false; break; }
 			}
 			if (!validEvent) { continue; }
+
+			foreach (PartyCheck i in eventToCheck.partyTriggers)
+			{
+				if (adventurers.Contains(i.character) != i.present)
+				{
+					validEvent = false; break;
+				}
+			}
 
 			nextEvent = eventToCheck;
 			foundEvent = true;
