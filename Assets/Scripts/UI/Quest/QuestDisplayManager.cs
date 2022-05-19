@@ -12,10 +12,13 @@ public class QuestDisplayManager : MonoBehaviour
     private GameObject questListContent;
     private QuestingManager questingManager;
     private InputField input;
-    private Text PageCountText;
     private int currentDay;
-    public int pageNumber;
-    public bool currentQuestsDisplayed;
+    private int pageNumber;
+    private bool currentQuestsDisplayed;
+
+    [SerializeField] private GameObject nextButton;
+    [SerializeField] private GameObject prevButton;
+    [SerializeField] private GameObject textInput;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +27,6 @@ public class QuestDisplayManager : MonoBehaviour
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
         input = transform.Find("QuestDisplay/QuestList/PageNumberInput").gameObject.GetComponent<InputField>();
-        PageCountText = transform.Find("QuestDisplay/QuestList/PageCount/Text").gameObject.GetComponent<Text>();
 
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
@@ -34,13 +36,11 @@ public class QuestDisplayManager : MonoBehaviour
         currentDay = 0;
         currentQuestsDisplayed = true;
         input.text = "1";
-        PageCountText.text = "/ 1";
     }
 
     public void UpdateCurrentDayPage(object o, GameTime gameTime)
     {
         currentDay = timeSystem.getTime().day;
-        PageCountText.text = "/ " + (currentDay + 1);
         if (currentQuestsDisplayed)
         {
             pageNumber = currentDay;
@@ -56,7 +56,7 @@ public class QuestDisplayManager : MonoBehaviour
 
     public void AddFinishedQuest(object o, QuestSheet quest)
     {
-        if(pageNumber == currentDay && !currentQuestsDisplayed)
+        if (pageNumber == currentDay && !currentQuestsDisplayed)
         {
             GenerateQuestDisplayUI(quest);
         }
@@ -75,13 +75,13 @@ public class QuestDisplayManager : MonoBehaviour
 
     private void ClearQuestList()
     {
-        foreach(Transform child in questListContent.transform)
+        foreach (Transform child in questListContent.transform)
         {
             Destroy(child.gameObject);
         }
     }
 
-    private void DisplayQuests() 
+    private void DisplayQuests()
     {
         ClearQuestList();
         List<QuestSheet> questsToDisplay;
@@ -99,57 +99,58 @@ public class QuestDisplayManager : MonoBehaviour
         }
     }
 
-    public void PrevPage() 
+    public void PrevPage()
     {
-        //if not showing current day
-        if (currentQuestsDisplayed)
-        {
-            currentQuestsDisplayed = false;
-        }
-        else if(pageNumber != 0)
+        if (pageNumber > 1)
         {
             pageNumber--;
+            input.text = pageNumber.ToString();
         }
         DisplayQuests();
-
-        input.text = pageNumber.ToString();
     }
 
     public void NextPage()
     {
-        //if not showing current day
-        if (!currentQuestsDisplayed)
+        int currentDay = timeSystem.getTime().day;
+        if (pageNumber < currentDay)
         {
-            if(pageNumber != currentDay)
-            {
-                pageNumber++;
-                input.text = pageNumber.ToString();
-            }
-            else
-            {
-                currentQuestsDisplayed = true;
-                input.text = currentDay + 1 + "";
-            }
-            DisplayQuests();
-        }              
+            pageNumber++;
+            input.text = pageNumber.ToString();
+        }
+        DisplayQuests();
     }
 
     public void JumpToPage(string page)
     {
         int num = int.Parse(page);
         int currentDay = timeSystem.getTime().day;
-        if (num > currentDay)
+
+        pageNumber = Mathf.Clamp(num, 0, currentDay);
+        input.text = pageNumber.ToString();
+        DisplayQuests();
+    }
+
+    public void ToggleListView()
+    {
+        //if showing active/banked quests, toggle to show quest log
+        if (currentQuestsDisplayed)
         {
-            currentQuestsDisplayed = true;
-            pageNumber = currentDay;
-            input.text = currentDay + 1 + "";
+            prevButton.gameObject.SetActive(true);
+            nextButton.gameObject.SetActive(true);
+            textInput.gameObject.SetActive(true);
+            int currentDay = timeSystem.getTime().day;
+            currentQuestsDisplayed = false;
+            JumpToPage(currentDay.ToString());
         }
+        //otherwise show active/banked quests
         else
         {
-            currentQuestsDisplayed = false;
-            pageNumber = Mathf.Clamp(num, 0, currentDay);
-            input.text = pageNumber.ToString();   
+            prevButton.gameObject.SetActive(false);
+            nextButton.gameObject.SetActive(false);
+            textInput.gameObject.SetActive(false);
+
+            currentQuestsDisplayed = true;
+            DisplayQuests();
         }
-        DisplayQuests();
     }
 }
