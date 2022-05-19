@@ -64,6 +64,8 @@ public class CSVToQuests : MonoBehaviour
             string eventHeadName = storyletPacket[1].Split('\t')[1]; // row 2, col b event name.
             string toBeInstancedString = storyletPacket[1].Split('\t')[2]; // row 2, col c, to be instanced.
             string toBeDuplicated = storyletPacket[1].Split('\t')[3]; // row 2, col d, to be duplicated.
+            string character = storyletPacket[1].Split('\t')[4]; // row 2, col e, character to be triggered.
+            string debriefMessage = storyletPacket[1].Split('\t')[5]; // row 2, col f, debrief message
             string[] triggerIntStrings = storyletPacket[2].Split('\t'); // row 3, all the trigger ints.
             string[] triggerFloatStrings = storyletPacket[3].Split('\t'); // row 4, all the trigger floats.
             string[] triggerBoolStrings = storyletPacket[4].Split('\t'); // row 5, all the trigger bools.
@@ -75,6 +77,9 @@ public class CSVToQuests : MonoBehaviour
             newStorylet.name = storyletName;
             newStorylet.questName = storyletName;
             newStorylet.questDescription = storyletDetails;
+
+            newStorylet.adventurer = character;
+            newStorylet.debriefMessage = debriefMessage;
             
             // Get the instancing box.
             bool temporaryHoldBool = false;
