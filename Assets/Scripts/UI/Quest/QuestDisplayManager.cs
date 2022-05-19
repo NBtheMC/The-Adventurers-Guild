@@ -19,6 +19,7 @@ public class QuestDisplayManager : MonoBehaviour
     [SerializeField] private GameObject nextButton;
     [SerializeField] private GameObject prevButton;
     [SerializeField] private GameObject textInput;
+    [SerializeField] private GameObject toggleViewButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -141,6 +142,8 @@ public class QuestDisplayManager : MonoBehaviour
             int currentDay = timeSystem.getTime().day;
             currentQuestsDisplayed = false;
             JumpToPage(currentDay.ToString());
+
+            toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Active Quests";
         }
         //otherwise show active/banked quests
         else
@@ -151,6 +154,8 @@ public class QuestDisplayManager : MonoBehaviour
 
             currentQuestsDisplayed = true;
             DisplayQuests();
+
+            toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Quest Log";
         }
     }
 }

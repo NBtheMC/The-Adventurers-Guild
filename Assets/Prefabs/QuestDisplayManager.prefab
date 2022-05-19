@@ -1369,6 +1369,7 @@ MonoBehaviour:
   nextButton: {fileID: 5009402301012318243}
   prevButton: {fileID: 8167009304478189324}
   textInput: {fileID: 2096084108261981540}
+  toggleViewButton: {fileID: 1516952436185609581}
 --- !u!1 &5698263809420594478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1983,6 +1984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
+--- !u!1 &1516952436185609581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2954958401598289663, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
+  m_PrefabInstance: {fileID: 4327769260489425810}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2096084108261981540 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2385107157148778230, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
