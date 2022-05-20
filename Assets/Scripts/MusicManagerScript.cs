@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class MusicManagerScript : MonoBehaviour
 {
-    public static AudioClip ricercare16Music;
-    public static AudioClip secondSong;
+    public AudioClip ricercare16Music;
+    public AudioClip fantasiaMusic;
     static AudioSource audioSrc;
 
     void Start()
     {
         ricercare16Music = Resources.Load<AudioClip> ("ricercarePre");
-        //assign second song here
+        fantasiaMusic = Resources.Load<AudioClip> ("fantasiaPre");
         audioSrc = GetComponent<AudioSource> ();
         PlayMusic("ricercare16");
     }
 
-    void Update()
-    {        
-
+    public void StopMusic ()
+    {
+        audioSrc.Stop();
     }
 
-    public static void PlayMusic (string clip)
+    public void PlayMusic (string clip)
     {
         switch (clip)
         {            
@@ -29,8 +29,8 @@ public class MusicManagerScript : MonoBehaviour
                 audioSrc.clip = ricercare16Music;
                 audioSrc.Play();
                 break;
-            case "secondSong":
-                audioSrc.clip = secondSong;
+            case "fantasia":
+                audioSrc.clip = fantasiaMusic;
                 audioSrc.Play();
                 break;
         }
