@@ -143,7 +143,7 @@ public class QuestDisplayManager : MonoBehaviour
             currentQuestsDisplayed = false;
             JumpToPage(currentDay.ToString());
 
-            toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Active Quests";
+            //toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Active Quests";
         }
         //otherwise show active/banked quests
         else
@@ -155,7 +155,7 @@ public class QuestDisplayManager : MonoBehaviour
             currentQuestsDisplayed = true;
             DisplayQuests();
 
-            toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Quest Log";
+            //toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Quest Log";
         }
     }
 }
