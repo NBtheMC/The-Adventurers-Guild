@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicManagerScript : MonoBehaviour
+public class MusicManager : MonoBehaviour
 {
     public AudioClip ricercare16Music;
     public AudioClip fantasiaMusic;
@@ -13,7 +13,7 @@ public class MusicManagerScript : MonoBehaviour
         ricercare16Music = Resources.Load<AudioClip> ("ricercarePre");
         fantasiaMusic = Resources.Load<AudioClip> ("fantasiaPre");
         audioSrc = GetComponent<AudioSource> ();
-        PlayMusic("ricercare16");
+        PlayMusic();
     }
 
     public void StopMusic ()
@@ -21,15 +21,16 @@ public class MusicManagerScript : MonoBehaviour
         audioSrc.Stop();
     }
 
-    public void PlayMusic (string clip)
+    public void PlayMusic ()
     {
+        int clip = Random.Range(0, 2);
         switch (clip)
         {            
-            case "ricercare16":
+            case 0: //play ricercare
                 audioSrc.clip = ricercare16Music;
                 audioSrc.Play();
                 break;
-            case "fantasia":
+            case 1: //play fantasia
                 audioSrc.clip = fantasiaMusic;
                 audioSrc.Play();
                 break;

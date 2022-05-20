@@ -8,6 +8,7 @@ public class RecapManager : MonoBehaviour
 {
     private TimeSystem timeSystem;
     private GameObject recapObject;
+    private MusicManager musicManager;
 
     public Text earnedText;
     public Text lostText;
@@ -22,6 +23,7 @@ public class RecapManager : MonoBehaviour
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         timeSystem.EndOfDay += StartRecap;
         totalGold = GameObject.Find("Gold").GetComponent<WorldIntChanger>();
+        musicManager = GameObject.Find("MusicManager").GetComponent<MusicManager>();
         // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
         // lostText = transform.Find("LostNumber").GetComponent<Text>();
         // totalText = transform.Find("TotalNumber").GetComponent<Text>();
@@ -29,14 +31,17 @@ public class RecapManager : MonoBehaviour
 
     //Go into recap mode
     public void StartRecap(object sender, GameTime gameTime){
+        Debug.Log("Starting Recap");
         UpdateRecapScreen();
         foreach(Transform child in transform){
             child.gameObject.SetActive(true);
         }
+        musicManager.StopMusic();
     }
 
     //Get out of recap mode
     public void EndRecap(){
+        Debug.Log("Ending Recap");
         foreach(Transform child in transform){
             child.gameObject.SetActive(false);
         }
@@ -44,6 +49,7 @@ public class RecapManager : MonoBehaviour
         goldLost = 0;
         //set day and clock correct ANIMATE LATER?
         timeSystem.StartNewDay();
+        musicManager.PlayMusic();
     }
 
     public void AddDayGold(int goldAdded){
