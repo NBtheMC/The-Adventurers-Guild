@@ -1366,6 +1366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSystem: {fileID: 0}
+  activeQuests: {fileID: 21300000, guid: 63461f565d5de324984cbb4af95404ed, type: 3}
+  questLog: {fileID: 21300000, guid: 649d36d8530518542b7921b60c67b9ba, type: 3}
   nextButton: {fileID: 5009402301012318243}
   prevButton: {fileID: 8167009304478189324}
   textInput: {fileID: 2096084108261981540}
@@ -1880,7 +1882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865451745748155722, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 115.6094
+      value: 118.85547
       objectReference: {fileID: 0}
     - target: {fileID: 8865451746118314392, guid: f66af3a0ee125db418590a2256ba3124, type: 3}
       propertyPath: m_Sprite

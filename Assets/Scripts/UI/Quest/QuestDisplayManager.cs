@@ -8,10 +8,14 @@ using UnityEngine.UI;
 public class QuestDisplayManager : MonoBehaviour
 {
     public TimeSystem timeSystem;
+    public Sprite activeQuests;
+    public Sprite questLog;
+
     private GameObject questBannerPrefab;
     private GameObject questListContent;
     private QuestingManager questingManager;
     private InputField input;
+    private Image questBoxBackground;
     private int currentDay;
     private int pageNumber;
     private bool currentQuestsDisplayed;
@@ -28,6 +32,7 @@ public class QuestDisplayManager : MonoBehaviour
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
         input = transform.Find("QuestDisplay/QuestList/PageNumberInput").gameObject.GetComponent<InputField>();
+        questBoxBackground = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList").GetComponent<Image>();
 
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
@@ -139,6 +144,7 @@ public class QuestDisplayManager : MonoBehaviour
             prevButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(true);
             textInput.gameObject.SetActive(true);
+            questBoxBackground.sprite = questLog;
             int currentDay = timeSystem.getTime().day;
             currentQuestsDisplayed = false;
             JumpToPage(currentDay.ToString());
@@ -151,6 +157,7 @@ public class QuestDisplayManager : MonoBehaviour
             prevButton.gameObject.SetActive(false);
             nextButton.gameObject.SetActive(false);
             textInput.gameObject.SetActive(false);
+            questBoxBackground.sprite = activeQuests;
 
             currentQuestsDisplayed = true;
             DisplayQuests();
