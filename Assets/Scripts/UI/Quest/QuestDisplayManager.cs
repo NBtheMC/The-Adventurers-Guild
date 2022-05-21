@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class QuestDisplayManager : MonoBehaviour
 {
     public TimeSystem timeSystem;
-    public Sprite activeQuests;
-    public Sprite questLog;
+    
+    public Sprite activeQuestsButton;
+    public Sprite questLogButton;
 
     private GameObject questBannerPrefab;
     private GameObject questListContent;
     private QuestingManager questingManager;
     private InputField input;
-    private Image questBoxBackground;
     private int currentDay;
     private int pageNumber;
     private bool currentQuestsDisplayed;
@@ -24,6 +24,8 @@ public class QuestDisplayManager : MonoBehaviour
     [SerializeField] private GameObject prevButton;
     [SerializeField] private GameObject textInput;
     [SerializeField] private GameObject toggleViewButton;
+    [SerializeField] private GameObject activeQuestsBG;
+    [SerializeField] private GameObject questLogBG;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +34,6 @@ public class QuestDisplayManager : MonoBehaviour
         questListContent = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         questBannerPrefab = Resources.Load<GameObject>("QuestBanner");
         input = transform.Find("QuestDisplay/QuestList/PageNumberInput").gameObject.GetComponent<InputField>();
-        questBoxBackground = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList").GetComponent<Image>();
 
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
@@ -77,6 +78,9 @@ public class QuestDisplayManager : MonoBehaviour
         newQuest.GetComponent<QuestBanner>().questSheet = quest;
         //set banner text
         newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
+
+        if(quest.isComplete)
+            newQuest.transform.Find("Checkmark").gameObject.SetActive(true);
     }
 
     private void ClearQuestList()
@@ -141,28 +145,37 @@ public class QuestDisplayManager : MonoBehaviour
         //if showing active/banked quests, toggle to show quest log
         if (currentQuestsDisplayed)
         {
+            //display navigation buttons
             prevButton.gameObject.SetActive(true);
             nextButton.gameObject.SetActive(true);
             textInput.gameObject.SetActive(true);
-            questBoxBackground.sprite = questLog;
+
+            //change sprites to quest log versions
+            questLogBG.SetActive(true);
+            activeQuestsBG.SetActive(false);
+            toggleViewButton.GetComponent<Image>().sprite = activeQuestsButton;
+
+            //display log for current day
             int currentDay = timeSystem.getTime().day;
             currentQuestsDisplayed = false;
             JumpToPage(currentDay.ToString());
-
-            //toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Active Quests";
         }
         //otherwise show active/banked quests
         else
         {
+            //hide navigation buttons
             prevButton.gameObject.SetActive(false);
             nextButton.gameObject.SetActive(false);
             textInput.gameObject.SetActive(false);
-            questBoxBackground.sprite = activeQuests;
 
+            //change sprites to active versions
+            questLogBG.SetActive(false);
+            activeQuestsBG.SetActive(true);
+            toggleViewButton.GetComponent<Image>().sprite = questLogButton;
+
+            //show active/banked quests
             currentQuestsDisplayed = true;
             DisplayQuests();
-
-            //toggleViewButton.transform.GetChild(0).GetComponent<Text>().text = "Quest Log";
         }
     }
 }
