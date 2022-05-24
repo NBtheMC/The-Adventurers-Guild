@@ -18,7 +18,7 @@ public class CSVToQuests : MonoBehaviour
 
     private WorldStateManager worldStateReference;
 
-    private int ticksPerHour;
+    public int ticksPerHour;
 
     public void MakeEverything(){
         MakeEvents();
@@ -37,10 +37,10 @@ public class CSVToQuests : MonoBehaviour
 
 	private void Start()
     {
-        MakeEverything();
         // Geting our time ticks from the system.
         worldStateReference = this.GetComponent<WorldStateManager>();
         ticksPerHour = worldStateReference.timeSystem.ticksperHour;
+        MakeEverything();
     }
 
 	//Pull data from storylets csv and makes 1 event per grouping
@@ -309,6 +309,9 @@ public class CSVToQuests : MonoBehaviour
             newEvent.name = nameString;
             newEvent.description = eventDescription;
 
+            newEvent.theWorld = worldStateReference; // Make sure it has a reference to the world state we're using.
+            newEvent.eventCases = new List<EventNode.EventCase>(); // Initliaizes all the event cases.
+
             // Chunk out the Cases.
             List<string[]> casePackets = new List<string[]>();
             for (int i = 1; i < eventNodePackage.Length-4; i += 9)
@@ -341,8 +344,6 @@ public class CSVToQuests : MonoBehaviour
                 string[] floatChangeStrings = casePacket[7].Split('\t'); // row 8, float changes.
                 string[] boolChangeStrings = casePacket[8].Split('\t'); // row 9, bool changes.
 
-                Debug.Log($"NextNode {nextNode}, timeString {timeString}, rewardString {rewardString}, partyBond {partyBond},nodeCompletionString {nodeCompletionString}");
-
                 // Create the Event Case
                 EventNode.EventCase tempEventCase = new EventNode.EventCase();
 
@@ -367,6 +368,7 @@ public class CSVToQuests : MonoBehaviour
                 //Parsing through the party Triggers.
                 for (int i = 1; i < statTriggerStrings.Length-2; i+=3)
 				{
+                    Debug.Log($"Working through {nameString} item {(i + 2) / 3} party checks.");
                     bool finish = false;
                     // Get the Stat to check against.
                     EventNode.StatCheck statCheck = new EventNode.StatCheck();
@@ -406,6 +408,7 @@ public class CSVToQuests : MonoBehaviour
 
                     // Put the party check into the case Party Check
                     caseStatChecks.Add(statCheck);
+                    Debug.Log($"Added a statCheck for {statCheck.stat}");
                 }
                 tempEventCase.statTriggers = caseStatChecks;
 
@@ -572,9 +575,7 @@ public class CSVToQuests : MonoBehaviour
                 tempEventCase.boolChanges = caseBoolChanges;
 
                 // All the event case to the node.
-                newEvent.eventCases = new List<EventNode.EventCase>(); // Initialize the damn event case list.
                 newEvent.eventCases.Add(tempEventCase);
-
             }
 
             // Parse the default package.
@@ -682,7 +683,6 @@ public class CSVToQuests : MonoBehaviour
             defaultCase.boolChanges = dCaseBoolChanges;
 
             // Add the default case to the list and the reference.
-            newEvent.eventCases = new List<EventNode.EventCase>();
             newEvent.eventCases.Add(defaultCase);
             newEvent.defaultCase = defaultCase;
 
@@ -731,17 +731,17 @@ public class CSVToQuests : MonoBehaviour
 
         //Set the name.
         if (inputs[0] == ""){error = "No name of world stat, skipped."; return 1;}
-        newTriggerInt.name = inputs[0];
+        trigger.name = inputs[0];
 
         //get type of sign
         Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
         if (!tryFindSign(inputs[1], ref sign)){ error = "Sign not recognized, skipping"; return 2; }
-        newTriggerInt.triggerType = sign;
+        trigger.triggerType = sign;
 
         // Get the value.
         int inputValue;
         if (!int.TryParse(inputs[2], out inputValue)){error = "Int unable to be parsed, skipping"; return 2; }
-        newTriggerInt.value = inputValue;
+        trigger.value = inputValue;
 
         error = "none";
         return 0;
@@ -762,17 +762,17 @@ public class CSVToQuests : MonoBehaviour
 
         //Set the name.
         if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
-        newTrigger.name = inputs[0];
+        trigger.name = inputs[0];
 
         //get type of sign
         Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
         if (!tryFindSign(inputs[1], ref sign)) { error = "Sign not recognized, skipping"; return 2; }
-        newTrigger.triggerType = sign;
+        trigger.triggerType = sign;
 
         // Get the value.
         float inputValue;
         if (!float.TryParse(inputs[2], out inputValue)) { error = "Float unable to be parsed, skipping"; return 2; }
-        newTrigger.value = inputValue;
+        trigger.value = inputValue;
 
         error = "none";
         return 0;
@@ -792,12 +792,12 @@ public class CSVToQuests : MonoBehaviour
 
         //Set the name.
         if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
-        newTrigger.name = inputs[0];
+        trigger.name = inputs[0];
 
         // Get the value.
         bool inputValue;
         if (!bool.TryParse(inputs[1].ToLower(), out inputValue)) { error = "Bool unable to be parsed, skipping"; return 2;}
-        newTrigger.state = inputValue;
+        trigger.state = inputValue;
 
         // Return it.
         error = "none";
@@ -811,20 +811,20 @@ public class CSVToQuests : MonoBehaviour
 
         // Set the name.
         if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
-        newChange.name = inputs[0];
+        change.name = inputs[0];
 
         // get the change amount
         int inputValue;
         if (!int.TryParse(inputs[1], out inputValue)) { error = "Int unable to be parsed, skipping"; return 2; }
-        newChange.value = inputValue;
+        change.value = inputValue;
 
 		// Set or noSet? 
 		switch (inputs[2])
 		{
             case "SET":
-                newChange.set = true; break;
+                change.set = true; break;
             case "NOSET":
-                newChange.set = false; break;
+                change.set = false; break;
             default:
                 error = "SET NOSET unable to be parsed, skipping"; return 2;
         }
@@ -840,20 +840,20 @@ public class CSVToQuests : MonoBehaviour
 
         // Set the name.
         if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
-        newChange.name = inputs[0];
+        change.name = inputs[0];
 
         // get the change amount
         float inputValue;
         if (!float.TryParse(inputs[1], out inputValue)) { error = "Float unable to be parsed, skipping"; return 2; }
-        newChange.value = inputValue;
+        change.value = inputValue;
 
         // Set or noSet? 
         switch (inputs[2])
         {
             case "SET":
-                newChange.set = true; break;
+                change.set = true; break;
             case "NOSET":
-                newChange.set = false; break;
+                change.set = false; break;
             default:
                 error = "SET NOSET unable to be parsed, skipping"; return 2;
         }
@@ -869,12 +869,12 @@ public class CSVToQuests : MonoBehaviour
 
         // Set the name.
         if (inputs[0] == "") { error = "No name of world stat, skipped."; return 1; }
-        newChange.name = inputs[0];
+        change.name = inputs[0];
 
         // Get the value.
         bool inputValue;
         if (!bool.TryParse(inputs[1].ToLower(), out inputValue)) { error = "Bool unable to be parsed, skipping"; return 2; }
-        newChange.state = inputValue;
+        change.state = inputValue;
 
 
         error = "none";

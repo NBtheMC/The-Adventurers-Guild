@@ -34,19 +34,21 @@ public class QuestSheet
 	/// <param name="name_Input">Name of the Quest</param>
 	public QuestSheet(EventNode connection_input, string name_Input, WorldStateManager inputWorld, string inputQuestDescription = "")
 	{
+		Debug.Log($"Attempted to make a quest for {name_Input}");
+
 		visitedNodes = new List<EventNode>();
 
 		// Set our connections right.
 		headConnection = connection_input;
 		currentConnection = headConnection;
-		nextConnection = currentConnection.resolveEvent(adventuring_party);
+		nextConnection = null;
 		visitedNodes.Add(currentConnection);
 		worldStateManager = inputWorld;
 		Debug.Assert(worldStateManager != null);
 
 		// Initialize our tracking variables.
 		eventTicksElapsed = 0;
-		timeUntilProgression = nextConnection.time;
+		timeUntilProgression = 0;
 		accumutatedGold = 0;
 
 		// Initialize out descriptor variables.
@@ -80,30 +82,34 @@ public class QuestSheet
 			// Reset the event tick timer.
 			eventTicksElapsed = 0;
 
-			// Add everything specified by the Event Case
-			accumutatedGold += nextConnection.reward;
-			adventuring_party.UpdateRelationshipStory(UpdatePartyRelationships(adventuring_party, nextConnection.bondupdate));
-			visitedNodes.Add(currentConnection);
-			questRecap += nextConnection.progressionDescription + " ";
-
-			// Update the world values according to the triggers.
-			foreach (Storylet.IntChange change in nextConnection.intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
-			foreach (Storylet.StateChange change in nextConnection.boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
-			foreach (Storylet.ValueChange change in nextConnection.floatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
-
-			// End the quest if we hit a null.
-			if (nextConnection.nextNode != null)
+			if (nextConnection != null)
 			{
-				currentConnection = nextConnection.nextNode;
-			}
-			else
-			{
-				QuestComplete = true;
-				return 1;
+				// Add everything specified by the Event Case
+				accumutatedGold += nextConnection.reward;
+				adventuring_party.UpdateRelationshipStory(UpdatePartyRelationships(adventuring_party, nextConnection.bondupdate));
+				visitedNodes.Add(currentConnection);
+				questRecap += nextConnection.progressionDescription + " ";
+
+				// Update the world values according to the triggers.
+				foreach (Storylet.IntChange change in nextConnection.intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+				foreach (Storylet.StateChange change in nextConnection.boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
+				foreach (Storylet.ValueChange change in nextConnection.floatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+
+				// End the quest if we hit a null.
+				if (nextConnection.nextNode != null)
+				{
+					currentConnection = nextConnection.nextNode;
+				}
+				else
+				{
+					QuestComplete = true;
+					return 1;
+				}
 			}
 
 			// Request the next event package.
 			nextConnection = currentConnection.resolveEvent(adventuring_party);
+			timeUntilProgression = nextConnection.time;
 		}
 		eventTicksElapsed++;
 

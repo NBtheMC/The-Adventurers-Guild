@@ -22,12 +22,6 @@ public class EventNode: ScriptableObject
 
 	public WorldStateManager theWorld;
 
-	private void Start()
-	{
-		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
-		Debug.Assert(theWorld != null);
-	}
-
 	/// <summary>
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
