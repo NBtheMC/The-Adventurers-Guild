@@ -43,7 +43,7 @@ public class Storylet : ScriptableObject
 
 	public string questName; // The name of the quest they will embark on.
 	public EventNode eventHead; // The head of the event tree that is associated with this event.
-	[TextAreaAttribute(4,10)]
+	[TextAreaAttribute(4, 10)]
 	public string questDescription; // The description of the Quest, if there is to be one.
 
 	// Set to true if this multiple versions of this quest could be triggered at the same time.
@@ -51,7 +51,7 @@ public class Storylet : ScriptableObject
 	public bool canBeDuplicated = false;
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
-	public List<TriggerInt> triggerInts = new List<TriggerInt> ();
+	public List<TriggerInt> triggerInts = new List<TriggerInt>();
 	public List<TriggerValue> triggerValues = new List<TriggerValue>();
 	public List<TriggerState> triggerStates = new List<TriggerState>();
 
@@ -67,4 +67,43 @@ public class Storylet : ScriptableObject
 
 	// Adventurer that gets added to the roster if this storylet is triggered
 	public string adventurer;
+
+	public string factionName;
+	public string issuerName;
+	public string debriefMessage;
+
+	/// <summary>
+	/// Easy way to determine items using the NumberTriggerType.
+	/// </summary>
+	/// <param name="left">Item on the left of the sign</param>
+	/// <param name="sign">The Sign. Use Storylet.number Trigger Type.</param>
+	/// <param name="right">The number of the right.</param>
+	/// <returns></returns>
+	public static bool SignEvaluator(float left, NumberTriggerType sign, float right)
+	{
+		bool evaluation = false;
+
+		switch (sign)
+		{
+			case NumberTriggerType.LessThanEqualTo:
+				if (left <= right) { evaluation = true; }
+				break;
+			case NumberTriggerType.LessThan:
+				if (left < right) { evaluation = true; }
+				break;
+			case NumberTriggerType.EqualTo:
+				if (left == right) { evaluation = true; }
+				break;
+			case NumberTriggerType.GreaterThanEqualTo:
+				if (left >= right) { evaluation = true; }
+				break;
+			case NumberTriggerType.GreaterThan:
+				if (left > right) { evaluation = true; }
+				break;
+			default:
+				break;
+		}
+
+		return evaluation;
+	}
 }

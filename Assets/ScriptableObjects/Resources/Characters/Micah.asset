@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Micah
   m_EditorClassIdentifier: 
   characterName: Micah
-  hiredAtStart: 1
+  hiredAtStart: 0
   combat: 7
   exploration: 13
   negotiation: 9

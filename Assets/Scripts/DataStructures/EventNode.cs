@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// The default event node. Inherited by all other event nodes.
-/// Check against a DC.
-/// If successful, sends first node.
-/// If failed, sends second node.
+/// The event node checks between a large number of conditions.
+/// Sends back an package full of information for Quest Sheet to use, specifically what the next node is.
+/// Also update bonds.
 /// </summary>
 [CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
 public class EventNode: ScriptableObject
@@ -16,154 +15,122 @@ public class EventNode: ScriptableObject
 	public string description; //what the event is
 
 	public CharacterSheet.StatDescriptors stat; // the stat to be checked against. Should correspond with PartySheet
-	public int DC; //stat to be checked against also used for experience given eventually
-	public int time; // How many ticks before the DC check is triggered
-	public int Reward;
 
-	// All the things that happen when we're successful.
-	public EventNode successNode;
-	public string tempSuccessNode; //used while loading stuff in
-	public string successString;
-	// List of all the items that should change if this is successful.
-	public List<Storylet.IntChange> successIntChange;
-	public List<Storylet.ValueChange> successValueChange;
-	public List<Storylet.StateChange> successStateChange;
+	public List<EventCase> eventCases;
 
+	public EventCase defaultCase; // The node to go to in case all eventNodes fail.
 
-	// All the things that happen when we're not successful
-	public EventNode failureNode;
-	public string tempFailureNode; //used while loading stuff in
-	public string failureString;
-	public List<Storylet.IntChange> failIntChange;
-	public List<Storylet.ValueChange> failValueChange;
-	public List<Storylet.StateChange> failStateChange;
-
-	private WorldStateManager theWorld;
-
-	// private void Awake()
-	// {
-		
-		
-	// }
-
-	private void Start()
-	{
-		theWorld = GameObject.Find("WorldState").GetComponent<WorldStateManager>();
-		Debug.Assert(theWorld != null);
-	}
-
-	private List<string> eventRelationships = new List<string>();
-
-	public class EventPackage
-	{
-		public bool objectiveComplete = false;
-		public int givenReward = 0;
-		public EventNode nextEvent = null;
-		public List<string> relationshipsUpdate = new List<string>(); //relationships update
-		public string resultsString; //what actually happened
-		//TODO Adventurer levelling
-	}
-
-	public EventPackage resolveEvent(PartySheet adventurers)
-	{
-		EventPackage message = new EventPackage();
-		message.objectiveComplete = adventurers.getStatSummed(stat) > DC;
-		Debug.Log($"Adventurer {adventurers.name}'s {stat} is {adventurers.getStatSummed(stat)}");
-
-		// switchcase for our checks.
-		switch (message.objectiveComplete)
-		{
-			case true:
-				//update EventPackage
-				message.nextEvent = successNode;
-				message.givenReward = Reward;
-				message.resultsString = description + " " + successString;
-				//message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
-				break;
-			case false:
-				//update EventPackage
-				message.nextEvent = failureNode;
-				message.resultsString = description + " " + failureString;
-				//message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
-				break;
-		}
-
-
-		return message;
-	}
-
-	//called first by quest when quest is done. updates friendships based on win or loss
-    //done on current party, change is determined by quest
-    private void UpdatePartyRelationships(PartySheet party, int change){
-		//List<string> partyUpdates = new List<string>();
-
-        //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
-        List<Adventurer> partyMembers = new List<Adventurer>();
-
-        foreach(CharacterSheet a in party.Party_Members){
-			//Debug.Log(a.name);
-            partyMembers.Add(a.adventurer);
-			//Debug.Log(a.adventurer.characterSheet.name);
-        }
-
-        //Actual updating
-        for(int i  = 0; i < partyMembers.Count; i++){
-            Adventurer a = partyMembers[i];
-			Debug.Log(a.characterSheet.name);
-            for(int j  = i+1; j < partyMembers.Count; j++){
-
-                Adventurer b = partyMembers[j];
-                //update friendship between a and b
-                a.ChangeFriendship(b, change);
-                b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
-                //get string based on change
-				//partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
-            }
-        }
-		//return partyUpdates;
-		return;
-    }
-
-	/*
-	/// <summary>
-	/// Checks if it's time to execute an event. If it is, executes event.
-	/// </summary>
-	/// <param name="currentTick">How much time elapsed since this event started.</param>
-	/// <param name="input_DC">The calculated DC of the specified party.</param>
-	/// <param name="currentNode">A reference to the current node to change if neccessary</param>
-	/// <returns>
-	/// 0 for no trigger, event still ongoing.
-	/// 1 for quest failed.
-	/// 2 for quest success.
-	/// 3 for event succes, new currentNode.
-	/// </returns>
-	public int timeCheck(int currentTick, int input_DC, ref EventNode currentNode)
-	{
-		if (currentTick >= time)
-		{
-			currentNode = nextConnection(input_DC);
-			return 3;
-		}
-		else
-		{
-			return 0;
-		}
-	}
+	public WorldStateManager theWorld;
 
 	/// <summary>
-	/// Returns the next connection according to a DC check.
+	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
-	/// <param name="input_DC">The value to be checked against</param>
-	/// <returns>The next connection, depending on success or failure.</returns>
-	protected EventNode nextConnection(int input_DC)
+	[System.Serializable]
+	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
+
+	public struct PartyCheck { public CharacterSheet character; public bool present; }
+	
+	/// <summary>
+	/// Used to specify a case for use in this event.
+	/// </summary>
+	[System.Serializable]
+	public class EventCase
 	{
-		if (connection.Count < 2)
+		// All the specific details of going down this event.
+		public EventNode nextNode = null; // What event node to progress to when it hits this case.
+		public int time = 0; // How much time to wait after triggering EventCase
+		public int reward = 0; // How much gold to provide after waiting/
+		public int bondupdate = 0; // How much bond to increse after event.
+		public string progressionDescription; // The string given to follow up after the 
+
+		// All our triggers for how this Event Case sets off.
+		public List<StatCheck> statTriggers;
+		public List<Storylet.TriggerInt> intTriggers;
+		public List<Storylet.TriggerValue> floatTriggers;
+		public List<Storylet.TriggerState> boolTriggers;
+		public List<PartyCheck> partyTriggers;
+
+		// All the changes upon entering this Event Case.
+		public List<Storylet.IntChange> intChanges;
+		public List<Storylet.ValueChange> floatChanges;
+		public List<Storylet.StateChange> boolChanges;
+
+		public EventCase()
 		{
-			Debug.Log("Not enough connections in default event node");
+			statTriggers = new List<StatCheck>();
+			intTriggers = new List<Storylet.TriggerInt>();
+			floatTriggers = new List<Storylet.TriggerValue>();
+			boolTriggers = new List<Storylet.TriggerState>();
+			partyTriggers = new List<PartyCheck>();
+			intChanges = new List<Storylet.IntChange>();
+			floatChanges = new List<Storylet.ValueChange>();
+			boolChanges = new List<Storylet.StateChange>();
+		}
+	}
+
+
+	/// <summary>
+	/// Resolves the current event with the specified Party Sheet
+	/// </summary>
+	/// <param name="adventurers">The party sheet that this event will resolve with.</param>
+	/// <returns></returns>
+	public EventCase resolveEvent(PartySheet adventurers)
+	{
+		bool foundEvent = false;
+		EventCase nextEvent = null;
+
+		// Loops through every single item in EventCase to check if there's a valid value.
+		foreach (EventCase eventToCheck in eventCases)
+		{
+			bool validEvent = true;
+
+			// This chunk loops through the party checks.
+			foreach(StatCheck i in eventToCheck.statTriggers)
+			{
+				if (!Storylet.SignEvaluator(adventurers.getStatSummed(i.stat), i.triggerType, i.value)) { validEvent = false; break; }
+			}
+			if (!validEvent) { continue; }
+
+			// Next all the Trigger Ints.
+			foreach(Storylet.TriggerInt i in eventToCheck.intTriggers)
+			{
+				if (!Storylet.SignEvaluator(theWorld.GetWorldInt(i.name), i.triggerType, i.value)) { validEvent = false; break; }
+			}
+			if (!validEvent) { continue; }
+
+			// Then the Trigger Floats.
+			foreach (Storylet.TriggerValue i in eventToCheck.floatTriggers)
+			{
+				if (!Storylet.SignEvaluator(theWorld.GetWorldValue(i.name), i.triggerType, i.value)) { validEvent = false; break; }
+			}
+			if (!validEvent) { continue; }
+
+			// Then finally the Trigger Bools.
+			foreach (Storylet.TriggerState i in eventToCheck.boolTriggers)
+			{
+				if (theWorld.GetWorldState(i.name) != i.state) { validEvent = false; break; }
+			}
+			if (!validEvent) { continue; }
+
+			foreach (PartyCheck i in eventToCheck.partyTriggers)
+			{
+				if (adventurers.Contains(i.character) != i.present)
+				{
+					validEvent = false; break;
+				}
+			}
+
+			nextEvent = eventToCheck;
+			foundEvent = true;
+			break;
 		}
 
-		// If there are enough connections
-		if (input_DC > DC) { return connection[0]; }
-		else { return connection[1]; }
-	}*/
+		// If the previous loop doesn't find anything.
+		if (!foundEvent)
+		{
+			nextEvent = defaultCase;
+		}
+
+		return nextEvent;
+	}
 }

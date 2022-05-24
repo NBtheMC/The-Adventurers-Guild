@@ -10,6 +10,7 @@ public class CharacterSheetManager : MonoBehaviour
     private List<CharacterSheet> freeAdventurers; //Adventurers in the guild that are not on a quest
     private List<CharacterSheet> questingAdventurers; //Adventurers that are currently on a quest
     private List<CharacterSheet> deadAdventurers; //Adventurers that fucking died
+    private List<CharacterSheet> allAdventurers; //All the adventurers
 
     public IReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return unhiredAdventurers.AsReadOnly(); } }
     public IReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return hiredAdventurers.AsReadOnly(); } }
@@ -26,6 +27,7 @@ public class CharacterSheetManager : MonoBehaviour
         freeAdventurers = new List<CharacterSheet>();
         questingAdventurers = new List<CharacterSheet>(); 
         deadAdventurers = new List<CharacterSheet>();
+        allAdventurers = new List<CharacterSheet>();
 
         CharacterInitialStats[] characters;
         characters = Resources.LoadAll<CharacterInitialStats>("Characters");
@@ -33,7 +35,8 @@ public class CharacterSheetManager : MonoBehaviour
         foreach (CharacterInitialStats character in characters)
         {
             CharacterSheet charSheet = new CharacterSheet(character);
-
+            allAdventurers.Add(charSheet);
+            Debug.Log($"Added adventurer {charSheet.name}");
             if (character.hiredAtStart){
                 freeAdventurers.Add(charSheet);
                 hiredAdventurers.Add(charSheet);}
@@ -87,4 +90,15 @@ public class CharacterSheetManager : MonoBehaviour
         else
             RosterChange(this, EventArgs.Empty);
     }
+
+    public bool TryFindSheetByName(string name, out CharacterSheet adventurer)
+	{
+        foreach(CharacterSheet character in allAdventurers)
+		{
+            if (character.name.Equals(name)) { adventurer = character; return true; }
+		}
+
+        adventurer = null;
+        return false;
+	}
 }

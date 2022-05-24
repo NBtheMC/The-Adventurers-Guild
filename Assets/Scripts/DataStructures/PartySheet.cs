@@ -51,6 +51,11 @@ public class PartySheet
         return statTotal;
     }
 
+    public bool Contains(CharacterSheet adventurer)
+	{
+        return party_members.Contains(adventurer);
+	}
+
     public void UpdateRelationshipStory(List<string> relationshipSubstory){
         relationshipNarrative.AddRange(relationshipSubstory);
         return;
