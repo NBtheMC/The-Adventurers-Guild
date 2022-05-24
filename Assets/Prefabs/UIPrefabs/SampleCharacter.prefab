@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5122144849775249646}
   - component: {fileID: 5122144849775249643}
   - component: {fileID: 5122144849775249640}
-  - component: {fileID: 5122144849775249641}
   - component: {fileID: 41694512011610636}
   m_Layer: 5
   m_Name: SampleCharacter
@@ -77,21 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5122144849775249641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5122144849775249647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1318fc5b623d41645a561fbf31686b47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropHandler: {fileID: 0}
-  objectDropPoint: {fileID: 0}
-  dropType: 0
 --- !u!114 &41694512011610636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,5 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ca044563c211f49a9727222638408a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayManager: {fileID: 0}
   movementDelta: 5
   isDisplayed: 0

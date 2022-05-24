@@ -12,6 +12,8 @@ public class QuestSheet
 	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
 
 	public int partySize = 4;
+	public bool isActive = false;
+	public bool isComplete = false;
 
 	private int timeUntilProgression; // How much time this questsheet will wait until it progresses. Start at 0.
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
@@ -112,6 +114,7 @@ public class QuestSheet
 	public void AddGuildGold()
 	{
 		worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
+		GameObject.Find("RecapDisplay").GetComponent<RecapManager>().AddDayGold(accumutatedGold);
 		accumutatedGold = 0;
 	}
 

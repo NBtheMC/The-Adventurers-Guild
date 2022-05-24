@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Handles all processing of social models
 public class RelationshipManager : MonoBehaviour
@@ -9,13 +11,33 @@ public class RelationshipManager : MonoBehaviour
     // Predicates: Sets of variables that will bind to characters during evaluation. eg (Friend ?x ?y)
     // Rules: Made up of predicates to make adjustments. eg (Friend ?x ?y) !(Friend ?y ?z) => (Friend ?y ?x)
 
-    public CharacterSheetManager characterSheetManager; //parent of all adventurers in the scene. Named the same
+    public CharacterSheetManager characterSheetManager; //all characters
+    public GameObject relationshipPopup; //the prefab that will be modified with a string each time
+    public const float POPUPTIMER = 20f;
+    public Transform popupLocation;
+    private float currentTimer;
 
     //all the relevant info that occured with relationships in a given update
     // public struct RelationshipsInfo{
     //     List<(Adventurer, Adventurer, int)> relationshipChanges; //describes how much each relationship changed by
     //     List<string> relationshipStories; //anything notable that happens
     // }
+
+    public void Start(){
+        currentTimer = POPUPTIMER;
+    }
+
+    public void Update(){
+        currentTimer -= Time.deltaTime;
+        if(currentTimer <= 0){
+            //make popup
+            Debug.Log("Making Popup");
+            GameObject newPopup = Instantiate(relationshipPopup, popupLocation);
+            newPopup.transform.Find("UpdateText").GetComponent<Text>().text = RandomRelationshipUpdate();
+            newPopup.transform.Find("Close").GetComponent<Button>().onClick.AddListener(() => Destroy(newPopup));
+            currentTimer = POPUPTIMER;
+        }
+    }
 
     //called after relationships are updated
     //loops all rules through all people 's volitions, relationships, etc, in order to
@@ -83,6 +105,43 @@ public class RelationshipManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    //takes 2 random adventurers that are in party and puts out blurb about them. excel sheet? idk
+    public string RandomRelationshipUpdate(){
+        //randomly pick adventurer A
+        int aIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count - 1);
+        Adventurer a = characterSheetManager.FreeAdventurers.ElementAt(aIndex).adventurer;
+        //randomly pick adventurer B
+        int bIndex;
+        do {
+            bIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count - 1);
+        } while(bIndex == aIndex);
+        Adventurer b = characterSheetManager.FreeAdventurers.ElementAt(bIndex).adventurer;
+        //Get relationship between A and B
+        int bondValue = a.GetFriendship(b);
+        //Look in spreadsheet for random line
+        string relationshipUpdate = "Relationship Update Text";
+        string aName = a.characterSheet.name;
+        string bName = b.characterSheet.name;
+        switch(bondValue){
+            case int n when (n >= -10 && n <= -7):
+                relationshipUpdate = $"{aName} and {bName} were very unfriendly";
+                break;
+            case int n when (n >= -6 && n <= -3):
+                relationshipUpdate = $"{aName} and {bName} were slightly unfriendly";
+                break;
+            case int n when (n >= -2 && n <= 2):
+                relationshipUpdate = $"{aName} and {bName} are talking in the halls";
+                break;
+            case int n when (n >= 3 && n <= 6):
+                relationshipUpdate = $"{aName} and {bName} were slightly friendly";
+                break;
+            case int n when (n >= 7 && n <= 10):
+                relationshipUpdate = $"{aName} and {bName} were very friendly";
+                break;
+        }
+        return relationshipUpdate;
     }
 
 }
