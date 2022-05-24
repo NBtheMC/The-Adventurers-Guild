@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Zenny
   m_EditorClassIdentifier: 
   characterName: Zenny
-  hiredAtStart: 1
+  hiredAtStart: 0
   combat: 7
   exploration: 9
   negotiation: 13
