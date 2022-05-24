@@ -34,6 +34,8 @@ public class QuestSheet
 	/// <param name="name_Input">Name of the Quest</param>
 	public QuestSheet(EventNode connection_input, string name_Input, WorldStateManager inputWorld, string inputQuestDescription = "")
 	{
+		visitedNodes = new List<EventNode>();
+
 		// Set our connections right.
 		headConnection = connection_input;
 		currentConnection = headConnection;

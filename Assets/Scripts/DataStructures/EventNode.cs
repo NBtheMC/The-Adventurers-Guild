@@ -58,6 +58,18 @@ public class EventNode: ScriptableObject
 		public List<Storylet.IntChange> intChanges;
 		public List<Storylet.ValueChange> floatChanges;
 		public List<Storylet.StateChange> boolChanges;
+
+		public EventCase()
+		{
+			statTriggers = new List<StatCheck>();
+			intTriggers = new List<Storylet.TriggerInt>();
+			floatTriggers = new List<Storylet.TriggerValue>();
+			boolTriggers = new List<Storylet.TriggerState>();
+			partyTriggers = new List<PartyCheck>();
+			intChanges = new List<Storylet.IntChange>();
+			floatChanges = new List<Storylet.ValueChange>();
+			boolChanges = new List<Storylet.StateChange>();
+		}
 	}
 
 

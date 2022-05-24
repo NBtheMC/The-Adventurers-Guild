@@ -68,6 +68,8 @@ public class Storylet : ScriptableObject
 	// Adventurer that gets added to the roster if this storylet is triggered
 	public string adventurer;
 
+	public string factionName;
+	public string issuerName;
 	public string debriefMessage;
 
 	/// <summary>

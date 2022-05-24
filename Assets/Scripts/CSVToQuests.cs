@@ -9,7 +9,7 @@ public class CSVToQuests : MonoBehaviour
     public TextAsset csvStorylets;
     public TextAsset csvEvents;
 
-    public List<CharacterSheet> allCharacters; //All characters that are about to be unlocked.
+    public CharacterSheetManager characterSheets;
 
     public List<Storylet> allStorylets;
     public List<EventNode> allEvents;
@@ -28,13 +28,16 @@ public class CSVToQuests : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        allStorylets = new List<Storylet>();
+        allEvents = new List<EventNode>();
+
         if (csvStorylets == null) { csvStorylets = Resources.Load<TextAsset>("Storylets"); }
         if (csvEvents == null) { csvEvents = Resources.Load<TextAsset>("Events"); }
-        MakeEverything();
     }
 
 	private void Start()
     {
+        MakeEverything();
         // Geting our time ticks from the system.
         worldStateReference = this.GetComponent<WorldStateManager>();
         ticksPerHour = worldStateReference.timeSystem.ticksperHour;
@@ -52,6 +55,7 @@ public class CSVToQuests : MonoBehaviour
             string[] storyletPackage = new string[8];
             System.Array.Copy(storyletData, i,storyletPackage,0,8);
             storyletStringPackages.Add(storyletPackage);
+            Debug.Log($"Packaged {storyletPackage[0].Split('\t')[1]}");
         }
 
         
@@ -60,7 +64,9 @@ public class CSVToQuests : MonoBehaviour
             
             //list all the damn things we need.
             string storyletName = storyletPacket[0].Split('\t')[1]; //row 1, col b storylet name.
-            string storyletDetails = storyletPacket[0].Split('\t')[2]; // row 1, col c storylet details.
+            string factionName = storyletPacket[0].Split('\t')[2]; //row 1, col c faction name.
+            string questgiverName = storyletPacket[0].Split('\t')[3]; //row 1, col d questgiver name.
+            string storyletDetails = storyletPacket[0].Split('\t')[4]; // row 1, col e storylet details.
             string eventHeadName = storyletPacket[1].Split('\t')[1]; // row 2, col b event name.
             string toBeInstancedString = storyletPacket[1].Split('\t')[2]; // row 2, col c, to be instanced.
             string toBeDuplicated = storyletPacket[1].Split('\t')[3]; // row 2, col d, to be duplicated.
@@ -80,6 +86,8 @@ public class CSVToQuests : MonoBehaviour
 
             newStorylet.adventurer = character;
             newStorylet.debriefMessage = debriefMessage;
+            newStorylet.factionName = factionName;
+            newStorylet.issuerName = questgiverName;
             
             // Get the instancing box.
             bool temporaryHoldBool = false;
@@ -250,35 +258,42 @@ public class CSVToQuests : MonoBehaviour
     //success string, successintchanges, successvaluechanges, successstatechanges
     //failure string, 
     public void MakeEvents(){
+        Debug.Log("Currently Making events.");
         string[] eventData = csvEvents.text.Split(new char[] {'\n'});
         List<string[]> eventNodeStringPackages = new List<string[]>();
         eventLookup = new Dictionary<string, EventNode>();
         // Gets every single event package and seperates them into nice little packets.
 
         // Iterates through the entire array of string lists to chunk out our packets.
-        int dataIter = 1;
+        int dataIter = 1; // start at one to avoid the clash with the first event.
         int packetStartPoint = 0;
         string[] currentPackage;
         //Loops through the entirety of the data.
         while (dataIter < eventData.Length){
-            string firstItem = eventData[dataIter].Split('\t')[1]; // Get the first item.
+            string firstItem = eventData[dataIter].Split('\t')[0]; // Get the first item.
             if (firstItem.Substring(0,5) == "Event") // If it's an event head, package the last bit and start anew.
 			{
                 currentPackage = new string[dataIter - packetStartPoint];
                 System.Array.Copy(eventData,packetStartPoint, currentPackage, 0,dataIter-packetStartPoint);
+                eventNodeStringPackages.Add(currentPackage);
+                Debug.Log($"Made package - {currentPackage[0].Split('\t')[0]}: {currentPackage[0].Split('\t')[1]} of size {currentPackage.Length}.");
                 packetStartPoint = dataIter;
 			}
             dataIter++;
-		}
-        // Repeat it one more time to catch the last one.
+        }
+
+        // Catch the last item.
         currentPackage = new string[dataIter - packetStartPoint];
         System.Array.Copy(eventData, packetStartPoint, currentPackage, 0, dataIter - packetStartPoint);
+        eventNodeStringPackages.Add(currentPackage);
+        Debug.Log($"Made package - {currentPackage[0].Split('\t')[0]}: {currentPackage[0].Split('\t')[1]} of size {currentPackage.Length}.");
 
         //Premake an event Node connection for assignment later.
-        foreach(string[] eventNodePackage in eventNodeStringPackages){
+        foreach (string[] eventNodePackage in eventNodeStringPackages){
             EventNode newEvent = ScriptableObject.CreateInstance<EventNode>();
             string eventName = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
             eventLookup.Add(eventName, newEvent);
+            Debug.Log($"Added {eventName} to lookup table.");
         }
 
 
@@ -296,10 +311,10 @@ public class CSVToQuests : MonoBehaviour
 
             // Chunk out the Cases.
             List<string[]> casePackets = new List<string[]>();
-            for (int i = 1; i < eventNodePackage.Length; i += 8)
+            for (int i = 1; i < eventNodePackage.Length-4; i += 9)
             {
-                string[] casePacket = new string[8];
-                System.Array.Copy(casePacket, i, eventNodePackage, 0, 8);
+                string[] casePacket = new string[9];
+                System.Array.Copy(eventNodePackage, i, casePacket, 0, 9);
                 casePackets.Add(casePacket);
             }
 
@@ -312,19 +327,21 @@ public class CSVToQuests : MonoBehaviour
             foreach(string[] casePacket in casePackets)
 			{
                 //Identify all items in the packet.
-                string nextNode = eventNodePackage[0].Split('\t')[1]; // row 1, col b - Next Node.
-                string timeString = eventNodePackage[0].Split('\t')[2]; //row 1, col c - Time to take
-                string rewardString = eventNodePackage[0].Split('\t')[3]; // row 1, col d - the reward space
-                string partyBond = eventNodePackage[0].Split('\t')[4]; // row 1, col e - the reward space
-                string nodeCompletionString = eventNodePackage[0].Split('\t')[5]; // row 1, col f - node completion string
-                string[] statTriggerStrings = eventNodePackage[1].Split('\t'); // row 2, party stat triggers.
-                string[] triggerIntStrings = eventNodePackage[2].Split('\t'); // row 3, trigger Ints.
-                string[] triggerFloatStrings = eventNodePackage[3].Split('\t'); // row 4, trigger Floats.
-                string[] triggerBoolStrings = eventNodePackage[4].Split('\t'); // row 5, trigger Bools.
-                string[] partyTriggerStrings = eventNodePackage[5].Split('\t'); // row 6, party triggers.
-                string[] intChangeStrings = eventNodePackage[6].Split('\t'); // row 7, int changes.
-                string[] floatChangeStrings = eventNodePackage[7].Split('\t'); // row 8, float changes.
-                string[] boolChangeStrings = eventNodePackage[8].Split('\t'); // row 9, bool changes.
+                string nextNode = casePacket[0].Split('\t')[1]; // row 1, col b - Next Node.
+                string timeString = casePacket[0].Split('\t')[2]; //row 1, col c - Time to take
+                string rewardString = casePacket[0].Split('\t')[3]; // row 1, col d - the reward space
+                string partyBond = casePacket[0].Split('\t')[4]; // row 1, col e - the reward space
+                string nodeCompletionString = casePacket[0].Split('\t')[5]; // row 1, col f - node completion string
+                string[] statTriggerStrings = casePacket[1].Split('\t'); // row 2, party stat triggers.
+                string[] triggerIntStrings = casePacket[2].Split('\t'); // row 3, trigger Ints.
+                string[] triggerFloatStrings = casePacket[3].Split('\t'); // row 4, trigger Floats.
+                string[] triggerBoolStrings = casePacket[4].Split('\t'); // row 5, trigger Bools.
+                string[] partyTriggerStrings = casePacket[5].Split('\t'); // row 6, party triggers.
+                string[] intChangeStrings = casePacket[6].Split('\t'); // row 7, int changes.
+                string[] floatChangeStrings = casePacket[7].Split('\t'); // row 8, float changes.
+                string[] boolChangeStrings = casePacket[8].Split('\t'); // row 9, bool changes.
+
+                Debug.Log($"NextNode {nextNode}, timeString {timeString}, rewardString {rewardString}, partyBond {partyBond},nodeCompletionString {nodeCompletionString}");
 
                 // Create the Event Case
                 EventNode.EventCase tempEventCase = new EventNode.EventCase();
@@ -348,8 +365,9 @@ public class CSVToQuests : MonoBehaviour
 
                 List<EventNode.StatCheck> caseStatChecks = new List<EventNode.StatCheck>();
                 //Parsing through the party Triggers.
-                for (int i = 1; i < statTriggerStrings.Length; i+=3)
+                for (int i = 1; i < statTriggerStrings.Length-2; i+=3)
 				{
+                    bool finish = false;
                     // Get the Stat to check against.
                     EventNode.StatCheck statCheck = new EventNode.StatCheck();
                     switch (statTriggerStrings[i])
@@ -366,10 +384,14 @@ public class CSVToQuests : MonoBehaviour
                         case "Constitution":
                             statCheck.stat = CharacterSheet.StatDescriptors.Constitution;
                             break;
+                        case "":
+                            finish = true;
+                            break;
                         default:
-                            Debug.LogError($"Stat not correct in node {nameString}");
+                            Debug.LogError($"Stat not correct in node {nameString}, column {i}");
                             break;
                     }
+                    if (finish) { break; }
                     
                     // Get the Trigger Type.
                     Storylet.NumberTriggerType triggerType = new Storylet.NumberTriggerType();
@@ -389,7 +411,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // Now the int Triggers.
                 List<Storylet.TriggerInt> caseTriggerInts = new List<Storylet.TriggerInt>();
-                for (int i = 1; i < triggerIntStrings.Length; i+=3)
+                for (int i = 1; i < triggerIntStrings.Length-2; i+=3)
                 {
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(triggerIntStrings, i, triggerPackage, 0, 3);
@@ -412,7 +434,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // The Float Triggers.
                 List<Storylet.TriggerValue> caseTriggerFloats = new List<Storylet.TriggerValue>();
-                for (int i = 1; i < triggerFloatStrings.Length; i += 3)
+                for (int i = 1; i < triggerFloatStrings.Length-2; i += 3)
                 {
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(triggerFloatStrings, i, triggerPackage, 0, 3);
@@ -435,7 +457,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // The Bool Triggers.
                 List<Storylet.TriggerState> caseTriggerBools = new List<Storylet.TriggerState>();
-                for (int i = 1; i < triggerBoolStrings.Length; i += 3)
+                for (int i = 1; i < triggerBoolStrings.Length-2; i += 3)
                 {
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(triggerBoolStrings, i, triggerPackage, 0, 3);
@@ -458,13 +480,15 @@ public class CSVToQuests : MonoBehaviour
 
                 // The Party Triggers
                 tempEventCase.partyTriggers = new List<EventNode.PartyCheck>();
-                for (int i = 1; i < partyTriggerStrings.Length; i+= 3)
+                for (int i = 1; i < partyTriggerStrings.Length-2; i+= 3)
 				{
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(partyTriggerStrings, i, triggerPackage, 0, 3);
 
+                    if(triggerPackage[0] == "") { break; }
+
                     EventNode.PartyCheck tempTrigger = new EventNode.PartyCheck();
-                    if(!tryFindCharacterSheet(triggerPackage[0],out tempTrigger.character))
+                    if(!characterSheets.TryFindSheetByName(triggerPackage[0],out tempTrigger.character))
 					{
                         Debug.LogError($"Invalid Character at {nameString}'s case towards {nextNode}.");
                         continue;
@@ -480,7 +504,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // The Int Changes
                 List<Storylet.IntChange> caseIntChanges = new List<Storylet.IntChange>();
-                for (int i = 1; i < intChangeStrings.Length; i += 3)
+                for (int i = 1; i < intChangeStrings.Length-2; i += 3)
                 {
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(intChangeStrings, i, triggerPackage, 0, 3);
@@ -503,7 +527,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // The Float Changes
                 List<Storylet.ValueChange> caseFloatChanges = new List<Storylet.ValueChange>();
-                for (int i = 1; i < floatChangeStrings.Length; i += 3)
+                for (int i = 1; i < floatChangeStrings.Length-2; i += 3)
                 {
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(floatChangeStrings, i, triggerPackage, 0, 3);
@@ -526,7 +550,7 @@ public class CSVToQuests : MonoBehaviour
 
                 // The Float Changes
                 List<Storylet.StateChange> caseBoolChanges = new List<Storylet.StateChange>();
-                for (int i = 1; i < boolChangeStrings.Length; i += 3)
+                for (int i = 1; i < boolChangeStrings.Length-2; i += 3)
                 {
                     string[] triggerPackage = new string[3];
                     System.Array.Copy(boolChangeStrings, i, triggerPackage, 0, 3);
@@ -548,6 +572,7 @@ public class CSVToQuests : MonoBehaviour
                 tempEventCase.boolChanges = caseBoolChanges;
 
                 // All the event case to the node.
+                newEvent.eventCases = new List<EventNode.EventCase>(); // Initialize the damn event case list.
                 newEvent.eventCases.Add(tempEventCase);
 
             }
@@ -589,7 +614,7 @@ public class CSVToQuests : MonoBehaviour
             
             // The Int Changes
             List<Storylet.IntChange> dCaseIntChanges = new List<Storylet.IntChange>();
-            for (int i = 1; i < dIntChangeStrings.Length; i += 3)
+            for (int i = 1; i < dIntChangeStrings.Length-2; i += 3)
             {
                 string[] triggerPackage = new string[3];
                 System.Array.Copy(dIntChangeStrings, i, triggerPackage, 0, 3);
@@ -612,7 +637,7 @@ public class CSVToQuests : MonoBehaviour
 
             // The Float Changes
             List<Storylet.ValueChange> dCaseFloatChanges = new List<Storylet.ValueChange>();
-            for (int i = 1; i < dFloatChangeStrings.Length; i += 3)
+            for (int i = 1; i < dFloatChangeStrings.Length-2; i += 3)
             {
                 string[] triggerPackage = new string[3];
                 System.Array.Copy(dFloatChangeStrings, i, triggerPackage, 0, 3);
@@ -635,7 +660,7 @@ public class CSVToQuests : MonoBehaviour
 
             // The Float Changes
             List<Storylet.StateChange> dCaseBoolChanges = new List<Storylet.StateChange>();
-            for (int i = 1; i < dBoolChangeStrings.Length; i += 3)
+            for (int i = 1; i < dBoolChangeStrings.Length-2; i += 3)
             {
                 string[] triggerPackage = new string[3];
                 System.Array.Copy(dBoolChangeStrings, i, triggerPackage, 0, 3);
@@ -657,6 +682,7 @@ public class CSVToQuests : MonoBehaviour
             defaultCase.boolChanges = dCaseBoolChanges;
 
             // Add the default case to the list and the reference.
+            newEvent.eventCases = new List<EventNode.EventCase>();
             newEvent.eventCases.Add(defaultCase);
             newEvent.defaultCase = defaultCase;
 
@@ -855,6 +881,7 @@ public class CSVToQuests : MonoBehaviour
         return 0;
     }
 
+    /*
     private bool tryFindCharacterSheet(string name, out CharacterSheet foundCharacter)
 	{
         foundCharacter = null;
@@ -868,5 +895,5 @@ public class CSVToQuests : MonoBehaviour
 		}
 
         return false;
-	}
+	}*/
 }
