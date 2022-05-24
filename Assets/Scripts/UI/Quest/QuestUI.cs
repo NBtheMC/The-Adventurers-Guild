@@ -119,35 +119,31 @@ public class QuestUI : MonoBehaviour
     }
 
 
-    //To be used by QuestSheet in order to update with new quests
-    //Figure out later
-    public void UpdateQuestUI(QuestSheet.EventInfo newEvent)
+    //Party stat totals
+    public void UpdateQuestUI()
     {
-        //setup description
-        questDescription.text = newEvent.description;
         //update total stats
         int cmbTotal = 0;
         int xpoTotal = 0;
         int ngoTotal = 0;
         int conTotal = 0;
-        foreach (Transform child in DropPoints)
+        foreach (CharacterSlot charSlot in characterSlots)
         {
-            DraggerController character = child.GetComponent<ObjectDropPoint>().heldObject;
-            if (character)
+            if (charSlot.characterAssigned)
             {
-                CharacterSheet charSheet = character.gameObject.GetComponent<CharacterTileController>().characterSheet;
+                CharacterSheet charSheet = charSlot.character;
                 cmbTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Combat);
                 xpoTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Exploration);
                 ngoTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Negotiation);
                 conTotal += charSheet.getStat(CharacterSheet.StatDescriptors.Constitution);
             }
         }
+
         cmbTotalParty.text = cmbTotal.ToString();
         xpoTotalParty.text = xpoTotal.ToString();
         ngoTotalParty.text = ngoTotal.ToString();
         conTotalParty.text = conTotal.ToString();
-        //setup reward
-        questReward.text = string.Format("Reward: 0-{0}", attachedSheet.EstimatedRewardTotal());
+    
         return;
     }
 
@@ -225,6 +221,8 @@ public class QuestUI : MonoBehaviour
         characterSlots[freeSlot].emptyCharFrame.SetActive(false);
         characterSlots[freeSlot].filledCharFrame.SetActive(true);
         AssignedCharacters++;
+
+        UpdateQuestUI();
     }
 
     public void RemoveCharacter(int slot)
@@ -241,6 +239,7 @@ public class QuestUI : MonoBehaviour
         characterSlots[slot].emptyCharFrame.SetActive(true);
         characterSlots[slot].filledCharFrame.SetActive(false);
         AssignedCharacters--;
+        UpdateQuestUI();
     }
 
     public bool IsCharacterAssigned(CharacterSheet character)

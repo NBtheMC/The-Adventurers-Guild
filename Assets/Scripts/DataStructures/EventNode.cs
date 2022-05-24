@@ -78,13 +78,13 @@ public class EventNode: ScriptableObject
 				message.nextEvent = successNode;
 				message.givenReward = Reward;
 				message.resultsString = description + " " + successString;
-				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
+				//message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Ceil(DC/4)); //range from 1-5
 				break;
 			case false:
 				//update EventPackage
 				message.nextEvent = failureNode;
 				message.resultsString = description + " " + failureString;
-				message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
+				//message.relationshipsUpdate = UpdatePartyRelationships(adventurers, (int)Mathf.Floor(-DC/4)); //range from 1-5
 				break;
 		}
 
@@ -94,8 +94,8 @@ public class EventNode: ScriptableObject
 
 	//called first by quest when quest is done. updates friendships based on win or loss
     //done on current party, change is determined by quest
-    private List<string> UpdatePartyRelationships(PartySheet party, int change){
-		List<string> partyUpdates = new List<string>();
+    private void UpdatePartyRelationships(PartySheet party, int change){
+		//List<string> partyUpdates = new List<string>();
 
         //IReadOnlyCollection<CharacterSheet> partyMembersSheets = party.Party_Members;
         List<Adventurer> partyMembers = new List<Adventurer>();
@@ -117,10 +117,11 @@ public class EventNode: ScriptableObject
                 a.ChangeFriendship(b, change);
                 b.ChangeFriendship(a, change); //do if we want to handle relationships pretty much completely here
                 //get string based on change
-				partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
+				//partyUpdates.Add(a.characterSheet.name + " and " + b.characterSheet.name + " did thing");
             }
         }
-		return partyUpdates;
+		//return partyUpdates;
+		return;
     }
 
 	/*
