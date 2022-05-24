@@ -75,6 +75,7 @@ public class CharacterSheetManager : MonoBehaviour
 
     public void HireAdventurer(object src, string name)
     {
+        Debug.Log("Hired " + name);
         CharacterSheet characterToHire = null;
         foreach(CharacterSheet character in unhiredAdventurers)
         {

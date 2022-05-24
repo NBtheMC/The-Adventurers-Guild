@@ -2116,11 +2116,15 @@ PrefabInstance:
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: csvEvents
       value: 
-      objectReference: {fileID: 4900000, guid: 627ba2a48fdf39a4790697d54b58e39c, type: 3}
+      objectReference: {fileID: 4900000, guid: 11764853e9828c04581056fda2e9b723, type: 3}
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: csvStorylets
       value: 
-      objectReference: {fileID: 4900000, guid: 80fec804b7a989e40895b5d10ac70009, type: 3}
+      objectReference: {fileID: 4900000, guid: dc5f8f111f041b84eabde030101f2f19, type: 3}
+    - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: characterSheets
+      value: 
+      objectReference: {fileID: 2078572478}
     - target: {fileID: 3907741877307012926, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_Color.a
       value: 1

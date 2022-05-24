@@ -64,7 +64,7 @@ public class TimeSystem : MonoBehaviour
         {
             TickAdded(this, gameTime);
         }
-        Debug.Log("Day: " + gameTime.day + ", Hour: " + gameTime.hour);
+        //Debug.Log("Day: " + gameTime.day + ", Hour: " + gameTime.hour);
     }
 
     public void StartTimer()

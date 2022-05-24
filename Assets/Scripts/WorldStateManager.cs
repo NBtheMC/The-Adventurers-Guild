@@ -364,6 +364,7 @@ public class WorldStateManager : MonoBehaviour
 
 			if(!String.IsNullOrEmpty(storylet.adventurer))
             {
+				Debug.Log("Adding adventurer " + storylet.adventurer);
 				AdventurerHiredEvent(this, storylet.adventurer);
 				//GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().HireAdventurer(storylet.adventurer);
             }

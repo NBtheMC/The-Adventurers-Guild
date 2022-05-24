@@ -52,6 +52,7 @@ public class CharacterPoolController : MonoBehaviour
 
         foreach (CharacterSheet character in characterManager.FreeAdventurers)
         {
+            Debug.Log("Adding " + character.name);
             activeRole.Add(character);
         }
 
@@ -65,7 +66,12 @@ public class CharacterPoolController : MonoBehaviour
                 tileController.MarkAdventurerAsBusy();
         }
 
-        //RefreshCharacterPool();
+        //slap gameobject onto end 
+        
+        
+        //and then do sort?
+
+        RefreshCharacterPool();
     }
 
     /// <summary>
@@ -74,16 +80,19 @@ public class CharacterPoolController : MonoBehaviour
     /// </summary>
     public void RefreshCharacterPool()
     {
-        dropHandler.ClearDropPoints();
+        //dropHandler.ClearDropPoints();
 
-        foreach ((GameObject, GameObject) thing in characterSlots)
+        /*foreach ((GameObject, GameObject) thing in characterSlots)
         {
             Destroy(thing.Item1);
             Destroy(thing.Item2);
-        }
+        }*/
+
+        
 
         foreach (CharacterSheet character in activeRole)
         {
+            Debug.Log("Trying to refresh " + character.name);
             GenerateNewDropPair(character);
         }
 
@@ -98,24 +107,28 @@ public class CharacterPoolController : MonoBehaviour
      private void GenerateNewDropPair(CharacterSheet characterToPair)
     {
         // Makes a new drop point and a new character.
-        GameObject newCaracterSlot = Instantiate(characterSlot, slotPoints.transform);
-        GameObject newCharacter = Instantiate(sampleCharacter,newCaracterSlot.transform);
+        GameObject newCharacterSlot = Instantiate(characterSlot, slotPoints.transform);
+        GameObject newCharacter = Instantiate(sampleCharacter,newCharacterSlot.transform);
 
         //set up name display on drop point
-        newCaracterSlot.transform.Find("Name").gameObject.SetActive(true);
-        newCaracterSlot.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
+        newCharacterSlot.transform.Find("Name").gameObject.SetActive(true);
+        newCharacterSlot.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
+
+        Debug.Log("Generated name: " + newCharacterSlot.transform.Find("Name").GetComponent<Text>().text);
 
         newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
 
+        Debug.Log("Generated character sheet: " + newCharacter.GetComponent<CharacterTileController>().characterSheet);
+
         //set positions of character slots
-        newCaracterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -30 - (numCharacterSlots*pixelSeperatorWidth), 0);
+        newCharacterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -30 - (numCharacterSlots*pixelSeperatorWidth), 0);
         newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(30, 0, 0);
         newCharacter.GetComponent<RectTransform>().sizeDelta = new Vector2(55, 55);
 
         // newCharacter.GetComponent<Button>().onClick.AddListener(delegate { CharacterClickedOnEvent(this, characterToPair); });
         
         numCharacterSlots++;
-        characterSlots.Add((newCaracterSlot, newCharacter));
+        characterSlots.Add((newCharacterSlot, newCharacter));
 
 
         if(characterToPair.portrait != null)
