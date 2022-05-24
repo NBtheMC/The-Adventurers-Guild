@@ -31,6 +31,7 @@ public class EventNode: ScriptableObject
 	/// <summary>
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
+	[System.Serializable]
 	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
 
 	public struct PartyCheck { public CharacterSheet character; public bool present; }
@@ -38,6 +39,7 @@ public class EventNode: ScriptableObject
 	/// <summary>
 	/// Used to specify a case for use in this event.
 	/// </summary>
+	[System.Serializable]
 	public class EventCase
 	{
 		// All the specific details of going down this event.
