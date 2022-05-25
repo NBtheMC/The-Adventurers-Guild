@@ -17,8 +17,8 @@ public class QuestUI : MonoBehaviour
 
     private Text questName; // the ui object for the name
     private Text questDescription; // ui object for description
-    private Text questGiver;
-    private Text questFaction;
+    public Text questGiver;
+    public Text questFaction;
     private Text questReward; // ui object for reward.
     private QuestingManager questingManager; // ui object for questing manager.
     private RectTransform dropPoints; // our drop points
@@ -78,8 +78,6 @@ public class QuestUI : MonoBehaviour
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
         questDescription = transformer.Find("Description/DescriptionText").gameObject.GetComponent<Text>();
-        questGiver = transformer.Find("AssignedBy/Text").gameObject.GetComponent<Text>();
-        questDescription = transformer.Find("Faction/Text").gameObject.GetComponent<Text>();
         questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
 
         //party formation objects
