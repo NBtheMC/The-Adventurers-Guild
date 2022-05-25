@@ -41,20 +41,13 @@ public class CharacterInfoUI : MonoBehaviour
         portrait.sprite = characterSheet.portrait;
     }
 
-    /*
+    
     /// <summary>
     /// Hook this up to an event item from Character Tile Controller
     /// Destroys this UI.
     /// </summary>
     public void DestroyUI()
     {
-       if(charObject != null)
-        {
-            CharacterTileController c = charObject.GetComponent<CharacterTileController>();
-            c.isDisplayed = false;
-            c.displayManager.DisplayCharacter(false);
-        }
-
         Destroy(this.gameObject);
-    }*/
+    }
 }

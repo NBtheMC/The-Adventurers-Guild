@@ -16,6 +16,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 
     //All the individual bits under this component
     public Image portrait;
+    public TMPro.TextMeshProUGUI nameText;
     public TMPro.TextMeshProUGUI combat;
     public TMPro.TextMeshProUGUI exploration;
     public TMPro.TextMeshProUGUI negotation;
@@ -81,15 +82,12 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log($"Character Menu for {characterSheet.name} opened");
             CharacterClicked();
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log($"Right Click on {characterSheet.name}");
             if (!adventurerBusy && displayManager.AssignAdventurer(characterSheet))
 			{
-                Debug.Log($"Assigned on {characterSheet.name}");
                 GrayOutPortrait();
 			}
 
@@ -113,6 +111,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     public void Refresh()
 	{
         portrait.sprite = characterSheet.portrait;
+        nameText.text = characterSheet.name;
         combat.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Combat).ToString();
         exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
         negotation.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Negotiation).ToString();
@@ -120,12 +119,12 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 	}
     
 
-    public void GrayOutPortrait() { transform.GetComponent<Image>().color = new Color32(150, 150, 150, 255); }
+    public void GrayOutPortrait() { portrait.color = new Color32(150, 150, 150, 255); }
 
     /// <summary>
     /// Ungrays the thing.
     /// </summary>
-    public void UngrayPortrait() { transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255); }
+    public void UngrayPortrait() { portrait.color = new Color32(255, 255, 255, 255); }
 
     /// <summary>
     /// Turns the adventurer to full color.
@@ -133,7 +132,7 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     public void MarkAdventurerAsFree()
     {
         adventurerBusy = false;
-        transform.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        portrait.color = new Color32(255, 255, 255, 255);
     }
 
     /// <summary>
@@ -142,6 +141,6 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     public void MarkAdventurerAsBusy()
     {
         adventurerBusy = true;
-        transform.GetComponent<Image>().color = new Color32(0, 0, 0, 200);
+        portrait.color = new Color32(0, 0, 0, 200);
     }
 }

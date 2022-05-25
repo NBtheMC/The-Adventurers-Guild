@@ -411,6 +411,7 @@ MonoBehaviour:
   movementDelta: 5
   isDisplayed: 0
   portrait: {fileID: 3008817746476427349}
+  nameText: {fileID: 8378162323665156785}
   combat: {fileID: 7009313710223693356}
   exploration: {fileID: 8124460945963768560}
   negotation: {fileID: 8758301604180723451}

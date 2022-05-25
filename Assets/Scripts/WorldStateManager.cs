@@ -376,6 +376,8 @@ public class WorldStateManager : MonoBehaviour
 			if (storylet.eventHead != null)
 			{
 				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, this, storylet.questDescription);
+				newQuest.faction = storylet.factionName;
+				newQuest.questGiver = storylet.issuerName;
 				questingManager.AddQuest(newQuest);
 				// Puts the new quest into activation
 				if (!activeStorylets.ContainsValue(storylet)) { activeStorylets.Add(newQuest, storylet); }

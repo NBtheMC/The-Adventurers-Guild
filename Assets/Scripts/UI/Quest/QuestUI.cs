@@ -17,6 +17,8 @@ public class QuestUI : MonoBehaviour
 
     private Text questName; // the ui object for the name
     private Text questDescription; // ui object for description
+    private Text questGiver;
+    private Text questFaction;
     private Text questReward; // ui object for reward.
     private QuestingManager questingManager; // ui object for questing manager.
     private RectTransform dropPoints; // our drop points
@@ -76,6 +78,8 @@ public class QuestUI : MonoBehaviour
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
         questDescription = transformer.Find("Description/DescriptionText").gameObject.GetComponent<Text>();
+        questGiver = transformer.Find("AssignedBy/Text").gameObject.GetComponent<Text>();
+        questDescription = transformer.Find("Faction/Text").gameObject.GetComponent<Text>();
         questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
 
         //party formation objects
@@ -115,6 +119,9 @@ public class QuestUI : MonoBehaviour
 
         // setup description
         questDescription.text = attachedSheet.questDescription;
+
+        questGiver.text = attachedSheet.questGiver;
+        questFaction.text = attachedSheet.faction;
 
         // setup reward
         questReward.text = string.Format("{0}", attachedSheet.EstimatedRewardTotal());
@@ -180,7 +187,8 @@ public class QuestUI : MonoBehaviour
     /// </summary>
     public void SendParty()
     {
-        if (!questActive || adventuringParty.Party_Members.Count == 0) return;
+        Debug.Log("Attempted to send party.");
+        if (questActive || adventuringParty.Party_Members.Count == 0) { Debug.Log($"No members {adventuringParty.Party_Members.Count}, or quest active {questActive}."); return; }
 
         // Send the thing on the quest.
         charSheetManager.SendPartyOnQuest(this, attachedSheet);
@@ -193,29 +201,16 @@ public class QuestUI : MonoBehaviour
         SoundManagerScript.PlaySound("stamp");
 
         // Self Destruct
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 
-    /*
+    /// <summary>
+    /// For our buttons to do things.
+    /// </summary>
     public void DestroyUI()
     {
-        if (questBanner != null)
-        {
-            QuestBanner q = questBanner.GetComponent<QuestBanner>();
-            q.isDisplayed = false;
-            q.displayManager.DisplayQuest(false);
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (characterSlots[i].characterAssigned)
-                {
-                    RemoveCharacter(i);
-                }
-            }
-        }
-
         Destroy(this.gameObject);
-    }*/
+    }
 
     /// <summary>
     /// Called when destroyed.

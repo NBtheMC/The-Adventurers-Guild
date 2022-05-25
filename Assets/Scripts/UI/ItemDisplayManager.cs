@@ -116,19 +116,16 @@ public class ItemDisplayManager : MonoBehaviour
     /// <param name="character"></param>
     /// <returns>True if assigned, false if not.</returns>
     public bool AssignAdventurer(CharacterSheet character)
-	{
-        Debug.Log($"Got add request for {character.name}");
+    {
         if(currentDisplay == 1)
 		{
             // Try to get the quest UI for assignment.
             QuestUI questReference;
-            if (questDisplay.TryGetComponent<QuestUI>(out questReference)){
-                Debug.Log($"Added {character.name}");
+            if (currentlyDisplaying.TryGetComponent<QuestUI>(out questReference)){
                 return questReference.AddCharacter(character);
             }
             else { return false; }
 		}
-        Debug.Log($"Did not add {character.name}");
         return false;
 	}
 }
