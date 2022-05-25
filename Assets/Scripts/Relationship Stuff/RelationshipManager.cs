@@ -109,8 +109,18 @@ public class RelationshipManager : MonoBehaviour
 
     //takes 2 random adventurers that are in party and puts out blurb about them. excel sheet? idk
     public string RandomRelationshipUpdate(){
+        int freeAdventurersCount = characterSheetManager.FreeAdventurers.Count;
+        int aIndex;
+        if (freeAdventurersCount == 1) {
+            aIndex = Random.Range(0, freeAdventurersCount - 1);
+            string soloName = characterSheetManager.FreeAdventurers.ElementAt(aIndex).adventurer.characterSheet.name;
+            return $"{soloName} is relaxing alone";
+        }
+        else if (freeAdventurersCount == 0){
+            return "The guild is quiet";
+        }
         //randomly pick adventurer A
-        int aIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count - 1);
+        aIndex = Random.Range(0, freeAdventurersCount - 1);
         Adventurer a = characterSheetManager.FreeAdventurers.ElementAt(aIndex).adventurer;
         //randomly pick adventurer B
         int bIndex;
