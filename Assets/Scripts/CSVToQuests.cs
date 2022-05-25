@@ -33,6 +33,7 @@ public class CSVToQuests : MonoBehaviour
 
         if (csvStorylets == null) { csvStorylets = Resources.Load<TextAsset>("Storylets"); }
         if (csvEvents == null) { csvEvents = Resources.Load<TextAsset>("Events"); }
+        MakeEverything();
     }
 
 	private void Start()
@@ -40,7 +41,6 @@ public class CSVToQuests : MonoBehaviour
         // Geting our time ticks from the system.
         worldStateReference = this.GetComponent<WorldStateManager>();
         ticksPerHour = worldStateReference.timeSystem.ticksperHour;
-        MakeEverything();
     }
 
 	//Pull data from storylets csv and makes 1 event per grouping
@@ -60,7 +60,7 @@ public class CSVToQuests : MonoBehaviour
 
         
         foreach(string[] storyletPacket in storyletStringPackages){ //8 is however many properties there are
-            Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>(); //this also needs a proper constructor
+            Storylet newStorylet = new Storylet(); //this also needs a proper constructor
             
             //list all the damn things we need.
             string storyletName = storyletPacket[0].Split('\t')[1]; //row 1, col b storylet name.
@@ -290,7 +290,7 @@ public class CSVToQuests : MonoBehaviour
 
         //Premake an event Node connection for assignment later.
         foreach (string[] eventNodePackage in eventNodeStringPackages){
-            EventNode newEvent = ScriptableObject.CreateInstance<EventNode>();
+            EventNode newEvent = new EventNode();
             string eventName = eventNodePackage[0].Split('\t')[1]; // row 1, col b - EventName
             eventLookup.Add(eventName, newEvent);
             Debug.Log($"Added {eventName} to lookup table.");
@@ -491,11 +491,7 @@ public class CSVToQuests : MonoBehaviour
                     if(triggerPackage[0] == "") { break; }
 
                     EventNode.PartyCheck tempTrigger = new EventNode.PartyCheck();
-                    if(!characterSheets.TryFindSheetByName(triggerPackage[0],out tempTrigger.character))
-					{
-                        Debug.LogError($"Invalid Character at {nameString}'s case towards {nextNode}.");
-                        continue;
-					}
+                    tempTrigger.character = triggerPackage[0];
 
                     // Get the value.
                     bool inputValue;
