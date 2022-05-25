@@ -14,6 +14,11 @@ public class DebriefReport : MonoBehaviour
 	private ItemDisplayManager displayManager;
 	[HideInInspector]  public bool isDisplayed = false;
 
+	private void Awake()
+	{
+		this.gameObject.SetActive(false);
+	}
+
 	private void Start()
 	{
 		day = 0;
