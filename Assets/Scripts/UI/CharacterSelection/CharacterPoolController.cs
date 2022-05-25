@@ -5,32 +5,24 @@ using UnityEngine.UI;
 
 public class CharacterPoolController : MonoBehaviour
 {
-    public bool testingScript; // To see if we're in testing mode or not.
-    public DropHandler dropHandler; // So we can tell it whenever we add or remove dropPoints.
-    public GameObject characterSlot; // For us to instantiate new Drop Points with
+    //public DropHandler dropHandler; // So we can tell it whenever we add or remove dropPoints.
+    //public GameObject characterSlot; // For us to instantiate new Drop Points with
     public GameObject sampleCharacter; // For us to instantiate new characters with.
     public int maxColSize; // How many characters can appear vertically before we start a new column.
     public int pixelSeperatorWidth; // How much space we want to give to the generated icons.
 
     private List<CharacterSheet> activeRole; // The current list of characters we're using.
-    private int lastPlacedRow;
-    private int lastPlacedCol;
-    private List<(GameObject dropPoint, GameObject character)> characterSlots; // A List of all the drop areas we currently see.
+    private List<GameObject> characterSlots; // A list of all the buttons we expect to have.
 
     private CharacterSheetManager characterManager;
-    private RectTransform slotPoints;
-    int numCharacterSlots = 0;
 
     private void Awake()
     {
-        characterSlots = new List<(GameObject dropPoint, GameObject character)>();
+        characterSlots = new List<GameObject>();
         activeRole = new List<CharacterSheet>();
         // We're assuming some previous point to set the last point.
-        lastPlacedCol = -1;
-        lastPlacedRow = maxColSize;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
-        slotPoints = transform.Find("Drop Points").GetComponent<RectTransform>();
 	}
 
     // Start is called before the first frame update
@@ -58,7 +50,7 @@ public class CharacterPoolController : MonoBehaviour
 
         foreach (var item in characterSlots)
         {
-            CharacterTileController tileController = item.character.GetComponent<CharacterTileController>();
+            CharacterTileController tileController = item.GetComponent<CharacterTileController>();
             CharacterSheet character = tileController.characterSheet;
             if (activeRole.Contains(character))
                 tileController.MarkAdventurerAsFree();
@@ -93,49 +85,42 @@ public class CharacterPoolController : MonoBehaviour
         foreach (CharacterSheet character in activeRole)
         {
             Debug.Log("Trying to refresh " + character.name);
-            GenerateNewDropPair(character);
+            GenerateNewCharacter(character);
         }
-
-        lastPlacedCol = -1;
-        lastPlacedRow = maxColSize;
     }
 
     /// <summary>
-    /// Used by this code to generate new drop points at the next appropriate place.
-    /// Should not be called constantly, as it instiates new data objects.
+    /// Used by this code to generate new character buttons.
     /// </summary>
-     private void GenerateNewDropPair(CharacterSheet characterToPair)
+     private void GenerateNewCharacter(CharacterSheet characterToPair)
     {
-        // Makes a new drop point and a new character.
-        GameObject newCharacterSlot = Instantiate(characterSlot, slotPoints.transform);
-        GameObject newCharacter = Instantiate(sampleCharacter,newCharacterSlot.transform);
+        // Makes a new character
+        GameObject newCharacter = Instantiate(sampleCharacter,this.transform.Find("SpawnArea"));
 
-        //set up name display on drop point
-        newCharacterSlot.transform.Find("Name").gameObject.SetActive(true);
-        newCharacterSlot.transform.Find("Name").GetComponent<Text>().text = characterToPair.name;
+        characterSlots.Add(newCharacter);
 
-        Debug.Log("Generated name: " + newCharacterSlot.transform.Find("Name").GetComponent<Text>().text);
+        // Setting the position, using a caculation.
+        // It's a lot of complicated math from weird variables. Apologies, but it does make sense.
+        float spacing = this.transform.Find("SpawnArea").gameObject.GetComponent<RectTransform>().rect.height / 12;
+        float differenceInspace = spacing - newCharacter.GetComponent<RectTransform>().rect.height;
+        float top = (characterSlots.Count - 1) * spacing + (differenceInspace / 2) + (newCharacter.GetComponent<RectTransform>().rect.height/2);
+        Debug.Log($"spacing {spacing}, differenceInspace {differenceInspace}, top {top}");
+        newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -top, 0);
 
-        newCharacter.GetComponent<CharacterTileController>().characterSheet = characterToPair;
+        // Get the script
+        CharacterTileController theButton = newCharacter.GetComponent<CharacterTileController>();
 
-        Debug.Log("Generated character sheet: " + newCharacter.GetComponent<CharacterTileController>().characterSheet);
+        // Give it the character sheet.
+        theButton.characterSheet = characterToPair;
 
-        //set positions of character slots
-        newCharacterSlot.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -30 - (numCharacterSlots*pixelSeperatorWidth), 0);
-        newCharacter.GetComponent<RectTransform>().anchoredPosition = new Vector3(30, 0, 0);
-        newCharacter.GetComponent<RectTransform>().sizeDelta = new Vector2(55, 55);
+        // Tell it to refresh
+        theButton.Refresh();
+
+        Debug.Log("Generated character sheet: " + newCharacter.GetComponent<CharacterTileController>().characterSheet.name);
+
 
         // newCharacter.GetComponent<Button>().onClick.AddListener(delegate { CharacterClickedOnEvent(this, characterToPair); });
         
-        numCharacterSlots++;
-        characterSlots.Add((newCharacterSlot, newCharacter));
-
-
-        if(characterToPair.portrait != null)
-        {
-            newCharacter.GetComponent<Image>().sprite = characterToPair.portrait;
-            newCharacter.GetComponent<Image>().color = Color.white;
-        }
 
         //print(newCharacter.transform.localPosition);
     }
@@ -153,8 +138,8 @@ public class CharacterPoolController : MonoBehaviour
     {
         foreach (var item in characterSlots)
         {
-            if (item.character.GetComponent<CharacterTileController>().characterSheet == character)
-                item.character.GetComponent<CharacterTileController>().UngrayPortrait();
+            if (item.GetComponent<CharacterTileController>().characterSheet == character)
+                item.GetComponent<CharacterTileController>().UngrayPortrait();
         }
     }
 

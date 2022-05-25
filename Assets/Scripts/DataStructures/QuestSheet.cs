@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class QuestSheet
@@ -9,22 +10,22 @@ public class QuestSheet
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private EventNode.EventCase nextConnection; // What we use to tell us what to do before proceeding on the quest.
-	private PartySheet adventuring_party; // Reference to the adventuring party attached to the quest.
+	public PartySheet adventuring_party { get; private set; }// Reference to the adventuring party attached to the quest.
 
 	public int partySize = 4;
-	public bool isActive = false;
-	public bool isComplete = false;
+	public bool isActive = false; // isactive? for all to see and set i guess.
+	public bool isComplete = false; // iscomplete? for all to see and set i guess.
 
 	private int timeUntilProgression; // How much time this questsheet will wait until it progresses. Start at 0.
 	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
-	public bool QuestComplete { get; private set; } // Indicator for QuestingManager to see if the quest is done.
+
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
 	private WorldStateManager worldStateManager;
 
 	public List<EventNode> visitedNodes;
 
-	public IReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
+	public ReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 	public string questRecap { get; private set; }
 
 	/// <summary>
@@ -35,6 +36,9 @@ public class QuestSheet
 	public QuestSheet(EventNode connection_input, string name_Input, WorldStateManager inputWorld, string inputQuestDescription = "")
 	{
 		Debug.Log($"Attempted to make a quest for {name_Input}");
+
+		//Initialize our reference
+		adventuring_party = null;
 
 		visitedNodes = new List<EventNode>();
 
@@ -53,7 +57,6 @@ public class QuestSheet
 
 		// Initialize out descriptor variables.
 		questName = name_Input;
-		QuestComplete = false;
 		questDescription = inputQuestDescription;
 
         visitedNodes = new List<EventNode>();
@@ -102,7 +105,6 @@ public class QuestSheet
 				}
 				else
 				{
-					QuestComplete = true;
 					return 1;
 				}
 			}

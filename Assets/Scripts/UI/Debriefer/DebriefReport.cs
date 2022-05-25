@@ -19,6 +19,7 @@ public class DebriefReport : MonoBehaviour
 		day = 0;
 		//this.gameObject.SetActive(false);
 		displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
+		displayManager.DisplayDebrief(isDisplayed);
 	}
 
 	public void ToggleDisplay()

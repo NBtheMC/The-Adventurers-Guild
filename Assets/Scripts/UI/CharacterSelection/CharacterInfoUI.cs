@@ -12,6 +12,7 @@ public class CharacterInfoUI : MonoBehaviour
     private Text diplomacy;
     private Text stamina;
     private Text biography;
+    private Image portrait;
 
     [HideInInspector] public GameObject charObject;
     public CharacterSheet charSheet {get; private set;}
@@ -25,6 +26,7 @@ public class CharacterInfoUI : MonoBehaviour
         diplomacy = transform.Find("Stats/Diplomacy").gameObject.GetComponent<Text>();
         stamina = transform.Find("Stats/Stamina").gameObject.GetComponent<Text>();
         biography = transform.Find("Bio/Text").gameObject.GetComponent<Text>();
+        portrait = transform.Find("Portrait").gameObject.GetComponent<Image>();
     }
 
     public void SetupCharacterInfoUI(CharacterSheet characterSheet)
@@ -36,8 +38,14 @@ public class CharacterInfoUI : MonoBehaviour
         diplomacy.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Negotiation).ToString();
         stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
         biography.text = characterSheet.biography;
+        portrait.sprite = characterSheet.portrait;
     }
 
+    /*
+    /// <summary>
+    /// Hook this up to an event item from Character Tile Controller
+    /// Destroys this UI.
+    /// </summary>
     public void DestroyUI()
     {
        if(charObject != null)
@@ -48,5 +56,5 @@ public class CharacterInfoUI : MonoBehaviour
         }
 
         Destroy(this.gameObject);
-    }
+    }*/
 }
