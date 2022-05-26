@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 
@@ -7,7 +8,7 @@ public class PartySheet
 {
     public string name;
     private List<CharacterSheet> party_members;
-    public IReadOnlyCollection<CharacterSheet> Party_Members { get { return party_members.AsReadOnly(); } }
+    public ReadOnlyCollection<CharacterSheet> Party_Members { get { return party_members.AsReadOnly(); } }
     public List<string> relationshipNarrative; //list of things that happened to adventurers on a quest
 
     public PartySheet()

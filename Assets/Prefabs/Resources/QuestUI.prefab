@@ -94,7 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a5fd9a8b0f4ed4ab3e3fb18f93bbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questUI: {fileID: 0}
   slot: 2
+  active: 0
 --- !u!1 &454977053101984438
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a5fd9a8b0f4ed4ab3e3fb18f93bbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questUI: {fileID: 0}
   slot: 1
+  active: 0
 --- !u!1 &779008345482925423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,7 +1193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2adeab53c8527464db9f4e2ddc27c63d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questBanner: {fileID: 0}
+  questGiver: {fileID: 8315034156274427788}
+  questFaction: {fileID: 4737601099875228247}
   cmbBriefText: {fileID: 3466867053249457098}
   xpoBriefText: {fileID: 6732466859629931467}
   ngoBriefText: {fileID: 3271011863673384913}
@@ -1198,6 +1203,7 @@ MonoBehaviour:
   xpoTotalParty: {fileID: 8986109747618803467}
   ngoTotalParty: {fileID: 7903512511283805658}
   conTotalParty: {fileID: 1960971752230218056}
+  questBanner: {fileID: 0}
 --- !u!1 &3332160803682501084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,7 +1615,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a5fd9a8b0f4ed4ab3e3fb18f93bbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questUI: {fileID: 0}
   slot: 3
+  active: 0
 --- !u!114 &9091867303185752346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,7 +1630,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a5fd9a8b0f4ed4ab3e3fb18f93bbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questUI: {fileID: 0}
   slot: 0
+  active: 0
 --- !u!1 &5259202156066733969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1869,7 +1879,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -98.87915, y: 58.27188}
+  m_AnchoredPosition: {x: -98.87915, y: 51.9}
   m_SizeDelta: {x: 116.5792, y: 28.6714}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6773388133669552982

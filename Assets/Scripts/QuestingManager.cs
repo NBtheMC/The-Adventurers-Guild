@@ -62,8 +62,7 @@ public class QuestingManager : MonoBehaviour
         //Debug.Log(activeQuests.Count);
         foreach (QuestSheet quest in activeQuests)
         {
-            quest.advancebyTick();
-            if (quest.QuestComplete == true)
+            if (quest.advancebyTick() == 1)
             {
                 quest.AddGuildGold();
                 quest.isActive = false;

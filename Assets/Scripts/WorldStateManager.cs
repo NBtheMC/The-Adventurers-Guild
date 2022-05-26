@@ -57,9 +57,12 @@ public class WorldStateManager : MonoBehaviour
 
 	private void Start()
 	{
+		Debug.Log("THE WORLD STATE HAS STARTED.");
 		storylets.Clear();
 		CSVToQuests converter = this.GetComponent<CSVToQuests>();
 		storylets = converter.allStorylets;
+
+		Debug.Log($"STORYLETS NUMBER IN {storylets.Count}");
 
 		foreach(Storylet storylet in storylets)
 		{
@@ -70,6 +73,7 @@ public class WorldStateManager : MonoBehaviour
 
 			// Add them into the dictionary and set it to zero.
 			numberOfActivations.Add(storylet, 0);
+			Debug.Log($"Added number of activations for {storylet.name}");
 		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
@@ -261,6 +265,11 @@ public class WorldStateManager : MonoBehaviour
 		{
 
 			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
+			Debug.Log($"Trying to check for a {storylet.name}");
+			foreach (Storylet key in numberOfActivations.Keys)
+			{
+				Debug.Log($"Has {key.name}");
+			}
 			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { continue; }
 			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { continue; }
 
@@ -364,6 +373,7 @@ public class WorldStateManager : MonoBehaviour
 
 			if(!String.IsNullOrEmpty(storylet.adventurer))
             {
+				Debug.Log("Adding adventurer " + storylet.adventurer);
 				AdventurerHiredEvent(this, storylet.adventurer);
 				//GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().HireAdventurer(storylet.adventurer);
             }
@@ -375,6 +385,8 @@ public class WorldStateManager : MonoBehaviour
 			if (storylet.eventHead != null)
 			{
 				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, this, storylet.questDescription);
+				newQuest.faction = storylet.factionName;
+				newQuest.questGiver = storylet.issuerName;
 				questingManager.AddQuest(newQuest);
 				// Puts the new quest into activation
 				if (!activeStorylets.ContainsValue(storylet)) { activeStorylets.Add(newQuest, storylet); }

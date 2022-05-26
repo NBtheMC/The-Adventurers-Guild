@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96cff930b3f24d049a2674187b15868e, type: 3}
-  m_Name: Penny
+  m_Name: Ves
   m_EditorClassIdentifier: 
-  characterName: Penny
+  characterName: Ves
   hiredAtStart: 0
-  combat: 7
-  exploration: 13
-  negotiation: 6
-  constitution: 7
+  combat: 11
+  exploration: 7
+  negotiation: 11
+  constitution: 9
   portrait: {fileID: 21300000, guid: 09c1384bc604d674e8dec80e32a022e7, type: 3}
-  Biography: Zenny's cousin. No, doesn't like you
+  Biography: A fierce warrior with a solid head on their shoulders and a lot riding
+    on their back.

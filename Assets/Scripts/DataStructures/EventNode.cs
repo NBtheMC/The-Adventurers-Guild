@@ -8,9 +8,10 @@ using UnityEngine.Events;
 /// Sends back an package full of information for Quest Sheet to use, specifically what the next node is.
 /// Also update bonds.
 /// </summary>
-[CreateAssetMenu(fileName = "NewEvent",menuName = "EventNode", order = 1)]
-public class EventNode: ScriptableObject
+public class EventNode
 {
+	public string name;
+
 	[TextAreaAttribute(2, 10)]
 	public string description; //what the event is
 
@@ -28,7 +29,7 @@ public class EventNode: ScriptableObject
 	[System.Serializable]
 	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
 
-	public struct PartyCheck { public CharacterSheet character; public bool present; }
+	public struct PartyCheck { public string character; public bool present; }
 	
 	/// <summary>
 	/// Used to specify a case for use in this event.
@@ -114,11 +115,18 @@ public class EventNode: ScriptableObject
 
 			foreach (PartyCheck i in eventToCheck.partyTriggers)
 			{
-				if (adventurers.Contains(i.character) != i.present)
+				bool foundcharacter = false;
+				foreach(CharacterSheet adventurer in adventurers.Party_Members)
 				{
-					validEvent = false; break;
+					// Check to see if they're here.
+					if(adventurer.name == i.character)
+					{
+						foundcharacter = true; break;
+					}
 				}
+				if(foundcharacter != i.present) { validEvent = false; }
 			}
+			if (!validEvent) { continue; }
 
 			nextEvent = eventToCheck;
 			foundEvent = true;

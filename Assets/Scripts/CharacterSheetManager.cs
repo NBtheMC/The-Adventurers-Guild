@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class CharacterSheetManager : MonoBehaviour
@@ -12,11 +13,11 @@ public class CharacterSheetManager : MonoBehaviour
     private List<CharacterSheet> deadAdventurers; //Adventurers that fucking died
     private List<CharacterSheet> allAdventurers; //All the adventurers
 
-    public IReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return unhiredAdventurers.AsReadOnly(); } }
-    public IReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return hiredAdventurers.AsReadOnly(); } }
-    public IReadOnlyCollection<CharacterSheet> FreeAdventurers { get { return freeAdventurers.AsReadOnly(); } }
-    public IReadOnlyCollection<CharacterSheet> QuestingAdventurers { get { return questingAdventurers.AsReadOnly(); } }
-    public IReadOnlyCollection<CharacterSheet> DeadAdventurers { get { return deadAdventurers.AsReadOnly(); } }
+    public ReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return unhiredAdventurers.AsReadOnly(); } }
+    public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return hiredAdventurers.AsReadOnly(); } }
+    public ReadOnlyCollection<CharacterSheet> FreeAdventurers { get { return freeAdventurers.AsReadOnly(); } }
+    public ReadOnlyCollection<CharacterSheet> QuestingAdventurers { get { return questingAdventurers.AsReadOnly(); } }
+    public ReadOnlyCollection<CharacterSheet> DeadAdventurers { get { return deadAdventurers.AsReadOnly(); } }
 
     public event EventHandler<EventArgs> RosterChange;
 
@@ -38,6 +39,7 @@ public class CharacterSheetManager : MonoBehaviour
             allAdventurers.Add(charSheet);
             Debug.Log($"Added adventurer {charSheet.name}");
             if (character.hiredAtStart){
+                Debug.Log("Hired " + charSheet.name);
                 freeAdventurers.Add(charSheet);
                 hiredAdventurers.Add(charSheet);}
             else
@@ -75,6 +77,12 @@ public class CharacterSheetManager : MonoBehaviour
 
     public void HireAdventurer(object src, string name)
     {
+        foreach (CharacterSheet character in hiredAdventurers)
+        {
+            if (character.name.Equals(name)) { return; }
+        }
+
+        Debug.Log("Hired " + name);
         CharacterSheet characterToHire = null;
         foreach(CharacterSheet character in unhiredAdventurers)
         {
