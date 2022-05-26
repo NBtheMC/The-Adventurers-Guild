@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Penny
   m_EditorClassIdentifier: 
   characterName: Penny
-  hiredAtStart: 1
+  hiredAtStart: 0
   combat: 7
   exploration: 13
   negotiation: 6

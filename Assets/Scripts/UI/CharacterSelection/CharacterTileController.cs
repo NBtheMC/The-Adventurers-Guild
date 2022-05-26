@@ -30,10 +30,6 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         clickPos = Input.mousePosition;
     }
 
-    /*
-    public void OnPointerUp(PointerEventData pointerEventData)
-
-    */
     public void CharacterClicked()
     {
         if (PauseMenu.gamePaused)
@@ -64,7 +60,12 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         }
         else if(isDisplayed && displayManager.characterDisplay.activeInHierarchy)
         {
+            if (CharInfoSpawn.transform.childCount != 0)
+            {
+                CharInfoSpawn.transform.GetChild(0).GetComponent<CharacterInfoUI>().DestroyUI();
+            }
             displayManager.DisplayCharacter(false);
+            isDisplayed = false;
         }
     }
     public void OnPointerClick(PointerEventData eventData)

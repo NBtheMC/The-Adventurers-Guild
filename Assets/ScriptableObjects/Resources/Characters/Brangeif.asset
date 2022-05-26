@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Brangeif
   m_EditorClassIdentifier: 
   characterName: Brangeif
-  hiredAtStart: 1
+  hiredAtStart: 0
   combat: 14
   exploration: 5
   negotiation: 3

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Elly
   m_EditorClassIdentifier: 
   characterName: Elly
-  hiredAtStart: 1
+  hiredAtStart: 0
   combat: 13
   exploration: 6
   negotiation: 13

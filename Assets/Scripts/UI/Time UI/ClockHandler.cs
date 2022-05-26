@@ -53,6 +53,6 @@ public class ClockHandler : MonoBehaviour
     void BeginDay(object source, GameTime gameTime)
 	{
         day++;
-        dayCounter.text = "Day: " + day;
+        dayCounter.text = "" + day;
 	}
 }

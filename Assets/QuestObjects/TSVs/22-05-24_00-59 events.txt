@@ -1,0 +1,42 @@
+Event 1	TutorialAssignment	Good job on assigning the adventurer.																								
+Default		0.25	100	0	You've completed the quest! You get gold everytime the quest-giver thinks you've completed the objective. Keep track of this gold, running out would be very bad for the guild's reputation, and could result in your removal.																					
+Trigger Int Changes	TutorialNumber	1	SET																							
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 2	TutorialCombat	Alright,																								
+Case 1		0.25	50	0	you've assigned someone with more than 10 combat. Good job!																					
+Stat Triggers	Combat	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TutorialNumber	2	SET																							
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		0.25	0	0	the person you assigned doesn't have more than 10 combat. Try again.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 3	TutorialExploration	Okay, 																								
+Case 1		0.25	0	0	you've sent a very strong combat team. The quest asked you to avoid doing that.																					
+Stat Triggers	Combat	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Case 2		0.25	50	0	you've send a good exploration team. Good job!																					
+Stat Triggers	Exploration	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TutorialNumber	3	SET																							
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		0.25	0	0	you didn't manage to send a good team for combat or exploration. Please try again.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE

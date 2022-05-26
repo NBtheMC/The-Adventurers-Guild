@@ -1,0 +1,24 @@
+Storylet 1	Intro To Guildmastering	Guild	Wavy-Haired Clerk	Your job as the Guildmaster is to assign adventurers to Quests. Quest success depends on the abilities of your adventurers, which are denoted by the four stats on the top. For this quest, you will need a Combat total of 10. Right click the adventuerer on the right to assign them to this quest																						
+Event Head	TutorialAssignment	TRUE	FALSE		Welcome to the Adventurer's Guild, Cynbalt branch.																					
+Trigger Ints	TutorialNumber	equals	0																							
+Trigger Values																										
+Trigger States		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Values Changes																										
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Storylet 2	Intro To Stat Checks	Guild	Wavy-Haired Clerk	Adventurer's come with stats. The numbers of the left is the maximum difficulty adventurers might encounter on a quest. Left click an adventurer to see their stats page, then assign someone with 10 or more combat.																						
+Event Head	TutorialCombat	TRUE	FALSE	Calliope																						
+Trigger Ints	TutorialNumber	equals	1																							
+Trigger Values																										
+Trigger States		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Values Changes																										
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Storylet 3	Intro To Quest Descriptions	Guild	Wavy-Haired Clerk	The Quest Stat Summary isn't always the best thing to match. Often quests will be very nuanced, and the Stat Summary is only there as a judge of the maximum difficulty that'll get your adventurer's home. This quest description will ask you to send good negotiators, and avoid sending aggravating characters.																						
+Event Head	TutorialExploration	TRUE	FALSE	Micah																						
+Trigger Ints	TutorialNumber	equals	1																							
+Trigger Values																										
+Trigger States		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Values Changes																										
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
