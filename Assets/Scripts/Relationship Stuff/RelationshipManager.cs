@@ -112,21 +112,20 @@ public class RelationshipManager : MonoBehaviour
         int freeAdventurersCount = characterSheetManager.FreeAdventurers.Count;
         int aIndex;
         if (freeAdventurersCount == 1) {
-            aIndex = Random.Range(0, freeAdventurersCount - 1);
-            string soloName = characterSheetManager.FreeAdventurers.ElementAt(aIndex).adventurer.characterSheet.name;
+            string soloName = characterSheetManager.FreeAdventurers.ElementAt(0).adventurer.characterSheet.name;
             return $"{soloName} is relaxing alone";
         }
         else if (freeAdventurersCount == 0){
             return "The guild is quiet";
         }
         //randomly pick adventurer A
-        aIndex = Random.Range(0, freeAdventurersCount - 1);
+        aIndex = Random.Range(0, freeAdventurersCount); // Max exclusive, so we use the full count.
         Adventurer a = characterSheetManager.FreeAdventurers.ElementAt(aIndex).adventurer;
         //randomly pick adventurer B
         int bIndex;
         do {
-            bIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count - 1);
-        } while(bIndex == aIndex);
+            bIndex = Random.Range(0, characterSheetManager.FreeAdventurers.Count); // Max exclusive, so we use the full count.
+        } while(bIndex == aIndex); 
         Adventurer b = characterSheetManager.FreeAdventurers.ElementAt(bIndex).adventurer;
         //Get relationship between A and B
         int bondValue = a.GetFriendship(b);

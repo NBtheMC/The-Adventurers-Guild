@@ -216,7 +216,7 @@ public class QuestUI : MonoBehaviour
 	private void OnDestroy()
 	{
         Debug.Log($"{attachedSheet.questName} questUI destroyed");
-		if (questActive)
+		if (!attachedSheet.isActive)
 		{
             attachedSheet.assignParty(null); // null out the party.
 		}
