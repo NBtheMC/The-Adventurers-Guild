@@ -22,7 +22,7 @@ public class WorldStateManager : MonoBehaviour
 	public GameObject boolDisplayPrefab;
 
 	// The list of all storylets we plan on creating.
-    public List<Storylet> storylets = new List<Storylet>();
+	public List<Storylet> storylets;
 	public Dictionary<Storylet, int> numberOfActivations = new Dictionary<Storylet, int>();
 	public Dictionary<QuestSheet,Storylet> activeStorylets = new Dictionary<QuestSheet, Storylet>();
 
@@ -48,7 +48,9 @@ public class WorldStateManager : MonoBehaviour
 
     void Awake()
     {
-        worldValues = new Dictionary<string, WorldValue>();
+		storylets = new List<Storylet>(); // Clear all the storylets.
+
+		worldValues = new Dictionary<string, WorldValue>();
         worldStates = new Dictionary<string, WorldState>();
 		worldInts = new Dictionary<string, WorldInt>();
 
@@ -268,11 +270,6 @@ public class WorldStateManager : MonoBehaviour
 		{
 
 			// Checks to see if it can be instanced, and if it can't, whether we've instanced it already.
-			Debug.Log($"Trying to check for a {storylet.name}");
-			foreach (Storylet key in numberOfActivations.Keys)
-			{
-				Debug.Log($"Has {key.name}");
-			}
 			if (numberOfActivations[storylet] > 0 && !storylet.canBeInstanced) { continue; }
 			if (!storylet.canBeDuplicated && activeStorylets.ContainsValue(storylet)) { continue; }
 
