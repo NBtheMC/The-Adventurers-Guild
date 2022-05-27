@@ -22,24 +22,28 @@ public class BondDisplayManager : MonoBehaviour
         //Debug.Log("Active Adventurers: " + activeAdventurers);
         //foreach(KeyValuePair<Adventurer,int> friendship in bonder.adventurer.friendships){
         foreach(CharacterSheet c in activeAdventurers){
-            Debug.Log("CharacterSheet: " + c.adventurer);
-            //Debug.Log("Character adding to sheet: " + friendship.Key + " = " + friendship.Value);
-            //set gameobject of bond display active
-            GameObject currentBondObject = this.transform.GetChild(0).GetChild(0).GetChild(numBonds).gameObject;
-            currentBondObject.SetActive(true);
-            BondDisplay currentBondDisplay = currentBondObject.GetComponent<BondDisplay>();
-            Debug.Log("BondDisplay: " + currentBondDisplay);
-            //link it to adventurer in friendship and add to dictionary
-            allBonds.Add(c.adventurer, currentBondDisplay);
-            //set bar friendship (not necessary rn but may change)
-            Debug.Log("Bondee name: " + c.name);
-            currentBondDisplay.InitialSet(c.adventurer, 0);
-            numBonds++;
+            if (c != bonder)
+            {
+                Debug.Log("CharacterSheet: " + c.adventurer);
+                //Debug.Log("Character adding to sheet: " + friendship.Key + " = " + friendship.Value);
+                //set gameobject of bond display active
+                GameObject currentBondObject = this.transform.GetChild(numBonds).gameObject;
+                currentBondObject.SetActive(true);
+                BondDisplay currentBondDisplay = currentBondObject.GetComponent<BondDisplay>();
+                Debug.Log("BondDisplay: " + currentBondDisplay);
+                //link it to adventurer in friendship and add to dictionary
+                allBonds.Add(c.adventurer, currentBondDisplay);
+                //set bar friendship (not necessary rn but may change)
+                Debug.Log("Bondee name: " + c.name);
+                currentBondDisplay.InitialSet(c.adventurer, 0);
+                numBonds++;
+            }  
         }
     }
 
     //adding new adventurer to bondlist
-    public void AddBond(Adventurer bondee){
+    public void AddBond(Adventurer bondee)
+    {
 
     }
 
