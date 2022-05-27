@@ -393,7 +393,8 @@ public class WorldStateManager : MonoBehaviour
 			}
 
 			//send debrief message to debrief screen
-			debriefTracker.submitLog(storylet.debriefMessage);
+			if(storylet.debriefMessage != "")
+				debriefTracker.submitLog(storylet.debriefMessage);
 		}
 	}
 

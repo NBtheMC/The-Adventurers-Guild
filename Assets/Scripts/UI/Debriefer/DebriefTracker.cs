@@ -45,15 +45,16 @@ public class DebriefTracker : MonoBehaviour
 		public DebriefReport(GameTime timeInput, string logInput) { time = timeInput; log = logInput; }
 	}
 	
-	public string getCompiledDayReport(int seletedTime = -1)
+	public string getCompiledDayReport(int selectedTime = -1)
 	{
 		string dayReport = "";
-		if (seletedTime < 0) { seletedTime = timeSystem.getTime().day; }
-		if (seletedTime >= cumulatedDebriefReport.Count) { return dayReport; }
+		if (selectedTime < 0) { selectedTime = timeSystem.getTime().day; }
+		if (selectedTime == 0) { return "Welcome to the Adventurer's Guild!\n"; }
+		if (selectedTime >= cumulatedDebriefReport.Count) { return dayReport; }
 
-		dayReport += $"Day {seletedTime} \n\n";
+		dayReport += $"Day {selectedTime} \n\n";
 
-		foreach(DebriefReport item in cumulatedDebriefReport[seletedTime])
+		foreach(DebriefReport item in cumulatedDebriefReport[selectedTime - 1])
 		{
 			dayReport += $"{item.time.hour}: {item.log}\n";
 		}

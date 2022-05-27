@@ -10,6 +10,8 @@ public class DebriefReport : MonoBehaviour
 	public DebriefTracker debriefTracker;
 	public Text PageNumber;
 
+	private TimeSystem timeSystem;
+
 	private int day;
 	private ItemDisplayManager displayManager;
 	[HideInInspector]  public bool isDisplayed = false;
@@ -17,29 +19,30 @@ public class DebriefReport : MonoBehaviour
 	private void Awake()
 	{
 		this.gameObject.SetActive(false);
+		timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
 	}
 
 	private void Start()
 	{
-		day = 1;
+		day = 0;
 		//this.gameObject.SetActive(false);
 		displayManager = transform.parent.GetComponent<ItemDisplayManager>();
 		displayManager.DisplayDebrief(isDisplayed);
+		
 	}
 
 	public void ToggleDisplay()
     {
 		isDisplayed = !isDisplayed;
 		displayManager = transform.parent.GetComponent<ItemDisplayManager>();
-		print(isDisplayed);
-		print(displayManager.name);
 		displayManager.DisplayDebrief(isDisplayed);
 	}
 
 	private void OnEnable()
 	{
-		day = debriefTracker.timeSystem.getTime().day;
+		day = timeSystem.getTime().day - 1;
 		mainBriefingText.text = debriefTracker.getCompiledDayReport(day);
+		PrintReport();
 	}
 
 	public void PrintReport()
@@ -51,14 +54,14 @@ public class DebriefReport : MonoBehaviour
 	public void DisplayNextPage()
     {
 		GameTime gameTime = debriefTracker.timeSystem.getTime();
-		if (day < gameTime.day)
+		if (day < gameTime.day - 1)
 			day++;
 		PrintReport();
     }
 
 	public void DisplayPrevPage()
     {
-		if(day > 1)
+		if(day > 0)
 			day--;
 		PrintReport();
     }

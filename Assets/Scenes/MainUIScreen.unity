@@ -3059,6 +3059,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -18.5569
       objectReference: {fileID: 0}
+    - target: {fileID: 8612100640377848649, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: m_Text
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8612100640702005138, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: debriefTracker
       value: 

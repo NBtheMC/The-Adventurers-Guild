@@ -10,23 +10,40 @@ public class DebriefDisplayController : MonoBehaviour
     public GameObject reportIndicator;
     public GameObject itemDisplay;
     private bool isDisplayed = false;
+    private bool indicatorDisplayed = false;
+
+    private TimeSystem timeSystem;
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<Button>().onClick.AddListener(delegate { debrief.ToggleDisplay(); });
         this.GetComponent<Button>().onClick.AddListener(delegate { ButtonPressed(); });
         reportIndicator.SetActive(false);
+
+        timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
+
+        timeSystem.NewDay += SetReportIndicator;
     }
 
     public void ButtonPressed()
     {
         isDisplayed = !isDisplayed;
-        reportIndicator.SetActive(false);
+        if (indicatorDisplayed) 
+        {
+            reportIndicator.SetActive(false);
+            indicatorDisplayed = false;
+        }
+        
     }
 
-    public void SetReportIndicator(object o, EventArgs e)
+    public void SetReportIndicator(object o, GameTime e)
     {
-        if(!isDisplayed)
+        print("NEW LOG ADDED");
+        if(!isDisplayed && timeSystem.getTime().day > 0) 
+        {
+            indicatorDisplayed = true;
             reportIndicator.SetActive(true);
+        }
+            
     }
 }
