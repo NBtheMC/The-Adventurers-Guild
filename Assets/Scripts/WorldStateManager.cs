@@ -35,6 +35,9 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the GameManager
 	public GameManager gameManager;
 
+	//refrence to debriefTracker
+	public DebriefTracker debriefTracker;
+
 	// A bunch of events for when the WorldStateManager updates itself.
 	public event EventHandler<string> IntChangeEvent;
 	public event EventHandler<string> StateChangeEvent;
@@ -391,6 +394,9 @@ public class WorldStateManager : MonoBehaviour
 				// Puts the new quest into activation
 				if (!activeStorylets.ContainsValue(storylet)) { activeStorylets.Add(newQuest, storylet); }
 			}
+
+			//send debrief message to debrief screen
+			debriefTracker.submitLog(storylet.debriefMessage);
 		}
 	}
 

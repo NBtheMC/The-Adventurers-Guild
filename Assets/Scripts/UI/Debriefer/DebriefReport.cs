@@ -21,16 +21,18 @@ public class DebriefReport : MonoBehaviour
 
 	private void Start()
 	{
-		day = 0;
+		day = 1;
 		//this.gameObject.SetActive(false);
-		displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
+		displayManager = transform.parent.GetComponent<ItemDisplayManager>();
 		displayManager.DisplayDebrief(isDisplayed);
 	}
 
 	public void ToggleDisplay()
     {
 		isDisplayed = !isDisplayed;
+		displayManager = transform.parent.GetComponent<ItemDisplayManager>();
 		print(isDisplayed);
+		print(displayManager.name);
 		displayManager.DisplayDebrief(isDisplayed);
 	}
 
@@ -56,7 +58,7 @@ public class DebriefReport : MonoBehaviour
 
 	public void DisplayPrevPage()
     {
-		if(day > 0)
+		if(day > 1)
 			day--;
 		PrintReport();
     }

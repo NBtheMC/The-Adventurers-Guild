@@ -24,7 +24,8 @@ public class DebriefTracker : MonoBehaviour
 	public void submitLog(string itemToBeLogged)
 	{
 		GameTime timeLogged = timeSystem.getTime();
-		cumulatedDebriefReport[timeLogged.day].Add(new DebriefReport(timeLogged,itemToBeLogged));
+		print(timeLogged.day);
+		cumulatedDebriefReport[timeLogged.day - 1].Add(new DebriefReport(timeLogged,itemToBeLogged));
 
 		//mark that page as unread
 	}
