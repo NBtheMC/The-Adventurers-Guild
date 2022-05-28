@@ -358,7 +358,8 @@ public class CSVToQuests : MonoBehaviour
 
                 // Input a bunch of descriptors and values for the node.
                 if (rewardString != "") { tempEventCase.reward = int.Parse(rewardString); }
-                tempEventCase.bondupdate = int.Parse(partyBond);
+                if (string.IsNullOrEmpty(partyBond)) { tempEventCase.bondupdate = 0; }
+                else { tempEventCase.bondupdate = int.Parse(partyBond); }
                 tempEventCase.progressionDescription = nodeCompletionString;
                 //Get Time
                 float eventHours = float.Parse(timeString);
@@ -597,7 +598,8 @@ public class CSVToQuests : MonoBehaviour
 
             // Input a bunch of descriptors and values for the node.
             if (dRewardString != "") { defaultCase.reward = int.Parse(dRewardString); }
-            defaultCase.bondupdate = int.Parse(dPartyBond);
+            if (string.IsNullOrEmpty(dPartyBond)) { defaultCase.bondupdate = 0; }
+            else { defaultCase.bondupdate = int.Parse(dPartyBond); }
             defaultCase.progressionDescription = dNodeCompletionString;
             //Get Time
             float dEventHours = float.Parse(dTimeString);
@@ -822,7 +824,8 @@ public class CSVToQuests : MonoBehaviour
             case "NOSET":
                 change.set = false; break;
             default:
-                error = "SET NOSET unable to be parsed, skipping"; return 2;
+                change.set = false;
+                error = "SET NOSET unable to be parsed, skipping"; return 0;
         }
 
         error = "none";
@@ -851,7 +854,8 @@ public class CSVToQuests : MonoBehaviour
             case "NOSET":
                 change.set = false; break;
             default:
-                error = "SET NOSET unable to be parsed, skipping"; return 2;
+                change.set = false;
+                error = "SET NOSET unable to be parsed, skipping"; return 0;
         }
 
         error = "none";
