@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nox
   m_EditorClassIdentifier: 
   characterName: Nox
-  hiredAtStart: 1
+  hiredAtStart: 0
   combat: 12
   exploration: 12
   negotiation: 12

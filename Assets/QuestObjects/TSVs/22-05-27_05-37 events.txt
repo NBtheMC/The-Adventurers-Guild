@@ -1,0 +1,201 @@
+Event 1	TutorialAssignment																									
+Default		1	50	1	Good job! You've completed the quest! Another adventurer has joined us, as a reward. You've also been given a small amount of Gold, which has been added to the Gold counter on the bottom left. Gold will decrease every day or when undertaking certain quests. Be careful, as running out of Gold may result in your dismissal (game over).																					
+Trigger Int Changes	TutorialNumber	1	SET																							
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 2	TutorialCombat																									
+Case 1		1	50	1	Good job! Your party met the stat requirements. You're doing pretty well; another adventurer has signed up!																					
+Stat Triggers	Combat	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TutorialNumber	2	SET																							
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		1	0	1	Sorry! Your party did not meet the stat requirements. Try again.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 3	TutorialExploration																									
+Case 1		1	0	1	The party's Combat stat was over 10! The quest asked you to avoid doing that. Try again.																					
+Stat Triggers	Combat	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Case 2		1	50	1	The party met both stat checks. Good job! Now you're ready to take on some actual Quests! First, let's focus on helping out around the town to build up our reputation.																					
+Stat Triggers	Exploration	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TutorialNumber	3	SET																							
+Trigger Float Changes																										
+Trigger Bool Changes	TutorialComplete	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		1	0	1	Your Exploration stat was too low. Try again. Remember, you're aiming for an Exploration stat that is more than 10 and a Combat stat that is below 10.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 4	TownExploration	The party went looking for the cat																								
+Case 1		4	50	1	and found it in a tree.																					
+Stat Triggers	Exploration	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TownPrestige	10																								
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		4	0	1	but couldn't find hide nor hair of it. 																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 5	TownCombat	The party ran into an Ankheg while doing the rounds																								
+Case 1		4	50	1	and killed it dead.																					
+Stat Triggers	Combat	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TownPrestige	20																								
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		4	0	1	and couldn't take it down, so they ran all the way back to the Guild.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 6	TownNegotiation	The party tried to calm all parties involved																								
+Case 1		4	50	1	and in doing so, came up with a wonderful compromise.																					
+Stat Triggers	Negotiation	>=	10																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	TownPrestige	20																								
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		4	0	1	but only made the situation worse.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 7	CarlyQuest																									
+Case 1		4	0	1	The party did a fantastic job of negotiating. Instead of a relocation fee, they decided to go out for drinks instead. We paid nothing.																					
+Stat Triggers	Negotiation	>	15																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	CarlyQuestCompleted	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Case 2		4	-200	1	The party botched the negotiation. HQ had to beg and plead with them to move, and we had to pay out 200 gold.																					
+Stat Triggers	Negotiation	<	8																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	CarlyQuestCompleted	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		4	-100	1	The party did an okay job of negotiating; we had to pay out 100 gold.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	CarlyQuestCompleted	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 8	FactionIntroduction																									
+Case 1		6	50	1	The Order freaked out about Bast being there. Oops.																					
+Stat Triggers																										
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers	Bast	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	PaladinArrived	TRUE		MageArrived	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Case 2		6	100	1	The party successfully distracted both groups so that they never met. Phew.																					
+Stat Triggers	Exploration	>=	20																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	PaladinArrived	TRUE		MageArrived	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		6	50	1	The party wasn't able to distract the two groups long enough for them to not run into each other. They got into a huge shouting match in front of the Guild.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	PaladinArrived	TRUE		MageArrived	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 9	PaladinSearch	The party went searching for Mana Stones																								
+Case 1		6	90	1	and found some in the bushes.																					
+Stat Triggers	Exploration	>=	25																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	PaladinManaStone	1																								
+Trigger Float Changes																										
+Trigger Bool Changes	PaladinCollectionQuest	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		6	0	1	but failed to find anything.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 10	PaladinTreeHunt	The party went tree hunting																								
+Case 1		7	90	1	and brought back an ample stash of Mana Stones.																					
+Stat Triggers	Combat	>=	30																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes	PaladinManaStone	1																								
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		7	0	1	but it went miserably.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 11	MageSearch	The party searched the Caves																								
+Case 1		6	50	1	and brought back an ample stash of Mana Stones.																					
+Stat Triggers	Exploration	>=	25																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	MageSampleCollected	TRUE		MageSampleFailed	FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		6	0	1	but failed to find anything. 																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 12	MageCollection	The party and the exhausted Arcanist searched the Caves for more Mana Stones																								
+Case 1		6	50	1	and found an even more deposits of Mana Stones.																					
+Stat Triggers	Exploration	>=	30																							
+Trigger Ints																										
+Trigger Floats																										
+Trigger Bools		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Party Triggers		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	MageMineAmbition	TRUE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Default		6	0	1	but failed to find anything.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	ZennyQuest	FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 13	ZennyQuest1																									
+Default		1	200	1	This is actually worth way more than what you're asking for. I don't have much cash on me right now, but around this much should be the correct price. Say, do you mind selling me more Mana Stones at a later date? Oh, the Order and Arcanists are also buying? Hmm...																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	ZennyQuest	FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 14	ZennyQuest2																									
+Default		1	0	1	Zenny joined the Guild as our new sticky situation wrangler.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	ZennyQuestCompleted	FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Event 15	GarrettQuest																									
+Default		1	0	1	Garrett, hunter displaced by totally not our actions, has joined the Guild.																					
+Trigger Int Changes																										
+Trigger Float Changes																										
+Trigger Bool Changes	GarrettQuestCompleted	FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE

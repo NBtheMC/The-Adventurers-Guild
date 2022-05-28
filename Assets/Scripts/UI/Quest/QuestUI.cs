@@ -8,23 +8,38 @@ using TMPro;
 //Takes in new quests and creates them on screen as UI objects
 public class QuestUI : MonoBehaviour
 {
-    private QuestSheet attachedSheet;
-    private Text questName;
-    private Text questDescription;
-    private Text questReward;
-    private QuestingManager questingManager;
-    private CharacterPoolController characterPool;
-    private CharacterSheetManager charSheetManager;
-    private DropHandler dropHandler;
-    private RectTransform DropPoints;
-    private RectTransform transformer; // defines the rectangle reference for this dragger.
-    [HideInInspector] public GameObject questBanner;
+    // Active or not
+    private bool questActive;
+
+    //Our neccessary UI display items.
+    private QuestSheet attachedSheet; // The sheet used to feed data into here.
+    private PartySheet adventuringParty; // The adventuring party that's going on the quest.
+
+    private Text questName; // the ui object for the name
+    private Text questDescription; // ui object for description
+    public Text questGiver;
+    public Text questFaction;
+    private Text questReward; // ui object for reward.
+    private QuestingManager questingManager; // ui object for questing manager.
+    private RectTransform dropPoints; // our drop points
 
     // UI items to display quest breifing details.
     public Text cmbBriefText;
     public Text xpoBriefText;
     public Text ngoBriefText;
     public Text conBriefText;
+    //Total party stat details
+    public Text cmbTotalParty;
+    public Text xpoTotalParty;
+    public Text ngoTotalParty;
+    public Text conTotalParty;
+
+    // Essential references.
+    private CharacterPoolController characterPool; // reference to the characterPool
+    private CharacterSheetManager charSheetManager; // reference to the characterSheetManager
+    //private DropHandler dropHandler; // reference 
+    private RectTransform transformer; // defines the rectangle reference for this dragger.
+    [HideInInspector] public GameObject questBanner; // the banner that spawned this quest.
 
     private struct CharacterSlot
     {
@@ -53,12 +68,6 @@ public class QuestUI : MonoBehaviour
     }
 
     private CharacterSlot[] characterSlots;
-    public int AssignedCharacters { get; private set; } = 0;
-    //Total party stat details
-    public Text cmbTotalParty;
-    public Text xpoTotalParty;
-    public Text ngoTotalParty;
-    public Text conTotalParty;
 
     // Start is called before the first frame update
     void Awake()
@@ -72,53 +81,76 @@ public class QuestUI : MonoBehaviour
         questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
 
         //party formation objects
-        DropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
+        dropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
 
         for (int i = 0; i < 4; i++)
         {
-            GameObject temp = DropPoints.GetChild(i).gameObject;
-            characterSlots[i] = new CharacterSlot(temp);
+            QuestUICharacterButton child = dropPoints.transform.GetChild(i).gameObject.GetComponent<QuestUICharacterButton>();// Get the child
+            child.questUI = this; // Give it reference.
         }
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
 
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
-        dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
+        //dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
+
+        
     }
 
-    //Creates Quest as a UI GameObject
-    public void SetupQuestUI(QuestSheet questSheet, bool displayOnly = false)
+	/// <summary>
+	/// Puts all the data where it's suppose to be on this sheet. You can use it to refresh.
+	/// </summary>
+	/// <param name="questSheet"></param>
+	/// <param name="displayOnly"></param>
+	public void SetupQuestUI(QuestSheet questSheet)
     {
         attachedSheet = questSheet;
+        questActive = questSheet.isActive;
 
-        //Setup name
+        // Make a party if it doesn't have one already.
+        if (attachedSheet.adventuring_party == null) { attachedSheet.assignParty(new PartySheet()); }
+        adventuringParty = attachedSheet.adventuring_party;
+
+        // Setup name
         questName.text = attachedSheet.questName;
-        //setup description
-        questDescription.text = attachedSheet.questDescription;
-        //setup first event
 
-        //setup reward
+        // setup description
+        questDescription.text = attachedSheet.questDescription;
+
+        questGiver.text = attachedSheet.questGiver;
+        questFaction.text = attachedSheet.faction;
+
+        // setup reward
         questReward.text = string.Format("{0}", attachedSheet.EstimatedRewardTotal());
 
-        cmbBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Combat).ToString();
-        xpoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Exploration).ToString();
-        ngoBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Negotiation).ToString();
-        conBriefText.text = questSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
+        // Get all of our estimates.
+        cmbBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Combat).ToString();
+        xpoBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Exploration).ToString();
+        ngoBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Negotiation).ToString();
+        conBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
 
-        if (!questSheet.isActive)
-        {
-            //add drop points to drop handler
-            foreach (Transform child in DropPoints)
-            {
-                //dropHandler.AddDropPoint(child.GetComponent<ObjectDropPoint>());
-                dropHandler.dropPoints.Insert(0, child.GetComponent<ObjectDropPoint>());
-            }
-        }
+        // Turn off the buttons if this thing is active.
+        this.transform.Find("Send Party").gameObject.SetActive(!questActive);
+        this.transform.Find("Reject").gameObject.SetActive(!questActive);
 
+        // Loop through the character Sheets in party members and assign them dropPoints.
+        GameObject dropPoints = this.transform.Find("Drop Points").gameObject; // 
+        for (int i = 0; i < questSheet.PartyMembers.Count; i++)
+		{
+            // Dump them visually in the drop points.
+            QuestUICharacterButton child = dropPoints.transform.GetChild(i).gameObject.GetComponent<QuestUICharacterButton>();// Get the child
+            child.SlotIn(attachedSheet.PartyMembers[i]); //tell it to add data.
+		}
+
+        // Display the summary stats.
+        cmbTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Combat).ToString();
+        xpoTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Exploration).ToString();
+        ngoTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Negotiation).ToString();
+        conTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Constitution).ToString();
     }
 
-
+    /*
     //Party stat totals
     public void UpdateQuestUI()
     {
@@ -145,71 +177,64 @@ public class QuestUI : MonoBehaviour
         conTotalParty.text = conTotal.ToString();
     
         return;
-    }
+    }*/
 
     /// <summary>
     /// Takes all selected characters and assigns them to the current quest.
     /// </summary>
     public void SendParty()
     {
-        if (AssignedCharacters == 0) return;
-        //create new partySheet and add all selected adventurers
-        PartySheet partyToSend = new PartySheet();
+        Debug.Log("Attempted to send party.");
+        if (questActive || adventuringParty.Party_Members.Count == 0) { Debug.Log($"No members {adventuringParty.Party_Members.Count}, or quest active {questActive}."); return; }
 
-        //find all characters on QuestUI object and add to partyToSend
-        foreach (CharacterSlot charSlot in characterSlots)
-        {
-            if (charSlot.characterAssigned)
-                partyToSend.addMember(charSlot.character);
-        }
-
-        attachedSheet.assignParty(partyToSend);
+        // Send the thing on the quest.
         charSheetManager.SendPartyOnQuest(this, attachedSheet);
         questingManager.StartQuest(attachedSheet);
 
         //display activequestbanner
         questBanner.GetComponent<QuestBanner>().ToggleQuestActiveState();
 
+        // Play Sound.
         SoundManagerScript.PlaySound("stamp");
-        DestroyUI();
-    }
 
-    public void DestroyUI()
-    {
-        if (questBanner != null)
-        {
-            QuestBanner q = questBanner.GetComponent<QuestBanner>();
-            q.isDisplayed = false;
-            q.displayManager.DisplayQuest(false);
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (characterSlots[i].characterAssigned)
-                {
-                    RemoveCharacter(i);
-                }
-            }
-        }
-
+        // Self Destruct
         Destroy(this.gameObject);
     }
 
-    public void AddCharacter(CharacterSheet character)
+    /// <summary>
+    /// For our buttons to do things.
+    /// </summary>
+    public void DestroyUI()
     {
-        if (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete) return;
-        if (AssignedCharacters >= 4) return;
-        if (IsCharacterAssigned(character)) return;
+        Destroy(this.gameObject);
+    }
 
-        int freeSlot = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            if (!characterSlots[i].characterAssigned)
-            {
-                freeSlot = i;
-                break;
-            }
-        }
+    /// <summary>
+    /// Called when destroyed.
+    /// </summary>
+	private void OnDestroy()
+	{
+        Debug.Log($"{attachedSheet.questName} questUI destroyed");
+		if (!attachedSheet.isActive)
+		{
+            attachedSheet.assignParty(null); // null out the party.
+		}
+	}
 
+	/// <summary>
+	/// Adds a character to the quest, then refreshes the count.
+	/// </summary>
+	/// <param name="character"></param>
+	public bool AddCharacter(CharacterSheet character)
+    {
+        Debug.Log($"Attempting to Add {attachedSheet.questName}");
+        if (attachedSheet.isActive || attachedSheet.isComplete) return false;
+        if (attachedSheet.adventuring_party.Party_Members.Count >= 4) return false;
+        if (IsCharacterAssigned(character)) return false;
+
+        adventuringParty.addMember(character);//Add the party member.
+
+        /*
         characterSlots[freeSlot].textObject.SetActive(true);
         characterSlots[freeSlot].name.text = character.name;
 
@@ -219,16 +244,24 @@ public class QuestUI : MonoBehaviour
         characterSlots[freeSlot].character = character;
         characterSlots[freeSlot].characterAssigned = true;
         characterSlots[freeSlot].emptyCharFrame.SetActive(false);
-        characterSlots[freeSlot].filledCharFrame.SetActive(true);
-        AssignedCharacters++;
+        characterSlots[freeSlot].filledCharFrame.SetActive(true);*/
 
-        UpdateQuestUI();
+        SetupQuestUI(attachedSheet);
+        return true;
     }
 
+    /// <summary>
+    /// Removes a character from the party data, then refreshes the count.
+    /// </summary>
+    /// <param name="slot"></param>
     public void RemoveCharacter(int slot)
     {
-        if (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete) return;
+        if (attachedSheet.isActive || attachedSheet.isComplete) return;
 
+        if (slot >= attachedSheet.adventuring_party.Party_Members.Count) { Debug.Log("No members available in this slot, returning."); return; }
+        adventuringParty.removeMember(attachedSheet.adventuring_party.Party_Members[slot]); // Remove said party member.
+
+        /*
         characterPool.UnselectCharacter(characterSlots[slot].character);
         characterSlots[slot].name.text = "";
         characterSlots[slot].textObject.SetActive(false);
@@ -238,16 +271,16 @@ public class QuestUI : MonoBehaviour
         characterSlots[slot].characterAssigned = false;
         characterSlots[slot].emptyCharFrame.SetActive(true);
         characterSlots[slot].filledCharFrame.SetActive(false);
-        AssignedCharacters--;
-        UpdateQuestUI();
+        AssignedCharacters--;*/
+
+        SetupQuestUI(attachedSheet);
     }
 
     public bool IsCharacterAssigned(CharacterSheet character)
     {
-        foreach (CharacterSlot charSlot in characterSlots)
+        foreach (CharacterSheet charSlot in attachedSheet.PartyMembers)
         {
-            if (charSlot.character == character)
-                return true;
+            if (character == charSlot) { return true; }
         }
         return false;
     }

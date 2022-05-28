@@ -44,6 +44,8 @@ public class QuestBanner : MonoBehaviour
         if (PauseMenu.gamePaused)
             return;
 
+        displayManager.DisplayQuest(questSheet, this.gameObject);
+        /*
         if (!isDisplayed)
         {
             displayManager.DisplayQuest(true);
@@ -100,7 +102,7 @@ public class QuestBanner : MonoBehaviour
         else if (isDisplayed && displayManager.questDisplay.activeInHierarchy)
         {
             displayManager.DisplayQuest(false);
-        }
+        }*/
     }
 
 

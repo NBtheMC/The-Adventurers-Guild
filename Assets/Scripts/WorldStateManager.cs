@@ -22,7 +22,7 @@ public class WorldStateManager : MonoBehaviour
 	public GameObject boolDisplayPrefab;
 
 	// The list of all storylets we plan on creating.
-    public List<Storylet> storylets = new List<Storylet>();
+	public List<Storylet> storylets;
 	public Dictionary<Storylet, int> numberOfActivations = new Dictionary<Storylet, int>();
 	public Dictionary<QuestSheet,Storylet> activeStorylets = new Dictionary<QuestSheet, Storylet>();
 
@@ -35,6 +35,9 @@ public class WorldStateManager : MonoBehaviour
 	// the reference to the GameManager
 	public GameManager gameManager;
 
+	//refrence to debriefTracker
+	public DebriefTracker debriefTracker;
+
 	// A bunch of events for when the WorldStateManager updates itself.
 	public event EventHandler<string> IntChangeEvent;
 	public event EventHandler<string> StateChangeEvent;
@@ -45,7 +48,9 @@ public class WorldStateManager : MonoBehaviour
 
     void Awake()
     {
-        worldValues = new Dictionary<string, WorldValue>();
+		storylets = new List<Storylet>(); // Clear all the storylets.
+
+		worldValues = new Dictionary<string, WorldValue>();
         worldStates = new Dictionary<string, WorldState>();
 		worldInts = new Dictionary<string, WorldInt>();
 
@@ -57,9 +62,12 @@ public class WorldStateManager : MonoBehaviour
 
 	private void Start()
 	{
+		Debug.Log("THE WORLD STATE HAS STARTED.");
 		storylets.Clear();
 		CSVToQuests converter = this.GetComponent<CSVToQuests>();
 		storylets = converter.allStorylets;
+
+		Debug.Log($"STORYLETS NUMBER IN {storylets.Count}");
 
 		foreach(Storylet storylet in storylets)
 		{
@@ -70,6 +78,7 @@ public class WorldStateManager : MonoBehaviour
 
 			// Add them into the dictionary and set it to zero.
 			numberOfActivations.Add(storylet, 0);
+			Debug.Log($"Added number of activations for {storylet.name}");
 		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
@@ -364,6 +373,7 @@ public class WorldStateManager : MonoBehaviour
 
 			if(!String.IsNullOrEmpty(storylet.adventurer))
             {
+				Debug.Log("Adding adventurer " + storylet.adventurer);
 				AdventurerHiredEvent(this, storylet.adventurer);
 				//GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().HireAdventurer(storylet.adventurer);
             }
@@ -375,10 +385,16 @@ public class WorldStateManager : MonoBehaviour
 			if (storylet.eventHead != null)
 			{
 				QuestSheet newQuest = new QuestSheet(storylet.eventHead, storylet.questName, this, storylet.questDescription);
+				newQuest.faction = storylet.factionName;
+				newQuest.questGiver = storylet.issuerName;
 				questingManager.AddQuest(newQuest);
 				// Puts the new quest into activation
 				if (!activeStorylets.ContainsValue(storylet)) { activeStorylets.Add(newQuest, storylet); }
 			}
+
+			//send debrief message to debrief screen
+			if(storylet.debriefMessage != "")
+				debriefTracker.submitLog(storylet.debriefMessage);
 		}
 	}
 
