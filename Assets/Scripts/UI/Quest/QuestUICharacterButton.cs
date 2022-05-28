@@ -18,7 +18,7 @@ public class QuestUICharacterButton : MonoBehaviour, IPointerClickHandler
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if(!active){ questUI.RemoveCharacter(slot); }
+            if(!active){ questUI.RemoveCharacter(slot); ClearOut(); }
         }
     }
 
