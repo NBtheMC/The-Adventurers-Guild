@@ -21,7 +21,7 @@ public class BondDisplay : MonoBehaviour
         //assign character/portrait
         character = a.characterSheet;
         transform.Find("Portrait").GetComponent<Image>().sprite = character.portrait;
-        //set visuals both to 0
+        //set visuals
         SetBond(initialBond);
     }
 
