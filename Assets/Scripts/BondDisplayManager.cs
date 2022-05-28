@@ -35,7 +35,7 @@ public class BondDisplayManager : MonoBehaviour
                 allBonds.Add(c.adventurer, currentBondDisplay);
                 //set bar friendship (not necessary rn but may change)
                 Debug.Log("Bondee name: " + c.name);
-                currentBondDisplay.InitialSet(c.adventurer, 0);
+                currentBondDisplay.InitialSet(c.adventurer, bonder.adventurer.GetFriendship(c.adventurer));
                 numBonds++;
             }  
         }
