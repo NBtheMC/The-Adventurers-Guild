@@ -85,8 +85,8 @@ public class QuestUI : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            GameObject temp = dropPoints.GetChild(i).gameObject;
-            characterSlots[i] = new CharacterSlot(temp);
+            QuestUICharacterButton child = dropPoints.transform.GetChild(i).gameObject.GetComponent<QuestUICharacterButton>();// Get the child
+            child.questUI = this; // Give it reference.
         }
 
         questingManager = GameObject.Find("QuestingManager").GetComponent<QuestingManager>();
@@ -140,7 +140,6 @@ public class QuestUI : MonoBehaviour
 		{
             // Dump them visually in the drop points.
             QuestUICharacterButton child = dropPoints.transform.GetChild(i).gameObject.GetComponent<QuestUICharacterButton>();// Get the child
-            child.questUI = this; // Give it reference.
             child.SlotIn(attachedSheet.PartyMembers[i]); //tell it to add data.
 		}
 
@@ -259,6 +258,7 @@ public class QuestUI : MonoBehaviour
     {
         if (attachedSheet.isActive || attachedSheet.isComplete) return;
 
+        if (slot >= attachedSheet.adventuring_party.Party_Members.Count) { Debug.Log("No members available in this slot, returning."); return; }
         adventuringParty.removeMember(attachedSheet.adventuring_party.Party_Members[slot]); // Remove said party member.
 
         /*
