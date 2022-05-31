@@ -38,7 +38,7 @@ public class ClockHandler : MonoBehaviour
         canUpdate = true;
         
         //calculate next clock hand position
-        float theta = 2* Mathf.PI/currentTimeSystem.totalTicksperActive() * ((gameTime.hour * currentTimeSystem.ticksperHour)+gameTime.tick);
+        float theta = Mathf.PI/currentTimeSystem.totalTicksperActive() * ((gameTime.hour * currentTimeSystem.ticksperHour)+gameTime.tick);
         float z = Mathf.Sin(theta);
         nextRotation = new Quaternion(0f, 0f, -z, Mathf.Cos(theta));
     }
