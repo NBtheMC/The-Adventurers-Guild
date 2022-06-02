@@ -41,6 +41,8 @@ public class DebriefReport : MonoBehaviour
 	private void OnEnable()
 	{
 		day = timeSystem.getTime().day - 1;
+		if(day < 0)
+			day = 0;
 		mainBriefingText.text = debriefTracker.getCompiledDayReport(day);
 		PrintReport();
 	}
