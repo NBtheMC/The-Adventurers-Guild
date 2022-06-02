@@ -50,7 +50,7 @@ public class DebriefTracker : MonoBehaviour
 		string dayReport = "";
 		if (selectedTime < 0) { selectedTime = timeSystem.getTime().day; }
 		if (selectedTime == 0) { return "Welcome to the Adventurer's Guild!\n"; }
-		if (selectedTime >= cumulatedDebriefReport.Count) { return dayReport; }
+		if (selectedTime > cumulatedDebriefReport.Count) { return dayReport; }
 
 		dayReport += $"Day {selectedTime} \n\n";
 
