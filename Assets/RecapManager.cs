@@ -41,7 +41,7 @@ public class RecapManager : MonoBehaviour
             child.gameObject.SetActive(true);
         }
         musicManager.StopMusic();
-        itemDisplayManager.DisplayCharacter(null);
+        itemDisplayManager.ClearDisplay();
         pauseMenu.Pause();
     }
 
