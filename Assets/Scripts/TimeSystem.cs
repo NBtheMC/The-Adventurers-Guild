@@ -55,8 +55,10 @@ public class TimeSystem : MonoBehaviour
             gameTime.hour += 1;
             if (NewHour!= null) {NewHour(this, gameTime);}
             if (gameTime.hour >= activeHours){
-                if (EndOfDay != null) {EndOfDay(this, gameTime);}
-                StopTimer();
+                if (EndOfDay != null) {EndOfDay(this, gameTime);}{
+                    StopTimer();
+                    GameObject.Find("RecapDisplay").GetComponent<RecapManager>().StartRecap();
+                }
             }
         }
 

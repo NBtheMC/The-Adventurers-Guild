@@ -19,12 +19,30 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (timeSystem.timerActive)
+            TogglePause();
+        }
+    }
+
+    public void Pause(){
+        timeSystem.StopTimer();
+    }
+
+    public void Play(){
+        timeSystem.StartTimer();
+    }
+
+    private void TogglePause()
+    {
+        if (timeSystem.timerActive)
                 timeSystem.StopTimer();
             else
                 timeSystem.StartTimer();
             gamePaused = !timeSystem.timerActive;
             mainCanvasGroup.interactable = !gamePaused;
-        }
+    }
+
+    private void TogglePauseDisplay()
+    {
+
     }
 }
