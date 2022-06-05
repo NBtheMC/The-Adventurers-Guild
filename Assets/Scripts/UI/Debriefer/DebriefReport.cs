@@ -6,7 +6,7 @@ using TMPro;
 
 public class DebriefReport : MonoBehaviour
 {
-	public TextMeshProUGUI mainBriefingText;
+	public Text mainBriefingText;
 	public DebriefTracker debriefTracker;
 	public Text PageNumber;
 	public GameObject nextPage;
@@ -15,6 +15,7 @@ public class DebriefReport : MonoBehaviour
 	public GameObject exitButton;
 	public GameObject goldDisplay;
 	public GameObject displayButton;
+	public Text titleText;
 
 	private TimeSystem timeSystem;
 
@@ -56,6 +57,8 @@ public class DebriefReport : MonoBehaviour
 		exitButton.SetActive(true);
 		nextPage.SetActive(true);
 		previousPage.SetActive(true);
+		PageNumber.gameObject.SetActive(true);
+		titleText.text = "Day " + day + " Report";
 	}
 
 	public void DisableDisplay() 
@@ -77,6 +80,8 @@ public class DebriefReport : MonoBehaviour
 		nextPage.SetActive(false);
 		previousPage.SetActive(false);
 		SetGoldDisplayState(true);
+		PageNumber.gameObject.SetActive(false);
+		titleText.text = "End of Day " + timeSystem.getTime().day;
 
 		day += 1;
 		print(day);
@@ -103,6 +108,7 @@ public class DebriefReport : MonoBehaviour
 		GameTime gameTime = debriefTracker.timeSystem.getTime();
 		if (day < gameTime.day - 1)
 			day++;
+		titleText.text = "Day " + day + " Report";
 		PrintReport(day);
     }
 
@@ -110,6 +116,7 @@ public class DebriefReport : MonoBehaviour
     {
 		if(day > 0)
 			day--;
+		titleText.text = "Day " + day + " Report";
 		PrintReport(day);
     }
 

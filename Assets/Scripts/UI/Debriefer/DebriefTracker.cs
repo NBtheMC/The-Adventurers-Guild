@@ -52,7 +52,7 @@ public class DebriefTracker : MonoBehaviour
 		if (selectedTime == 0) { return "Welcome to the Adventurer's Guild!\n"; }
 		if (selectedTime > cumulatedDebriefReport.Count) { return dayReport; }
 
-		dayReport += $"Day {selectedTime} \n\n";
+		//dayReport += $"Day {selectedTime} \n\n";
 
 		foreach(DebriefReport item in cumulatedDebriefReport[selectedTime - 1])
 		{
