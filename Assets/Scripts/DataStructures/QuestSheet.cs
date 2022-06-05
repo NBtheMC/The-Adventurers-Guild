@@ -24,6 +24,8 @@ public class QuestSheet
 
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
+	public int totalGold { get; private set; }
+
 	private WorldStateManager worldStateManager;
 
 	public List<EventNode> visitedNodes;
@@ -57,6 +59,7 @@ public class QuestSheet
 		eventTicksElapsed = 0;
 		timeUntilProgression = 0;
 		accumutatedGold = 0;
+		totalGold = 0;
 
 		// Initialize out descriptor variables.
 		questName = name_Input;
@@ -128,6 +131,7 @@ public class QuestSheet
 	{
 		worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
 		GameObject.Find("RecapDisplay").GetComponent<RecapManager>().AddDayGold(accumutatedGold);
+		totalGold += accumutatedGold;
 		accumutatedGold = 0;
 	}
 
