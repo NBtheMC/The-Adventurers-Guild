@@ -94,7 +94,7 @@ public class QuestSheet
 				accumutatedGold += nextConnection.reward;
 				adventuring_party.UpdateRelationshipStory(UpdatePartyRelationships(adventuring_party, nextConnection.bondupdate));
 				visitedNodes.Add(currentConnection);
-				questRecap += nextConnection.progressionDescription + " ";
+				questRecap += currentConnection.description + " " + nextConnection.progressionDescription + " ";
 
 				// Update the world values according to the triggers.
 				foreach (Storylet.IntChange change in nextConnection.intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
