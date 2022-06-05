@@ -10,6 +10,9 @@ public class RecapManager : MonoBehaviour
     private GameObject recapObject;
     private MusicManager musicManager;
 
+    public DebriefReport debrief;
+    public DebriefTracker debriefTracker;
+
     public Text earnedText;
     public Text lostText;
     public Text totalText;
@@ -33,9 +36,11 @@ public class RecapManager : MonoBehaviour
     public void StartRecap(object sender, GameTime gameTime){
         Debug.Log("Starting Recap");
         UpdateRecapScreen();
-        foreach(Transform child in transform){
+        /*foreach(Transform child in transform){
             child.gameObject.SetActive(true);
-        }
+        }*/
+        debrief.TriggerEndOfDay();
+
         musicManager.StopMusic();
     }
 
@@ -61,6 +66,9 @@ public class RecapManager : MonoBehaviour
         earnedText.text = goldEarned.ToString();
         lostText.text = goldLost.ToString();
         totalText.text = totalGold.value.ToString();
+
+        //string debriefLog = "Gold Earned: " + goldEarned.ToString() + "\nGold Lost: " + goldLost.ToString() + "\nTotal Gold: " + totalGold.value.ToString();
+        //debriefTracker.submitLog(debriefLog);
         //other recap GONNA BE HONEST I DONT KNOW WHAT THIS IS
     }
 }
