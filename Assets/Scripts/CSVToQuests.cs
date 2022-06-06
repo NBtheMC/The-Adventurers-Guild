@@ -64,9 +64,10 @@ public class CSVToQuests : MonoBehaviour
             
             //list all the damn things we need.
             string storyletName = storyletPacket[0].Split('\t')[1]; //row 1, col b storylet name.
-            string factionName = storyletPacket[0].Split('\t')[2]; //row 1, col c faction name.
-            string questgiverName = storyletPacket[0].Split('\t')[3]; //row 1, col d questgiver name.
-            string storyletDetails = storyletPacket[0].Split('\t')[4]; // row 1, col e storylet details.
+            string isEndingstring = storyletPacket[0].Split('\t')[2]; // row 1, col c ending string.
+            string factionName = storyletPacket[0].Split('\t')[3]; //row 1, col d faction name.
+            string questgiverName = storyletPacket[0].Split('\t')[4]; //row 1, col e questgiver name.
+            string storyletDetails = storyletPacket[0].Split('\t')[5]; // row 1, col f storylet details.
             string eventHeadName = storyletPacket[1].Split('\t')[1]; // row 2, col b event name.
             string toBeInstancedString = storyletPacket[1].Split('\t')[2]; // row 2, col c, to be instanced.
             string toBeDuplicated = storyletPacket[1].Split('\t')[3]; // row 2, col d, to be duplicated.
@@ -88,9 +89,15 @@ public class CSVToQuests : MonoBehaviour
             newStorylet.debriefMessage = debriefMessage;
             newStorylet.factionName = factionName;
             newStorylet.issuerName = questgiverName;
-            
-            // Get the instancing box.
+
+            // Get the end game box.
             bool temporaryHoldBool = false;
+            if (!bool.TryParse(isEndingstring.ToLower(), out temporaryHoldBool))
+            { Debug.Log($"bool unable to be parsed in {storyletName}'s end game box, colum c. Has {toBeInstancedString.ToLower()}. set to false."); }
+            newStorylet.endGame = temporaryHoldBool;
+
+            // Get the instancing box.
+            temporaryHoldBool = false;
             if (!bool.TryParse(toBeInstancedString.ToLower(), out temporaryHoldBool))
             {Debug.Log($"bool unable to be parsed in {storyletName}'s instance box, colum c. Has {toBeInstancedString.ToLower()}. set to false.");}
             newStorylet.canBeInstanced = temporaryHoldBool;

@@ -38,6 +38,9 @@ public class WorldStateManager : MonoBehaviour
 	//refrence to debriefTracker
 	public DebriefTracker debriefTracker;
 
+	// reference to item display manager.
+	public ItemDisplayManager itemDisplayManager;
+
 	// A bunch of events for when the WorldStateManager updates itself.
 	public event EventHandler<string> IntChangeEvent;
 	public event EventHandler<string> StateChangeEvent;
@@ -369,6 +372,14 @@ public class WorldStateManager : MonoBehaviour
 				// Checks to set it directly, or to change it by a value.
 				if (change.set == true) { AddWorldInt(change.name, change.value); }
 				else { ChangeWorldInt(change.name, change.value); }
+			}
+
+			if (storylet.endGame)
+			{
+				Debug.Log("Ending the game");
+				itemDisplayManager.DisplayEndGame(storylet); // give the storylet over to be used for item display.
+				timeSystem.StopTimer(); //stop the timer. We're done.
+				break; // break out of checking.
 			}
 
 			if(!String.IsNullOrEmpty(storylet.adventurer))

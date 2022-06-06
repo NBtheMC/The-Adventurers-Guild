@@ -128,6 +128,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 499989310371540358, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
   m_PrefabInstance: {fileID: 5698263808099909860}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &108524404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1005971809503538890, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+  m_PrefabInstance: {fileID: 5698263808099909860}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108524403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7963f220030bd1e42852d933431c7678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &179293515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9215692206436465844, guid: 5019fe37d2245e348a968e41e1eaee65, type: 3}
@@ -2199,6 +2210,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1005971809503538890, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: endGame
+      value: 
+      objectReference: {fileID: 6753966206142088472, guid: 53d5ac7f6c6bd1d40bc076a10129a18e, type: 3}
+    - target: {fileID: 1005971809503538890, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1532994877}
     - target: {fileID: 1178855941408902649, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
@@ -2550,7 +2569,7 @@ PrefabInstance:
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: csvStorylets
       value: 
-      objectReference: {fileID: 4900000, guid: 09b9db684b4cea4418cbd2feb2a15b2e, type: 3}
+      objectReference: {fileID: 4900000, guid: 9764b7bdbfe556d4cb953deca134f1a6, type: 3}
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: characterSheets
       value: 
@@ -2864,6 +2883,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 563469174}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1532994877}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: debriefTracker
       value: 
       objectReference: {fileID: 1150770493}
@@ -2871,6 +2894,10 @@ PrefabInstance:
       propertyPath: questingManager
       value: 
       objectReference: {fileID: 767544276}
+    - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: itemDisplayManager
+      value: 
+      objectReference: {fileID: 108524404}
     - target: {fileID: 7280735044324053907, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: storylets.Array.size
       value: 28
