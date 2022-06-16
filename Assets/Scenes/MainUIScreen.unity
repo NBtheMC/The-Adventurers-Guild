@@ -2565,11 +2565,11 @@ PrefabInstance:
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: csvEvents
       value: 
-      objectReference: {fileID: 4900000, guid: e436f53f4088ca44184de4efc1268e8e, type: 3}
+      objectReference: {fileID: 4900000, guid: 93596e2a3afc02a409196d1f3c11b509, type: 3}
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: csvStorylets
       value: 
-      objectReference: {fileID: 4900000, guid: 9764b7bdbfe556d4cb953deca134f1a6, type: 3}
+      objectReference: {fileID: 4900000, guid: 78ae83053c6c5944897cfa4e553b7ded, type: 3}
     - target: {fileID: 3849018384787976214, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: characterSheets
       value: 
