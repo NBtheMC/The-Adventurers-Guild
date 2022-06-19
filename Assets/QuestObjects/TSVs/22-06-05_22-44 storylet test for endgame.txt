@@ -1,0 +1,16 @@
+Storylet 1	quest 1	FALSE																								
+Event Head	TutorialAssignment	FALSE	FALSE																							
+Trigger Ints																										
+Trigger Values																										
+Trigger States		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Values Changes																										
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Storylet 2	end the game	TRUE			haha it ended.																					
+Event Head		FALSE	FALSE																							
+Trigger Ints	TutorialNumber	>=	1																							
+Trigger Values																										
+Trigger States		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE
+Trigger Int Changes																										
+Trigger Values Changes																										
+Trigger States Changes		FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE			FALSE

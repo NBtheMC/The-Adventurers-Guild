@@ -7,12 +7,17 @@ public class ItemDisplayManager : MonoBehaviour
 {
     private GameObject spawnPoint; //Where are we spawning this thing?
 
+    private bool isEndgame;
+
     // The prefabs we use to instantiate things.
     public GameObject questDisplay; 
     public GameObject characterDisplay;
     public GameObject debriefDisplay;
+    public GameObject endGame;
 
-    private int currentDisplay = 0; // The current display. Nothing is 0, Quest is 1, character is 2, debrief is 3.
+    public GameManager gameManager; // reference to the game manager.
+
+    private int currentDisplay = 0; // The current display. Nothing is 0, Quest is 1, character is 2, debrief is 3, end game is 4.
 
     private GameObject currentlyDisplaying; // The thing we're currently displaying.
 
@@ -29,6 +34,7 @@ public class ItemDisplayManager : MonoBehaviour
     /// <param name="display">The character you'd like displayed.</param>
     public void DisplayCharacter(CharacterSheet character)
     {
+        if (isEndgame) { return; }
         // Internally track what thing we're displaying.
         currentDisplay = 2;
 
@@ -57,6 +63,8 @@ public class ItemDisplayManager : MonoBehaviour
     /// <param name="display"></param>
     public void DisplayQuest(QuestSheet quest, GameObject caller)
     {
+        if (isEndgame) { return; }
+
         // Internally track what thing we're showing.
         currentDisplay = 1;
 
@@ -84,6 +92,8 @@ public class ItemDisplayManager : MonoBehaviour
 
     public void DisplayDebrief(bool display)
     {
+        if (isEndgame) { return; }
+
         // Internally track what thing we're showing
         if (display) { currentDisplay = 3; }
         else { currentDisplay = 0; }
@@ -92,6 +102,23 @@ public class ItemDisplayManager : MonoBehaviour
 
         debriefDisplay.SetActive(display);
     }
+
+    /// <summary>
+    /// Creates an endgame object that cannot be exited out of. Forces the player to quit.
+    /// </summary>
+    public void DisplayEndGame(Storylet endStatement)
+	{
+        // Destroy whatever's already here.
+        Destroy(currentlyDisplaying);
+
+        // Instantiate a new version of the EndGame.
+        currentlyDisplaying = Instantiate(endGame, spawnPoint.transform);
+
+        // Tell it the button and the info.
+        EndGameDisplay item = currentlyDisplaying.GetComponent<EndGameDisplay>();
+        item.SetExitAccess(gameManager);
+        item.ShowInfo(endStatement);
+	}
 
     private void SetLastActiveDisplay()
     {
