@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class CharacterSheetManager : MonoBehaviour
 {
-    private List<CharacterSheet> unhiredAdventurers; //Adventurers not working in the guild
-    private List<CharacterSheet> hiredAdventurers; //Adventurers working in the guild
-    private List<CharacterSheet> freeAdventurers; //Adventurers in the guild that are not on a quest
-    private List<CharacterSheet> questingAdventurers; //Adventurers that are currently on a quest
-    private List<CharacterSheet> deadAdventurers; //Adventurers that fucking died
-    private List<CharacterSheet> allAdventurers; //All the adventurers
+    protected List<CharacterSheet> unhiredAdventurers; //Adventurers not working in the guild
+    protected List<CharacterSheet> hiredAdventurers; //Adventurers working in the guild
+    protected List<CharacterSheet> freeAdventurers; //Adventurers in the guild that are not on a quest
+    protected List<CharacterSheet> questingAdventurers; //Adventurers that are currently on a quest
+    protected List<CharacterSheet> deadAdventurers; //Adventurers that fucking died
+    protected List<CharacterSheet> allAdventurers; //All the adventurers
 
     public ReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return unhiredAdventurers.AsReadOnly(); } }
     public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return hiredAdventurers.AsReadOnly(); } }
@@ -21,7 +21,9 @@ public class CharacterSheetManager : MonoBehaviour
 
     public event EventHandler<EventArgs> RosterChange;
 
-    private void Awake()
+    CharacterInitialStats[] characters;
+
+    public virtual void Awake()
     {
         unhiredAdventurers = new List<CharacterSheet>();
         hiredAdventurers = new List<CharacterSheet>();
@@ -30,7 +32,7 @@ public class CharacterSheetManager : MonoBehaviour
         deadAdventurers = new List<CharacterSheet>();
         allAdventurers = new List<CharacterSheet>();
 
-        CharacterInitialStats[] characters;
+        
         characters = Resources.LoadAll<CharacterInitialStats>("Characters");
 
         foreach (CharacterInitialStats character in characters)
