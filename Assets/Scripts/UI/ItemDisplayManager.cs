@@ -155,4 +155,11 @@ public class ItemDisplayManager : MonoBehaviour
 		}
         return false;
 	}
+
+    public void ClearDisplay()
+	{
+        Destroy(currentlyDisplaying);
+        currentDisplay = 0;
+
+    }
 }

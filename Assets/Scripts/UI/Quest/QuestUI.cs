@@ -78,7 +78,7 @@ public class QuestUI : MonoBehaviour
         //quest info objects
         questName = transformer.Find("Title").gameObject.GetComponent<Text>();
         questDescription = transformer.Find("Description/DescriptionText").gameObject.GetComponent<Text>();
-        questReward = transformer.Find("Rewards/RewardText").gameObject.GetComponent<Text>();
+        questReward = transformer.Find("Panel/Rewards/RewardText").gameObject.GetComponent<Text>();
 
         //party formation objects
         dropPoints = transformer.Find("Drop Points").GetComponent<RectTransform>();
