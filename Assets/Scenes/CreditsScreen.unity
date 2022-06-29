@@ -1738,6 +1738,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1005971809503538890, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: characterDisplay
+      value: 
+      objectReference: {fileID: 1749594060647524153, guid: 74357da85dee3f84a870e47026e6adf1, type: 3}
     - target: {fileID: 1178855941408902649, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
