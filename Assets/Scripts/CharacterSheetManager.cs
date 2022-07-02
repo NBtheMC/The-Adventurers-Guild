@@ -6,15 +6,20 @@ using UnityEngine;
 
 public class CharacterSheetManager : MonoBehaviour
 {
-    Dictionary<CharacterSheet, AdventurerState> adventurerStates; //represents state of advenutrers
+    protected Dictionary<CharacterSheet, AdventurerState> adventurerStates; //represents state of advenutrers
 
-    // These properties are used to access a read only list of adventurers who fall under a speciifc state
+    // These properties are used to access a read only list of adventurers
     public ReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return GetAdventurersWithState(AdventurerState.UNHIRED); } }
     public ReadOnlyCollection<CharacterSheet> FreeAdventurers { get { return GetAdventurersWithState(AdventurerState.FREE); } }
     public ReadOnlyCollection<CharacterSheet> AssignedAdventurers { get { return GetAdventurersWithState(AdventurerState.ASSIGNED); } }
     public ReadOnlyCollection<CharacterSheet> QuestingAdventurers { get { return GetAdventurersWithState(AdventurerState.QUESTING); } }
     public ReadOnlyCollection<CharacterSheet> DeadAdventurers { get { return GetAdventurersWithState(AdventurerState.DEAD); } }
     public ReadOnlyCollection<CharacterSheet> AllAdventurers { get { return new List<CharacterSheet>(adventurerStates.Keys).AsReadOnly(); } }
+    /// <summary>
+    /// Returns read only list of all hired advneuters. In other words, adventures with the FREE, ASSIGNED, or QUESTING state
+    /// </summary>
+    /// <returns></returns>
+    public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return GetHiredAdventurers(); } }
 
     public event EventHandler<EventArgs> RosterChange;
 
@@ -23,6 +28,7 @@ public class CharacterSheetManager : MonoBehaviour
     public virtual void Awake()
     {
         characters = Resources.LoadAll<CharacterInitialStats>("Characters");
+        adventurerStates = new Dictionary<CharacterSheet, AdventurerState>();
 
         foreach (CharacterInitialStats character in characters)
         {
@@ -133,5 +139,16 @@ public class CharacterSheetManager : MonoBehaviour
                 list.Add(item.Key);
 
         return list.AsReadOnly();
+    }
+
+    private ReadOnlyCollection<CharacterSheet> GetHiredAdventurers()
+    {
+        List<CharacterSheet> list = new List<CharacterSheet>();
+        foreach (var item in adventurerStates)
+            if (item.Value == AdventurerState.ASSIGNED || item.Value == AdventurerState.FREE || item.Value == AdventurerState.QUESTING)
+                list.Add(item.Key);
+
+        return list.AsReadOnly();
+
     }
 }

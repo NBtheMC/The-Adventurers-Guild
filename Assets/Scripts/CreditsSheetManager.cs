@@ -12,6 +12,9 @@ public class CreditsSheetManager : CharacterSheetManager
         CharacterInitialStats[] characters;
         characters = Resources.LoadAll<CharacterInitialStats>("Credits");
         //replace characters
+
+        //TODO Commented this out because changes from CharacterSheetManager broke it, fix later
+        /*
         allAdventurers.Clear();
         freeAdventurers.Clear();
         hiredAdventurers.Clear();
@@ -24,5 +27,6 @@ public class CreditsSheetManager : CharacterSheetManager
             hiredAdventurers.Add(charSheet);
             Debug.Log($"Added credits {charSheet.name}");
         }
+        */
     }
 }
