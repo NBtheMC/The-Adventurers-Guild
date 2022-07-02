@@ -6,18 +6,15 @@ using UnityEngine;
 
 public class CharacterSheetManager : MonoBehaviour
 {
-    protected List<CharacterSheet> unhiredAdventurers; //Adventurers not working in the guild
-    protected List<CharacterSheet> hiredAdventurers; //Adventurers working in the guild
-    protected List<CharacterSheet> freeAdventurers; //Adventurers in the guild that are not on a quest
-    protected List<CharacterSheet> questingAdventurers; //Adventurers that are currently on a quest
-    protected List<CharacterSheet> deadAdventurers; //Adventurers that fucking died
-    protected List<CharacterSheet> allAdventurers; //All the adventurers
+    Dictionary<CharacterSheet, AdventurerState> adventurerStates; //represents state of advenutrers
 
-    public ReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return unhiredAdventurers.AsReadOnly(); } }
-    public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return hiredAdventurers.AsReadOnly(); } }
-    public ReadOnlyCollection<CharacterSheet> FreeAdventurers { get { return freeAdventurers.AsReadOnly(); } }
-    public ReadOnlyCollection<CharacterSheet> QuestingAdventurers { get { return questingAdventurers.AsReadOnly(); } }
-    public ReadOnlyCollection<CharacterSheet> DeadAdventurers { get { return deadAdventurers.AsReadOnly(); } }
+    // These properties are used to access a read only list of adventurers who fall under a speciifc state
+    public ReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return GetAdventurersWithState(AdventurerState.UNHIRED); } }
+    public ReadOnlyCollection<CharacterSheet> FreeAdventurers { get { return GetAdventurersWithState(AdventurerState.FREE); } }
+    public ReadOnlyCollection<CharacterSheet> AssignedAdventurers { get { return GetAdventurersWithState(AdventurerState.ASSIGNED); } }
+    public ReadOnlyCollection<CharacterSheet> QuestingAdventurers { get { return GetAdventurersWithState(AdventurerState.QUESTING); } }
+    public ReadOnlyCollection<CharacterSheet> DeadAdventurers { get { return GetAdventurersWithState(AdventurerState.DEAD); } }
+    public ReadOnlyCollection<CharacterSheet> AllAdventurers { get { return new List<CharacterSheet>(adventurerStates.Keys).AsReadOnly(); } }
 
     public event EventHandler<EventArgs> RosterChange;
 
@@ -25,27 +22,19 @@ public class CharacterSheetManager : MonoBehaviour
 
     public virtual void Awake()
     {
-        unhiredAdventurers = new List<CharacterSheet>();
-        hiredAdventurers = new List<CharacterSheet>();
-        freeAdventurers = new List<CharacterSheet>();
-        questingAdventurers = new List<CharacterSheet>(); 
-        deadAdventurers = new List<CharacterSheet>();
-        allAdventurers = new List<CharacterSheet>();
-
-        
         characters = Resources.LoadAll<CharacterInitialStats>("Characters");
 
         foreach (CharacterInitialStats character in characters)
         {
             CharacterSheet charSheet = new CharacterSheet(character);
-            allAdventurers.Add(charSheet);
             Debug.Log($"Added adventurer {charSheet.name}");
-            if (character.hiredAtStart){
+            if (character.hiredAtStart)
+            {
                 Debug.Log("Hired " + charSheet.name);
-                freeAdventurers.Add(charSheet);
-                hiredAdventurers.Add(charSheet);}
+                adventurerStates.Add(charSheet, AdventurerState.FREE);
+            }
             else
-                unhiredAdventurers.Add(charSheet);
+                adventurerStates.Add(charSheet, AdventurerState.UNHIRED);
         }
     }
 
@@ -60,10 +49,8 @@ public class CharacterSheetManager : MonoBehaviour
     public void SendPartyOnQuest(object src, QuestSheet quest)
     {
         foreach(CharacterSheet character in quest.PartyMembers)
-        {
-            freeAdventurers.Remove(character);
-            questingAdventurers.Add(character);
-        }
+            adventurerStates[character] = AdventurerState.QUESTING;
+
         RosterChange(this, EventArgs.Empty);
     }
 
@@ -71,14 +58,30 @@ public class CharacterSheetManager : MonoBehaviour
     {
         foreach(CharacterSheet character in quest.PartyMembers)
         {
-            questingAdventurers.Remove(character);
-            freeAdventurers.Add(character);
+            adventurerStates[character] = AdventurerState.FREE;
+            //questingAdventurers.Remove(character);
+            //freeAdventurers.Add(character);
         }
+
         RosterChange(this, EventArgs.Empty);
     }
 
     public void HireAdventurer(object src, string name)
     {
+        CharacterSheet adventurerToHire = null;
+        foreach(var item in adventurerStates)
+            if (item.Key.name.Equals(name))
+                adventurerToHire = item.Key;
+
+        if (adventurerToHire == null)
+            Debug.LogError("Error: There is no adventurer by the name of " + name + " in the unhired adventurerers list");
+        else
+        {
+            adventurerStates[adventurerToHire] = AdventurerState.FREE;
+            Debug.Log("Hired " + name);
+        }
+
+        /*
         foreach (CharacterSheet character in hiredAdventurers)
         {
             if (character.name.Equals(name)) { return; }
@@ -99,8 +102,12 @@ public class CharacterSheetManager : MonoBehaviour
             Debug.LogError("Error: There is no adventurer by the name of " + name + " in the unhired adventurerers list");
         else
             RosterChange(this, EventArgs.Empty);
+        */
     }
 
+    //this is never used so i commented it out
+
+    /*
     public bool TryFindSheetByName(string name, out CharacterSheet adventurer)
 	{
         foreach(CharacterSheet character in allAdventurers)
@@ -111,4 +118,20 @@ public class CharacterSheetManager : MonoBehaviour
         adventurer = null;
         return false;
 	}
+    */
+
+    /// <summary>
+    /// Returns read only collection of all adventurers under the given state
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    private ReadOnlyCollection<CharacterSheet> GetAdventurersWithState(AdventurerState state)
+    {
+        List<CharacterSheet> list = new List<CharacterSheet>();
+        foreach(var item in adventurerStates)
+            if (item.Value == state)
+                list.Add(item.Key);
+
+        return list.AsReadOnly();
+    }
 }
