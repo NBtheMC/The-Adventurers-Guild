@@ -37,6 +37,7 @@ public class QuestUI : MonoBehaviour
     // Essential references.
     private CharacterPoolController characterPool; // reference to the characterPool
     private CharacterSheetManager charSheetManager; // reference to the characterSheetManager
+    private PlayerInterface playerInterface; 
     //private DropHandler dropHandler; // reference 
     private RectTransform transformer; // defines the rectangle reference for this dragger.
     [HideInInspector] public GameObject questBanner; // the banner that spawned this quest.
@@ -93,6 +94,7 @@ public class QuestUI : MonoBehaviour
         characterPool = GameObject.Find("CharacterPool").GetComponent<CharacterPoolController>();
 
         charSheetManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
+        playerInterface = GameObject.Find("PlayerInterface").GetComponent<PlayerInterface>();
         //dropHandler = GameObject.Find("DropHandler").GetComponent<DropHandler>();
 
         
@@ -180,10 +182,11 @@ public class QuestUI : MonoBehaviour
     }*/
 
     /// <summary>
-    /// Takes all selected characters and assigns them to the current quest.
+    /// Takes all selected characters and assigns them to the current quest. Called by a button
     /// </summary>
     public void SendParty()
     {
+        /*
         Debug.Log("Attempted to send party.");
         if (questActive || adventuringParty.Party_Members.Count == 0) { Debug.Log($"No members {adventuringParty.Party_Members.Count}, or quest active {questActive}."); return; }
 
@@ -198,6 +201,10 @@ public class QuestUI : MonoBehaviour
         SoundManagerScript.PlaySound("stamp");
 
         // Self Destruct
+        Destroy(this.gameObject);
+        */
+        playerInterface.SendPartyOnQuest(adventuringParty, attachedSheet);
+        SoundManagerScript.PlaySound("stamp");
         Destroy(this.gameObject);
     }
 
@@ -218,6 +225,7 @@ public class QuestUI : MonoBehaviour
 		if (!attachedSheet.isActive)
 		{
             attachedSheet.assignParty(null); // null out the party.
+            playerInterface.CloseQuesDisplay(adventuringParty);
 		}
 	}
 
@@ -272,6 +280,20 @@ public class QuestUI : MonoBehaviour
         characterSlots[slot].emptyCharFrame.SetActive(true);
         characterSlots[slot].filledCharFrame.SetActive(false);
         AssignedCharacters--;*/
+
+        SetupQuestUI(attachedSheet);
+    }
+
+    public void RemoveCharacter(CharacterSheet character)
+    {
+        CharacterSheet adventurerToRemove = null;
+
+        foreach (CharacterSheet assignedCharacter in attachedSheet.PartyMembers)
+            if (assignedCharacter == character)
+                adventurerToRemove = character;
+
+        if (adventurerToRemove != null)
+            adventuringParty.removeMember(adventurerToRemove);
 
         SetupQuestUI(attachedSheet);
     }
