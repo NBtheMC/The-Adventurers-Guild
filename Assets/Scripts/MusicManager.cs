@@ -10,8 +10,8 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        ricercare16Music = Resources.Load<AudioClip> ("ricercarePre");
-        fantasiaMusic = Resources.Load<AudioClip> ("fantasiaPre");
+        ricercare16Music = Resources.Load<AudioClip> ("Ricercare");
+        fantasiaMusic = Resources.Load<AudioClip> ("Fantasia");
         audioSrc = GetComponent<AudioSource> ();
         PlayMusic();
     }
