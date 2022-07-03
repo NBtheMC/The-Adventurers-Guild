@@ -156,10 +156,40 @@ public class ItemDisplayManager : MonoBehaviour
         return false;
 	}
 
+    public void RemoveAdventurer(CharacterSheet character)
+    {
+        if (currentDisplay == 1)
+        {
+            QuestUI questReference;
+            if (currentlyDisplaying.TryGetComponent<QuestUI>(out questReference))
+            {
+                questReference.RemoveCharacter(character);
+            }
+        }
+    }
+
     public void ClearDisplay()
 	{
         Destroy(currentlyDisplaying);
         currentDisplay = 0;
 
+    }
+
+
+    public bool CurrentlyDisplayingQuest()
+    {
+        return transform.Find("SpawnPoint/QuestUI(Clone)") != null;
+    }
+    
+    /// <summary>
+    /// returns currently displayed quest as a gameobject, or null if no quest is currently displayed
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetQuestUI()
+    {
+        if (CurrentlyDisplayingQuest())
+            return transform.Find("SpawnPoint/QuestUI(Clone)").gameObject;
+        else
+            return null;
     }
 }
