@@ -9,25 +9,25 @@ public class SoundManagerScript : MonoBehaviour
 
     void Start() 
     {
-        bellSound = Resources.Load<AudioClip> ("Bell");
-        bookCloseSound = Resources.Load<AudioClip> ("bookClose");
-        bookOpenSound = Resources.Load<AudioClip> ("bookOpen");
-        bookPage1Sound = Resources.Load<AudioClip> ("bookPage1");
-        bookPage2Sound = Resources.Load<AudioClip> ("bookPage2");
-        bookPage3Sound = Resources.Load<AudioClip> ("bookPage3");
-        parchment1Sound = Resources.Load<AudioClip> ("Parchment1");
-        parchment2Sound = Resources.Load<AudioClip> ("Parchment2");
-        parchment3Sound = Resources.Load<AudioClip> ("Parchment3");
-        slipDown1Sound = Resources.Load<AudioClip> ("slipDown1");
-        slipDown2Sound = Resources.Load<AudioClip> ("slipDown2");
-        slipUp1Sound = Resources.Load<AudioClip> ("slipUp1");
-        slipUp2Sound = Resources.Load<AudioClip> ("slipUp2");
+        bellSound = Resources.Load<AudioClip>("Bell");
+        bookCloseSound = Resources.Load<AudioClip>("bookClose");
+        bookOpenSound = Resources.Load<AudioClip>("bookOpen");
+        bookPage1Sound = Resources.Load<AudioClip>("bookPage1");
+        bookPage2Sound = Resources.Load<AudioClip>("bookPage2");
+        bookPage3Sound = Resources.Load<AudioClip>("bookPage3");
+        parchment1Sound = Resources.Load<AudioClip>("Parchment1");
+        parchment2Sound = Resources.Load<AudioClip>("Parchment2");
+        parchment3Sound = Resources.Load<AudioClip>("Parchment3");
+        slipDown1Sound = Resources.Load<AudioClip>("slipDown1");
+        slipDown2Sound = Resources.Load<AudioClip>("slipDown2");
+        slipUp1Sound = Resources.Load<AudioClip>("slipUp1");
+        slipUp2Sound = Resources.Load<AudioClip>("slipUp2");
         stampSound = Resources.Load<AudioClip> ("Stamp");
         coinsSound = Resources.Load<AudioClip>("Coins");
         dayStartSound = Resources.Load<AudioClip>("DayStart");
         dayEndSound = Resources.Load<AudioClip>("DayEnd");
 
-        audioSrc = GetComponent<AudioSource> ();
+        audioSrc = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -40,46 +40,46 @@ public class SoundManagerScript : MonoBehaviour
         switch (clip)
         {
             case "bell":
-                audioSrc.PlayOneShot (bellSound);
+                audioSrc.PlayOneShot(bellSound);
                 break;
             case "bookClose":
-                audioSrc.PlayOneShot (bookCloseSound);
+                audioSrc.PlayOneShot(bookCloseSound);
                 break;
             case "bookOpen":
-                audioSrc.PlayOneShot (bookOpenSound);
+                audioSrc.PlayOneShot(bookOpenSound);
                 break;
             case "bookPage1":
-                audioSrc.PlayOneShot (bookPage1Sound);
+                audioSrc.PlayOneShot(bookPage1Sound);
                 break;
             case "bookPage2":
-                audioSrc.PlayOneShot (bookPage2Sound);
+                audioSrc.PlayOneShot(bookPage2Sound);
                 break;
             case "bookPage3":
-                audioSrc.PlayOneShot (bookPage3Sound);
+                audioSrc.PlayOneShot(bookPage3Sound);
                 break;
             case "parchment1":
-                audioSrc.PlayOneShot (parchment1Sound);
+                audioSrc.PlayOneShot(parchment1Sound);
                 break;
             case "parchment2":
-                audioSrc.PlayOneShot (parchment2Sound);
+                audioSrc.PlayOneShot(parchment2Sound);
                 break;
             case "parchment3":
-                audioSrc.PlayOneShot (parchment3Sound);
+                audioSrc.PlayOneShot(parchment3Sound);
                 break;
             case "slipDown1":
-                audioSrc.PlayOneShot (slipDown1Sound);
+                audioSrc.PlayOneShot(slipDown1Sound);
                 break;
             case "slipDown2":
-                audioSrc.PlayOneShot (slipDown2Sound);
+                audioSrc.PlayOneShot(slipDown2Sound);
                 break;
             case "slipUp1":
-                audioSrc.PlayOneShot (slipUp1Sound);
+                audioSrc.PlayOneShot(slipUp1Sound);
                 break;
             case "slipUp2":
-                audioSrc.PlayOneShot (slipUp2Sound);
+                audioSrc.PlayOneShot(slipUp2Sound);
                 break;
             case "stamp":
-                audioSrc.PlayOneShot (stampSound);
+                audioSrc.PlayOneShot(stampSound);
                 break;
             case "coins":
                 audioSrc.PlayOneShot(coinsSound);

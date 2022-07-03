@@ -57,6 +57,7 @@ public class TimeSystem : MonoBehaviour
             if (gameTime.hour >= activeHours){
                 if (EndOfDay != null) {EndOfDay(this, gameTime);}{
                     StopTimer();
+                    SoundManagerScript.PlaySound("dayEnd");
                     GameObject.Find("RecapDisplay").GetComponent<RecapManager>().StartRecap();
                 }
             }
@@ -98,7 +99,8 @@ public class TimeSystem : MonoBehaviour
     public void StartNewDay()
     {
         NewDay(this, gameTime);
-        while(gameTime.hour < hoursInDay){
+        SoundManagerScript.PlaySound("dayStart");
+        while (gameTime.hour < hoursInDay){
             gameTime.tick++;
             if (gameTime.tick >= ticksperHour)
             {

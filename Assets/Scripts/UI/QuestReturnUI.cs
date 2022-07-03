@@ -35,6 +35,7 @@ public class QuestReturnUI : MonoBehaviour
 
     public void DeleteReturnBox(GameObject gameObject)
     {
+        SoundManagerScript.PlaySound("coins");
         Destroy(gameObject);
     }
 }
