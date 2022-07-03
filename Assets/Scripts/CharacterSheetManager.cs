@@ -21,7 +21,7 @@ public class CharacterSheetManager : MonoBehaviour
     /// <returns></returns>
     public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return GetHiredAdventurers(); } }
 
-    public event EventHandler<EventArgs> RosterChange;
+    public event EventHandler<EventArgs> AdventurerHired;
 
     CharacterInitialStats[] characters;
 
@@ -57,7 +57,7 @@ public class CharacterSheetManager : MonoBehaviour
         foreach(CharacterSheet character in quest.PartyMembers)
             adventurerStates[character] = AdventurerState.QUESTING;
 
-        RosterChange(this, EventArgs.Empty);
+        //RosterChange(this, EventArgs.Empty);
     }
 
     public void PartyBackFromQuest(object src, QuestSheet quest)
@@ -69,7 +69,7 @@ public class CharacterSheetManager : MonoBehaviour
             //freeAdventurers.Add(character);
         }
 
-        RosterChange(this, EventArgs.Empty);
+        //RosterChange(this, EventArgs.Empty);
     }
 
     public void HireAdventurer(object src, string name)
@@ -86,6 +86,8 @@ public class CharacterSheetManager : MonoBehaviour
             adventurerStates[adventurerToHire] = AdventurerState.FREE;
             Debug.Log("Hired " + name);
         }
+
+        AdventurerHired(this, EventArgs.Empty);
 
         /*
         foreach (CharacterSheet character in hiredAdventurers)
@@ -139,6 +141,28 @@ public class CharacterSheetManager : MonoBehaviour
                 list.Add(item.Key);
 
         return list.AsReadOnly();
+    }
+
+    /// <summary>
+    /// Returns the state of the given adventurer, or null if adventurer does not exist
+    /// </summary>
+    /// <param name="adventurer"></param>
+    /// <returns></returns>
+    public AdventurerState? GetAdventurerState(CharacterSheet adventurer)
+    {
+        if(adventurerStates.ContainsKey(adventurer))
+            return adventurerStates[adventurer];
+
+        Debug.LogError("CharacterSheet does not exist in dictionary");
+        return null;
+    }
+
+    public void SetAdventurerState(CharacterSheet adventurer, AdventurerState state)
+    {
+        if (adventurerStates.ContainsKey(adventurer))
+            adventurerStates[adventurer] = state;
+        else
+            Debug.LogError("CharacterSheet does not exist in dictionary");
     }
 
     private ReadOnlyCollection<CharacterSheet> GetHiredAdventurers()
