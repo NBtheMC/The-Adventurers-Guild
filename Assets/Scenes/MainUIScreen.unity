@@ -428,6 +428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ricercare16Music: {fileID: 0}
   fantasiaMusic: {fileID: 0}
+  deliveranceMusic: {fileID: 0}
 --- !u!4 &318036966
 Transform:
   m_ObjectHideFlags: 0
