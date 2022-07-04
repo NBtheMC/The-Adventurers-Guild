@@ -12,6 +12,9 @@ public class RecapManager : MonoBehaviour
     private MusicManager musicManager;
     private ItemDisplayManager itemDisplayManager;
 
+    public DebriefReport debrief;
+    public DebriefTracker debriefTracker;
+
     public Text earnedText;
     public Text lostText;
     public Text totalText;
@@ -37,9 +40,11 @@ public class RecapManager : MonoBehaviour
     public void StartRecap(){
         Debug.Log("Starting Recap");
         UpdateRecapScreen();
-        foreach(Transform child in transform){
+        /*foreach(Transform child in transform){
             child.gameObject.SetActive(true);
-        }
+        }*/
+        debrief.TriggerEndOfDay();
+
         musicManager.StopMusic();
         itemDisplayManager.ClearDisplay();
         pauseMenu.Pause();
