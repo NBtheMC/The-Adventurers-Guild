@@ -59,6 +59,7 @@ public class Storylet
 
 	// A condition for this item has already been triggered.
 	[HideInInspector] public int numInstances = 0;
+	// Note from Eric, you should really get rid of this and have worldstate manager tracking the specfic uses of this storylet instead. This scripts isn't meant to hold variables.
 
 	// triggerValueChanges and triggerStateChange are what the storylet will do to the world the moment this Storylet is triggered.
 	// WorldState should handle this.
