@@ -21,6 +21,8 @@ public class CharacterSheetManager : MonoBehaviour
 
     public event EventHandler<EventArgs> RosterChange;
 
+    public bool isCredits;
+
     private void Awake()
     {
         unhiredAdventurers = new List<CharacterSheet>();
@@ -31,20 +33,26 @@ public class CharacterSheetManager : MonoBehaviour
         allAdventurers = new List<CharacterSheet>();
 
         CharacterInitialStats[] characters;
-        characters = Resources.LoadAll<CharacterInitialStats>("Characters");
 
-        foreach (CharacterInitialStats character in characters)
-        {
-            CharacterSheet charSheet = new CharacterSheet(character);
-            allAdventurers.Add(charSheet);
-            Debug.Log($"Added adventurer {charSheet.name}");
-            if (character.hiredAtStart){
-                Debug.Log("Hired " + charSheet.name);
-                freeAdventurers.Add(charSheet);
-                hiredAdventurers.Add(charSheet);}
-            else
-                unhiredAdventurers.Add(charSheet);
+        if(!isCredits){
+            characters = Resources.LoadAll<CharacterInitialStats>("Characters");
         }
+        else{
+            characters = Resources.LoadAll<CharacterInitialStats>("Credits");
+        }
+            foreach (CharacterInitialStats character in characters)
+            {
+                CharacterSheet charSheet = new CharacterSheet(character);
+                allAdventurers.Add(charSheet);
+                Debug.Log($"Added adventurer {charSheet.name}");
+                if (character.hiredAtStart){
+                    Debug.Log("Hired " + charSheet.name);
+                    freeAdventurers.Add(charSheet);
+                    hiredAdventurers.Add(charSheet);}
+                else
+                    unhiredAdventurers.Add(charSheet);
+            }
+
     }
 
     private void Start()
