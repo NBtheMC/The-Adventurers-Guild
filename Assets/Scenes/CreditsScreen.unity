@@ -1204,7 +1204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e23374aea0a784f82edacffe1bafcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSheetManager: {fileID: 2078572478}
+  characterSheetManager: {fileID: 0}
   relationshipPopup: {fileID: 1991961050560664810, guid: 9695c802a3a052845b5b0a13e22ee520, type: 3}
   popupLocation: {fileID: 1061785076}
 --- !u!4 &1396016886
@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2078572477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78ad3e8f8698e2145a7d95017f1846d8, type: 3}
+  m_Script: {fileID: 11500000, guid: a10dfa0cbbc530d488b97f55f4a0b214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2078572479
@@ -1738,6 +1738,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1005971809503538890, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+      propertyPath: characterDisplay
+      value: 
+      objectReference: {fileID: 1749594060647524153, guid: 74357da85dee3f84a870e47026e6adf1, type: 3}
     - target: {fileID: 1178855941408902649, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
       propertyPath: m_FontData.m_Font
       value: 

@@ -26,6 +26,7 @@ public class BondDisplay : MonoBehaviour
     }
 
     public void SetBond(int bond){
+        Debug.Log("Setting bond to " + bond);
         currentBond = bond;
         float percentage = bond/10f; //should be from 0-1
         //length is equal to initial size times the percentage

@@ -7,8 +7,13 @@ using StoryletTesting;
 public class RecapManager : MonoBehaviour
 {
     private TimeSystem timeSystem;
+    private PauseMenu pauseMenu;
     private GameObject recapObject;
     private MusicManager musicManager;
+    private ItemDisplayManager itemDisplayManager;
+
+    public DebriefReport debrief;
+    public DebriefTracker debriefTracker;
 
     public Text earnedText;
     public Text lostText;
@@ -21,22 +26,28 @@ public class RecapManager : MonoBehaviour
     void Start()
     {
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
-        timeSystem.EndOfDay += StartRecap;
+        //timeSystem.EndOfDay += StartRecap;
+        pauseMenu = GameObject.Find("PauseMenu").GetComponent<PauseMenu>();
         totalGold = GameObject.Find("Gold").GetComponent<WorldIntChanger>();
         musicManager = GameObject.Find("MusicManager").GetComponent<MusicManager>();
+        itemDisplayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
         // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
         // lostText = transform.Find("LostNumber").GetComponent<Text>();
         // totalText = transform.Find("TotalNumber").GetComponent<Text>();
     }
 
     //Go into recap mode
-    public void StartRecap(object sender, GameTime gameTime){
+    public void StartRecap(){
         Debug.Log("Starting Recap");
         UpdateRecapScreen();
-        foreach(Transform child in transform){
+        /*foreach(Transform child in transform){
             child.gameObject.SetActive(true);
-        }
+        }*/
+        debrief.TriggerEndOfDay();
+
         musicManager.StopMusic();
+        itemDisplayManager.ClearDisplay();
+        pauseMenu.Pause();
     }
 
     //Get out of recap mode
@@ -50,6 +61,7 @@ public class RecapManager : MonoBehaviour
         //set day and clock correct ANIMATE LATER?
         timeSystem.StartNewDay();
         musicManager.PlayMusic();
+        pauseMenu.Play();
     }
 
     public void AddDayGold(int goldAdded){
@@ -59,8 +71,7 @@ public class RecapManager : MonoBehaviour
     public void UpdateRecapScreen(){
         //update with gold earned, lost, and total ANIMATE LATER
         earnedText.text = goldEarned.ToString();
-        lostText.text = goldLost.ToString();
+        lostText.text = goldLost.ToString(); //CHANGE
         totalText.text = totalGold.value.ToString();
-        //other recap GONNA BE HONEST I DONT KNOW WHAT THIS IS
     }
 }

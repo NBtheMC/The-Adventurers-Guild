@@ -7,7 +7,7 @@ using UnityEngine;
 public class TimeSystem : MonoBehaviour
 {
 
-    private float tickLength = 2.5f; // Length of a tick in seconds. Equal to one in game hour
+    private float tickLength = 2f; // Length of a tick in seconds. Equal to one in game hour
     private GameTime gameTime; // Current in game time
     public bool timerActive { get; private set; } //Can be read by other classes to determine if timer is running
 
@@ -55,8 +55,10 @@ public class TimeSystem : MonoBehaviour
             gameTime.hour += 1;
             if (NewHour!= null) {NewHour(this, gameTime);}
             if (gameTime.hour >= activeHours){
-                if (EndOfDay != null) {EndOfDay(this, gameTime);}
-                StopTimer();
+                if (EndOfDay != null) {EndOfDay(this, gameTime);}{
+                    StopTimer();
+                    GameObject.Find("RecapDisplay").GetComponent<RecapManager>().StartRecap();
+                }
             }
         }
 
