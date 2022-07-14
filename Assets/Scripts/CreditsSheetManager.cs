@@ -12,16 +12,13 @@ public class CreditsSheetManager : CharacterSheetManager
         CharacterInitialStats[] characters;
         characters = Resources.LoadAll<CharacterInitialStats>("Credits");
         //replace characters
-        allAdventurers.Clear();
-        freeAdventurers.Clear();
-        hiredAdventurers.Clear();
-        unhiredAdventurers.Clear();
+
+        //TODO Commented this out because changes from CharacterSheetManager broke it, fix later
+
         foreach (CharacterInitialStats character in characters)
         {
             CharacterSheet charSheet = new CharacterSheet(character);
-            allAdventurers.Add(charSheet);
-            freeAdventurers.Add(charSheet);
-            hiredAdventurers.Add(charSheet);
+            adventurerStates.Add(charSheet, AdventurerState.FREE);
             Debug.Log($"Added credits {charSheet.name}");
         }
     }
