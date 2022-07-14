@@ -8,7 +8,8 @@ using UnityEngine.Events;
 /// Sends back an package full of information for Quest Sheet to use, specifically what the next node is.
 /// Also update bonds.
 /// </summary>
-public class EventNode
+[CreateAssetMenu(fileName = "NewEventNode", menuName = "Event Node", order = 0)]
+public class EventNode : ScriptableObject
 {
 	public string name;
 

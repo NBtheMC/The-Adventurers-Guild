@@ -7,8 +7,8 @@ using UnityEngine.Events;
 /// A Storylet is what the world system will use to generate quests.
 /// It needs trigger conditions from the world, and quest creation conditions once configured.
 /// </summary>
-//[CreateAssetMenu(fileName = "NewStorylet", menuName = "Storylet", order = 0)]
-public class Storylet
+[CreateAssetMenu(fileName = "NewStorylet", menuName = "Storylet", order = 0)]
+public class Storylet : ScriptableObject
 {
 	/// Storylets are triggered by some type of world condition, and should hold objects for constant triggering.
 	/// Similar to Quests Structures, we'll create a dictionary of string ints to hold status
