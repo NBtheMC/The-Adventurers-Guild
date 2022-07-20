@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoursInDay: 24
-  ticksperHour: 1
+  ticksperHour: 4
   activeHours: 16
 --- !u!4 &563469175
 Transform:
