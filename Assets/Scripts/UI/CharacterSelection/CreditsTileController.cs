@@ -26,6 +26,8 @@ public class CreditsTileController : MonoBehaviour, IPointerDownHandler, IPointe
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
         //dump stats into character sheet
         characterSheet = new CharacterSheet(stats);
+        nameText.text = stats.characterName;
+        portrait.sprite = stats.portrait;
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)

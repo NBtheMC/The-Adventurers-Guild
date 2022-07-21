@@ -18,5 +18,5 @@ MonoBehaviour:
   exploration: 0
   negotiation: 0
   constitution: 0
-  portrait: {fileID: 0}
-  Biography: 
+  portrait: {fileID: 21300000, guid: d026c9d8c0cdfa8478c175b261c89c2a, type: 3}
+  Biography: Engineering Lead/Producer, Systems Designer

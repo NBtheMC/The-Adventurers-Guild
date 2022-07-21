@@ -18,5 +18,5 @@ MonoBehaviour:
   exploration: 0
   negotiation: 0
   constitution: 0
-  portrait: {fileID: 0}
-  Biography: 
+  portrait: {fileID: 21300000, guid: 4cc370d3a4bdaf8438eb63ee7f809794, type: 3}
+  Biography: UX Designer
