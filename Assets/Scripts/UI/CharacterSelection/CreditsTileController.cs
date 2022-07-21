@@ -23,7 +23,7 @@ public class CreditsTileController : MonoBehaviour, IPointerDownHandler, IPointe
     {
         displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
         CharInfoSpawn = displayManager.characterDisplay;
-        CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
+        CharInfoUIPrefab = Resources.Load<GameObject>("CreditsInfoUI");
         //dump stats into character sheet
         characterSheet = new CharacterSheet(stats);
         nameText.text = stats.characterName;
