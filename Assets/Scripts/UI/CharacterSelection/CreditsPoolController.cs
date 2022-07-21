@@ -26,10 +26,14 @@ public class CreditsPoolController : MonoBehaviour
     {
         characters = Resources.LoadAll<CharacterInitialStats>("Credits");
         characterSheets = new List<CharacterSheet>();
+        roleCharacterLookup = new Dictionary<CharacterSheet, GameObject>();
+        // We're assuming some previous point to set the last point.
         //replace characters
+        
 
         foreach (CharacterInitialStats character in characters)
         {
+            Debug.Log("Character: " + character);
             CharacterSheet charSheet = new CharacterSheet(character);
             characterSheets.Add(charSheet);
             Debug.Log($"Added credits {charSheet.name}");
@@ -37,8 +41,6 @@ public class CreditsPoolController : MonoBehaviour
 
         characterSlots = new List<GameObject>();
         activeRole = new List<CharacterSheet>();
-        roleCharacterLookup = new Dictionary<CharacterSheet, GameObject>();
-        // We're assuming some previous point to set the last point.
 
         // Standard calculations
         spacing = this.transform.Find("SpawnArea").gameObject.GetComponent<RectTransform>().rect.height / 12;
