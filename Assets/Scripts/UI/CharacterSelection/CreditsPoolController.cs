@@ -50,7 +50,7 @@ public class CreditsPoolController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        RefreshCharacterPool();
+        //RefreshCharacterPool();
     }
 
     // private void CharacterPoolController_RosterChange(object source, System.EventArgs e)

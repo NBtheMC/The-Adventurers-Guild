@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CreditsTileController : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
 {
+    public CharacterInitialStats stats;
     [HideInInspector] public CharacterSheet characterSheet; //reference to associated CharacterSheet
     public ItemDisplayManager displayManager; // The display manager we'll be using.
     private GameObject CharInfoSpawn;
@@ -23,6 +24,8 @@ public class CreditsTileController : MonoBehaviour, IPointerDownHandler, IPointe
         displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
         CharInfoSpawn = displayManager.characterDisplay;
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
+        //dump stats into character sheet
+        characterSheet = new CharacterSheet(stats);
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)
