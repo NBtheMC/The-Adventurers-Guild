@@ -129,7 +129,9 @@ public class QuestSheet
 	/// </summary>
 	public void AddGuildGold()
 	{
-		worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
+        // TODO WorldInt Gold
+        GameObject.Find("GuildManager").GetComponent<GuildManager>().Gold += accumutatedGold;
+		//worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
 		GameObject.Find("RecapDisplay").GetComponent<RecapManager>().AddDayGold(accumutatedGold);
 		totalGold += accumutatedGold;
 		accumutatedGold = 0;

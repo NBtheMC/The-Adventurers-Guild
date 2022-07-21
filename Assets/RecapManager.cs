@@ -20,7 +20,8 @@ public class RecapManager : MonoBehaviour
     public Text totalText;
     private int goldEarned;
     private int goldLost;
-    private WorldIntChanger totalGold;
+    //private WorldIntChanger totalGold;
+    private int TotalGold { get { return GameObject.Find("GuildManager").GetComponent<GuildManager>().Gold; } }
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,7 @@ public class RecapManager : MonoBehaviour
         timeSystem = GameObject.Find("TimeSystem").GetComponent<TimeSystem>();
         //timeSystem.EndOfDay += StartRecap;
         pauseMenu = GameObject.Find("PauseMenu").GetComponent<PauseMenu>();
-        totalGold = GameObject.Find("Gold").GetComponent<WorldIntChanger>();
+        //totalGold = GameObject.Find("Gold").GetComponent<WorldIntChanger>();
         musicManager = GameObject.Find("MusicManager").GetComponent<MusicManager>();
         itemDisplayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
         // earnedText = transform.Find("EarnedNumber").GetComponent<Text>();
@@ -65,13 +66,16 @@ public class RecapManager : MonoBehaviour
     }
 
     public void AddDayGold(int goldAdded){
-        goldEarned += goldAdded;
+        if (goldAdded > 0)
+            goldEarned += goldAdded;
+        else
+            goldLost += goldAdded;
     }
 
     public void UpdateRecapScreen(){
         //update with gold earned, lost, and total ANIMATE LATER
         earnedText.text = goldEarned.ToString();
         lostText.text = goldLost.ToString(); //CHANGE
-        totalText.text = totalGold.value.ToString();
+        totalText.text = TotalGold.ToString();
     }
 }
