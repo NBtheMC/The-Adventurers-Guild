@@ -24,10 +24,17 @@ public class CharacterSheetManager : MonoBehaviour
     public event EventHandler<EventArgs> AdventurerHired;
 
     CharacterInitialStats[] characters;
+    public bool isCredits;
 
     public virtual void Awake()
     {
-        characters = Resources.LoadAll<CharacterInitialStats>("Characters");
+        if(!isCredits){
+            characters = Resources.LoadAll<CharacterInitialStats>("Characters");
+        }
+        else{
+            characters = Resources.LoadAll<CharacterInitialStats>("Credits");
+        }
+
         adventurerStates = new Dictionary<CharacterSheet, AdventurerState>();
 
         foreach (CharacterInitialStats character in characters)
@@ -42,6 +49,7 @@ public class CharacterSheetManager : MonoBehaviour
             else
                 adventurerStates.Add(charSheet, AdventurerState.UNHIRED);
         }
+    
     }
 
     private void Start()
@@ -49,7 +57,7 @@ public class CharacterSheetManager : MonoBehaviour
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += PartyBackFromQuest;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
         GameObject.Find("QuestDisplayManager").transform.Find("QuestDisplay").Find("WorldState")
-            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer;
+            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer; 
     }
 
     public void SendPartyOnQuest(object src, QuestSheet quest)

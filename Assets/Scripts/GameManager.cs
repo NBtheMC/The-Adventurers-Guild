@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
                 currentScene = Scene.Menu;
                 break;
             case "Credits":
-                SceneManager.LoadScene("Credits");
+                SceneManager.LoadScene("CreditsScreen");
                 break;    
             case "Instructions":
                 SceneManager.LoadScene("Instructions");
