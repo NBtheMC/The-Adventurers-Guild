@@ -36,4 +36,14 @@ public class MusicManager : MonoBehaviour
                 break;
         }
     }
+
+    public void ChangeVolume(System.Single vol)
+    {
+        audioSrc.volume = vol;
+    }
+
+    public float GetVolume()
+    {
+        return audioSrc.volume;
+    }
 }
