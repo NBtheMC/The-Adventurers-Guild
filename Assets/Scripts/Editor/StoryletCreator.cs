@@ -224,11 +224,9 @@ namespace StoryletCreator {
                     }
                     else
                     {
-                        EditorUtility.SetDirty(currentStorylet);
-
                         string storyletPath = AssetDatabase.GetAssetPath(currentStorylet);
                         AssetDatabase.RenameAsset(storyletPath, currentStorylet.name);
-                        AssetDatabase.SaveAssets();
+                        SaveCurrentStorylet();
                     }
                 }
             }
@@ -237,6 +235,8 @@ namespace StoryletCreator {
                 GUILayout.Label("");
             }
 
+
+            // New Storylet Creator
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             GUILayout.Label("\nNew Storylet Creator", EditorStyles.boldLabel);
 
@@ -255,14 +255,20 @@ namespace StoryletCreator {
                     newStorylet.name = "New Storylet";
 
                     AssetDatabase.CreateAsset(newStorylet, newStoryletAssetPath);
-                    EditorUtility.SetDirty(newStorylet);
-                    AssetDatabase.SaveAssets();
-
                     currentStorylet = newStorylet;
+                    SaveCurrentStorylet();
                 }
             }
         }
 
     #endregion
+
+
+    private void SaveCurrentStorylet()
+    {
+        EditorUtility.SetDirty(currentStorylet);
+        AssetDatabase.SaveAssets();
+    }
+
     }
 }
