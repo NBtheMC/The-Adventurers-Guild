@@ -8,11 +8,15 @@ public class MusicManager : MonoBehaviour
     public AudioClip fantasiaMusic;
     static AudioSource audioSrc;
 
+    private void Awake()
+    {
+        audioSrc = GetComponent<AudioSource>();
+        ricercare16Music = Resources.Load<AudioClip> ("ricercarePre");
+        fantasiaMusic = Resources.Load<AudioClip> ("fantasiaPre");     
+    }
+
     void Start()
     {
-        ricercare16Music = Resources.Load<AudioClip> ("ricercarePre");
-        fantasiaMusic = Resources.Load<AudioClip> ("fantasiaPre");
-        audioSrc = GetComponent<AudioSource> ();
         PlayMusic();
     }
 
@@ -37,6 +41,9 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Used by slider to update volume
+    /// </summary>
     public void ChangeVolume(System.Single vol)
     {
         audioSrc.volume = vol;

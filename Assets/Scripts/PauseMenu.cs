@@ -23,8 +23,19 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         var canvas = pauseCanvasGroup.transform.Find("Canvas");
-        canvas.transform.Find("MusicSliderContainer").Find("Slider").GetComponent<Slider>().value = GameObject.Find("MusicManager").GetComponent<MusicManager>().GetVolume();
-        canvas.transform.Find("SfxVolumeSlider").Find("Slider").GetComponent<Slider>().value = GameObject.Find("SoundManager").GetComponent<SoundManagerScript>().GetVolume();
+        var musicSlider = canvas.transform.Find("MusicSliderContainer").Find("Slider").GetComponent<Slider>();
+        var sfxSlider = canvas.transform.Find("SfxVolumeSlider").Find("Slider").GetComponent<Slider>();
+        var musicManager = GameObject.Find("MusicManager").GetComponent<MusicManager>();
+        var sfxManager = GameObject.Find("SoundManager").GetComponent<SoundManagerScript>();
+
+        musicSlider.value = musicManager.GetVolume();
+        sfxSlider.value = sfxManager.GetVolume();
+
+        musicSlider.onValueChanged.RemoveAllListeners();
+        musicSlider.onValueChanged.AddListener(musicManager.ChangeVolume);
+
+        sfxSlider.onValueChanged.RemoveAllListeners();
+        sfxSlider.onValueChanged.AddListener(sfxManager.ChangeVolume);
     }
 
     private void Update()
