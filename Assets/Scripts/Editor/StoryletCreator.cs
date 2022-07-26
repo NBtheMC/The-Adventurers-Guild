@@ -17,7 +17,20 @@ namespace StoryletCreator {
 
         // Storylet
         private Storylet currentStorylet;
+        private SerializedObject serializedStorylet;
         private string newStoryletAssetPath;
+
+        private SerializedProperty triggerInt;
+        private SerializedProperty triggerValue;
+        private SerializedProperty triggerState;
+
+        private SerializedProperty changeInt;
+        private SerializedProperty changeValue;
+        private SerializedProperty changeState;
+
+
+        // Misc. Variables/Objects
+        private Vector2 triggerChangesScrollPosition = Vector2.zero;
 
 
         /// <summary>
@@ -38,6 +51,8 @@ namespace StoryletCreator {
 
                 zoomArea.width = position.width;
                 zoomArea.height = position.height;
+
+                GetStoryletLists();
 
                 HandleEvents();
 
@@ -94,7 +109,7 @@ namespace StoryletCreator {
 
                 // Allow for faster zooming when shift is held down
                 float zoomMultiplier = Event.current.shift ? 4f : 1f;
-                zoomFactor = Mathf.Clamp(zoomFactor - Event.current.delta.y * 0.01f * zoomMultiplier, 0.3f, 2f);
+                zoomFactor = Mathf.Clamp(zoomFactor - Event.current.delta.y * 0.01f * zoomMultiplier, 1f, 2f);
 
                 // Move the zoomPosition as it is zooming to keep it consistent
                 zoomPosition += (mousePosition - zoomPosition) -
@@ -116,7 +131,7 @@ namespace StoryletCreator {
         /// <returns>The position to zoom into in the zoomArea</returns>
         private Vector2 ConvertScreenPositionToZoomPosition(Vector2 screenPosition)
         {
-            return (screenPosition - zoomArea.TopLeft()) / zoomFactor + zoomPosition;
+            return ((screenPosition - zoomArea.TopLeft()) / zoomFactor) + zoomPosition;
         }
 
     #endregion
@@ -141,15 +156,16 @@ namespace StoryletCreator {
                 string storyletName = "";
                 if (currentStorylet)
                 {
-                    storyletName = currentStorylet.name == "" ?
-                        "New Storylet" : currentStorylet.name;
+                    storyletName = currentStorylet.questName == "" ?
+                        "New Storylet" : currentStorylet.questName;
+                    storyletName += " Data";
                 }
                 else
                 {
                     storyletName = "No storylet loaded";
                 }
-                Rect testWindow = new Rect(position.width / 2 - 600 - zoomPosition.x, position.height / 2 - 400 - zoomPosition.y, 800, 800);
-                testWindow = GUI.Window(0, testWindow, TestWindow, storyletName);
+                Rect dataWindow = new Rect(position.width / 2 - 300 - zoomPosition.x, position.height / 2 - 200 - zoomPosition.y, 400, 400);
+                dataWindow = GUI.Window(0, dataWindow, DataWindow, storyletName);
 
             #endregion
 
@@ -161,19 +177,40 @@ namespace StoryletCreator {
 
     #region Window Functions
 
-        private void TestWindow(int id)
+        private void DataWindow(int id)
         {
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             if (currentStorylet)
             {
-                GUILayout.Label("\n");
-                currentStorylet.name = EditorGUILayout.TextField("Storylet Name", currentStorylet.name);
-                currentStorylet.factionName = EditorGUILayout.TextField("Faction Name", currentStorylet.factionName);
+                GUIStyle wordwrapStyle = new GUIStyle(EditorStyles.textArea);
+                wordwrapStyle.wordWrap = true;
 
-                GUILayout.Label("\n");
-                currentStorylet.adventurer = EditorGUILayout.TextField(
-                    new GUIContent("Adventurer To Add",
-                        "The adventurer to add to the team upon triggering this storylet"),
-                    currentStorylet.adventurer);
+
+                // Basic Information
+                GUILayout.Label("");
+                currentStorylet.name = EditorGUILayout.TextField("Quest Name", currentStorylet.questName);
+                currentStorylet.comments = EditorGUILayout.TextField("Comments", currentStorylet.comments, wordwrapStyle, GUILayout.Height(80));
+
+                GUILayout.Label("");
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                
+
+                // Triggers and changes
+                GUILayout.Label("Triggers And Changes\n", EditorStyles.boldLabel);
+                triggerChangesScrollPosition = EditorGUILayout.BeginScrollView(triggerChangesScrollPosition, false, true);
+
+                    GUILayout.Label("\nTriggers", EditorStyles.boldLabel);
+                    EditorGUILayout.PropertyField(triggerInt, true);
+                    EditorGUILayout.PropertyField(triggerValue, true);
+                    EditorGUILayout.PropertyField(triggerState, true);
+
+                    GUILayout.Label("\nLabels", EditorStyles.boldLabel);
+                    EditorGUILayout.PropertyField(changeInt, true);
+                    EditorGUILayout.PropertyField(changeValue, true);
+                    EditorGUILayout.PropertyField(changeState, true);
+
+                EditorGUILayout.EndScrollView();
             }
 
             GUI.DragWindow();
@@ -191,26 +228,21 @@ namespace StoryletCreator {
             GUILayout.Label("Alt + Left Click : Pan around the window");
             GUILayout.Label("Home : Reset zoom position");
             GUILayout.Label("");
-            zoomFactor = EditorGUILayout.Slider("Zoom Factor", zoomFactor, 0.3f, 2f);
+            zoomFactor = EditorGUILayout.Slider("Zoom Factor", zoomFactor, 1f, 2f);
             
-            if ( GUILayout.Button("Reset zoom position") )
+            if ( GUILayout.Button("Reset zoom view") )
             {
                 zoomPosition = Vector2.zero;
+                zoomFactor = 1f;
             }
 
 
             // Storylet management
-            GUILayout.Label("\n");
+            GUILayout.Label("");
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             GUILayout.Label("\nStorylet Management", EditorStyles.boldLabel);
 
-            EditorGUI.BeginChangeCheck();
             currentStorylet = EditorGUILayout.ObjectField("Current Storylet", currentStorylet, typeof(Storylet), false) as Storylet;
-            if ( EditorGUI.EndChangeCheck() )
-            {
-                // If we change which storylet we're editing, update the text in the tool
-                Debug.Log("Changing storylets");
-            }
 
             GUILayout.Label("");
             if (currentStorylet)
@@ -229,10 +261,11 @@ namespace StoryletCreator {
                         SaveCurrentStorylet();
                     }
                 }
-            }
-            else
-            {
-                GUILayout.Label("");
+
+                if ( GUILayout.Button( new GUIContent("Save Storylet", "Saves any changes to the Storylet asset to disk") ) )
+                {
+                    SaveCurrentStorylet();
+                }
             }
 
 
@@ -256,6 +289,7 @@ namespace StoryletCreator {
 
                     AssetDatabase.CreateAsset(newStorylet, newStoryletAssetPath);
                     currentStorylet = newStorylet;
+
                     SaveCurrentStorylet();
                 }
             }
@@ -264,11 +298,27 @@ namespace StoryletCreator {
     #endregion
 
 
-    private void SaveCurrentStorylet()
-    {
-        EditorUtility.SetDirty(currentStorylet);
-        AssetDatabase.SaveAssets();
-    }
+        private void SaveCurrentStorylet()
+        {
+            EditorUtility.SetDirty(currentStorylet);
+            AssetDatabase.SaveAssets();
+        }
+
+        private void GetStoryletLists()
+        {
+            if (currentStorylet)
+            {
+                serializedStorylet = new SerializedObject(currentStorylet);
+
+                triggerInt = serializedStorylet.FindProperty("triggerInts");
+                triggerValue = serializedStorylet.FindProperty("triggerValues");
+                triggerState = serializedStorylet.FindProperty("triggerStates");
+
+                changeInt = serializedStorylet.FindProperty("triggerIntChanges");
+                changeValue = serializedStorylet.FindProperty("triggerValueChanges");
+                changeState = serializedStorylet.FindProperty("triggerStateChanges");
+            }
+        }
 
     }
 }

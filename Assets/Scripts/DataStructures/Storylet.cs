@@ -72,6 +72,7 @@ public class Storylet : ScriptableObject
 	public string factionName;
 	public string issuerName;
 	public string debriefMessage;
+    public string comments;
 
 	/// <summary>
 	/// Easy way to determine items using the NumberTriggerType.
