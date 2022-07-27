@@ -22,7 +22,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         characterName = transform.Find("Name").gameObject.GetComponent<Text>();
         biography = transform.Find("Bio/Text").gameObject.GetComponent<Text>();
-        portrait = transform.Find("Portrait").gameObject.GetComponent<Image>();
+        portrait = transform.Find("Mask/Portrait").gameObject.GetComponent<Image>();
         combat = transform.Find("Stats/Combat").gameObject.GetComponent<Text>();
         exploration = transform.Find("Stats/Exploration").gameObject.GetComponent<Text>();
         diplomacy = transform.Find("Stats/Diplomacy").gameObject.GetComponent<Text>();
