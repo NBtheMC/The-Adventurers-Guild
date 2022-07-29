@@ -40,7 +40,7 @@ public class CSVToQuests : MonoBehaviour
     {
         // Geting our time ticks from the system.
         worldStateReference = this.GetComponent<WorldStateManager>();
-        ticksPerHour = worldStateReference.timeSystem.ticksperHour;
+        ticksPerHour = worldStateReference.timeSystem.TicksPerHour;
     }
 
 	//Pull data from storylets csv and makes 1 event per grouping

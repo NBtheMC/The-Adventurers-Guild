@@ -39,7 +39,7 @@ public class DebriefDisplayController : MonoBehaviour
     public void SetReportIndicator(object o, GameTime e)
     {
         print("NEW LOG ADDED");
-        if(!isDisplayed && timeSystem.getTime().day > 0) 
+        if(!isDisplayed && timeSystem.GameTime.day > 0) 
         {
             indicatorDisplayed = true;
             reportIndicator.SetActive(true);

@@ -1068,9 +1068,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50597db5a5ee038449f6c322a14050d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoursInDay: 24
-  ticksperHour: 4
-  activeHours: 16
+  _hoursInDay: 24
+  _ticksperHour: 4
+  _activeHours: 16
 --- !u!4 &563469175
 Transform:
   m_ObjectHideFlags: 0

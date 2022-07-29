@@ -1,21 +1,28 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // A global timer with an event hook
 public class TimeSystem : MonoBehaviour
 {
+    #region PrivateMembers
+    private float _tickLength = 2f; // Length of a tick in seconds. Equal to one in game hour
+    private GameTime _gameTime; // Current in game time
+    [SerializeField]
+    private int _hoursInDay; // How many hours are there in a day.
+    [SerializeField]
+    private int _ticksperHour; // How many ticks do we want to trigger per hour.
+    [SerializeField]
+    private int _activeHours; // How many hours is the player allowed to play though before the ticker accelerates to the next day?
+    #endregion
 
-    private float tickLength = 2f; // Length of a tick in seconds. Equal to one in game hour
-    private GameTime gameTime; // Current in game time
-    public bool timerActive { get; private set; } //Can be read by other classes to determine if timer is running
-
-    public int hoursInDay; // How many hours are there in a day.
-    public int ticksperHour; // How many ticks do we want to trigger per hour.
-    public int activeHours; // How many hours is the player allowed to play though before the ticker accelerates to the next day?
-    public int totalTicksperDay() { return hoursInDay * ticksperHour; } // Get the mathatical ticks per active day.
-    public int totalTicksperActive() { return activeHours * ticksperHour; } // Get the total number of ticks that the player exists in.
+    #region Properties
+    public int TicksPerHour { get => _ticksperHour; }
+    public int TotalTicksperDay { get => _hoursInDay * _ticksperHour; } // Get the mathatical ticks per active day.
+    public int TotalTicksperActive { get => _activeHours * _ticksperHour; } // Get the total number of ticks that the player exists in.
+    public GameTime GameTime { get => _gameTime; }
+    public bool TimeActive { get; private set; } //Can be read by other classes to determine if timer is running
+    #endregion
 
     Coroutine timeTrackerCoroutine; // Used to start/stop timer coroutine
 
@@ -38,9 +45,9 @@ public class TimeSystem : MonoBehaviour
     // While the Coroutine is running, a tick passes every tickLength
     private IEnumerator TimeTracker()
     {
-        while (timerActive)
+        while (TimeActive)
         {
-            yield return new WaitForSeconds(tickLength);
+            yield return new WaitForSeconds(_tickLength);
             AddTick();
         }
     }
@@ -48,67 +55,62 @@ public class TimeSystem : MonoBehaviour
     // Updates gameTime and fire all methods hooked into TickAdded event
     private void AddTick()
     {
-        gameTime.tick += 1;
-        if (gameTime.tick >= ticksperHour)
+        _gameTime.tick += 1;
+        if (_gameTime.tick >= _ticksperHour)
         {
-            gameTime.tick = 0;
-            gameTime.hour += 1;
-            if (NewHour!= null) {NewHour(this, gameTime);}
-            if (gameTime.hour >= activeHours){
-                if (EndOfDay != null) {EndOfDay(this, gameTime);}{
-                    StopTimer();
-                    GameObject.Find("RecapDisplay").GetComponent<RecapManager>().StartRecap();
-                }
+            _gameTime.tick = 0;
+            _gameTime.hour += 1;
+            NewHour?.Invoke(this, _gameTime);
+            if (_gameTime.hour >= _activeHours)
+            {
+                EndOfDay?.Invoke(this, _gameTime);
+                StopTimer();
+                GameObject.Find("RecapDisplay").GetComponent<RecapManager>().StartRecap();
             }
         }
 
-        if (TickAdded != null)
-        {
-            TickAdded(this, gameTime);
-        }
+        TickAdded?.Invoke(this, _gameTime);
         //Debug.Log("Day: " + gameTime.day + ", Hour: " + gameTime.hour);
     }
 
     public void StartTimer()
     {
-        if(timerActive)
+        if(TimeActive)
         {
             Debug.LogError("Timer is already active!");
             return;
         }
-        timerActive = true;
+        TimeActive = true;
         timeTrackerCoroutine = StartCoroutine(TimeTracker());
     }
 
     public void StopTimer()
     {
-        timerActive = false;
+        TimeActive = false;
         StopCoroutine(timeTrackerCoroutine);
     }
-
-    public GameTime getTime() { return gameTime; }
 
     /// <summary>
     /// Defunct function. Do not use unless neccessary.
     /// </summary>
-    public void SetDay(int number){
-        gameTime.day = number;
+    public void SetDay(int number) {
+        _gameTime.day = number;
     }
 
     public void StartNewDay()
     {
-        NewDay(this, gameTime);
-        while(gameTime.hour < hoursInDay){
-            gameTime.tick++;
-            if (gameTime.tick >= ticksperHour)
+        NewDay(this, _gameTime);
+        while(_gameTime.hour < _hoursInDay) {
+            _gameTime.tick++;
+            if (_gameTime.tick >= _ticksperHour)
             {
-                gameTime.tick = 0;
-                gameTime.hour += 1;
-                if (NewHour!= null) {NewHour(this, gameTime);}
+                _gameTime.tick = 0;
+                _gameTime.hour += 1;
+                NewHour?.Invoke(this, _gameTime);
             }
         }
-        gameTime.hour = 0;
-        gameTime.day += 1;
+        _gameTime.hour = 0;
+        _gameTime.day += 1;
         StartTimer();
     }
 }

@@ -23,7 +23,7 @@ public class DebriefTracker : MonoBehaviour
 	/// <param name="itemToBeLogged">the item you need logged.</param>
 	public void submitLog(string itemToBeLogged)
 	{
-		GameTime timeLogged = timeSystem.getTime();
+		GameTime timeLogged = timeSystem.GameTime;
 		print(timeLogged.day);
 		cumulatedDebriefReport[timeLogged.day - 1].Add(new DebriefReport(timeLogged,itemToBeLogged));
 
@@ -32,7 +32,7 @@ public class DebriefTracker : MonoBehaviour
 
 	public void AddNewDay(object source, GameTime gameTime)
     {
-		GameTime timeLogged = timeSystem.getTime();
+		GameTime timeLogged = timeSystem.GameTime;
 		if (timeLogged.day >= cumulatedDebriefReport.Count)
 		{
 			cumulatedDebriefReport.Add(new List<DebriefReport>());
@@ -48,7 +48,7 @@ public class DebriefTracker : MonoBehaviour
 	public string getCompiledDayReport(int selectedTime = -1)
 	{
 		string dayReport = "";
-		if (selectedTime < 0) { selectedTime = timeSystem.getTime().day; }
+		if (selectedTime < 0) { selectedTime = timeSystem.GameTime.day; }
 		if (selectedTime == 0) { return "Welcome to the Adventurer's Guild!\n"; }
 		if (selectedTime > cumulatedDebriefReport.Count) { return dayReport; }
 

@@ -25,7 +25,7 @@ public class BuildValuesTest : MonoBehaviour
     {
         storyletNumber.text = $"Storylet Number: {state.storylets.Count.ToString()}";
         eventNumber.text = $"Event Number: {thingy.allEvents.Count}";
-        currentTime.text = $"Current Ticks: day {timeSystem.getTime().day}, hour {timeSystem.getTime().hour}, tick {timeSystem.getTime().tick}";
+        currentTime.text = $"Current Ticks: day {timeSystem.GameTime.day}, hour {timeSystem.GameTime.hour}, tick {timeSystem.GameTime.tick}";
         tickertext.text = $"Total Elasped {ticker}";
     }
 

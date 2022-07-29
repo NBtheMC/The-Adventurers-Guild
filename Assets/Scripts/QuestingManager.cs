@@ -75,7 +75,7 @@ public class QuestingManager : MonoBehaviour
         foreach (QuestSheet quest in markForDeletion)
         {
             activeQuests.Remove(quest);
-            int currentDay = timeSystem.getTime().day;
+            int currentDay = timeSystem.GameTime.day;
             finishedQuests[currentDay].Add(quest);
             QuestFinished(this, quest);
         }
