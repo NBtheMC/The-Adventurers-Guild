@@ -9,8 +9,8 @@ public class CharacterInfoUI : MonoBehaviour
     public Text characterName {get; private set;}
     private Text combat;
     private Text exploration;
-    private Text diplomacy;
-    private Text stamina;
+    private Text charisma;
+    //private Text stamina;
     private Text biography;
     private Image portrait;
 
@@ -25,8 +25,8 @@ public class CharacterInfoUI : MonoBehaviour
         portrait = transform.Find("Mask/Portrait").gameObject.GetComponent<Image>();
         combat = transform.Find("Stats/Combat").gameObject.GetComponent<Text>();
         exploration = transform.Find("Stats/Exploration").gameObject.GetComponent<Text>();
-        diplomacy = transform.Find("Stats/Diplomacy").gameObject.GetComponent<Text>();
-        stamina = transform.Find("Stats/Stamina").gameObject.GetComponent<Text>();
+        charisma = transform.Find("Stats/Charisma").gameObject.GetComponent<Text>();
+        //stamina = transform.Find("Stats/Stamina").gameObject.GetComponent<Text>();
     }
 
     public void SetupCharacterInfoUI(CharacterSheet characterSheet)
@@ -37,8 +37,8 @@ public class CharacterInfoUI : MonoBehaviour
         portrait.sprite = characterSheet.portrait;
         combat.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Combat).ToString();
         exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
-        diplomacy.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Negotiation).ToString();
-        stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
+        charisma.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Charisma).ToString();
+        //stamina.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
     }
 
     

@@ -14,7 +14,7 @@ public class CharacterSheet
     public Adventurer adventurer;
 
     // All the basic stats.
-    public enum StatDescriptors { Combat = 1, Exploration = 2, Negotiation = 3, Constitution = 4 }
+    public enum StatDescriptors { Combat = 1, Exploration = 2, Charisma = 3}
 
     //Portrait associated with character
     public Sprite portrait { get; private set; }
@@ -42,9 +42,8 @@ public class CharacterSheet
     {
         name = characterStats.name;
         statlines.Add(StatDescriptors.Combat, characterStats.combat);
-        statlines.Add(StatDescriptors.Negotiation, characterStats.negotiation);
+        statlines.Add(StatDescriptors.Charisma, characterStats.charisma);
         statlines.Add(StatDescriptors.Exploration, characterStats.exploration);
-        statlines.Add(StatDescriptors.Constitution, characterStats.constitution);
         adventurer = new Adventurer();
         adventurer.characterSheet = this;
         portrait = characterStats.portrait;

@@ -26,13 +26,13 @@ public class QuestUI : MonoBehaviour
     // UI items to display quest breifing details.
     public Text cmbBriefText;
     public Text xpoBriefText;
-    public Text ngoBriefText;
-    public Text conBriefText;
+    public Text chaBriefText;
+    //public Text conBriefText;
     //Total party stat details
     public Text cmbTotalParty;
     public Text xpoTotalParty;
-    public Text ngoTotalParty;
-    public Text conTotalParty;
+    public Text chaTotalParty;
+    //public Text conTotalParty;
 
     // Essential references.
     private CharacterPoolController characterPool; // reference to the characterPool
@@ -129,8 +129,8 @@ public class QuestUI : MonoBehaviour
         // Get all of our estimates.
         cmbBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Combat).ToString();
         xpoBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Exploration).ToString();
-        ngoBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Negotiation).ToString();
-        conBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
+        chaBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Charisma).ToString();
+        //conBriefText.text = attachedSheet.CalcualteNodeRanges(CharacterSheet.StatDescriptors.Constitution).ToString();
 
         // Turn off the buttons if this thing is active.
         this.transform.Find("Send Party").gameObject.SetActive(!questActive);
@@ -148,8 +148,8 @@ public class QuestUI : MonoBehaviour
         // Display the summary stats.
         cmbTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Combat).ToString();
         xpoTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Exploration).ToString();
-        ngoTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Negotiation).ToString();
-        conTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Constitution).ToString();
+        chaTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Charisma).ToString();
+        //conTotalParty.text = adventuringParty.getStatSummed(CharacterSheet.StatDescriptors.Constitution).ToString();
     }
 
     /*

@@ -19,8 +19,8 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     public TMPro.TextMeshProUGUI nameText;
     public TMPro.TextMeshProUGUI combat;
     public TMPro.TextMeshProUGUI exploration;
-    public TMPro.TextMeshProUGUI negotation;
-    public TMPro.TextMeshProUGUI vitality;
+    public TMPro.TextMeshProUGUI charisma;
+    //public TMPro.TextMeshProUGUI vitality;
 
     private PlayerInterface playerInterface;
 
@@ -120,8 +120,8 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         nameText.text = characterSheet.name;
         combat.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Combat).ToString();
         exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
-        negotation.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Negotiation).ToString();
-        vitality.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
+        charisma.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Charisma).ToString();
+        //vitality.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
 	}
     
 
