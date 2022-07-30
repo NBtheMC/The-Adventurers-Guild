@@ -388,12 +388,12 @@ public class CSVToQuests : MonoBehaviour
                         case "Exploration":
                             statCheck.stat = CharacterSheet.StatDescriptors.Exploration;
                             break;
-                        case "Negotiation":
-                            statCheck.stat = CharacterSheet.StatDescriptors.Negotiation;
+                        case "Charisma":
+                            statCheck.stat = CharacterSheet.StatDescriptors.Charisma;
                             break;
-                        case "Constitution":
-                            statCheck.stat = CharacterSheet.StatDescriptors.Constitution;
-                            break;
+                        // case "Constitution":
+                        //     statCheck.stat = CharacterSheet.StatDescriptors.Constitution;
+                        //     break;
                         case "":
                             finish = true;
                             break;
