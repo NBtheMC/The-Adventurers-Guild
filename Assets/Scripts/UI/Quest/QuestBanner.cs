@@ -24,7 +24,7 @@ public class QuestBanner : MonoBehaviour
     }
     public void Start()
     {
-        transform.Find("Active").gameObject.SetActive(questSheet.isActive);
+        transform.Find("Active").gameObject.SetActive(questSheet.IsQuestActive());
     }
 
     public void DeleteBanner(object source, QuestSheet questSheet)
@@ -35,8 +35,8 @@ public class QuestBanner : MonoBehaviour
 
     public void ToggleQuestActiveState()
     {
-        transform.Find("Active").gameObject.SetActive(questSheet.isActive);
-        questIsActive = questSheet.isActive;
+        transform.Find("Active").gameObject.SetActive(questSheet.IsQuestActive());
+        questIsActive = questSheet.IsQuestActive();    
     }
 
     public void displayQuestUI(bool displayOnly = false)

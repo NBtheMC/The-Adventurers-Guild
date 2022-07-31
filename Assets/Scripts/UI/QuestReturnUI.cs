@@ -13,8 +13,8 @@ public class QuestReturnUI : MonoBehaviour
     }
     public void GenerateQuestReturnBox(object source, QuestSheet questSheet)
     {
-        questSheet.isActive = false;
-        questSheet.isComplete = true;
+        //questSheet.isActive = false;
+        //questSheet.isComplete = true;
 
         GameObject prefab = Resources.Load<GameObject>("QuestReturnBox");
         GameObject returnBox = Instantiate(prefab);
