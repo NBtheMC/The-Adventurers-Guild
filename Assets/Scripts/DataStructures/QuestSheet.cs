@@ -91,6 +91,7 @@ public class QuestSheet
         switch (currentState)
 		{
 			case QuestState.WAITING:
+				//returnVal = AdvanceWaitingQuest();
 				returnVal = 0;
 				break;
 			case QuestState.ADVENTURING:
@@ -103,6 +104,17 @@ public class QuestSheet
 
 		return returnVal;
 	}
+
+	private int AdvanceWaitingQuest()
+    {
+		if(expirationTicks >= timeToExpire) 
+		{
+			//code to reject quest
+			return 1;
+		}
+		expirationTicks++;
+		return 0;
+    }
 
 	private int AdvanceActiveQuest()
     {
