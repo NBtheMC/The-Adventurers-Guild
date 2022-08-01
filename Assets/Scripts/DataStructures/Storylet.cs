@@ -52,9 +52,9 @@ public class Storylet : ScriptableObject
 	public bool endGame = false;
 
 	// TriggerValues and TriggerStates keeps all the world conditions that we're looking to satisfy before triggering this storylet.
-	public List<TriggerInt> triggerInts = new List<TriggerInt>();
-	public List<TriggerValue> triggerValues = new List<TriggerValue>();
-	public List<TriggerState> triggerStates = new List<TriggerState>();
+	[NonReorderable] public List<TriggerInt> triggerInts = new List<TriggerInt>();
+	[NonReorderable] public List<TriggerValue> triggerValues = new List<TriggerValue>();
+	[NonReorderable] public List<TriggerState> triggerStates = new List<TriggerState>();
 
 
 	// A condition for this item has already been triggered.
@@ -62,9 +62,9 @@ public class Storylet : ScriptableObject
 
 	// triggerValueChanges and triggerStateChange are what the storylet will do to the world the moment this Storylet is triggered.
 	// WorldState should handle this.
-	public List<IntChange> triggerIntChanges = new List<IntChange>();
-	public List<ValueChange> triggerValueChanges = new List<ValueChange>();
-	public List<StateChange> triggerStateChanges = new List<StateChange>();
+	[NonReorderable] public List<IntChange> triggerIntChanges = new List<IntChange>();
+	[NonReorderable] public List<ValueChange> triggerValueChanges = new List<ValueChange>();
+	[NonReorderable] public List<StateChange> triggerStateChanges = new List<StateChange>();
 
 	// Adventurer that gets added to the roster if this storylet is triggered
 	public string adventurer;
@@ -73,6 +73,10 @@ public class Storylet : ScriptableObject
 	public string issuerName;
 	public string debriefMessage;
     public string comments;
+
+    public float waitTime;
+
+    public UnityEngine.UI.Image finalImage;
 
 	/// <summary>
 	/// Easy way to determine items using the NumberTriggerType.

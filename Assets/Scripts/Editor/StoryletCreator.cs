@@ -19,6 +19,7 @@ namespace StoryletCreator {
         private Storylet currentStorylet;
         private SerializedObject serializedStorylet;
         private string newStoryletAssetPath;
+        private bool shouldGenerateQuest = true;
 
         private SerializedProperty triggerInt;
         private SerializedProperty triggerValue;
@@ -31,6 +32,8 @@ namespace StoryletCreator {
 
         // Misc. Variables/Objects
         private Vector2 triggerChangesScrollPosition = Vector2.zero;
+        private const float EMPTY_WINDOW_HEIGHT = 50f;
+        private GUIStyle wordwrapStyle;
 
 
         /// <summary>
@@ -49,6 +52,12 @@ namespace StoryletCreator {
         {
             #if UNITY_EDITOR
 
+                if (wordwrapStyle == null)
+                {
+                    wordwrapStyle = new GUIStyle(EditorStyles.textArea);
+                    wordwrapStyle.wordWrap = true;
+                }
+
                 zoomArea.width = position.width;
                 zoomArea.height = position.height;
 
@@ -61,7 +70,7 @@ namespace StoryletCreator {
                     DrawUnzoomedArea();
 
                     // Bring settings window to top
-                    GUI.BringWindowToFront(1);
+                    GUI.BringWindowToFront(2);
                 EndWindows();
 
                 if (GUI.changed)
@@ -143,7 +152,7 @@ namespace StoryletCreator {
         {
             // Draw window background
             Rect controlWindows = new Rect(0, 0, 320, position.height);
-            controlWindows = GUI.Window(1, controlWindows, DrawSettingsWindow, "Storylet Creator");
+            controlWindows = GUI.Window(2, controlWindows, DrawSettingsWindow, "Storylet Creator");
         }
 
 
@@ -154,18 +163,43 @@ namespace StoryletCreator {
             #region Draw zoomed area stuff
 
                 string storyletName = "";
+                float dataWindowHeight = 0f, triggerWindowHeight = 0f;
                 if (currentStorylet)
                 {
                     storyletName = currentStorylet.questName == "" ?
                         "New Storylet" : currentStorylet.questName;
-                    storyletName += " Data";
+
+                    if (shouldGenerateQuest)
+                    {
+                        dataWindowHeight = 540f;
+                    }
+                    else
+                    {
+                        if (currentStorylet.endGame)
+                        {
+                            dataWindowHeight = 440f;
+                        }
+                        else
+                        {
+                            dataWindowHeight = 300f;
+                        }
+                    }
+
+                    triggerWindowHeight = 400f;
                 }
                 else
                 {
                     storyletName = "No storylet loaded";
+                    dataWindowHeight = EMPTY_WINDOW_HEIGHT;
+                    triggerWindowHeight = EMPTY_WINDOW_HEIGHT;
                 }
-                Rect dataWindow = new Rect(position.width / 2 - 300 - zoomPosition.x, position.height / 2 - 200 - zoomPosition.y, 400, 400);
-                dataWindow = GUI.Window(0, dataWindow, DataWindow, storyletName);
+
+
+                Rect dataWindow = new Rect(position.width / 2f - 300f - zoomPosition.x, position.height / 2f - 200f - zoomPosition.y, 400f, dataWindowHeight);
+                dataWindow = GUI.Window(0, dataWindow, DataWindow, currentStorylet ? $"{storyletName} Data" : storyletName);
+
+                Rect triggerChangesWindow = new Rect(dataWindow.x, dataWindow.y + dataWindow.height + 50f, 400f, triggerWindowHeight);
+                triggerChangesWindow = GUI.Window(1, triggerChangesWindow, TriggerChangesWindow, "Triggers & Changes");
 
             #endregion
 
@@ -183,21 +217,64 @@ namespace StoryletCreator {
 
             if (currentStorylet)
             {
-                GUIStyle wordwrapStyle = new GUIStyle(EditorStyles.textArea);
-                wordwrapStyle.wordWrap = true;
-
-
                 // Basic Information
                 GUILayout.Label("");
+
                 currentStorylet.name = EditorGUILayout.TextField("Quest Name", currentStorylet.questName);
+                currentStorylet.endGame = EditorGUILayout.Toggle(new GUIContent("Ends Game", "Should this quest end the game?"), currentStorylet.endGame);
+                currentStorylet.canBeDuplicated = EditorGUILayout.Toggle(new GUIContent("Duplicable", "Can this storylet happen more than once?"), currentStorylet.canBeDuplicated);
+                GUILayout.Label("");
                 currentStorylet.comments = EditorGUILayout.TextField("Comments", currentStorylet.comments, wordwrapStyle, GUILayout.Height(80));
 
+
+                // Quest generation data
                 GUILayout.Label("");
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                if (currentStorylet.endGame)
+                {
+                    shouldGenerateQuest = false;
+                    GUILayout.Label("Storylets that ends the game cannot generate a quest\n\nQuest Description will be used as the final message", wordwrapStyle);
+
+                    GUILayout.Label("");
+                    currentStorylet.questDescription = EditorGUILayout.TextField("Quest Descriptions", currentStorylet.questDescription, wordwrapStyle, GUILayout.Height(80));
+                    currentStorylet.finalImage = EditorGUILayout.ObjectField("Final Image", currentStorylet.finalImage, typeof(UnityEngine.UI.Image), false) as UnityEngine.UI.Image;
+                }
+                else
+                {
+                    shouldGenerateQuest = EditorGUILayout.Toggle(new GUIContent("Should Generate Quest", "Shows information for data pertaining to quests (this value is local to this tool and is not saved to the storylet)"), shouldGenerateQuest);
+                }
                 
 
-                // Triggers and changes
-                GUILayout.Label("Triggers And Changes\n", EditorStyles.boldLabel);
+                if (shouldGenerateQuest)
+                {
+                    GUILayout.Label("");
+                    currentStorylet.eventHead = EditorGUILayout.ObjectField("Event Head", currentStorylet.eventHead, typeof(EventNode), false) as EventNode;
+                    currentStorylet.canBeInstanced = EditorGUILayout.Toggle(new GUIContent("Can Be Instanced", "Can this quest have multiple instances at the same time?"), currentStorylet.canBeInstanced);
+
+
+                    GUILayout.Label("");
+                    currentStorylet.issuerName = EditorGUILayout.TextField("Issuer Name", currentStorylet.issuerName);
+                    currentStorylet.factionName = EditorGUILayout.TextField("Faction Name", currentStorylet.factionName);
+                    currentStorylet.questDescription = EditorGUILayout.TextField("Quest Descriptions", currentStorylet.questDescription, wordwrapStyle, GUILayout.Height(80));
+
+
+                    GUILayout.Label("");
+                    currentStorylet.waitTime = EditorGUILayout.FloatField(new GUIContent("Wait Time", "How long to wait before the quest is expected to run out (in ingame hours). If this quest has no timer, input -1"), currentStorylet.waitTime);
+
+                }
+
+            }
+                
+            GUI.DragWindow();
+        }
+
+        
+        private void TriggerChangesWindow(int id)
+        {
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+            if (currentStorylet)
+            {
                 triggerChangesScrollPosition = EditorGUILayout.BeginScrollView(triggerChangesScrollPosition, false, true);
 
                     GUILayout.Label("\nTriggers", EditorStyles.boldLabel);
@@ -205,21 +282,25 @@ namespace StoryletCreator {
                     EditorGUILayout.PropertyField(triggerValue, true);
                     EditorGUILayout.PropertyField(triggerState, true);
 
-                    GUILayout.Label("\nLabels", EditorStyles.boldLabel);
+                    GUILayout.Label("\nChanges", EditorStyles.boldLabel);
                     EditorGUILayout.PropertyField(changeInt, true);
                     EditorGUILayout.PropertyField(changeValue, true);
                     EditorGUILayout.PropertyField(changeState, true);
 
-                EditorGUILayout.EndScrollView();
-            }
+                    serializedStorylet.ApplyModifiedProperties();
+                    GUILayout.Label("");
 
-            GUI.DragWindow();
+                EditorGUILayout.EndScrollView();
+
+                GUILayout.Label("");
+            }
         }
 
 
         private void DrawSettingsWindow(int id)
         {
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            GUILayout.Label("If you are confused on what fields are for, hover over them for tooltips!", wordwrapStyle);
 
             // Draw controls and settings
             GUILayout.Label("\nControls", EditorStyles.boldLabel);
