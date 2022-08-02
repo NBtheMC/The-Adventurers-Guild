@@ -59,13 +59,23 @@ public class QuestingManager : MonoBehaviour
     {
         List<QuestSheet> markForDeletion = new List<QuestSheet>();
 
+        foreach (QuestSheet quest in bankedQuests)
+        {
+            if (quest.advancebyTick() == 2)
+            {
+                quest.currentState = QuestState.REJECTED;
+                // Add quest to a list for deletion (Move to archive really)
+                markForDeletion.Add(quest);
+            }
+        }
+
         //Debug.Log(activeQuests.Count);
         foreach (QuestSheet quest in activeQuests)
         {
             if (quest.advancebyTick() == 1)
             {
                 quest.AddGuildGold();
-                quest.currentState = QuestState.DONE;
+                quest.currentState = QuestState.COMPLETED;
                 // Add quest to a list for deletion (Move to archive really)
                 markForDeletion.Add(quest);
             }

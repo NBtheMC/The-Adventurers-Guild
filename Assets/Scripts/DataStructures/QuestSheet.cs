@@ -17,10 +17,10 @@ public class QuestSheet
 	public PartySheet adventuring_party { get; private set; }// Reference to the adventuring party attached to the quest.
 	public ReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 
-	private int timeUntilProgression; // How much time this questsheet will wait until it progresses. Start at 0.
-	private int eventTicksElapsed; // Tracks how many ticks has elapsed for an ADVENTURING quest and executes events appropriatly.
-	private int timeToExpire; // How much time until a WAITING quest will auto-reject
-	private int expirationTicks; // Tracks how many ticks have passed for the expiration timer
+	public int timeUntilProgression { get; private set; } // How much time this questsheet will wait until it progresses. Start at 0.
+	public int eventTicksElapsed { get; private set; } // Tracks how many ticks has elapsed for an ADVENTURING quest and executes events appropriatly.
+	public float timeToExpire { get; private set; } // How much time until a WAITING quest will auto-reject
+	public float expirationTimer { get; private set; } // Tracks how many ticks have passed for the expiration timer
 
 	public int accumulatedGold { get; private set; } // How much gold has been accumulated from the events.
 	public int totalGold { get; private set; }
@@ -59,9 +59,11 @@ public class QuestSheet
 		accumulatedGold = 0;
 		totalGold = 0;
 
-		//placing a temp value for testing
-		timeToExpire = 10;
-		expirationTicks = 0;
+		currentState = QuestState.WAITING;
+
+		//placing a temp value for testing, will need to convert from hours to ticks later
+		timeToExpire = 25;
+		expirationTimer = 0;
 
 		// Initialize out descriptor variables.
 		questName = name_Input;
@@ -84,20 +86,20 @@ public class QuestSheet
 	/// This function is used by Questing Manager to control the flow of a quest as acording to ticks.
 	/// 
 	/// </summary>
-	/// <returns>A 0 if the quest is still ongoing. A 1 if the quest is complete.</returns>
+	/// <returns>0 if the quest is waiting or in progress. 1 if the quest is complete. 2 if the quest was rejected.</returns>
 	public int advancebyTick()
 	{
 		int returnVal = 0;
         switch (currentState)
 		{
 			case QuestState.WAITING:
-				//returnVal = AdvanceWaitingQuest();
-				returnVal = 0;
+				returnVal = AdvanceWaitingQuest();
+				//returnVal = 0;
 				break;
 			case QuestState.ADVENTURING:
 				returnVal = AdvanceActiveQuest();
 				break;
-			case QuestState.DONE:
+			default:
 				returnVal = 1;
 				break;
 		}
@@ -107,12 +109,12 @@ public class QuestSheet
 
 	private int AdvanceWaitingQuest()
     {
-		if(expirationTicks >= timeToExpire) 
+		if(expirationTimer >= timeToExpire) 
 		{
 			//code to reject quest
-			return 1;
+			return 2;
 		}
-		expirationTicks++;
+		expirationTimer++;
 		return 0;
     }
 
