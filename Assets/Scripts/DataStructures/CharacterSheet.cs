@@ -45,6 +45,7 @@ public class CharacterSheet
     public CharacterSheet(CharacterInitialStats characterStats)
     {
         name = characterStats.name;
+        statlines = new Dictionary<StatDescriptors, int[]>();
         statlines.Add(StatDescriptors.Combat, new int[] {characterStats.combat, 0,(int)Mathf.Pow(characterStats.combat+1,2)*200});
         statlines.Add(StatDescriptors.Charisma, new int[] {characterStats.charisma, 0,(int)Mathf.Pow(characterStats.charisma+1,2)*200});
         statlines.Add(StatDescriptors.Exploration, new int[] {characterStats.exploration, 0,(int)Mathf.Pow(characterStats.exploration+1,2)*200});

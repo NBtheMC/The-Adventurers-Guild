@@ -821,7 +821,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: STAM
+  m_Text: NA
 --- !u!1 &7303619641335650999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,7 +1213,7 @@ GameObject:
   - component: {fileID: 720721991907559852}
   - component: {fileID: 4064523070932242169}
   m_Layer: 0
-  m_Name: Diplomacy
+  m_Name: Charisma
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
