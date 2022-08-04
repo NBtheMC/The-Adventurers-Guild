@@ -55,7 +55,7 @@ public class PartySheet
 
     public void AddExperience(CharacterSheet.StatDescriptors stat, int level){
         foreach(CharacterSheet adventurer in party_members){
-            int experienceToAdd;
+            int experienceToAdd = 0;
 
             adventurer.addStatExperience(stat, experienceToAdd);
         }

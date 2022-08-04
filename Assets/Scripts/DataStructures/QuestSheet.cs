@@ -100,8 +100,10 @@ public class QuestSheet
 				questRecap += currentConnection.description + " " + nextConnection.progressionDescription + " ";
 
 				//add experience to each party member based on the current event node
-				foreach(StatCheck statCheck in currentConnection.statTriggers){
-					adventuring_party.AddExperience(statCheck.stat, statCheck.value);
+				foreach(EventNode.EventCase eventCase in currentConnection.eventCases){
+					foreach(EventNode.StatCheck statCheck in eventCase.statTriggers){
+						adventuring_party.AddExperience(statCheck.stat, statCheck.value);
+					}
 				}
 
 				// Update the world values according to the triggers.
