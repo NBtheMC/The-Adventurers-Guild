@@ -118,9 +118,9 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
 	{
         portrait.sprite = characterSheet.portrait;
         nameText.text = characterSheet.name;
-        combat.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Combat).ToString();
-        exploration.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Exploration).ToString();
-        charisma.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Charisma).ToString();
+        combat.text = characterSheet.getVisibleStat(CharacterSheet.StatDescriptors.Combat).ToString();
+        exploration.text = characterSheet.getVisibleStat(CharacterSheet.StatDescriptors.Exploration).ToString();
+        charisma.text = characterSheet.getVisibleStat(CharacterSheet.StatDescriptors.Charisma).ToString();
         //vitality.text = characterSheet.getStat(CharacterSheet.StatDescriptors.Constitution).ToString();
 	}
     

@@ -99,6 +99,11 @@ public class QuestSheet
 				visitedNodes.Add(currentConnection);
 				questRecap += currentConnection.description + " " + nextConnection.progressionDescription + " ";
 
+				//add experience to each party member based on the current event node
+				foreach(StatCheck statCheck in currentConnection.statTriggers){
+					adventuring_party.AddExperience(statCheck.stat, statCheck.value);
+				}
+
 				// Update the world values according to the triggers.
 				foreach (Storylet.IntChange change in nextConnection.intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
 				foreach (Storylet.StateChange change in nextConnection.boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }

@@ -9,6 +9,7 @@ public class PartySheet
     public string name;
     private List<CharacterSheet> party_members;
     public ReadOnlyCollection<CharacterSheet> Party_Members { get { return party_members.AsReadOnly(); } }
+
     public List<string> relationshipNarrative; //list of things that happened to adventurers on a quest
 
     public PartySheet()
@@ -50,6 +51,24 @@ public class PartySheet
             statTotal += adventurer.getStat(stat);
         }
         return statTotal;
+    }
+
+    public void AddExperience(CharacterSheet.StatDescriptors stat, int level){
+        foreach(CharacterSheet adventurer in party_members){
+            int experienceToAdd;
+
+            adventurer.addStatExperience(stat, experienceToAdd);
+        }
+    }
+
+    public int BondBonus(CharacterSheet bonder){
+        int totalBond = 0;
+        foreach(CharacterSheet member in party_members){
+            if(member!=bonder){
+                totalBond+=bonder.adventurer.GetFriendship(member.adventurer);
+            }
+        }
+        return totalBond/party_members.Count;
     }
 
     public bool Contains(CharacterSheet adventurer)

@@ -9,6 +9,7 @@ public class CharacterSheet
 
     // The character's stats and experience
     private Dictionary<StatDescriptors, int[]> statlines; //current level, current experience, and experience required to level up 
+    private Dictionary<StatDescriptors, int[]> visibleStatlines; //what actually gets displayed to the player
 
     // The characters relationships
     public Adventurer adventurer;
@@ -66,6 +67,11 @@ public class CharacterSheet
         return statlines[stat][0];
     }
 
+    public int getVisibleStat(StatDescriptors stat) {
+        if (!visibleStatlines.ContainsKey(stat)) { return 0; }
+        return visibleStatlines[stat][0];
+    }
+
     // Add the following stat into the character's statlines.
     public void addStat(StatDescriptors statname, int number)
     {
@@ -101,5 +107,18 @@ public class CharacterSheet
         }
         return justStats;
 	}
+
+    /// <summary>
+    /// Visible stat information to actually show on the sheet
+    /// </summary>
+    /// <returns>A whole dictionary of the statname and the visible stat number.</returns>
+    public Dictionary<StatDescriptors,int[]> GetVisibleStatSheet()
+	{
+        return visibleStatlines;
+	}
+
+    public void UpdateVisibleStatSheet(){
+        visibleStatlines = new Dictionary<StatDescriptors, int[]>(statlines); 
+    }
 
 }
