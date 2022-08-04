@@ -1,0 +1,2 @@
+Unpaid days
+Days without having money. You have to pay adventurers at the end of each day. If adventurers aren’t paid for 3 days, the game ends

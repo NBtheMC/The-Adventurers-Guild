@@ -22,12 +22,15 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
     public TMPro.TextMeshProUGUI negotation;
     public TMPro.TextMeshProUGUI vitality;
 
+    private PlayerInterface playerInterface;
+
 
     public void Awake()
     {
         displayManager = GameObject.Find("CurrentItemDisplay").GetComponent<ItemDisplayManager>();
         CharInfoSpawn = displayManager.characterDisplay;
         CharInfoUIPrefab = Resources.Load<GameObject>("CharacterInfoUI");
+        playerInterface = GameObject.Find("PlayerInterface").GetComponent<PlayerInterface>();
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)
@@ -42,7 +45,8 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         if (PauseMenu.gamePaused)
             return;
 
-        displayManager.DisplayCharacter(characterSheet);
+        //displayManager.DisplayCharacter(characterSheet);
+        playerInterface.LeftClickedOnCharacter(characterSheet);
 
         /*
         if (!isDisplayed || !displayManager.characterDisplay.activeInHierarchy)
@@ -86,10 +90,12 @@ public class CharacterTileController : MonoBehaviour, IPointerDownHandler, IPoin
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (!adventurerBusy && displayManager.AssignAdventurer(characterSheet))
-			{
-                GrayOutPortrait();
-			}
+            Debug.Log("Right clicked on portrait");
+            //if (!adventurerBusy && displayManager.AssignAdventurer(characterSheet))
+			//{
+                GameObject.Find("PlayerInterface").GetComponent<PlayerInterface>().AdventurerPoolRightClick(characterSheet);
+                //GrayOutPortrait();
+			//}
 
             /*
             GameObject questUI = GameObject.Find("QuestDisplayManager/QuestDisplay/CurrentItemDisplay/Quest/QuestUI(Clone)");

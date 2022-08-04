@@ -62,6 +62,8 @@ MonoBehaviour:
   questDisplay: {fileID: 2891471291067920301, guid: e938187ca0aec8c42bd23199072b334b, type: 3}
   characterDisplay: {fileID: 1749594060647524153, guid: a5574e9662ab42d4386c6340e3d38348, type: 3}
   debriefDisplay: {fileID: 8612100640702005136}
+  endGame: {fileID: 0}
+  gameManager: {fileID: 0}
   lastActiveDisplay: {fileID: 0}
 --- !u!1 &533923189893445540
 GameObject:
@@ -847,6 +849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: debb8063ebd951140bc796e789103fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debrief: {fileID: 0}
+  debriefTracker: {fileID: 0}
   earnedText: {fileID: 8200482910576626356}
   lostText: {fileID: 8502354699665714612}
   totalText: {fileID: 2833543190018718742}
@@ -1465,18 +1469,6 @@ PrefabInstance:
     - target: {fileID: 6455436191667047360, guid: 06f0fbd47da46dd498f794f275314795, type: 3}
       propertyPath: m_SizeDelta.y
       value: 980
-      objectReference: {fileID: 0}
-    - target: {fileID: 6455436191667047360, guid: 06f0fbd47da46dd498f794f275314795, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4757878
-      objectReference: {fileID: 0}
-    - target: {fileID: 6455436191667047360, guid: 06f0fbd47da46dd498f794f275314795, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4757878
-      objectReference: {fileID: 0}
-    - target: {fileID: 6455436191667047360, guid: 06f0fbd47da46dd498f794f275314795, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4757878
       objectReference: {fileID: 0}
     - target: {fileID: 6455436191667047360, guid: 06f0fbd47da46dd498f794f275314795, type: 3}
       propertyPath: m_LocalPosition.x

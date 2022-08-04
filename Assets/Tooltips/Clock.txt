@@ -1,0 +1,2 @@
+Clock
+Day ends when hand reaches top
