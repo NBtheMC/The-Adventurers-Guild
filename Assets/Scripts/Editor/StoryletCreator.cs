@@ -171,7 +171,7 @@ namespace StoryletCreator {
 
                     if (shouldGenerateQuest)
                     {
-                        dataWindowHeight = 540f;
+                        dataWindowHeight = 620f;
                     }
                     else
                     {
@@ -181,7 +181,7 @@ namespace StoryletCreator {
                         }
                         else
                         {
-                            dataWindowHeight = 300f;
+                            dataWindowHeight = 380f;
                         }
                     }
 
@@ -220,9 +220,11 @@ namespace StoryletCreator {
                 // Basic Information
                 GUILayout.Label("");
 
-                currentStorylet.name = EditorGUILayout.TextField("Quest Name", currentStorylet.questName);
+                currentStorylet.questName = EditorGUILayout.TextField("Quest Name", currentStorylet.questName);
+                currentStorylet.questDescription = EditorGUILayout.TextField("Quest Descriptions", currentStorylet.questDescription, wordwrapStyle, GUILayout.Height(80));
                 currentStorylet.endGame = EditorGUILayout.Toggle(new GUIContent("Ends Game", "Should this quest end the game?"), currentStorylet.endGame);
                 currentStorylet.canBeDuplicated = EditorGUILayout.Toggle(new GUIContent("Duplicable", "Can this storylet happen more than once?"), currentStorylet.canBeDuplicated);
+
                 GUILayout.Label("");
                 currentStorylet.comments = EditorGUILayout.TextField("Comments", currentStorylet.comments, wordwrapStyle, GUILayout.Height(80));
 
@@ -233,10 +235,9 @@ namespace StoryletCreator {
                 if (currentStorylet.endGame)
                 {
                     shouldGenerateQuest = false;
-                    GUILayout.Label("Storylets that ends the game cannot generate a quest\n\nQuest Description will be used as the final message", wordwrapStyle);
+                    GUILayout.Label("Storylets that ends the game cannot generate a quest!\n\nQuest Description will be used as the final message.", wordwrapStyle);
 
                     GUILayout.Label("");
-                    currentStorylet.questDescription = EditorGUILayout.TextField("Quest Descriptions", currentStorylet.questDescription, wordwrapStyle, GUILayout.Height(80));
                     currentStorylet.finalImage = EditorGUILayout.ObjectField("Final Image", currentStorylet.finalImage, typeof(UnityEngine.UI.Image), false) as UnityEngine.UI.Image;
                 }
                 else
@@ -255,7 +256,7 @@ namespace StoryletCreator {
                     GUILayout.Label("");
                     currentStorylet.issuerName = EditorGUILayout.TextField("Issuer Name", currentStorylet.issuerName);
                     currentStorylet.factionName = EditorGUILayout.TextField("Faction Name", currentStorylet.factionName);
-                    currentStorylet.questDescription = EditorGUILayout.TextField("Quest Descriptions", currentStorylet.questDescription, wordwrapStyle, GUILayout.Height(80));
+                    currentStorylet.debriefMessage = EditorGUILayout.TextField("Debrief Message", currentStorylet.questDescription, wordwrapStyle, GUILayout.Height(80));
 
 
                     GUILayout.Label("");
@@ -331,14 +332,14 @@ namespace StoryletCreator {
                 // Rename Storylet filename to name on file
                 if ( GUILayout.Button( new GUIContent("Rename Storylet filename", "Renames the file name of the current Storylet to the name on file (this will also save any changes to the Storylet)") ) )
                 {
-                    if (currentStorylet.name == "")
+                    if (currentStorylet.questName == "")
                     {
                         Debug.LogWarning("The current storylet doesn't have a name! Set a name before renaming the file");
                     }
                     else
                     {
                         string storyletPath = AssetDatabase.GetAssetPath(currentStorylet);
-                        AssetDatabase.RenameAsset(storyletPath, currentStorylet.name);
+                        AssetDatabase.RenameAsset(storyletPath, currentStorylet.questName);
                         SaveCurrentStorylet();
                     }
                 }
@@ -366,7 +367,7 @@ namespace StoryletCreator {
                 else
                 {
                     Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>();
-                    newStorylet.name = "New Storylet";
+                    newStorylet.questName = "New Storylet";
 
                     AssetDatabase.CreateAsset(newStorylet, newStoryletAssetPath);
                     currentStorylet = newStorylet;

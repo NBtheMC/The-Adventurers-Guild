@@ -28,7 +28,7 @@ public class EventNode : ScriptableObject
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
 	[System.Serializable]
-	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
+	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public NumberTriggerType triggerType; public int value; }
 
 	public struct PartyCheck { public string character; public bool present; }
 	
