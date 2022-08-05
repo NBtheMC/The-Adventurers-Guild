@@ -73,6 +73,47 @@ public class TimeSystem : MonoBehaviour
         //Debug.Log("Day: " + gameTime.day + ", Hour: " + gameTime.hour);
     }
 
+    /// <summary>
+    /// Advances the time by the given number of ticks. 
+    /// </summary>
+    /// <param name="ticksToAdd">Number of ticks to advance the time by</param>
+    public void AddTicks(int ticksToAdd)
+    {
+        if (!TimeActive)
+            Debug.LogError("Trying to advance time when timer is paused");
+
+        else
+        {
+            //May or may not be necessary. Temporarily stop timer since we're manually adding ticks to the current time
+            StopTimer();
+            int totalTicks = GameTime.hour * TicksPerHour + GameTime.tick;
+            if (totalTicks + ticksToAdd > TotalTicksperActive)
+            {
+                for (int i = 0; i < TotalTicksperActive - totalTicks; i++)
+                    AddTick();
+            }
+            else
+            {
+                for (int i = 0; i < ticksToAdd; i++)
+                    AddTick();
+            }
+
+            StartTimer();
+        }
+    }
+
+    /// <summary>
+    /// Advances the time by the given number of hours.
+    /// </summary>
+    /// <param name="hours">Number of hours to advance the time by. TicksPerHour % hours MUST equal 0</param>
+    public void AddTicks(double hours)
+    {
+        Debug.Assert(TicksPerHour % hours == 0, $"TicksPerHour % hours must equal 0: {TicksPerHour} % {hours} = {TicksPerHour % hours}");
+
+        int ticksToAdd = (int)(TicksPerHour * hours);
+        AddTicks(ticksToAdd);
+    }
+
     public void StartTimer()
     {
         if(TimeActive)
@@ -113,4 +154,6 @@ public class TimeSystem : MonoBehaviour
         _gameTime.day += 1;
         StartTimer();
     }
+
+    
 }
