@@ -49,5 +49,6 @@ public class CharacterInfoUI : MonoBehaviour
     public void DestroyUI()
     {
         Destroy(this.gameObject);
+        GameObject.Find("PlayerInterface").GetComponent<PlayerInterface>().SetItemDisplayNone();
     }
 }
