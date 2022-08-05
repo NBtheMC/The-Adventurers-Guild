@@ -56,7 +56,8 @@ public class PartySheet
     public void AddExperience(CharacterSheet.StatDescriptors stat, int level){
         foreach(CharacterSheet adventurer in party_members){
             int experienceToAdd = 0;
-
+            //Ceil((DC*100/StatTotalPartySum) * AdventurerStat) + Bondbonus
+            experienceToAdd = (level*100*adventurer.getStat(stat)/getStatSummed(stat)) + BondBonus(adventurer);
             adventurer.addStatExperience(stat, experienceToAdd);
         }
     }
