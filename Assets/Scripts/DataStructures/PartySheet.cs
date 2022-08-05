@@ -77,6 +77,12 @@ public class PartySheet
         return party_members.Contains(adventurer);
 	}
 
+    public void UpdateVisibleStats(){
+        foreach(CharacterSheet adventurer in party_members){
+			adventurer.UpdateVisibleStatSheet();
+		}
+    }
+
     public void UpdateRelationshipStory(List<string> relationshipSubstory){
         relationshipNarrative.AddRange(relationshipSubstory);
         return;

@@ -115,6 +115,7 @@ public class QuestSheet
 				if (nextConnection.nextNode != null)
 				{
 					currentConnection = nextConnection.nextNode;
+					adventuring_party.UpdateVisibleStats();
 				}
 				else
 				{

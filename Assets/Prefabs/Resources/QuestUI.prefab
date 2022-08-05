@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.8899994, y: 8.435883}
+  m_AnchoredPosition: {x: 0.8899994, y: 46.81794}
   m_SizeDelta: {x: 768.2087, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5102662835448198404
@@ -1033,12 +1033,10 @@ MonoBehaviour:
   questFaction: {fileID: 4737601099875228247}
   cmbBriefText: {fileID: 3466867053249457098}
   xpoBriefText: {fileID: 6732466859629931467}
-  ngoBriefText: {fileID: 3271011863673384913}
-  conBriefText: {fileID: 6659751846594072663}
+  chaBriefText: {fileID: 3271011863673384913}
   cmbTotalParty: {fileID: 4549705235754127609}
   xpoTotalParty: {fileID: 8986109747618803467}
-  ngoTotalParty: {fileID: 7903512511283805658}
-  conTotalParty: {fileID: 1960971752230218056}
+  chaTotalParty: {fileID: 7903512511283805658}
   questBanner: {fileID: 0}
 --- !u!1 &2934163643369809562
 GameObject:
@@ -3081,7 +3079,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8459368118752330834}
   m_HandleRect: {fileID: 3368480417987050872}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0.5000002
   m_Size: 0.54950637
   m_NumberOfSteps: 0
   m_OnValueChanged:

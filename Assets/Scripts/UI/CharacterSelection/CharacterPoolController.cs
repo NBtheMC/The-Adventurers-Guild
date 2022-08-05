@@ -182,17 +182,17 @@ public class CharacterPoolController : MonoBehaviour
 
     public void GrayOutPortrait(CharacterSheet adventurer)
     {
-        roleCharacterLookup[adventurer].transform.Find("Portrait").GetComponent<Image>().color = new Color32(150, 150, 150, 255);
+        roleCharacterLookup[adventurer].transform.Find("Mask/Portrait").GetComponent<Image>().color = new Color32(150, 150, 150, 255);
     }
 
     public void BlackOutPortrait(CharacterSheet adventurer)
     {
-        roleCharacterLookup[adventurer].transform.Find("Portrait").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
+        roleCharacterLookup[adventurer].transform.Find("Mask/Portrait").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
     }
 
     public void ResetPortraitColor(CharacterSheet adventurer)
     {
-        roleCharacterLookup[adventurer].transform.Find("Portrait").GetComponent<Image>().color = new Color32(255, 255, 255, 200);
+        roleCharacterLookup[adventurer].transform.Find("Mask/Portrait").GetComponent<Image>().color = new Color32(255, 255, 255, 200);
     }
 
     private void ResetPortraitColor(object src, QuestSheet quest)
