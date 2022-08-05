@@ -214,6 +214,7 @@ public class QuestUI : MonoBehaviour
     public void DestroyUI()
     {
         Destroy(this.gameObject);
+        playerInterface.SetItemDisplayNone();
     }
 
     /// <summary>
@@ -225,7 +226,7 @@ public class QuestUI : MonoBehaviour
 		if (!attachedSheet.isActive)
 		{
             attachedSheet.assignParty(null); // null out the party.
-            playerInterface.CloseQuesDisplay(adventuringParty);
+            playerInterface.CloseQuestDisplay(adventuringParty);
 		}
 	}
 
