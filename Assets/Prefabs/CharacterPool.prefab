@@ -305,7 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sampleCharacter: {fileID: 5122144849775249647, guid: 8feff9809f2b4d94eb5c2344dd480d24, type: 3}
   maxColSize: 0
-  pixelSeperatorWidth: 25
+  pixelSeperatorWidth: 37
 --- !u!1 &6892899327743946569
 GameObject:
   m_ObjectHideFlags: 0

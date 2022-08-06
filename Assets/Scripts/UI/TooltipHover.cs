@@ -107,6 +107,7 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         DescriptionObject.text = DescriptionText;
         TooltipObject.transform.position = Input.mousePosition + GetPositionOffset();
         TooltipObject.transform.GetChild(0).gameObject.SetActive(true);
+        displayTooltip = true;
     }
 
     public void HideToolTip()
@@ -120,7 +121,6 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         HoverTimerRunning = true;
         yield return new WaitForSecondsRealtime(HoverTime);
-        displayTooltip = true;
         ShowToolTip();
         HoverTimerRunning = false;
     }
