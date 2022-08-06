@@ -90,6 +90,12 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         HideToolTip();
     }
 
+    public void OnDisable()
+    {
+        enteredHoverArea = false;
+        HideToolTip();
+    }
+
     public void ShowToolTip()
     {  
         HeaderObject.text = HeaderText;
