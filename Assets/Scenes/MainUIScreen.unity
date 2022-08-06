@@ -3684,6 +3684,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1056770552}
     m_Modifications:
     - target: {fileID: 1836248268173812046, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
+      propertyPath: HoverTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836248268173812046, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
+      propertyPath: padding.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836248268173812046, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
+      propertyPath: padding.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836248268173812046, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
       propertyPath: raycaster
       value: 
       objectReference: {fileID: 1056770549}
@@ -3697,7 +3709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1836248268173812046, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
       propertyPath: tooltips.Array.data[0].key
-      value: AdventurerTooltip
+      value: AdventurersTooltip
       objectReference: {fileID: 0}
     - target: {fileID: 1836248268173812046, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
       propertyPath: tooltips.Array.data[1].key
@@ -3915,9 +3927,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -12.48163
       objectReference: {fileID: 0}
+    - target: {fileID: 4000696815812815634, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4000696816836829492, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
       propertyPath: m_Text
-      value: Description
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4000696816836829495, guid: 23d5b42483992334d8f81234cba16c87, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5532,6 +5548,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5698263808138649702, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
     - {fileID: 5698263808138649703, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
+    - {fileID: 5698263808138649696, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0e2b6f3fc16968e4caeb036bacbb58e4, type: 3}
 --- !u!114 &5698263808099909861 stripped
 MonoBehaviour:
