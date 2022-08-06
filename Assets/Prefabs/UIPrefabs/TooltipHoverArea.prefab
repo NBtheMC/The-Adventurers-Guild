@@ -91,3 +91,6 @@ MonoBehaviour:
   TooltipFile: {fileID: 0}
   HoverTime: 0.25
   CursorPosition: 0
+  scaler: {fileID: 0}
+  ScreenScale: {x: 0, y: 0}
+  padding: {x: 5, y: 20, z: 0}

@@ -20,9 +20,14 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public enum TooltipPosition { TopLeft, TopMiddle, TopRight, MiddleLeft, MiddleRight, BottomLeft, BottomMiddle, BottomRight};
     public TooltipPosition CursorPosition;
 
+    [SerializeField] private CanvasScaler scaler;
+    public Vector2 ScreenScale;
+
     private bool displayTooltip = false;
     private bool enteredHoverArea = false;
     private Vector3 lastMousePosition;
+    public Vector3 padding;
+
     public void Start()
     {
         if(TooltipObject == null)
@@ -32,6 +37,9 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (DescriptionObject == null)
             DescriptionObject = TooltipObject.transform.GetChild(0).GetChild(1).GetComponent<Text>();
 
+        if (scaler == null)
+            scaler = GameObject.Find("QuestDisplayManager/QuestDisplay").GetComponent<CanvasScaler>();
+        ScreenScale = new Vector2(scaler.referenceResolution.x / Screen.width, scaler.referenceResolution.y / Screen.height);
 
         //read data from file and split the lines
         string tooltipText = TooltipFile.text;
@@ -41,10 +49,7 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         HeaderText = splitText[0];
         //remaining lines contain description text
         for (int i = 1; i < splitText.Length; i++)
-            DescriptionText += splitText[i];
-
-
-        
+            DescriptionText += splitText[i];  
     }
 
     public void Update()
@@ -122,33 +127,34 @@ public class TooltipHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private Vector3 GetPositionOffset()
     {
+        ScreenScale = new Vector2(scaler.referenceResolution.x / Screen.width, scaler.referenceResolution.y / Screen.height);
         Rect tooltipRect = TooltipObject.GetComponent<RectTransform>().rect;
         Vector3 offset;
         switch (CursorPosition)
         {
             case TooltipPosition.TopLeft:
-                offset = new Vector3(tooltipRect.width, 0, 0);
+                offset = new Vector3((tooltipRect.width / 2 + padding.x)/ ScreenScale.x, 0, 0);
                 break;
             case TooltipPosition.TopRight:
-                offset = new Vector3(-tooltipRect.width, 0, 0);
+                offset = new Vector3(-(tooltipRect.width / 2 + padding.x) / ScreenScale.x, 0, 0);
                 break;
             case TooltipPosition.TopMiddle:
                 offset = new Vector3(0, 0, 0);
                 break;
             case TooltipPosition.BottomLeft:
-                offset = new Vector3(tooltipRect.width, tooltipRect.height * 2, 0);
+                offset = new Vector3((tooltipRect.width / 2 + padding.x) / ScreenScale.x, (tooltipRect.height + padding.y) / ScreenScale.y, 0);
                 break;
             case TooltipPosition.BottomRight:
-                offset = new Vector3(-tooltipRect.width, tooltipRect.height * 2, 0);
+                offset = new Vector3(-(tooltipRect.width / 2 + padding.x) / ScreenScale.x, (tooltipRect.height + padding.y) / ScreenScale.y, 0);
                 break;
             case TooltipPosition.BottomMiddle:
-                offset = new Vector3(0, tooltipRect.height * 2, 0);
+                offset = new Vector3(0, (tooltipRect.height + padding.y) / ScreenScale.y, 0);
                 break;
             case TooltipPosition.MiddleLeft:
-                offset = new Vector3(tooltipRect.width, tooltipRect.height, 0);
+                offset = new Vector3((tooltipRect.width / 2 + padding.x) / ScreenScale.x, (tooltipRect.height / 2 + padding.y) / ScreenScale.y, 0);
                 break;
             case TooltipPosition.MiddleRight:
-                offset = new Vector3(-tooltipRect.width, tooltipRect.height, 0);
+                offset = new Vector3(-(tooltipRect.width / 2 + padding.x)/ ScreenScale.x, (tooltipRect.height / 2 + padding.y) / ScreenScale.y, 0);
                 break;
             default:
                 offset = new Vector3(0, 0, 0);
