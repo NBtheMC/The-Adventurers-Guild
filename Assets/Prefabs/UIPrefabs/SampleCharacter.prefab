@@ -996,7 +996,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 843221385724769840, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: m_Name
-      value: TooltipHoverArea
+      value: ExplorationTooltip
       objectReference: {fileID: 0}
     - target: {fileID: 6827820771504268494, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: TooltipFile
@@ -1106,7 +1106,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 843221385724769840, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: m_Name
-      value: TooltipHoverArea
+      value: ConstitutionTooltip
       objectReference: {fileID: 0}
     - target: {fileID: 6827820771504268494, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: TooltipFile
@@ -1216,7 +1216,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 843221385724769840, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: m_Name
-      value: TooltipHoverArea
+      value: CombatTooltip
       objectReference: {fileID: 0}
     - target: {fileID: 6827820771504268494, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: TooltipFile
@@ -1326,7 +1326,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 843221385724769840, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: m_Name
-      value: TooltipHoverArea
+      value: NegotiationTooltip
       objectReference: {fileID: 0}
     - target: {fileID: 6827820771504268494, guid: 9fcb47d6e20bdec4e8d72c1bfe89361b, type: 3}
       propertyPath: TooltipFile
