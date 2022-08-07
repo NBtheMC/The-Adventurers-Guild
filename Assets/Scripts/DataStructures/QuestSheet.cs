@@ -21,6 +21,7 @@ public class QuestSheet
 	public int eventTicksElapsed { get; private set; } // Tracks how many ticks has elapsed for an ADVENTURING quest and executes events appropriatly.
 	public float timeToExpire { get; private set; } // How much time until a WAITING quest will auto-reject
 	public float expirationTimer { get; private set; } // Tracks how many ticks have passed for the expiration timer
+	public int totalTimeToComplete { get; private set; }
 
 	public int accumulatedGold { get; private set; } // How much gold has been accumulated from the events.
 	public int totalGold { get; private set; }
@@ -30,6 +31,11 @@ public class QuestSheet
 	public List<EventNode> visitedNodes;
 
 	public string questRecap { get; private set; }
+
+	//Changers for when the quest is rejected
+	public List<Storylet.IntChange> intChanges;
+	public List<Storylet.ValueChange> floatChanges;
+	public List<Storylet.StateChange> boolChanges;
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -56,6 +62,7 @@ public class QuestSheet
 		// Initialize our tracking variables.
 		eventTicksElapsed = 0;
 		timeUntilProgression = 0;
+		totalTimeToComplete = EstimatedTimeToComplete(headConnection);
 		accumulatedGold = 0;
 		totalGold = 0;
 
@@ -93,8 +100,8 @@ public class QuestSheet
         switch (currentState)
 		{
 			case QuestState.WAITING:
-				returnVal = AdvanceWaitingQuest();
-				//returnVal = 0;
+				//returnVal = AdvanceWaitingQuest();
+				returnVal = 0;
 				break;
 			case QuestState.ADVENTURING:
 				returnVal = AdvanceActiveQuest();
@@ -112,8 +119,12 @@ public class QuestSheet
 		if(expirationTimer >= timeToExpire) 
 		{
 			//code to reject quest
+			foreach (Storylet.IntChange change in intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+			foreach (Storylet.StateChange change in boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
+			foreach (Storylet.ValueChange change in floatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
 			return 2;
 		}
+
 		expirationTimer++;
 		return 0;
     }
@@ -143,6 +154,7 @@ public class QuestSheet
 				if (nextConnection.nextNode != null)
 				{
 					currentConnection = nextConnection.nextNode;
+					totalTimeToComplete = EstimatedTimeToComplete(currentConnection);
 				}
 				else
 				{
@@ -206,6 +218,25 @@ public class QuestSheet
 		}
 
 		return totalRewards;
+	}
+
+	public int EstimatedTimeToComplete(EventNode node)
+    {
+		return MaxTime(node);
+    }
+
+	private int MaxTime(EventNode currentNode)
+	{
+		int totalTime = 0;
+
+		foreach (EventNode.EventCase eCase in currentConnection.eventCases)
+		{
+			int nodeTime = eCase.time;
+			if (eCase.nextNode != null) { nodeTime += MaxReward(eCase.nextNode); }
+			if (nodeTime > totalTime) { totalTime = nodeTime; }
+		}
+
+		return totalTime;
 	}
 
 	public string GetQuestRecap(){

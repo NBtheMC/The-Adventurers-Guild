@@ -47,7 +47,7 @@ public class QuestBanner : MonoBehaviour
                 questStatus.gameObject.SetActive(false);
                 timerObject.gameObject.SetActive(true);
                 if(questSheet.timeUntilProgression > 0)
-                    timerObject.value = questSheet.eventTicksElapsed / questSheet.timeUntilProgression;
+                    timerObject.value = questSheet.eventTicksElapsed / questSheet.totalTimeToComplete;
                 else
                     timerObject.value = 0;
                 break;
