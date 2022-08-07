@@ -81,7 +81,7 @@ public class DebriefReport : MonoBehaviour
 		previousPage.SetActive(false);
 		SetGoldDisplayState(true);
 		PageNumber.gameObject.SetActive(false);
-		titleText.text = "End of Day " + timeSystem.getTime().day;
+		titleText.text = "End of Day " + timeSystem.GameTime.day;
 
 		day += 1;
 		print(day);
@@ -90,7 +90,7 @@ public class DebriefReport : MonoBehaviour
 
 	private void OnEnable()
 	{
-		day = timeSystem.getTime().day - 1;
+		day = timeSystem.GameTime.day - 1;
 		if(day < 0)
 			day = 0;
 		PrintReport(day);
@@ -105,7 +105,7 @@ public class DebriefReport : MonoBehaviour
 
 	public void DisplayNextPage()
     {
-		GameTime gameTime = debriefTracker.timeSystem.getTime();
+		GameTime gameTime = debriefTracker.timeSystem.GameTime;
 		if (day < gameTime.day - 1)
 			day++;
 		titleText.text = "Day " + day + " Report";

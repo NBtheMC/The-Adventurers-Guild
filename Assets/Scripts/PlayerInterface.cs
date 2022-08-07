@@ -66,6 +66,8 @@ public class PlayerInterface : MonoBehaviour
     {
         if (party.Party_Members.Count == 0) { Debug.Log($"No members {party.Party_Members.Count}"); return; }
 
+        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().AddTicks(8);
+
         // Send the thing on the quest.
         adventurerSheetManager.SendPartyOnQuest(this, quest);
         foreach(CharacterSheet adventurer in party.Party_Members)
@@ -77,6 +79,8 @@ public class PlayerInterface : MonoBehaviour
 
         //display activequestbanner
         GetQuestBanner(quest).ToggleQuestActiveState();
+
+
     }
 
     private QuestBanner GetQuestBanner(QuestSheet quest)
@@ -84,6 +88,7 @@ public class PlayerInterface : MonoBehaviour
         GameObject bannerList = GameObject.Find("QuestDisplayManager/QuestDisplay/QuestList/QuestListViewport/ListContent");
         if (bannerList == null)
             Debug.LogError("bannerlist is null");
+
         foreach(Transform transform in bannerList.transform)
         {
             if (transform.GetComponent<QuestBanner>().questSheet == quest)
@@ -95,16 +100,21 @@ public class PlayerInterface : MonoBehaviour
 
     public void LeftClickedOnCharacter(CharacterSheet character)
     {
-        itemDisplayManager.DisplayCharacter(character);
+        if (!itemDisplayManager.DisplayCharacter(character))
+            GameObject.Find("TimeSystem").GetComponent<TimeSystem>().AddTicks(2);
     }
 
-    public void CloseQuesDisplay(PartySheet party)
+    public void CloseQuestDisplay(PartySheet party)
     {
         foreach(CharacterSheet adventurer in party.Party_Members)
         {
             adventurerSheetManager.SetAdventurerState(adventurer, AdventurerState.FREE);
             adventurerPoolController.ResetPortraitColor(adventurer);
         }
+    }
 
+    public void SetItemDisplayNone()
+    {
+        itemDisplayManager.ClearDisplay();
     }
 }
