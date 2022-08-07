@@ -20,6 +20,7 @@ public class TimeSystem : MonoBehaviour
     public int TicksPerHour { get => _ticksperHour; }
     public int TotalTicksperDay { get => _hoursInDay * _ticksperHour; } // Get the mathatical ticks per active day.
     public int TotalTicksperActive { get => _activeHours * _ticksperHour; } // Get the total number of ticks that the player exists in.
+    public int TotalTicks { get => _gameTime.hour * _ticksperHour + _gameTime.tick; } //how many ticks have occurred for this day
     public GameTime GameTime { get => _gameTime; }
     public bool TimeActive { get; private set; } //Can be read by other classes to determine if timer is running
     #endregion
