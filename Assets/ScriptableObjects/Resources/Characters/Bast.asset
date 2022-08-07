@@ -16,8 +16,7 @@ MonoBehaviour:
   hiredAtStart: 1
   combat: 13
   exploration: 7
-  negotiation: 7
-  constitution: 5
+  charisma: 7
   portrait: {fileID: 21300000, guid: dc3d675aee886394e99fd0fee248971a, type: 3}
   Biography: "An unusual combat-seeking mage with an equally unusual hair color.
     Full name is Sebastian Elric de Rochefort, second son of the Rochefort house

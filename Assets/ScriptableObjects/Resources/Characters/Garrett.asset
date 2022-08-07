@@ -16,7 +16,6 @@ MonoBehaviour:
   hiredAtStart: 0
   combat: 11
   exploration: 13
-  negotiation: 6
-  constitution: 9
+  charisma: 6
   portrait: {fileID: 21300000, guid: c35b17eafbfc6fd468f3c88b3cd1fcf5, type: 3}
   Biography: A trapper-turned-adventurer with a family to support.

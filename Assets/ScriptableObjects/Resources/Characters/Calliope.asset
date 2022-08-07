@@ -16,8 +16,7 @@ MonoBehaviour:
   hiredAtStart: 0
   combat: 7
   exploration: 11
-  negotiation: 11
-  constitution: 8
+  charisma: 11
   portrait: {fileID: 21300000, guid: 7a8255cad7592444cb931445e23a64fc, type: 3}
   Biography: A wandering bard. Compulsive wanderer, but their wanderlust has sated
     a bit after meeting the varied personalities of the Guild. Carries strings around,

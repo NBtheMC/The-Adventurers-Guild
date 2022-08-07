@@ -16,8 +16,7 @@ MonoBehaviour:
   hiredAtStart: 0
   combat: 7
   exploration: 9
-  negotiation: 13
-  constitution: 7
+  charisma: 13
   portrait: {fileID: 21300000, guid: 78122181716785e43a55e22ff95347e3, type: 3}
   Biography: "A honey-tongued, profit minded individual from the Fennec Fox tribe,
     who dwell deep within the deserts in Arcanist territory. Gets along with adventurers

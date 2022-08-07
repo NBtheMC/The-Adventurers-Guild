@@ -88,7 +88,13 @@ public class CharacterSheet
 
     public void addStatExperience(StatDescriptors statname, int number)
     {
-        statlines[statname][1]+=number;
+        try{
+            statlines[statname][1]+=number;
+        }
+        catch{
+            Debug.LogError("Stat added to does not exist");
+            return;
+        }
         //levelling up
         while(statlines[statname][1]>=statlines[statname][2]){
             statlines[statname][0]++;   //level

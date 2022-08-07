@@ -16,8 +16,7 @@ MonoBehaviour:
   hiredAtStart: 0
   combat: 7
   exploration: 13
-  negotiation: 9
-  constitution: 8
+  charisma: 9
   portrait: {fileID: 21300000, guid: 87ca32aa4ed89ff43a68015951abb2d1, type: 3}
   Biography: "Originally from a port town, they were a little too curious about what
     lay further inland. Their underfoot physique isn\u2019t exactly top sailor material,

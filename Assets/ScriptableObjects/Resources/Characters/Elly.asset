@@ -16,8 +16,7 @@ MonoBehaviour:
   hiredAtStart: 0
   combat: 13
   exploration: 6
-  negotiation: 13
-  constitution: 3
+  charisma: 13
   portrait: {fileID: 21300000, guid: 977736edba378804a9d01182145c14b1, type: 3}
   Biography: "An epicurean, hedonistic vampire who hides within the somber cathedrals
     of the Order. Dislikes light, but their name, Ellanore, means \u201Cshining light.\u201D

@@ -16,8 +16,7 @@ MonoBehaviour:
   hiredAtStart: 0
   combat: 12
   exploration: 12
-  negotiation: 12
-  constitution: 9
+  charisma: 12
   portrait: {fileID: 21300000, guid: c7f2343b60fc6b4408ea4960836e5205, type: 3}
   Biography: An ally? of questionable character and loyalty. Must be paid upfront.
     A master of disguise of Elvish? origin. Someone somewhere must know more about
