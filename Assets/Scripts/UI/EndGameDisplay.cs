@@ -20,7 +20,7 @@ public class EndGameDisplay : MonoBehaviour
 
 	public void ShowInfo(Storylet info)
 	{
-		titleText.text = info.name;
+		titleText.text = info.questName;
 		textDescription.text = info.questDescription;
 	}
 }

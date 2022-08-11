@@ -8,7 +8,8 @@ using UnityEngine.Events;
 /// Sends back an package full of information for Quest Sheet to use, specifically what the next node is.
 /// Also update bonds.
 /// </summary>
-public class EventNode
+[CreateAssetMenu(fileName = "NewEventNode", menuName = "Event Node", order = 0)]
+public class EventNode : ScriptableObject
 {
 	public string name;
 
@@ -27,7 +28,7 @@ public class EventNode
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
 	[System.Serializable]
-	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public Storylet.NumberTriggerType triggerType; public int value; }
+	public struct StatCheck { public CharacterSheet.StatDescriptors stat; public NumberTriggerType triggerType; public int value; }
 
 	public struct PartyCheck { public string character; public bool present; }
 	

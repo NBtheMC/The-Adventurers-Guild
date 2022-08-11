@@ -81,7 +81,7 @@ public class WorldStateManager : MonoBehaviour
 
 			// Add them into the dictionary and set it to zero.
 			numberOfActivations.Add(storylet, 0);
-			Debug.Log($"Added number of activations for {storylet.name}");
+			Debug.Log($"Added number of activations for {storylet.questName}");
 		}
 
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
@@ -286,19 +286,19 @@ public class WorldStateManager : MonoBehaviour
 				float worldValue = GetWorldValue(triggerValue.name);
 				switch (triggerValue.triggerType)
 				{
-					case Storylet.NumberTriggerType.LessThanEqualTo:
+					case NumberTriggerType.LessThanEqualTo:
 						if (worldValue > triggerValue.value) { validStorylet = false;}
 						break;
-					case Storylet.NumberTriggerType.LessThan: // Fail check if world value is more.
+					case NumberTriggerType.LessThan: // Fail check if world value is more.
 						if (worldValue >= triggerValue.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.EqualTo: // checks for exact equal value. fail check if world value is not exact.
+					case NumberTriggerType.EqualTo: // checks for exact equal value. fail check if world value is not exact.
 						if (worldValue != triggerValue.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.GreaterThanEqualTo:
+					case NumberTriggerType.GreaterThanEqualTo:
 						if (worldValue < triggerValue.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.GreaterThan: // Fail check if world value is less.
+					case NumberTriggerType.GreaterThan: // Fail check if world value is less.
 						if (worldValue <= triggerValue.value) { validStorylet = false; }
 						break;
 					default:
@@ -326,19 +326,19 @@ public class WorldStateManager : MonoBehaviour
 				int worldInt = GetWorldInt(triggerInt.name);
 				switch (triggerInt.triggerType)
 				{
-					case Storylet.NumberTriggerType.LessThanEqualTo:
+					case NumberTriggerType.LessThanEqualTo:
 						if (worldInt > triggerInt.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.LessThan: // Fail check if world value is more.
+					case NumberTriggerType.LessThan: // Fail check if world value is more.
 						if (worldInt >= triggerInt.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.EqualTo: // checks for exact equal value. fail check if world value is not exact.
+					case NumberTriggerType.EqualTo: // checks for exact equal value. fail check if world value is not exact.
 						if (worldInt != triggerInt.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.GreaterThanEqualTo:
+					case NumberTriggerType.GreaterThanEqualTo:
 						if (worldInt < triggerInt.value) { validStorylet = false; }
 						break;
-					case Storylet.NumberTriggerType.GreaterThan: // Fail check if world value is less.
+					case NumberTriggerType.GreaterThan: // Fail check if world value is less.
 						if (worldInt <= triggerInt.value) { validStorylet = false; }
 						break;
 					default:
