@@ -35,7 +35,7 @@ public class PlayerInterface : MonoBehaviour
         {
             adventurerSheetManager.SetAdventurerState(character, AdventurerState.ASSIGNED);
             itemDisplayManager.AssignAdventurer(character);
-            adventurerPoolController.GrayOutPortrait(character);
+            // adventurerPoolController.GrayOutPortrait(character);
         }
     }
 
@@ -56,7 +56,7 @@ public class PlayerInterface : MonoBehaviour
             adventurerSheetManager.SetAdventurerState(character, AdventurerState.FREE);
             itemDisplayManager.RemoveAdventurer(character);
             //itemDisplayManager.GetQuestUI().GetComponent<QuestUI>().questIsActive;
-            adventurerPoolController.ResetPortraitColor(character);
+            // adventurerPoolController.ResetPortraitColor(character);
             return true;
         }
         return false;
@@ -73,7 +73,7 @@ public class PlayerInterface : MonoBehaviour
         foreach(CharacterSheet adventurer in party.Party_Members)
         {
             adventurerSheetManager.SetAdventurerState(adventurer, AdventurerState.QUESTING);
-            adventurerPoolController.BlackOutPortrait(adventurer);
+            //adventurerPoolController.BlackOutPortrait(adventurer);
         }
         questingManager.StartQuest(quest);
 
@@ -109,7 +109,7 @@ public class PlayerInterface : MonoBehaviour
         foreach(CharacterSheet adventurer in party.Party_Members)
         {
             adventurerSheetManager.SetAdventurerState(adventurer, AdventurerState.FREE);
-            adventurerPoolController.ResetPortraitColor(adventurer);
+            // adventurerPoolController.ResetPortraitColor(adventurer);
         }
     }
 

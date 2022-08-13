@@ -34,6 +34,7 @@ public class CharacterPoolController : MonoBehaviour
         differenceInspace = spacing - sampleCharacter.GetComponent<RectTransform>().rect.height;
 
         characterManager = GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>();
+        characterManager.AdventurerStateChanged += UpdateCharacterDisplay;
 	}
 
     // Start is called before the first frame update
@@ -199,6 +200,19 @@ public class CharacterPoolController : MonoBehaviour
     {
         foreach(CharacterSheet adventurer in quest.adventuring_party.Party_Members)
             ResetPortraitColor(adventurer);
+    }
+
+    public void UpdateCharacterDisplay(object src, System.Tuple<CharacterSheet, AdventurerState> tuple)
+    {
+        var character = tuple.Item1;
+        var state = tuple.Item2;
+
+        if (state == AdventurerState.ASSIGNED)
+            GrayOutPortrait(character);
+        if (state == AdventurerState.QUESTING)
+            BlackOutPortrait(character);
+        if (state == AdventurerState.FREE)
+            ResetPortraitColor(character);
     }
 
 }
