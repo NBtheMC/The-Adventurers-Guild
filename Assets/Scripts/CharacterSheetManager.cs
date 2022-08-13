@@ -7,6 +7,7 @@ using UnityEngine;
 public class CharacterSheetManager : MonoBehaviour
 {
     protected Dictionary<CharacterSheet, AdventurerState> adventurerStates; //represents state of advenutrers
+    private Dictionary<CharacterSheet, int> adventurerRestPeriods;
 
     // These properties are used to access a read only list of adventurers
     public ReadOnlyCollection<CharacterSheet> UnhiredAdventurers { get { return GetAdventurersWithState(AdventurerState.UNHIRED); } }
@@ -22,16 +23,16 @@ public class CharacterSheetManager : MonoBehaviour
     public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return GetHiredAdventurers(); } }
 
     public event EventHandler<EventArgs> AdventurerHired;
-
+    public event EventHandler<Tuple<CharacterSheet, AdventurerState>> AdventurerStateChanged;
     CharacterInitialStats[] characters;
     public bool isCredits;
 
     public virtual void Awake()
     {
-        if(!isCredits){
+        if (!isCredits) {
             characters = Resources.LoadAll<CharacterInitialStats>("Characters");
         }
-        else{
+        else {
             characters = Resources.LoadAll<CharacterInitialStats>("Credits");
         }
 
@@ -49,7 +50,7 @@ public class CharacterSheetManager : MonoBehaviour
             else
                 adventurerStates.Add(charSheet, AdventurerState.UNHIRED);
         }
-    
+
     }
 
     private void Start()
@@ -57,12 +58,13 @@ public class CharacterSheetManager : MonoBehaviour
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += PartyBackFromQuest;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
         GameObject.Find("QuestDisplayManager").transform.Find("QuestDisplay").Find("WorldState")
-            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer; 
+            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer;
+        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().TickAdded += UpdateRestingTimes;
     }
 
     public void SendPartyOnQuest(object src, QuestSheet quest)
     {
-        foreach(CharacterSheet character in quest.PartyMembers)
+        foreach (CharacterSheet character in quest.PartyMembers)
             adventurerStates[character] = AdventurerState.QUESTING;
 
         //RosterChange(this, EventArgs.Empty);
@@ -70,7 +72,7 @@ public class CharacterSheetManager : MonoBehaviour
 
     public void PartyBackFromQuest(object src, QuestSheet quest)
     {
-        foreach(CharacterSheet character in quest.PartyMembers)
+        foreach (CharacterSheet character in quest.PartyMembers)
         {
             adventurerStates[character] = AdventurerState.FREE;
             //questingAdventurers.Remove(character);
@@ -83,7 +85,7 @@ public class CharacterSheetManager : MonoBehaviour
     public void HireAdventurer(object src, string name)
     {
         CharacterSheet adventurerToHire = null;
-        foreach(var item in adventurerStates)
+        foreach (var item in adventurerStates)
             if (item.Key.name.Equals(name))
                 adventurerToHire = item.Key;
 
@@ -144,7 +146,7 @@ public class CharacterSheetManager : MonoBehaviour
     private ReadOnlyCollection<CharacterSheet> GetAdventurersWithState(AdventurerState state)
     {
         List<CharacterSheet> list = new List<CharacterSheet>();
-        foreach(var item in adventurerStates)
+        foreach (var item in adventurerStates)
             if (item.Value == state)
                 list.Add(item.Key);
 
@@ -158,7 +160,7 @@ public class CharacterSheetManager : MonoBehaviour
     /// <returns></returns>
     public AdventurerState? GetAdventurerState(CharacterSheet adventurer)
     {
-        if(adventurerStates.ContainsKey(adventurer))
+        if (adventurerStates.ContainsKey(adventurer))
             return adventurerStates[adventurer];
 
         Debug.LogError("CharacterSheet does not exist in dictionary");
@@ -167,10 +169,15 @@ public class CharacterSheetManager : MonoBehaviour
 
     public void SetAdventurerState(CharacterSheet adventurer, AdventurerState state)
     {
-        if (adventurerStates.ContainsKey(adventurer))
-            adventurerStates[adventurer] = state;
-        else
+
+        if (!adventurerStates.ContainsKey(adventurer))
             Debug.LogError("CharacterSheet does not exist in dictionary");
+        else
+        {
+            adventurerStates[adventurer] = state;
+            AdventurerStateChanged?.Invoke(this, new Tuple<CharacterSheet, AdventurerState>(adventurer, state));
+        }
+
     }
 
     private ReadOnlyCollection<CharacterSheet> GetHiredAdventurers()
@@ -182,5 +189,22 @@ public class CharacterSheetManager : MonoBehaviour
 
         return list.AsReadOnly();
 
+    }
+
+    private void UpdateRestingTimes(object src, GameTime gameTime)
+    {
+        /*
+        foreach (var character in adventurerRestPeriods.Keys)
+        {
+            if (adventurerRestPeriods[character] > 0)
+                adventurerRestPeriods[character]--;
+
+            if (adventurerRestPeriods[character] == 0)
+            {
+                adventurerStates[character] = AdventurerState.FREE;
+            }
+
+        }
+        */
     }
 }
