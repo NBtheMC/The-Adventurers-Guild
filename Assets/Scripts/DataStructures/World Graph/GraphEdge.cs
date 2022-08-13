@@ -7,5 +7,5 @@ public class GraphEdge
     [HideInInspector] public WorldLocation source;
     public WorldLocation dest;
     public float timeToTravel;
-    public float difficulty;
+    //public float difficulty;
 }

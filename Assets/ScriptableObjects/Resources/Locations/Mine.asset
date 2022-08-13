@@ -10,17 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
-  m_Name: D
+  m_Name: Mine
   m_EditorClassIdentifier: 
-  locationName: D
+  locationName: Mine
   connections:
   - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: 82ebf1a08f0b252469ba8f7af1d04b7f, type: 2}
-    timeToTravel: 3
-    difficulty: 1
-  - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: ac628a4c5b194174799261dbd8742c2a, type: 2}
-    timeToTravel: 5
-    difficulty: 1
-  d: 5
-  pred: {fileID: 11400000, guid: a9e8ee174d67f544fb1132e2377f9b48, type: 2}
+    dest: {fileID: 11400000, guid: 0603e68b03fd837498ce4fea639a62ff, type: 2}
+    timeToTravel: 4
+  d: 2
+  pred: {fileID: 11400000, guid: 89c9e443276374b4489d1728e6c526b6, type: 2}

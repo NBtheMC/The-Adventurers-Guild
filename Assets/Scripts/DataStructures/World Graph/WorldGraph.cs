@@ -7,11 +7,12 @@ public class WorldGraph
 {
     private List<List<GraphEdge>> edges;
     private List<WorldLocation> nodes;
+    private WorldLocation guildNode;
 
     public IReadOnlyCollection<List<GraphEdge>> Edges { get { return edges.AsReadOnly(); } }
     public IReadOnlyCollection<WorldLocation> Nodes { get { return nodes.AsReadOnly(); } }
 
-    public WorldGraph() 
+    public WorldGraph()
     {
         edges = new List<List<GraphEdge>>();
         nodes = new List<WorldLocation>();
@@ -19,7 +20,7 @@ public class WorldGraph
         WorldLocation[] locations;
         locations = Resources.LoadAll<WorldLocation>("Locations");
 
-        foreach(var location in locations)
+        foreach (var location in locations)
         {
             foreach (var edge in location.connections)
             {
@@ -27,14 +28,16 @@ public class WorldGraph
             }
             edges.Add(location.connections);
             nodes.Add(location);
+            if (location.locationName == "Guild")
+                guildNode = location;
         }
     }
 
     public WorldLocation getLocationObjRef(string name)
     {
-        foreach(var node in nodes) 
+        foreach (var node in nodes)
         {
-            if(node.locationName == name)
+            if (node.locationName == name)
             {
                 return node;
             }
@@ -45,7 +48,7 @@ public class WorldGraph
 
     private GraphEdge getEdge(WorldLocation source, WorldLocation dest)
     {
-        for(int i = 0; i < edges.Count; i++)
+        for (int i = 0; i < edges.Count; i++)
         {
             if (edges[nodes.IndexOf(source)][i].dest == dest)
                 return edges[nodes.IndexOf(source)][i];
@@ -55,17 +58,22 @@ public class WorldGraph
 
     private void Relax(GraphEdge e)
     {
-        if(e.dest.d > e.source.d + e.timeToTravel)
+        if (e.dest.d > e.source.d + e.timeToTravel)
         {
             e.dest.d = e.source.d + e.timeToTravel;
             e.dest.pred = e.source;
         }
     }
 
-    public (List<WorldLocation>, float) getShortestPath(WorldLocation s, WorldLocation d, float DC)
+    public (List<WorldLocation>, float) getShortestPathFromGuild(WorldLocation d) 
+    {
+        return getShortestPath(guildNode, d);
+    }
+
+    public (List<WorldLocation>, float) getShortestPath(WorldLocation s, WorldLocation d)
     {
         //initialize stuff for Dijkstra SSSP
-        foreach(var location in nodes)
+        foreach (var location in nodes)
         {
             if (location == s)
                 location.d = 0;
@@ -86,22 +94,18 @@ public class WorldGraph
             if (u == d)
                 break;
 
-            foreach(var edge in edges[nodes.IndexOf(u)])
+            foreach (var edge in edges[nodes.IndexOf(u)])
             {
-                //ignore edges that party cannot traverse
-                if(edge.difficulty <= DC)
+                Relax(edge);
+                if (queue.Contains(edge.dest))
                 {
-                    Relax(edge);
-                    if (queue.Contains(edge.dest))
-                    {
-                        queue.DecreaseKey(edge.dest, edge.dest.d);
-                    }
-                    else
-                        queue.Insert(edge.dest, edge.dest.d);
-                }   
-            }     
+                    queue.DecreaseKey(edge.dest, edge.dest.d);
+                }
+                else
+                    queue.Insert(edge.dest, edge.dest.d);
+            }
         }
-        
+
         //return null if there is no path to d
         if (d.pred == null)
             return (null, -1);
@@ -113,12 +117,12 @@ public class WorldGraph
             path.Insert(0, i);
 
         }
-            
+
         //get total time taken for journey
         float totalTime = 0f;
-        for(int i = 0; i < path.Count - 1; i++)
+        for (int i = 0; i < path.Count - 1; i++)
         {
-            GraphEdge e = getEdge(path[i], path[i+ 1]);
+            GraphEdge e = getEdge(path[i], path[i + 1]);
             totalTime += e.timeToTravel;
         }
 

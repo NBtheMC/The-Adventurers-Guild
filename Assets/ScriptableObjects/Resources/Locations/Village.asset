@@ -10,13 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
-  m_Name: G
+  m_Name: Village
   m_EditorClassIdentifier: 
-  locationName: G
-  connections:
-  - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: 6cc8535270a626f478b0b919def40e8f, type: 2}
-    timeToTravel: 1
-    difficulty: 1
-  d: Infinity
-  pred: {fileID: 0}
+  locationName: Village
+  connections: []
+  d: 3
+  pred: {fileID: 11400000, guid: 89c9e443276374b4489d1728e6c526b6, type: 2}

@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
-  m_Name: C
+  m_Name: Guild
   m_EditorClassIdentifier: 
-  locationName: C
+  locationName: Guild
   connections:
   - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: ff4e0188aa03ee347a1cc0643d24c841, type: 2}
+    dest: {fileID: 11400000, guid: 7304fdf6cef0c2747a6ecaf2de346ede, type: 2}
     timeToTravel: 3
-    difficulty: 1
   - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: 82ebf1a08f0b252469ba8f7af1d04b7f, type: 2}
-    timeToTravel: 1
-    difficulty: 8
-  d: 2
-  pred: {fileID: 11400000, guid: ca2d6e84ee50b864888cd1a47978bac1, type: 2}
+    dest: {fileID: 11400000, guid: 03b795de085b5ce4d8e0fb469ae5e453, type: 2}
+    timeToTravel: 2
+  - source: {fileID: 11400000}
+    dest: {fileID: 11400000, guid: 0603e68b03fd837498ce4fea639a62ff, type: 2}
+    timeToTravel: 5
+  d: 0
+  pred: {fileID: 0}

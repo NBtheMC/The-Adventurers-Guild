@@ -12,11 +12,24 @@ public class GraphObject : MonoBehaviour
     {
         graph = new WorldGraph();
 
-        WorldLocation A = graph.getLocationObjRef("A");
-        WorldLocation E = graph.getLocationObjRef("G");
-        var temp = graph.getShortestPath(A, E, 3);
+        WorldLocation mine = graph.getLocationObjRef("Mine");
+        WorldLocation farm = graph.getLocationObjRef("Farm");
+        var temp = graph.getShortestPath(mine, farm);
 
         String s = "";
+        if (temp.Item1 != null)
+        {
+            s += "Time: " + temp.Item2 + " Path: ";
+            foreach (var i in temp.Item1)
+            {
+                s += i.locationName + " ";
+            }
+        }
+        else s = "No Viable Path!";
+        print(s);
+
+        temp = graph.getShortestPathFromGuild(farm);
+        s = "";
         if (temp.Item1 != null)
         {
             s += "Time: " + temp.Item2 + " Path: ";

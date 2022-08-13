@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
-  m_Name: A
+  m_Name: Farm
   m_EditorClassIdentifier: 
-  locationName: A
-  connections:
-  - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: f733f9f39f10073459ab11a3d017d7f7, type: 2}
-    timeToTravel: 3
-    difficulty: 1
-  - source: {fileID: 11400000}
-    dest: {fileID: 11400000, guid: a9e8ee174d67f544fb1132e2377f9b48, type: 2}
-    timeToTravel: 2
-    difficulty: 9
-  d: 0
-  pred: {fileID: 0}
+  locationName: Farm
+  connections: []
+  d: 5
+  pred: {fileID: 11400000, guid: 89c9e443276374b4489d1728e6c526b6, type: 2}
