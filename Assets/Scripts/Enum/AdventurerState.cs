@@ -4,8 +4,9 @@
 /// FREE : Has been hired, is not quest, and is not displayed in adventurer pool
 /// ASSIGNED : Has been assigned to a quest that hasnt been sent out yet. Portrait is grayed out in adventurer pool
 /// QUESTING : Has bene assigned to an active quest. Portrait is blacked out in adventurer pool
+/// RESTING : Has returned from a quest and is resting
 /// </summary>
 public enum AdventurerState
 {
-    UNHIRED, FREE, ASSIGNED, QUESTING, DEAD
+    UNHIRED, FREE, ASSIGNED, QUESTING, DEAD, RESTING
 }
