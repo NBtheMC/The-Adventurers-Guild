@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "New Location")]
-public class MapLocation : ScriptableObject
+public class MapLocation
 {
     public string locationName;
-    public List<MapEdge> connections;
-    [HideInInspector] public double d = double.PositiveInfinity;
-    [HideInInspector] public MapLocation pred = null;
+    public double d;
+    public MapLocation pred;
+    public bool visited;
+
+    public MapLocation(string name)
+    {
+        locationName = name;
+        d = double.PositiveInfinity;
+        pred = null;
+        visited = false;
+    }
 }

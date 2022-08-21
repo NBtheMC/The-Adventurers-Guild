@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ed8572217a47564e8a132b7062d0358, type: 3}
   m_Name: Mine
   m_EditorClassIdentifier: 
   locationName: Mine
   connections:
-  - source: {fileID: 11400000}
+  - source: {fileID: 0}
     dest: {fileID: 11400000, guid: 0603e68b03fd837498ce4fea639a62ff, type: 2}
     timeToTravel: 4
-  d: 2
-  pred: {fileID: 11400000, guid: 89c9e443276374b4489d1728e6c526b6, type: 2}
+  d: Infinity
+  pred: {fileID: 0}

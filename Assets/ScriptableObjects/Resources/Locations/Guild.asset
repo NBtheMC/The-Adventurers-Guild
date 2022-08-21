@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 452cb09bed2200f41ab8718a045546f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ed8572217a47564e8a132b7062d0358, type: 3}
   m_Name: Guild
   m_EditorClassIdentifier: 
   locationName: Guild
   connections:
-  - source: {fileID: 11400000}
+  - source: {fileID: 0}
     dest: {fileID: 11400000, guid: 7304fdf6cef0c2747a6ecaf2de346ede, type: 2}
     timeToTravel: 3
-  - source: {fileID: 11400000}
+  - source: {fileID: 0}
     dest: {fileID: 11400000, guid: 03b795de085b5ce4d8e0fb469ae5e453, type: 2}
     timeToTravel: 2
-  - source: {fileID: 11400000}
+  - source: {fileID: 0}
     dest: {fileID: 11400000, guid: 0603e68b03fd837498ce4fea639a62ff, type: 2}
     timeToTravel: 5
-  d: 0
+  d: Infinity
   pred: {fileID: 0}
