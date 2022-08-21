@@ -5,20 +5,18 @@ using UnityEngine;
 
 public class WorldMap
 {
-    private List<List<MapEdge>> edges;
     private Dictionary<string, MapLocation> nodes;
-    private Dictionary<string, List<MapEdge>> edgesMap;
+    private Dictionary<string, List<MapEdge>> edges;
     private MapLocation guildNode;
     public TextAsset LocationsCSV;
 
-    public IReadOnlyCollection<List<MapEdge>> Edges { get { return edges.AsReadOnly(); } }
-    public IReadOnlyDictionary<string, MapLocation> Nodes { get { return (IReadOnlyDictionary<string, MapLocation>)nodes; } }
+    public IReadOnlyDictionary<string, List<MapEdge>> Edges { get { return Edges; } }
+    public IReadOnlyDictionary<string, MapLocation> Nodes { get { return nodes; } }
 
     public WorldMap()
     {
-        edges = new List<List<MapEdge>>();
         nodes = new Dictionary<string, MapLocation>();
-        edgesMap = new Dictionary<string, List<MapEdge>>();
+        edges = new Dictionary<string, List<MapEdge>>();
 
         LocationsCSV = Resources.Load<TextAsset>("Locations");
         string locationsText = LocationsCSV.text;
@@ -32,7 +30,7 @@ public class WorldMap
                 Console.WriteLine("Adding " + parts[0]);
                 l1 = new MapLocation(parts[0]);
                 nodes.Add(parts[0], l1);
-                edgesMap.Add(parts[0], new List<MapEdge>());
+                edges.Add(parts[0], new List<MapEdge>());
             }  
 
             MapLocation l2 = getLocationObjRef(parts[1]);
@@ -41,11 +39,11 @@ public class WorldMap
                 Console.WriteLine("Adding " + parts[1]);
                 l2 = new MapLocation(parts[1]);
                 nodes.Add(parts[1], l2);
-                edgesMap.Add(parts[1], new List<MapEdge>());
+                edges.Add(parts[1], new List<MapEdge>());
             }
 
-            edgesMap[parts[0]].Add(new MapEdge(l1, l2, int.Parse(parts[2])));
-            edgesMap[parts[1]].Add(new MapEdge(l2, l1, int.Parse(parts[2])));
+            edges[parts[0]].Add(new MapEdge(l1, l2, int.Parse(parts[2])));
+            edges[parts[1]].Add(new MapEdge(l2, l1, int.Parse(parts[2])));
 
 
         }
@@ -59,13 +57,13 @@ public class WorldMap
         return l;
     }
 
-    private MapEdge getEdge(MapLocation source, MapLocation dest)
+    public MapEdge getEdge(MapLocation source, MapLocation dest)
     {
         string key = source.locationName;
-        for (int i = 0; i < edgesMap[key].Count; i++)
+        for (int i = 0; i < edges[key].Count; i++)
         {
-            if (edgesMap[key][i].dest == dest)
-                return edgesMap[key][i];
+            if (edges[key][i].dest == dest)
+                return edges[key][i];
         }
         return null;
     }
@@ -102,7 +100,7 @@ public class WorldMap
             if (u == d)
                 break;
 
-            foreach (var edge in edgesMap[u.locationName])
+            foreach (var edge in edges[u.locationName])
             {
                 if (!edge.dest.visited)
                 {
