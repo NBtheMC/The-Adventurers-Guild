@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "New Location")]
-public class WorldLocation : ScriptableObject
+public class MapLocation : ScriptableObject
 {
     public string locationName;
-    public List<GraphEdge> connections;
+    public List<MapEdge> connections;
     [HideInInspector] public double d = double.PositiveInfinity;
-    [HideInInspector] public WorldLocation pred = null;
+    [HideInInspector] public MapLocation pred = null;
 }

@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class WorldGraph
 {
-    private List<List<GraphEdge>> edges;
-    private List<WorldLocation> nodes;
-    private WorldLocation guildNode;
+    private List<List<MapEdge>> edges;
+    private List<MapLocation> nodes;
+    private MapLocation guildNode;
 
-    public IReadOnlyCollection<List<GraphEdge>> Edges { get { return edges.AsReadOnly(); } }
-    public IReadOnlyCollection<WorldLocation> Nodes { get { return nodes.AsReadOnly(); } }
+    public IReadOnlyCollection<List<MapEdge>> Edges { get { return edges.AsReadOnly(); } }
+    public IReadOnlyCollection<MapLocation> Nodes { get { return nodes.AsReadOnly(); } }
 
     public WorldGraph()
     {
-        edges = new List<List<GraphEdge>>();
-        nodes = new List<WorldLocation>();
+        edges = new List<List<MapEdge>>();
+        nodes = new List<MapLocation>();
 
-        WorldLocation[] locations;
-        locations = Resources.LoadAll<WorldLocation>("Locations");
+        MapLocation[] locations;
+        locations = Resources.LoadAll<MapLocation>("Locations");
 
         foreach (var location in locations)
         {
@@ -33,7 +33,7 @@ public class WorldGraph
         }
     }
 
-    public WorldLocation getLocationObjRef(string name)
+    public MapLocation getLocationObjRef(string name)
     {
         foreach (var node in nodes)
         {
@@ -46,7 +46,7 @@ public class WorldGraph
         return null;
     }
 
-    private GraphEdge getEdge(WorldLocation source, WorldLocation dest)
+    private MapEdge getEdge(MapLocation source, MapLocation dest)
     {
         for (int i = 0; i < edges.Count; i++)
         {
@@ -56,7 +56,7 @@ public class WorldGraph
         return null;
     }
 
-    private void Relax(GraphEdge e)
+    private void Relax(MapEdge e)
     {
         if (e.dest.d > e.source.d + e.timeToTravel)
         {
@@ -65,12 +65,12 @@ public class WorldGraph
         }
     }
 
-    public (List<WorldLocation>, float) getShortestPathFromGuild(WorldLocation d) 
+    public (List<MapLocation>, float) getShortestPathFromGuild(MapLocation d) 
     {
         return getShortestPath(guildNode, d);
     }
 
-    public (List<WorldLocation>, float) getShortestPath(WorldLocation s, WorldLocation d)
+    public (List<MapLocation>, float) getShortestPath(MapLocation s, MapLocation d)
     {
         //initialize stuff for Dijkstra SSSP
         foreach (var location in nodes)
@@ -89,7 +89,7 @@ public class WorldGraph
         //Dijkstra hates UCSC
         while (!queue.IsEmpty())
         {
-            WorldLocation u = queue.ExtractMin();
+            MapLocation u = queue.ExtractMin();
             //stop search if we hit the destination
             if (u == d)
                 break;
@@ -111,8 +111,8 @@ public class WorldGraph
             return (null, -1);
 
         //otherwise get the path from s to d
-        List<WorldLocation> path = new List<WorldLocation>();
-        for (WorldLocation i = d; i != null; i = i.pred)
+        List<MapLocation> path = new List<MapLocation>();
+        for (MapLocation i = d; i != null; i = i.pred)
         {
             path.Insert(0, i);
 
@@ -122,7 +122,7 @@ public class WorldGraph
         float totalTime = 0f;
         for (int i = 0; i < path.Count - 1; i++)
         {
-            GraphEdge e = getEdge(path[i], path[i + 1]);
+            MapEdge e = getEdge(path[i], path[i + 1]);
             totalTime += e.timeToTravel;
         }
 

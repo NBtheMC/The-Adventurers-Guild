@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldNode
+public class Node
 {
     public string location;
     public double d;
-    public WorldNode pred;
+    public Node pred;
 
-    public WorldNode(string location)
+    public Node(string location)
     {
         this.location = location;
         d = double.PositiveInfinity;

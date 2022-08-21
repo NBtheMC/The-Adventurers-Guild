@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Edge
 {
-    public WorldNode source;
-    public WorldNode dest;
+    public Node source;
+    public Node dest;
     public float timeToTravel;
     public uint difficulty;
 
-    public Edge(WorldNode n1, WorldNode n2, float time, uint diff)
+    public Edge(Node n1, Node n2, float time, uint diff)
     {
         source = n1;
         dest = n2;

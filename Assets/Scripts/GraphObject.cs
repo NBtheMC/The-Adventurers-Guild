@@ -12,8 +12,8 @@ public class GraphObject : MonoBehaviour
     {
         graph = new WorldGraph();
 
-        WorldLocation mine = graph.getLocationObjRef("Mine");
-        WorldLocation farm = graph.getLocationObjRef("Farm");
+        MapLocation mine = graph.getLocationObjRef("Mine");
+        MapLocation farm = graph.getLocationObjRef("Farm");
         var temp = graph.getShortestPath(mine, farm);
 
         String s = "";

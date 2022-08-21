@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
-public class GraphEdge
+public class MapEdge
 {
-    [HideInInspector] public WorldLocation source;
-    public WorldLocation dest;
+    [HideInInspector] public MapLocation source;
+    public MapLocation dest;
     public float timeToTravel;
-    //public float difficulty;
 }

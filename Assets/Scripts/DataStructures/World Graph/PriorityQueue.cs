@@ -6,12 +6,12 @@ using UnityEngine;
 public class PriorityQueue
 {
     //use linked list and then sort it in ascending order based on time to travel
-    public List<(WorldLocation, double)> contents;
+    public List<(MapLocation, double)> contents;
     public int Count { get { return contents.Count; } }
 
-    public PriorityQueue() { contents = new List<(WorldLocation, double)>(); }
+    public PriorityQueue() { contents = new List<(MapLocation, double)>(); }
 
-    public void Insert(WorldLocation n, double priority)
+    public void Insert(MapLocation n, double priority)
     {
         if(contents.Count == 0)
             contents.Add((n, priority));
@@ -30,7 +30,7 @@ public class PriorityQueue
         }     
     }
 
-    public void DecreaseKey(WorldLocation n, double d)
+    public void DecreaseKey(MapLocation n, double d)
     {
         for (int i = 0; i < contents.Count; i++)
         {
@@ -44,7 +44,7 @@ public class PriorityQueue
         Insert(n, d);
     }
 
-    public bool Contains(WorldLocation item)
+    public bool Contains(MapLocation item)
     {
         for(int i = 0; i < contents.Count; i++)
         {
@@ -54,16 +54,16 @@ public class PriorityQueue
         return false;
     }
 
-    public WorldLocation ExtractMin()
+    public MapLocation ExtractMin()
     {
-        WorldLocation n = contents[0].Item1;
+        MapLocation n = contents[0].Item1;
         contents.RemoveAt(0);
         return n;
     }
 
-    public WorldLocation Peak()
+    public MapLocation Peak()
     {
-        WorldLocation n = contents[0].Item1;
+        MapLocation n = contents[0].Item1;
         return n;
     }
 
