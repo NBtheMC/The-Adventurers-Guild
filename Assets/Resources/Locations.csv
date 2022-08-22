@@ -1,4 +1,5 @@
 Guild,Village,3
 Guild,Mine,2
-Guild,Farm,5
 Mine,Farm,4
+Bar,Guild,2
+Bar,Farm,3

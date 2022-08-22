@@ -10,6 +10,8 @@ public class WorldMap
     private MapLocation guildNode;
     public TextAsset LocationsCSV;
 
+    private List<List<MapLocation>> allPaths;
+
     public IReadOnlyDictionary<string, List<MapEdge>> Edges { get { return Edges; } }
     public IReadOnlyDictionary<string, MapLocation> Nodes { get { return nodes; } }
 
@@ -136,5 +138,52 @@ public class WorldMap
         }
 
         return (path, totalTime);
+    }
+
+    public List<List<MapLocation>> getAllPathsFromGuild(MapLocation d)
+    {
+        var locations = nodes.Values;
+
+        foreach (var location in locations)
+        {
+            location.visited = false;
+        }
+
+        List<MapLocation> pathList = new List<MapLocation>();
+        allPaths = new List<List<MapLocation>>();
+
+        pathList.Add(guildNode);
+
+        getAllPathsUtil(guildNode, d, pathList);
+
+        return allPaths;
+    }
+
+    private void getAllPathsUtil(MapLocation s, MapLocation d, List<MapLocation> localPathList)
+    {
+        if(s == d)
+        {
+            allPaths.Add(new List<MapLocation>());
+            foreach(var item in localPathList)
+            {
+                allPaths[allPaths.Count - 1].Add(item);
+            }
+
+            return;
+        }
+
+        nodes[s.locationName].visited = true;
+
+        foreach(var l in edges[s.locationName])
+        {
+            if (!l.dest.visited)
+            {
+                localPathList.Add(l.dest);
+                getAllPathsUtil(l.dest, d, localPathList);
+                localPathList.Remove(l.dest);
+            }
+        }
+
+        nodes[s.locationName].visited = false;
     }
 }

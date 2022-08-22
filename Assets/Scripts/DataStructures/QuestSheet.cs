@@ -9,6 +9,7 @@ public class QuestSheet
 	public string questDescription { get; private set; } // What the description of the quest is.
 	public string faction; // Who's the faction that's giving it.
 	public string questGiver; // Who's giving the quest
+	public string location; // Where the quest is located
 
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.

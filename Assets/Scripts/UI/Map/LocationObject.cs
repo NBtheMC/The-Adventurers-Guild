@@ -20,10 +20,23 @@ public class LocationObject : MonoBehaviour
         locationNameDisplay.text = name;
 
         if (name == "Guild")
-            discovered = true;
+            ShowLocation();
         else
-            discovered = false;
+            gameObject.SetActive(false);
+    }
 
-        gameObject.SetActive(false);
+    public void ShowLocation()
+    {
+        gameObject.SetActive(true);
+        discovered = true;
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetComponent<Image>().color = Color.white;
+    }
+    public void HideLocation()
+    {
+        gameObject.SetActive(true);
+        discovered = false;
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetComponent<Image>().color = Color.black;
     }
 }
