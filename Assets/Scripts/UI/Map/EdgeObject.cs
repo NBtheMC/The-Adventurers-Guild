@@ -14,9 +14,9 @@ public class EdgeObject : MonoBehaviour
     {
         string[] locations = name.Split('-');
         if(Node1 == null)
-            Node1 = GameObject.Find(locations[0]).GetComponent<LocationObject>();
+            Node1 = GameObject.Find("World Map/Nodes/" + locations[0]).GetComponent<LocationObject>();
         if(Node2 == null)
-            Node2 = GameObject.Find(locations[1]).GetComponent<LocationObject>();
+            Node2 = GameObject.Find("World Map/Nodes/" + locations[1]).GetComponent<LocationObject>();
 
         HideEdge();
     }
