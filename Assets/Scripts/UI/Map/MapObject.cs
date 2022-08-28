@@ -16,6 +16,7 @@ public class MapObject : MonoBehaviour
 
     void Start()
     {
+        //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += NewQuestStarted;
         MapLocation s = map.getLocationObjRef("Farm");
         map.getAllPathsFromGuild(s);
         gameObject.SetActive(false);
@@ -52,16 +53,14 @@ public class MapObject : MonoBehaviour
         gameObject.SetActive(!gameObject.activeInHierarchy);
     }
 
-    //private void NewQuestStarted(object source, QuestSheet quest)
-    public void NewQuestStarted(string quest)
+    public void NewQuestStarted(object source, QuestSheet quest)
     {
         //discover associated location
         LocationObject l = null;
         foreach (Transform child in transform.GetChild(1))
         {
             l = child.GetComponent<LocationObject>();
-            //if (l.location.locationName == quest.location)
-            if (l.location.locationName == quest)
+            if (l.location.locationName == quest.location)
             {
                 l.ShowLocation();
                 break;
@@ -106,7 +105,7 @@ public class MapObject : MonoBehaviour
     private void ShowDiscoveredPath()
     {
         //display discovered nodes
-        foreach (Transform child in transform.GetChild(1))
+        foreach (Transform child in transform.GetChild(2))
         {
             LocationObject l = child.GetComponent<LocationObject>();
             if (l.discovered)
@@ -116,7 +115,7 @@ public class MapObject : MonoBehaviour
         }
 
         //display edges between discovered nodes
-        foreach (Transform child in transform.GetChild(0))
+        foreach (Transform child in transform.GetChild(1))
         {
             EdgeObject edge = child.GetComponent<EdgeObject>();
             if (edge.Node1 != null && edge.Node2 != null)

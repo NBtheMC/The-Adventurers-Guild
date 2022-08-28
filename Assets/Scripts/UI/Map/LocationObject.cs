@@ -14,7 +14,7 @@ public class LocationObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mapObj = GameObject.Find("Canvas/World Map").GetComponent<MapObject>();
+        mapObj = GameObject.Find("Main UI/World Map").GetComponent<MapObject>();
         map = mapObj.map;
 
         location = map.getLocationObjRef(name);
