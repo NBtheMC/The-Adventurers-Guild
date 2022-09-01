@@ -13,11 +13,20 @@ MonoBehaviour:
   m_Name: 1 - TestingtheWaters
   m_EditorClassIdentifier: 
   questName: '[Sailors] Testing the Waters'
-  eventHead: {fileID: 11400000, guid: f5bbe4f45d31fad449bb931f62ba64c8, type: 2}
   questDescription: 'Smiling Ambassador: We''d like to set up a base of operations
     here. Could you help us find a suitable place?'
-  canBeInstanced: 1
+  endGame: 0
   canBeDuplicated: 0
+  comments: 
+  eventHead: {fileID: 11400000, guid: f5bbe4f45d31fad449bb931f62ba64c8, type: 2}
+  canBeInstanced: 1
+  numInstances: 0
+  issuerName: 
+  factionName: 
+  debriefMessage: 'Smiling Ambassador: We''d like to set up a base of operations
+    here. Could you help us find a suitable place?'
+  waitTime: 0
+  finalImage: {fileID: 0}
   triggerInts:
   - name: PaladinManaGreed
     value: 10
@@ -29,7 +38,8 @@ MonoBehaviour:
   triggerStates:
   - name: SailorOutpostConstructed
     state: 0
-  numInstances: 0
+  questFailChangers: []
   triggerIntChanges: []
   triggerValueChanges: []
   triggerStateChanges: []
+  adventurer: 

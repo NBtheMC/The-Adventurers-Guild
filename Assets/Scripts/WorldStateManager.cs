@@ -84,6 +84,22 @@ public class WorldStateManager : MonoBehaviour
 			Debug.Log($"Added number of activations for {storylet.questName}");
 		}
 
+		//add Storylets from folder
+		//this is for testing purposes, will replace lines 70-85 later
+		Debug.Log("Adding Storylets from tool");
+		Storylet[] toolStorylets = (Storylet[])Resources.LoadAll("Storylets",typeof(Storylet));
+		foreach(Storylet storylet in toolStorylets)
+		{
+			// Preload all the values into the dictionary.
+			foreach(Storylet.TriggerInt intTrigger in storylet.triggerInts) { AddWorldInt(intTrigger.name, 0);}
+			foreach(Storylet.TriggerValue floatTrigger in storylet.triggerValues) { AddWorldValue(floatTrigger.name, 0);}
+			foreach(Storylet.TriggerState stateTrigger in storylet.triggerStates) { AddWorldState(stateTrigger.name, false); }
+
+			// Add them into the dictionary and set it to zero.
+			numberOfActivations.Add(storylet, 0);
+			Debug.Log($"Added number of activations for {storylet.questName}");
+		}
+
 		// Sets up initial trigger with Timesystem. If it doesn't exist, then *hopefully* nothing crashes.
 		if (timeSystem != null) { timeSystem.TickAdded += TickTrigger; }
 
