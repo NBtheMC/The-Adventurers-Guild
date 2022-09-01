@@ -38,6 +38,7 @@ public class QuestDisplayManager : MonoBehaviour
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
         timeSystem.NewDay += UpdateCurrentDayPage;
+        timeSystem.TickAdded += AdvanceAllQuestTimers;
 
         pageNumber = 0;
         currentDay = 0;
@@ -52,6 +53,17 @@ public class QuestDisplayManager : MonoBehaviour
         {
             pageNumber = currentDay;
             input.text = 1 + pageNumber + "";
+        }
+    }
+
+    public void AdvanceAllQuestTimers(object o, GameTime gameTime)
+    {
+        if (currentQuestsDisplayed)
+        {
+            foreach(Transform child in questListContent.transform)
+            {
+                child.GetComponent<QuestBanner>().UpdateTimer();
+            }
         }
     }
 
@@ -79,7 +91,7 @@ public class QuestDisplayManager : MonoBehaviour
         //set banner text
         newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
 
-        if(quest.isComplete)
+        if(quest.currentState == QuestState.COMPLETED || quest.currentState == QuestState.REJECTED)
             newQuest.transform.Find("Checkmark").gameObject.SetActive(true);
     }
 

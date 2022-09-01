@@ -9,29 +9,33 @@ public class QuestSheet
 	public string questDescription { get; private set; } // What the description of the quest is.
 	public string faction; // Who's the faction that's giving it.
 	public string questGiver; // Who's giving the quest
+	public QuestState currentState; // The current phase the quest is in: WAITING, ADVENTURING, DONE
 
 	private EventNode headConnection; // Tells the graph where the head is going to be.
 	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
 	private EventNode.EventCase nextConnection; // What we use to tell us what to do before proceeding on the quest.
 	public PartySheet adventuring_party { get; private set; }// Reference to the adventuring party attached to the quest.
+	public ReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 
-	public int partySize = 4;
-	public bool isActive = false; // isactive? for all to see and set i guess.
-	public bool isComplete = false; // iscomplete? for all to see and set i guess.
+	public int timeUntilProgression { get; private set; } // How much time this questsheet will wait until it progresses. Start at 0.
+	public int eventTicksElapsed { get; private set; } // Tracks how many ticks has elapsed for an ADVENTURING quest and executes events appropriatly.
+	public float timeToExpire { get; private set; } // How much time until a WAITING quest will auto-reject
+	public float expirationTimer { get; private set; } // Tracks how many ticks have passed for the expiration timer
+	public int totalTimeToComplete { get; private set; }
 
-	private int timeUntilProgression; // How much time this questsheet will wait until it progresses. Start at 0.
-	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
-
-	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
-
+	public int accumulatedGold { get; private set; } // How much gold has been accumulated from the events.
 	public int totalGold { get; private set; }
 
 	private WorldStateManager worldStateManager;
 
 	public List<EventNode> visitedNodes;
 
-	public ReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 	public string questRecap { get; private set; }
+
+	//Changers for when the quest is rejected
+	public List<Storylet.IntChange> intChanges;
+	public List<Storylet.ValueChange> floatChanges;
+	public List<Storylet.StateChange> boolChanges;
 
 	/// <summary>
 	/// QuestSheet Constructor
@@ -58,8 +62,15 @@ public class QuestSheet
 		// Initialize our tracking variables.
 		eventTicksElapsed = 0;
 		timeUntilProgression = 0;
-		accumutatedGold = 0;
+		totalTimeToComplete = EstimatedTimeToComplete(headConnection);
+		accumulatedGold = 0;
 		totalGold = 0;
+
+		currentState = QuestState.WAITING;
+
+		//placing a temp value for testing, will need to convert from hours to ticks later
+		timeToExpire = 25;
+		expirationTimer = 0;
 
 		// Initialize out descriptor variables.
 		questName = name_Input;
@@ -82,9 +93,44 @@ public class QuestSheet
 	/// This function is used by Questing Manager to control the flow of a quest as acording to ticks.
 	/// 
 	/// </summary>
-	/// <returns>A 0 if the quest is still ongoing. A 1 if the quest is complete.</returns>
+	/// <returns>0 if the quest is waiting or in progress. 1 if the quest is complete. 2 if the quest was rejected.</returns>
 	public int advancebyTick()
 	{
+		int returnVal = 0;
+        switch (currentState)
+		{
+			case QuestState.WAITING:
+				//returnVal = AdvanceWaitingQuest();
+				returnVal = 0;
+				break;
+			case QuestState.ADVENTURING:
+				returnVal = AdvanceActiveQuest();
+				break;
+			default:
+				returnVal = 1;
+				break;
+		}
+
+		return returnVal;
+	}
+
+	private int AdvanceWaitingQuest()
+    {
+		if(expirationTimer >= timeToExpire) 
+		{
+			//code to reject quest
+			foreach (Storylet.IntChange change in intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
+			foreach (Storylet.StateChange change in boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
+			foreach (Storylet.ValueChange change in floatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+			return 2;
+		}
+
+		expirationTimer++;
+		return 0;
+    }
+
+	private int AdvanceActiveQuest()
+    {
 		// Base Case, check if we've reached the end. Does things if it has.
 		if (eventTicksElapsed >= timeUntilProgression)
 		{
@@ -94,7 +140,7 @@ public class QuestSheet
 			if (nextConnection != null)
 			{
 				// Add everything specified by the Event Case
-				accumutatedGold += nextConnection.reward;
+				accumulatedGold += nextConnection.reward;
 				adventuring_party.UpdateRelationshipStory(UpdatePartyRelationships(adventuring_party, nextConnection.bondupdate));
 				visitedNodes.Add(currentConnection);
 				questRecap += currentConnection.description + " " + nextConnection.progressionDescription + " ";
@@ -108,6 +154,7 @@ public class QuestSheet
 				if (nextConnection.nextNode != null)
 				{
 					currentConnection = nextConnection.nextNode;
+					totalTimeToComplete = EstimatedTimeToComplete(currentConnection);
 				}
 				else
 				{
@@ -130,11 +177,11 @@ public class QuestSheet
 	public void AddGuildGold()
 	{
         // TODO WorldInt Gold
-        GameObject.Find("GuildManager").GetComponent<GuildManager>().Gold += accumutatedGold;
+        GameObject.Find("GuildManager").GetComponent<GuildManager>().Gold += accumulatedGold;
 		//worldStateManager.ChangeWorldInt("PlayerGold",accumutatedGold);
-		GameObject.Find("RecapDisplay").GetComponent<RecapManager>().AddDayGold(accumutatedGold);
-		totalGold += accumutatedGold;
-		accumutatedGold = 0;
+		GameObject.Find("RecapDisplay").GetComponent<RecapManager>().AddDayGold(accumulatedGold);
+		totalGold += accumulatedGold;
+		accumulatedGold = 0;
 	}
 
 	public struct EventInfo
@@ -171,6 +218,25 @@ public class QuestSheet
 		}
 
 		return totalRewards;
+	}
+
+	public int EstimatedTimeToComplete(EventNode node)
+    {
+		return MaxTime(node);
+    }
+
+	private int MaxTime(EventNode currentNode)
+	{
+		int totalTime = 0;
+
+		foreach (EventNode.EventCase eCase in currentConnection.eventCases)
+		{
+			int nodeTime = eCase.time;
+			if (eCase.nextNode != null) { nodeTime += MaxReward(eCase.nextNode); }
+			if (nodeTime > totalTime) { totalTime = nodeTime; }
+		}
+
+		return totalTime;
 	}
 
 	public string GetQuestRecap(){
@@ -289,4 +355,9 @@ public class QuestSheet
 		}
 		return partyUpdates;
 	}
+
+	public bool IsQuestActive()
+    {
+		return currentState == QuestState.ADVENTURING;	
+    }
 }
