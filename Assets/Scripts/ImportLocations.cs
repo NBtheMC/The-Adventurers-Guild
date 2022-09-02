@@ -10,7 +10,6 @@ public class ImportLocations : MonoBehaviour
     static void ImportFromCSV()
     {
         GameObject mapObj = GameObject.Find("Main UI/World Map");
-        WorldMap map = new WorldMap();
         GameObject locationPrefab = Resources.Load<GameObject>("Location");
         GameObject edgePrefab = Resources.Load<GameObject>("Edge");
 
@@ -45,7 +44,6 @@ public class ImportLocations : MonoBehaviour
             {
                 GameObject loc = IL.CreateObject(parts[0], mapObj.transform.GetChild(2), locationPrefab, locations);
                 loc.transform.GetChild(0).GetComponent<Text>().text = parts[0];
-
             }
             //check if location 2 exists
             if (!locations.ContainsKey(parts[1]))
@@ -55,12 +53,14 @@ public class ImportLocations : MonoBehaviour
             }
 
             //check if edge exists
-            if(!(edges.ContainsKey(parts[0] + "-" + parts[1]) || edges.ContainsKey(parts[1] + "-" + parts[0])))
+            if(!(edges.ContainsKey($"{parts[0]}-{parts[1]}") || edges.ContainsKey($"{parts[1]}-{parts[0]}")))
             {
-                IL.CreateObject(parts[0] + "-" + parts[1], mapObj.transform.GetChild(1), edgePrefab, edges);
+                GameObject edge = IL.CreateObject($"{parts[0]}-{parts[1]}", mapObj.transform.GetChild(1), edgePrefab, edges);
+                edge.GetComponent<EdgeObject>().Node1 = locations[parts[0]].GetComponent<LocationObject>();
+                edge.GetComponent<EdgeObject>().Node2 = locations[parts[1]].GetComponent<LocationObject>();
             }
 
-        }      
+        }
     }
 
     private GameObject CreateObject(string objName, Transform parentTransform, GameObject prefab, Dictionary<string, GameObject>dict)

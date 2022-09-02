@@ -7,16 +7,13 @@ public class LocationObject : MonoBehaviour
 {
     public MapLocation location { get; private set; }
     private Text locationNameDisplay;
-    private WorldMap map;
-    [SerializeField] private MapObject mapObj;
-    public bool discovered;
+    public WorldMap map;
+    public bool discovered { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        mapObj = GameObject.Find("Main UI/World Map").GetComponent<MapObject>();
-        map = mapObj.map;
-
+        map = GameObject.Find("Main UI/World Map").GetComponent<MapObject>().map;
         location = map.getLocationObjRef(name);
         locationNameDisplay = transform.GetChild(0).GetComponent<Text>();
         locationNameDisplay.text = name;

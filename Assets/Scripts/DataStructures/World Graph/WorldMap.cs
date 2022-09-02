@@ -29,7 +29,7 @@ public class WorldMap
             MapLocation l1 = getLocationObjRef(parts[0]);
             if (l1 == null)
             {
-                Console.WriteLine("Adding " + parts[0]);
+                Console.WriteLine($"Adding {parts[0]}");
                 l1 = new MapLocation(parts[0]);
                 nodes.Add(parts[0], l1);
                 edges.Add(parts[0], new List<MapEdge>());
@@ -38,7 +38,7 @@ public class WorldMap
             MapLocation l2 = getLocationObjRef(parts[1]);
             if (l2 == null)
             {
-                Console.WriteLine("Adding " + parts[1]);
+                Console.WriteLine($"Adding {parts[1]}");
                 l2 = new MapLocation(parts[1]);
                 nodes.Add(parts[1], l2);
                 edges.Add(parts[1], new List<MapEdge>());
@@ -126,7 +126,6 @@ public class WorldMap
         for (MapLocation i = d; i != null; i = i.pred)
         {
             path.Insert(0, i);
-
         }
 
         //get total time taken for journey

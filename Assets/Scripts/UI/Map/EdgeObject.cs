@@ -7,17 +7,11 @@ public class EdgeObject : MonoBehaviour
 {
     public LocationObject Node1;
     public LocationObject Node2;
-    public bool discovered;
+    public bool discovered { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        string[] locations = name.Split('-');
-        if(Node1 == null)
-            Node1 = GameObject.Find("World Map/Nodes/" + locations[0]).GetComponent<LocationObject>();
-        if(Node2 == null)
-            Node2 = GameObject.Find("World Map/Nodes/" + locations[1]).GetComponent<LocationObject>();
-
         HideEdge();
     }
 
