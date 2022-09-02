@@ -369,7 +369,7 @@ namespace StoryletCreator {
                     Storylet newStorylet = ScriptableObject.CreateInstance<Storylet>();
                     newStorylet.questName = "New Storylet";
 
-                    AssetDatabase.CreateAsset(newStorylet, $"Resources/{newStoryletAssetPath}");
+                    AssetDatabase.CreateAsset(newStorylet, $"Assets/Resources/{newStoryletAssetPath}");
                     currentStorylet = newStorylet;
 
                     SaveCurrentStorylet();
