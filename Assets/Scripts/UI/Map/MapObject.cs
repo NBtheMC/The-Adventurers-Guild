@@ -30,7 +30,7 @@ public class MapObject : MonoBehaviour
             edges.Add(child.name, child.gameObject);
         }
 
-        //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += NewQuestStarted;
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().NewEventStarting += NewEventStarted;
 
         gameObject.SetActive(false);
     }
@@ -83,11 +83,16 @@ public class MapObject : MonoBehaviour
 
     //needs to be called when new eventNode begins
     //make new event listener inside QuestingManager, add this function to that listener
-    public void NewQuestStarted(object source, QuestSheet quest)
+    public void NewEventStarted(object source, EventNode e)
     {
         //discover associated location
+        string[] TEST_LOCATIONS= { "Farm", "Mine", "Village" };
+        System.Random random = new System.Random();
+        string location = TEST_LOCATIONS[random.Next(TEST_LOCATIONS.Length)];
+
         GameObject locGO;
-        nodes.TryGetValue(quest.location, out locGO);
+        //nodes.TryGetValue(e.location, out locGO);
+        nodes.TryGetValue(location, out locGO);
 
         //discover edges that make path to the location
         if (locGO != null)

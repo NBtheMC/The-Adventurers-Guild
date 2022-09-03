@@ -19,6 +19,8 @@ public class QuestingManager : MonoBehaviour
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
 
+    public event EventHandler<EventNode> NewEventStarting;
+
     public RelationshipManager relationshipManager;
 
     private void Awake()
@@ -69,6 +71,10 @@ public class QuestingManager : MonoBehaviour
                 quest.isComplete = true;
                 // Add quest to a list for deletion (Move to archive really)
                 markForDeletion.Add(quest);
+            }
+            else if(quest.eventTicksElapsed <= 1)
+            {
+                NewEventStarting(this, quest.currentConnection);
             }
         }
 
