@@ -113,6 +113,8 @@ public class MapObject : MonoBehaviour
         }
     }
 
+    //needs to be called when new eventNode begins
+    //make new event listener inside QuestingManager, add this function to that listener
     public void NewQuestStarted(object source, QuestSheet quest)
     {
         //discover associated location

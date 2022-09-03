@@ -44,12 +44,29 @@ public class ImportLocations : MonoBehaviour
             {
                 GameObject loc = IL.CreateObject(parts[0], mapObj.transform.GetChild(2), locationPrefab, locations);
                 loc.transform.GetChild(0).GetComponent<Text>().text = parts[0];
+                var sprite = Resources.Load<Sprite>("MapAssets/" + parts[0]);
+
+                if (sprite != null)
+                {
+                    loc.GetComponent<Image>().sprite = sprite;
+                    loc.GetComponent<Image>().preserveAspect = true;
+                    DestroyImmediate(loc.transform.GetChild(0).gameObject, false);
+                }
+                    
             }
             //check if location 2 exists
             if (!locations.ContainsKey(parts[1]))
             {
                 GameObject loc = IL.CreateObject(parts[1], mapObj.transform.GetChild(2), locationPrefab, locations);
                 loc.transform.GetChild(0).GetComponent<Text>().text = parts[1];
+                var sprite = Resources.Load<Sprite>("MapAssets/" + parts[1]);
+
+                if (sprite != null)
+                {
+                    loc.GetComponent<Image>().sprite = sprite;
+                    loc.GetComponent<Image>().preserveAspect = true;
+                    DestroyImmediate(loc.transform.GetChild(0).gameObject, false);
+                }
             }
 
             //check if edge exists
@@ -58,6 +75,16 @@ public class ImportLocations : MonoBehaviour
                 GameObject edge = IL.CreateObject($"{parts[0]}-{parts[1]}", mapObj.transform.GetChild(1), edgePrefab, edges);
                 edge.GetComponent<EdgeObject>().Node1 = locations[parts[0]].GetComponent<LocationObject>();
                 edge.GetComponent<EdgeObject>().Node2 = locations[parts[1]].GetComponent<LocationObject>();
+
+                var sprite = Resources.Load<Sprite>($"MapAssets/{parts[0]}-{parts[1]}");
+                if(sprite == null)
+                    sprite = Resources.Load<Sprite>($"MapAssets/{parts[1]}-{parts[0]}");
+
+                if (sprite != null)
+                {
+                    edge.GetComponent<Image>().sprite = sprite;
+                    edge.GetComponent<Image>().preserveAspect = true;
+                }
             }
 
         }
