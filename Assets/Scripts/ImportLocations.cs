@@ -43,14 +43,13 @@ public class ImportLocations : MonoBehaviour
             if (!locations.ContainsKey(parts[0]))
             {
                 GameObject loc = IL.CreateObject(parts[0], mapObj.transform.GetChild(2), locationPrefab, locations);
-                loc.transform.GetChild(0).GetComponent<Text>().text = parts[0];
                 var sprite = Resources.Load<Sprite>("MapAssets/" + parts[0]);
 
                 if (sprite != null)
                 {
                     loc.GetComponent<Image>().sprite = sprite;
                     loc.GetComponent<Image>().preserveAspect = true;
-                    DestroyImmediate(loc.transform.GetChild(0).gameObject, false);
+                    loc.transform.GetChild(0).gameObject.SetActive(false);
                 }
                     
             }
@@ -58,14 +57,13 @@ public class ImportLocations : MonoBehaviour
             if (!locations.ContainsKey(parts[1]))
             {
                 GameObject loc = IL.CreateObject(parts[1], mapObj.transform.GetChild(2), locationPrefab, locations);
-                loc.transform.GetChild(0).GetComponent<Text>().text = parts[1];
                 var sprite = Resources.Load<Sprite>("MapAssets/" + parts[1]);
 
                 if (sprite != null)
                 {
                     loc.GetComponent<Image>().sprite = sprite;
                     loc.GetComponent<Image>().preserveAspect = true;
-                    DestroyImmediate(loc.transform.GetChild(0).gameObject, false);
+                    loc.transform.GetChild(0).gameObject.SetActive(false);
                 }
             }
 
