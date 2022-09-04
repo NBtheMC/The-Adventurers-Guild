@@ -33,11 +33,14 @@ public class QuestReturnUI : MonoBehaviour
         Text questName = returnBox.transform.Find("Canvas").Find("QuestName").GetComponent<Text>();
         questName.text = questSheet.questName;
 
-        Text assignedBy = returnBox.transform.Find("Canvas").Find("AssignedBy/QuestGiver").GetComponent<Text>();
-        assignedBy.text = questSheet.questGiver;
+        //Text assignedBy = returnBox.transform.Find("Canvas").Find("AssignedBy/QuestGiver").GetComponent<Text>();
+        //assignedBy.text = questSheet.questGiver;
 
         Text rewardAmount = returnBox.transform.Find("Canvas").Find("Reward/Gold").GetComponent<Text>();
         rewardAmount.text = questSheet.totalGold.ToString();
+
+        Image cg = returnBox.transform.Find("Canvas").Find("CG").GetComponent<Image>();
+        cg.sprite = questSheet.GetCG();
 
         SoundManagerScript.PlaySound("bell");
     }

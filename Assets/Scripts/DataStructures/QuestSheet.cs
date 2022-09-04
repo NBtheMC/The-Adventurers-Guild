@@ -356,6 +356,10 @@ public class QuestSheet
 		return partyUpdates;
 	}
 
+	public Sprite GetCG(){
+		
+	} 
+
 	public bool IsQuestActive()
     {
 		return currentState == QuestState.ADVENTURING;	

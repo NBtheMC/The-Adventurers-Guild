@@ -24,6 +24,8 @@ public class EventNode : ScriptableObject
 
 	public WorldStateManager theWorld;
 
+	public Sprite eventCG;
+
 	/// <summary>
 	/// For use in EventCase, checking against the party's stats.
 	/// </summary>
