@@ -357,7 +357,13 @@ public class QuestSheet
 	}
 
 	public Sprite GetCG(){
-		
+		foreach(EventNode event in visitedNodes){
+			if(event.cg != null){
+				return event.cg;
+			}
+		}
+		//else return defaul win or failure
+		return null;
 	} 
 
 	public bool IsQuestActive()
