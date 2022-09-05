@@ -43,7 +43,7 @@ public class QuestReturnUI : MonoBehaviour
         cg.sprite = questSheet.GetCG();
 
         //CHANGE LATER THIS IS TEMP
-        GameObject adventures = returnBox.transform.Find("Canvas").Find("Adventurers").GetComponent<Text>();
+        GameObject adventures = returnBox.transform.Find("Canvas").Find("Adventurers").gameObject;
 
         SoundManagerScript.PlaySound("bell");
     }
