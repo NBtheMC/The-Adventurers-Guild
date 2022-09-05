@@ -357,9 +357,9 @@ public class QuestSheet
 	}
 
 	public Sprite GetCG(){
-		foreach(EventNode event in visitedNodes){
-			if(event.cg != null){
-				return event.cg;
+		foreach(EventNode e in visitedNodes){
+			if(e.eventCG != null){
+				return e.eventCG;
 			}
 		}
 		//else return defaul win or failure

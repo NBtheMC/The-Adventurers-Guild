@@ -42,6 +42,9 @@ public class QuestReturnUI : MonoBehaviour
         Image cg = returnBox.transform.Find("Canvas").Find("CG").GetComponent<Image>();
         cg.sprite = questSheet.GetCG();
 
+        //CHANGE LATER THIS IS TEMP
+        GameObject adventures = returnBox.transform.Find("Canvas").Find("Adventurers").GetComponent<Text>();
+
         SoundManagerScript.PlaySound("bell");
     }
 
