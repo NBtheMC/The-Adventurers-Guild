@@ -42,8 +42,13 @@ public class QuestReturnUI : MonoBehaviour
         Image cg = returnBox.transform.Find("Canvas").Find("CG").GetComponent<Image>();
         cg.sprite = questSheet.GetCG();
 
-        //CHANGE LATER THIS IS TEMP
-        GameObject adventures = returnBox.transform.Find("Canvas").Find("Adventurers").gameObject;
+        //CHANGE LATER TO CREATE ADVENTURER ICONS
+        Transform adventures = returnBox.transform.Find("Canvas").Find("Adventurers");
+        //put adventurer icons in slots
+        int currentSlot = 0;
+        foreach(CharacterSheet adventurer in questSheet.PartyMembers){
+
+        }
 
         SoundManagerScript.PlaySound("bell");
     }
