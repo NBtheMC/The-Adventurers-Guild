@@ -122,6 +122,9 @@ public class QuestSheet
 			foreach (Storylet.IntChange change in intChanges) { worldStateManager.ChangeWorldInt(change.name, change.value, change.set); }
 			foreach (Storylet.StateChange change in boolChanges) { worldStateManager.ChangeWorldState(change.name, change.state); }
 			foreach (Storylet.ValueChange change in floatChanges) { worldStateManager.ChangeWorldValue(change.name, change.value, change.set); }
+			//test change values
+			worldStateManager.ChangeWorldInt("Rejection test", 1, false);
+			Debug.Log($"Rejection test now " + worldStateManager.GetWorldInt("Rejection test"));
 			return 2;
 		}
 
