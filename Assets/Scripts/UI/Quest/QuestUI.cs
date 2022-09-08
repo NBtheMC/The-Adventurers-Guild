@@ -108,7 +108,7 @@ public class QuestUI : MonoBehaviour
 	public void SetupQuestUI(QuestSheet questSheet)
     {
         attachedSheet = questSheet;
-        questActive = questSheet.isActive;
+        questActive = questSheet.IsQuestActive();
 
         // Make a party if it doesn't have one already.
         if (attachedSheet.adventuring_party == null) { attachedSheet.assignParty(new PartySheet()); }
@@ -223,7 +223,7 @@ public class QuestUI : MonoBehaviour
 	private void OnDestroy()
 	{
         Debug.Log($"{attachedSheet.questName} questUI destroyed");
-		if (!attachedSheet.isActive)
+		if (!attachedSheet.IsQuestActive())
 		{
             attachedSheet.assignParty(null); // null out the party.
             playerInterface.CloseQuestDisplay(adventuringParty);
@@ -237,7 +237,7 @@ public class QuestUI : MonoBehaviour
 	public bool AddCharacter(CharacterSheet character)
     {
         Debug.Log($"Attempting to Add {attachedSheet.questName}");
-        if (attachedSheet.isActive || attachedSheet.isComplete) return false;
+        if (questIsActive()) return false;
         if (attachedSheet.adventuring_party.Party_Members.Count >= 4) return false;
         if (IsCharacterAssigned(character)) return false;
 
@@ -265,7 +265,7 @@ public class QuestUI : MonoBehaviour
     /// <param name="slot"></param>
     public void RemoveCharacter(int slot)
     {
-        if (attachedSheet.isActive || attachedSheet.isComplete) return;
+        if (questIsActive()) return;
 
         if (slot >= attachedSheet.adventuring_party.Party_Members.Count) { Debug.Log("No members available in this slot, returning."); return; }
         adventuringParty.removeMember(attachedSheet.adventuring_party.Party_Members[slot]); // Remove said party member.
@@ -310,6 +310,6 @@ public class QuestUI : MonoBehaviour
 
     public bool questIsActive()
     {
-        return (questBanner.GetComponent<QuestBanner>().questIsActive || attachedSheet.isComplete);
+        return attachedSheet.currentState != QuestState.WAITING;
     }
 }

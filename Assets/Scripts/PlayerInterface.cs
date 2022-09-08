@@ -78,9 +78,7 @@ public class PlayerInterface : MonoBehaviour
         questingManager.StartQuest(quest);
 
         //display activequestbanner
-        GetQuestBanner(quest).ToggleQuestActiveState();
-
-
+        GetQuestBanner(quest).UpdateTimer();
     }
 
     private QuestBanner GetQuestBanner(QuestSheet quest)
