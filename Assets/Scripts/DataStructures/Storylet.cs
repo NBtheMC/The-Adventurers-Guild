@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /// <summary>
 /// A Storylet is what the world system will use to generate quests.
@@ -42,6 +43,7 @@ public class Storylet : ScriptableObject
 
 	public string questName; // The name of the quest they will embark on.
     [TextAreaAttribute(4, 10)] public string questDescription; // The description of the Quest, if there is to be one.
+	public Image cgImage;
 	public bool endGame = false;
     public bool canBeDuplicated = false;
     public string comments; // Any designer comments
