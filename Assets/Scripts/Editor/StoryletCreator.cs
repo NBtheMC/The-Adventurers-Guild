@@ -217,6 +217,9 @@ namespace StoryletCreator {
 
             if (currentStorylet)
             {
+                // Image
+                currentStorylet.cgImage = EditorGUILayout.ObjectField("CG Image", currentStorylet.cgImage, typeof(UnityEngine.UI.Image), false) as UnityEngine.UI.Image;
+
                 // Basic Information
                 GUILayout.Label("");
 
@@ -327,6 +330,11 @@ namespace StoryletCreator {
             currentStorylet = EditorGUILayout.ObjectField("Current Storylet", currentStorylet, typeof(Storylet), false) as Storylet;
 
             GUILayout.Label("");
+
+            //Storylet image
+
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
             if (currentStorylet)
             {
                 // Rename Storylet filename to name on file
