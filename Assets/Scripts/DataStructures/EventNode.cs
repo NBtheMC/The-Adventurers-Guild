@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 /// <summary>
 /// The event node checks between a large number of conditions.
@@ -12,6 +13,8 @@ using UnityEngine.Events;
 public class EventNode : ScriptableObject
 {
 	public string name;
+
+	public string location;
 
 	[TextAreaAttribute(2, 10)]
 	public string description; //what the event is

@@ -11,7 +11,7 @@ public class QuestSheet
 	public string questGiver; // Who's giving the quest
 
 	private EventNode headConnection; // Tells the graph where the head is going to be.
-	private EventNode currentConnection; // Used during the course of execution to update what the current event is.
+	public EventNode currentConnection { get; private set; } // Used during the course of execution to update what the current event is.
 	private EventNode.EventCase nextConnection; // What we use to tell us what to do before proceeding on the quest.
 	public PartySheet adventuring_party { get; private set; }// Reference to the adventuring party attached to the quest.
 
@@ -20,7 +20,7 @@ public class QuestSheet
 	public bool isComplete = false; // iscomplete? for all to see and set i guess.
 
 	private int timeUntilProgression; // How much time this questsheet will wait until it progresses. Start at 0.
-	private int eventTicksElapsed; // Tracks how many ticks has elapsed and executes events appropriatly.
+	public int eventTicksElapsed { get; private set; } // Tracks how many ticks has elapsed and executes events appropriatly.
 
 	public int accumutatedGold { get; private set; } // How much gold has been accumulated from the events.
 
