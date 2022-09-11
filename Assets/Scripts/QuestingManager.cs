@@ -19,7 +19,7 @@ public class QuestingManager : MonoBehaviour
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
 
-    public event EventHandler<EventNode> NewEventStarting;
+    public event EventHandler<QuestSheet> NewEventStarting;
 
     public RelationshipManager relationshipManager;
 
@@ -74,7 +74,7 @@ public class QuestingManager : MonoBehaviour
             }
             else if(quest.eventTicksElapsed <= 1)
             {
-                NewEventStarting(this, quest.currentConnection);
+                NewEventStarting(this, quest);
             }
         }
 

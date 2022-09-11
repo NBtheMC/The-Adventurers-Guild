@@ -10,8 +10,8 @@ public class ImportLocations : MonoBehaviour
     static void ImportFromCSV()
     {
         GameObject mapObj = GameObject.Find("Main UI/World Map");
-        GameObject locationPrefab = Resources.Load<GameObject>("Location");
-        GameObject edgePrefab = Resources.Load<GameObject>("Edge");
+        GameObject locationPrefab = Resources.Load<GameObject>("Map/Location");
+        GameObject edgePrefab = Resources.Load<GameObject>("Map/Edge");
 
         //find all existing location objects, store them in dictionary for quick reference later
         Dictionary<string, GameObject> locations = new Dictionary<string, GameObject>(); 
