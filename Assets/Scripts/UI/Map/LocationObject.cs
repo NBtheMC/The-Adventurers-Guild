@@ -8,6 +8,7 @@ public class LocationObject : MonoBehaviour
     public MapLocation location { get; private set; }
     public WorldMap map;
     public bool discovered { get; private set; }
+    public PartyDisplay partyDisplay { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,8 @@ public class LocationObject : MonoBehaviour
             ShowLocation();
         else
             gameObject.SetActive(false);
+
+        partyDisplay = transform.GetChild(1).GetComponent <PartyDisplay>();
     }
 
     public void ShowLocation()
