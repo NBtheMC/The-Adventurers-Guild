@@ -22,6 +22,7 @@ public class CharacterPoolController : MonoBehaviour
 
     private void Awake()
     {
+        //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += ResetPortraitColor;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += ResetPortraitColor;
 
         characterSlots = new List<GameObject>();

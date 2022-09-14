@@ -177,7 +177,7 @@ public class CharacterSheetManager : MonoBehaviour
     {
         List<CharacterSheet> list = new List<CharacterSheet>();
         foreach (var item in adventurerStates)
-            if (item.Value == AdventurerState.ASSIGNED || item.Value == AdventurerState.FREE || item.Value == AdventurerState.QUESTING)
+            if (item.Value != AdventurerState.UNHIRED && item.Value != AdventurerState.DEAD)
                 list.Add(item.Key);
 
         return list.AsReadOnly();

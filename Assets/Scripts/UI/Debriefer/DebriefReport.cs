@@ -84,7 +84,6 @@ public class DebriefReport : MonoBehaviour
 		titleText.text = "End of Day " + timeSystem.GameTime.day;
 
 		day += 1;
-		print(day);
 		PrintReport(day);
 	}
 

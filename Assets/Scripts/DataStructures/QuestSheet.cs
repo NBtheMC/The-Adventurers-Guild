@@ -18,7 +18,6 @@ public class QuestSheet
 	public PartySheet adventuring_party { get; private set; }// Reference to the adventuring party attached to the quest.
 	public ReadOnlyCollection<CharacterSheet> PartyMembers { get { return adventuring_party.Party_Members; } }
 
-	public int partySize = 4;
 	public bool isActive = false; // isactive? for all to see and set i guess.
 	public bool isComplete = false; // iscomplete? for all to see and set i guess.
 
@@ -27,6 +26,7 @@ public class QuestSheet
 	public float timeToExpire { get; private set; } // How much time until a WAITING quest will auto-reject
 	public float expirationTimer { get; private set; } // Tracks how many ticks have passed for the expiration timer
 	public int totalTimeToComplete { get; private set; }
+	public int restingPeriod { get; private set; } // How many hours adventurers will be resting for after this quest is completed
 
 	public int accumulatedGold { get; private set; } // How much gold has been accumulated from the events.
 	public int totalGold { get; private set; }
