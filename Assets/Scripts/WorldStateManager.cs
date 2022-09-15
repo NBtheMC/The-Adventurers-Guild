@@ -421,6 +421,7 @@ public abstract class WorldStat
 	public string name;
 }
 
+[System.Serializable]
 public class WorldValue: WorldStat
 {
     public float value;
