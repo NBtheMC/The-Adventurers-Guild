@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimeSystem : MonoBehaviour
 {
     #region PrivateMembers
-    private float _tickLength = 2f; // Length of a tick in seconds. Equal to one in game hour
+    private float _tickLength = .1f; // Length of a tick in seconds. Equal to one in game hour
     private GameTime _gameTime; // Current in game time
     [SerializeField]
     private int _hoursInDay; // How many hours are there in a day.

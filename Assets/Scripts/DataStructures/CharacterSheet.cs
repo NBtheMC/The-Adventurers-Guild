@@ -22,6 +22,10 @@ public class CharacterSheet
     // Text associated with the character.
     public string biography { get; private set; }
 
+    public int salary { get; private set; }
+
+    public int daysUnpaid;
+
     /// <summary>
     /// Constructor with access to change dictionary at any time.
     /// </summary>
@@ -30,6 +34,7 @@ public class CharacterSheet
     public CharacterSheet(string nameInput, Dictionary<StatDescriptors, int> statslinesInput)
 	{
         name = nameInput;
+        salary = 10;
         statlines = new Dictionary<StatDescriptors, int>(statslinesInput);
         adventurer = new Adventurer();
         adventurer.characterSheet = this;
@@ -41,6 +46,7 @@ public class CharacterSheet
     public CharacterSheet(CharacterInitialStats characterStats)
     {
         name = characterStats.name;
+        salary = 10;
         statlines.Add(StatDescriptors.Combat, characterStats.combat);
         statlines.Add(StatDescriptors.Negotiation, characterStats.negotiation);
         statlines.Add(StatDescriptors.Exploration, characterStats.exploration);

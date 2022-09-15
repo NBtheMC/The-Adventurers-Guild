@@ -21,10 +21,13 @@ public class CharacterSheetManager : MonoBehaviour
     /// <returns></returns>
     public ReadOnlyCollection<CharacterSheet> HiredAdventurers { get { return GetHiredAdventurers(); } }
 
-    public event EventHandler<EventArgs> AdventurerHired;
+    public event EventHandler<CharacterSheet> RosterUpdate;
 
     CharacterInitialStats[] characters;
     public bool isCredits;
+
+    private GuildManager guildManager;
+    [SerializeField] private CharacterPoolController characterPoolController;
 
     public virtual void Awake()
     {
@@ -54,10 +57,13 @@ public class CharacterSheetManager : MonoBehaviour
 
     private void Start()
     {
+        guildManager = GameObject.Find("GuildManager").GetComponent<GuildManager>();
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += PartyBackFromQuest;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
         GameObject.Find("QuestDisplayManager").transform.Find("QuestDisplay").Find("WorldState")
-            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer; 
+            .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer;
+        if(characterPoolController == null)
+            characterPoolController = GameObject.Find("Main UI/QuestDisplayManager/QuestDisplay/CharacterPool").GetComponent<CharacterPoolController>();
     }
 
     public void SendPartyOnQuest(object src, QuestSheet quest)
@@ -95,30 +101,7 @@ public class CharacterSheetManager : MonoBehaviour
             Debug.Log("Hired " + name);
         }
 
-        AdventurerHired(this, EventArgs.Empty);
-
-        /*
-        foreach (CharacterSheet character in hiredAdventurers)
-        {
-            if (character.name.Equals(name)) { return; }
-        }
-
-        Debug.Log("Hired " + name);
-        CharacterSheet characterToHire = null;
-        foreach(CharacterSheet character in unhiredAdventurers)
-        {
-            if (character.name.Equals(name))
-                characterToHire = character;
-        }
-        unhiredAdventurers.Remove(characterToHire);
-        hiredAdventurers.Add(characterToHire);
-        freeAdventurers.Add(characterToHire);
-
-        if (characterToHire == null)
-            Debug.LogError("Error: There is no adventurer by the name of " + name + " in the unhired adventurerers list");
-        else
-            RosterChange(this, EventArgs.Empty);
-        */
+        RosterUpdate(this, adventurerToHire);
     }
 
     //this is never used so i commented it out
@@ -173,7 +156,7 @@ public class CharacterSheetManager : MonoBehaviour
             Debug.LogError("CharacterSheet does not exist in dictionary");
     }
 
-    private ReadOnlyCollection<CharacterSheet> GetHiredAdventurers()
+    public ReadOnlyCollection<CharacterSheet> GetHiredAdventurers()
     {
         List<CharacterSheet> list = new List<CharacterSheet>();
         foreach (var item in adventurerStates)
@@ -182,5 +165,28 @@ public class CharacterSheetManager : MonoBehaviour
 
         return list.AsReadOnly();
 
+    }
+
+    public void PayAdventurer(CharacterSheet character, int daysToPay)
+    { 
+        guildManager.Gold -= character.salary * daysToPay;
+        character.daysUnpaid -= daysToPay;
+        if(character.daysUnpaid < 0)
+            character.daysUnpaid = 0;
+    }
+
+    public void IncrementAdventurerDebt(CharacterSheet character)
+    {
+        character.daysUnpaid += 1;
+        //mark character as unavailable
+
+        if(character.daysUnpaid == 3)
+        {
+            //adventurer quits
+            adventurerStates[character] = AdventurerState.UNHIRED;
+            character.daysUnpaid = 0;
+            //characterPoolController.removeMember(character);
+            RosterUpdate(this, character);
+        }
     }
 }

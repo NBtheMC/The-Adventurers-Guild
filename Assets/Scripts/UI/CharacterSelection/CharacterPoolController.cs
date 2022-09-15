@@ -42,10 +42,10 @@ public class CharacterPoolController : MonoBehaviour
     {
         RefreshCharacterPool();
 
-        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().AdventurerHired += CharacterPoolController_RosterChange;
+        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterUpdate += CharacterPoolController_RosterChange;
     }
 
-    private void CharacterPoolController_RosterChange(object source, System.EventArgs e)
+    private void CharacterPoolController_RosterChange(object source, CharacterSheet c)
     {
         RefreshCharacterPool();
     }
@@ -57,8 +57,9 @@ public class CharacterPoolController : MonoBehaviour
     public void RefreshCharacterPool()
     {
         // Surgically remove any adventurers that are gone.
-        foreach (CharacterSheet character in activeRole)
+        for(int j = 0; j < activeRole.Count; j++)
 		{
+            CharacterSheet character = activeRole[j];
             // Check if they're not in there anymore.
 			if (!characterManager.HiredAdventurers.Contains(character))
 			{
