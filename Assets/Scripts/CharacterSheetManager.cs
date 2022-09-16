@@ -171,21 +171,29 @@ public class CharacterSheetManager : MonoBehaviour
     { 
         guildManager.Gold -= character.salary * daysToPay;
         character.daysUnpaid -= daysToPay;
-        if(character.daysUnpaid < 0)
+        if (character.daysUnpaid < 0)
             character.daysUnpaid = 0;
+
+        if (character.daysUnpaid == 0)
+        {
+            adventurerStates[character] = AdventurerState.FREE;
+            characterPoolController.ResetPortraitColor(character);
+        }
+             
     }
 
     public void IncrementAdventurerDebt(CharacterSheet character)
     {
         character.daysUnpaid += 1;
         //mark character as unavailable
+        adventurerStates[character] = AdventurerState.QUESTING;
+        characterPoolController.BlackOutPortrait(character);
 
-        if(character.daysUnpaid == 3)
+        if (character.daysUnpaid == 3)
         {
             //adventurer quits
             adventurerStates[character] = AdventurerState.UNHIRED;
             character.daysUnpaid = 0;
-            //characterPoolController.removeMember(character);
             RosterUpdate(this, character);
         }
     }

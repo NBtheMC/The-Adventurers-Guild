@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.2, y: 0}
+  m_AnchoredPosition: {x: -43, y: 0}
   m_SizeDelta: {x: 31.7515, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1418673379049243395
@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.7, y: 0}
+  m_AnchoredPosition: {x: 42.5, y: 0}
   m_SizeDelta: {x: 32.7457, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6382438754811254135
@@ -275,7 +275,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 37.2195, y: 45.112}
+  m_SizeDelta: {x: 62.8484, y: 45.112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4509946064082010532
 CanvasRenderer:
@@ -489,6 +489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldAmount: {fileID: 0}
   daysToPayText: {fileID: 3767128306895758424}
+  days: 0
 --- !u!1 &3469039703649984288
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,8 +525,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 184.4, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 193.49826, y: 0}
+  m_SizeDelta: {x: 118.1966, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6111486695641333361
 GameObject:

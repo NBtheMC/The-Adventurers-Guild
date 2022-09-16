@@ -27,7 +27,7 @@ public class PaymentController : MonoBehaviour
             debriefReport.UpdateGoldRemaining(-charSheet.salary);
         }      
 
-        daysToPayText.text = days.ToString();
+        daysToPayText.text = days * charSheet.salary + "";
     }
 
     public void DecrementDay()
@@ -38,7 +38,7 @@ public class PaymentController : MonoBehaviour
             debriefReport.UpdateGoldRemaining(charSheet.salary);
         }    
 
-        daysToPayText.text = days.ToString();
+        daysToPayText.text = days * charSheet.salary + "";
     }
 
 }
