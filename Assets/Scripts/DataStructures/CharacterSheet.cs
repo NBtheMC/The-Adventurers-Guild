@@ -16,8 +16,9 @@ public class CharacterSheet
     // All the basic stats.
     public enum StatDescriptors { Combat = 1, Exploration = 2, Negotiation = 3, Constitution = 4 }
 
-    //Portrait associated with character
+    //Portrait and icon associated with character
     public Sprite portrait { get; private set; }
+    public Sprite icon { get; private set; }
 
     // Text associated with the character.
     public string biography { get; private set; }
@@ -48,6 +49,7 @@ public class CharacterSheet
         adventurer = new Adventurer();
         adventurer.characterSheet = this;
         portrait = characterStats.portrait;
+        icon = characterStats.icon;
         biography = characterStats.Biography;
     }
 
