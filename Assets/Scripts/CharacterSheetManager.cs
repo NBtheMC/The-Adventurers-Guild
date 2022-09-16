@@ -58,7 +58,6 @@ public class CharacterSheetManager : MonoBehaviour
     private void Start()
     {
         guildManager = GameObject.Find("GuildManager").GetComponent<GuildManager>();
-        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += PartyBackFromQuest;
         GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestStarted += SendPartyOnQuest;
         GameObject.Find("QuestDisplayManager").transform.Find("QuestDisplay").Find("WorldState")
             .GetComponent<WorldStateManager>().AdventurerHiredEvent += HireAdventurer;
@@ -70,18 +69,6 @@ public class CharacterSheetManager : MonoBehaviour
     {
         foreach(CharacterSheet character in quest.PartyMembers)
             adventurerStates[character] = AdventurerState.QUESTING;
-
-        //RosterChange(this, EventArgs.Empty);
-    }
-
-    public void PartyBackFromQuest(object src, QuestSheet quest)
-    {
-        foreach(CharacterSheet character in quest.PartyMembers)
-        {
-            adventurerStates[character] = AdventurerState.FREE;
-            //questingAdventurers.Remove(character);
-            //freeAdventurers.Add(character);
-        }
 
         //RosterChange(this, EventArgs.Empty);
     }
@@ -176,7 +163,7 @@ public class CharacterSheetManager : MonoBehaviour
 
         if (character.daysUnpaid == 0)
         {
-            adventurerStates[character] = AdventurerState.FREE;
+            SetAdventurerState(character, AdventurerState.FREE);
             characterPoolController.ResetPortraitColor(character);
         }
              
@@ -186,13 +173,13 @@ public class CharacterSheetManager : MonoBehaviour
     {
         character.daysUnpaid += 1;
         //mark character as unavailable
-        adventurerStates[character] = AdventurerState.QUESTING;
+        SetAdventurerState(character, AdventurerState.QUESTING);
         characterPoolController.BlackOutPortrait(character);
 
         if (character.daysUnpaid == 3)
         {
             //adventurer quits
-            adventurerStates[character] = AdventurerState.UNHIRED;
+            SetAdventurerState(character, AdventurerState.UNHIRED);
             character.daysUnpaid = 0;
             RosterUpdate(this, character);
         }

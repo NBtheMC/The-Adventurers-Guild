@@ -26,7 +26,7 @@ public class QuestSheet
 	public float timeToExpire { get; private set; } // How much time until a WAITING quest will auto-reject
 	public float expirationTimer { get; private set; } // Tracks how many ticks have passed for the expiration timer
 	public int totalTimeToComplete { get; private set; }
-	public int restingPeriod { get; private set; } // How many hours adventurers will be resting for after this quest is completed
+	public float restingPeriod { get; private set; } // How many hours adventurers will be resting for after this quest is completed
 
 	public int accumulatedGold { get; private set; } // How much gold has been accumulated from the events.
 	public int totalGold { get; private set; }
@@ -76,6 +76,8 @@ public class QuestSheet
 		//placing a temp value for testing, will need to convert from hours to ticks later
 		timeToExpire = 25;
 		expirationTimer = 0;
+
+		restingPeriod = 0;
 
 		// Initialize out descriptor variables.
 		questName = name_Input;
@@ -245,6 +247,21 @@ public class QuestSheet
 		}
 
 		return totalTime;
+	}
+
+	public float GetRestingPeriod(WorldMap map)
+	{
+		restingPeriod = 0;
+		foreach(var n in visitedNodes)
+        {
+			//var loc = map.getLocationObjRef(n.location);
+			var loc = map.getLocationObjRef("Farm");
+			float time = map.getShortestPathFromGuild(loc).Item2;
+			if(time > restingPeriod) { restingPeriod = time; }
+        }
+
+
+		return restingPeriod;
 	}
 
 	public string GetQuestRecap(){

@@ -2090,6 +2090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Instance: {fileID: 0}
+  WorldMap: {fileID: 892973660}
   timeSystem: {fileID: 563469174}
   relationshipManager: {fileID: 0}
 --- !u!4 &767544277

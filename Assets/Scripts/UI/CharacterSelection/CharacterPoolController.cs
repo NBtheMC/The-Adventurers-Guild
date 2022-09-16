@@ -23,7 +23,7 @@ public class CharacterPoolController : MonoBehaviour
     private void Awake()
     {
         //GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += ResetPortraitColor;
-        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += ResetPortraitColor;
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += StartRestingPeriod;
 
         characterSlots = new List<GameObject>();
         activeRole = new List<CharacterSheet>();
@@ -100,7 +100,7 @@ public class CharacterPoolController : MonoBehaviour
         {
             CharacterTileController tileController = item.GetComponent<CharacterTileController>();
             CharacterSheet character = tileController.characterSheet;
-            if (activeRole.Contains(character))
+            if (activeRole.Contains(character) && characterManager.GetAdventurerState(character) != AdventurerState.RESTING)
                 tileController.MarkAdventurerAsFree();
             else
                 tileController.MarkAdventurerAsBusy();
@@ -203,4 +203,19 @@ public class CharacterPoolController : MonoBehaviour
             ResetPortraitColor(adventurer);
     }
 
+    public void StartRestingPeriod(object src, QuestSheet quest)
+    {
+        foreach (CharacterSheet character in quest.PartyMembers)
+        {
+            BlackOutPortrait(character);
+            characterManager.SetAdventurerState(character, AdventurerState.RESTING);
+            roleCharacterLookup[character].GetComponent<RestingTimer>().StartTimer(quest.restingPeriod, character);
+        }  
+    }
+
+    public void EndRestingPeriod(CharacterSheet character)
+    {
+        ResetPortraitColor(character);
+        characterManager.SetAdventurerState(character, AdventurerState.FREE);
+    }
 }

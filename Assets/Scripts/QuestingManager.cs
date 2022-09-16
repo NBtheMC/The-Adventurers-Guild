@@ -10,6 +10,8 @@ public class QuestingManager : MonoBehaviour
 {
     public QuestingManager Instance;
 
+    public MapObject WorldMap;
+
     public TimeSystem timeSystem; // a reference to the time system to update quest with.
     public List<QuestSheet> activeQuests; // All quests currently embarked.
     public List<QuestSheet> bankedQuests; // All quests waiting to be embarked.
@@ -76,6 +78,7 @@ public class QuestingManager : MonoBehaviour
         {
             if (quest.advancebyTick() == 1)
             {
+                quest.GetRestingPeriod(WorldMap.map);
                 quest.AddGuildGold();
                 quest.currentState = QuestState.COMPLETED;
                 // Add quest to a list for deletion (Move to archive really)
