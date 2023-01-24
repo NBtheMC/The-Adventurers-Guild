@@ -19,6 +19,8 @@ public class QuestingManager : MonoBehaviour
     public event EventHandler<QuestSheet> QuestFinished;
     public event EventHandler<QuestSheet> QuestAdded;
 
+    public event EventHandler<QuestSheet> NewEventStarting;
+
     public RelationshipManager relationshipManager;
 
     private void Awake()
@@ -59,23 +61,36 @@ public class QuestingManager : MonoBehaviour
     {
         List<QuestSheet> markForDeletion = new List<QuestSheet>();
 
+        foreach (QuestSheet quest in bankedQuests)
+        {
+            if (quest.advancebyTick() == 2)
+            {
+                quest.currentState = QuestState.REJECTED;
+                // Add quest to a list for deletion (Move to archive really)
+                markForDeletion.Add(quest);
+            }
+        }
+
         //Debug.Log(activeQuests.Count);
         foreach (QuestSheet quest in activeQuests)
         {
             if (quest.advancebyTick() == 1)
             {
                 quest.AddGuildGold();
-                quest.isActive = false;
-                quest.isComplete = true;
+                quest.currentState = QuestState.COMPLETED;
                 // Add quest to a list for deletion (Move to archive really)
                 markForDeletion.Add(quest);
+            }
+            else if(quest.eventTicksElapsed <= 1)
+            {
+                NewEventStarting(this, quest);
             }
         }
 
         foreach (QuestSheet quest in markForDeletion)
         {
             activeQuests.Remove(quest);
-            int currentDay = timeSystem.getTime().day;
+            int currentDay = timeSystem.GameTime.day;
             finishedQuests[currentDay].Add(quest);
             QuestFinished(this, quest);
         }
@@ -91,7 +106,7 @@ public class QuestingManager : MonoBehaviour
 		bankedQuests.Remove(questToBeMoved);
 		activeQuests.Add(questToBeMoved);
         QuestStarted(this, questToBeMoved);
-        questToBeMoved.isActive = true;
+        questToBeMoved.currentState = QuestState.ADVENTURING;
 		return true;
 	}
 

@@ -40,7 +40,7 @@ public class CSVToQuests : MonoBehaviour
     {
         // Geting our time ticks from the system.
         worldStateReference = this.GetComponent<WorldStateManager>();
-        ticksPerHour = worldStateReference.timeSystem.ticksperHour;
+        ticksPerHour = worldStateReference.timeSystem.TicksPerHour;
     }
 
 	//Pull data from storylets csv and makes 1 event per grouping
@@ -81,7 +81,7 @@ public class CSVToQuests : MonoBehaviour
             string[] changeBoolStrings = storyletPacket[7].Split('\t'); // row 8, all changing bools.
 
             // Storylet names and description.
-            newStorylet.name = storyletName;
+            newStorylet.questName = storyletName;
             newStorylet.questName = storyletName;
             newStorylet.questDescription = storyletDetails;
 
@@ -122,7 +122,7 @@ public class CSVToQuests : MonoBehaviour
                 newTriggerInt.name = triggerIntStrings[j];
 
                 //get type of sign
-                Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
+                NumberTriggerType sign = new NumberTriggerType();
                 if (!tryFindSign(triggerIntStrings[j+1], ref sign)){ Debug.LogError($"Sign not recognized in {storyletName}'s Trigger Ints, column {j+1}, skipping"); continue; }
                 newTriggerInt.triggerType = sign;
 
@@ -145,7 +145,7 @@ public class CSVToQuests : MonoBehaviour
                 newTriggerFloat.name = triggerFloatStrings[j];
 
                 //Set the sign.
-                Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
+                NumberTriggerType sign = new NumberTriggerType();
                 if (!tryFindSign(triggerFloatStrings[j+1], ref sign)){ Debug.LogError($"Sign not recognized in {storyletName}'s Trigger Values, column {j+1}, skipping"); continue; }
                 newTriggerFloat.triggerType = sign;
 
@@ -404,7 +404,7 @@ public class CSVToQuests : MonoBehaviour
                     if (finish) { break; }
                     
                     // Get the Trigger Type.
-                    Storylet.NumberTriggerType triggerType = new Storylet.NumberTriggerType();
+                    NumberTriggerType triggerType = new NumberTriggerType();
                     if (!tryFindSign(statTriggerStrings[i+1], ref triggerType)) {
                         Debug.LogError($"Sign not recognized in {nameString}'s case towards {nextNode}, Stat Check - column {i + 1}, skipping"); continue; }
                     statCheck.triggerType = triggerType;
@@ -696,23 +696,23 @@ public class CSVToQuests : MonoBehaviour
         }
     }
 
-    private bool tryFindSign(string inputType, ref Storylet.NumberTriggerType changer){
+    private bool tryFindSign(string inputType, ref NumberTriggerType changer){
         bool correctCase = true;
         switch (inputType){
             case "<":
-                changer = Storylet.NumberTriggerType.LessThan;
+                changer = NumberTriggerType.LessThan;
                 break;
             case "<=":
-                changer = Storylet.NumberTriggerType.LessThanEqualTo;
+                changer = NumberTriggerType.LessThanEqualTo;
                 break;
             case "equals":
-                changer = Storylet.NumberTriggerType.EqualTo;
+                changer = NumberTriggerType.EqualTo;
                 break;
             case ">":
-                changer = Storylet.NumberTriggerType.GreaterThan;
+                changer = NumberTriggerType.GreaterThan;
                 break;
             case ">=":
-                changer = Storylet.NumberTriggerType.GreaterThanEqualTo;
+                changer = NumberTriggerType.GreaterThanEqualTo;
                 break;
             default:
                 correctCase = false;
@@ -739,7 +739,7 @@ public class CSVToQuests : MonoBehaviour
         trigger.name = inputs[0];
 
         //get type of sign
-        Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
+        NumberTriggerType sign = new NumberTriggerType();
         if (!tryFindSign(inputs[1], ref sign)){ error = "Sign not recognized, skipping"; return 2; }
         trigger.triggerType = sign;
 
@@ -770,7 +770,7 @@ public class CSVToQuests : MonoBehaviour
         trigger.name = inputs[0];
 
         //get type of sign
-        Storylet.NumberTriggerType sign = new Storylet.NumberTriggerType();
+        NumberTriggerType sign = new NumberTriggerType();
         if (!tryFindSign(inputs[1], ref sign)) { error = "Sign not recognized, skipping"; return 2; }
         trigger.triggerType = sign;
 

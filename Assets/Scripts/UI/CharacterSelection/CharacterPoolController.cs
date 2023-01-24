@@ -22,6 +22,8 @@ public class CharacterPoolController : MonoBehaviour
 
     private void Awake()
     {
+        GameObject.Find("QuestingManager").GetComponent<QuestingManager>().QuestFinished += ResetPortraitColor;
+
         characterSlots = new List<GameObject>();
         activeRole = new List<CharacterSheet>();
         roleCharacterLookup = new Dictionary<CharacterSheet, GameObject>();
@@ -39,7 +41,7 @@ public class CharacterPoolController : MonoBehaviour
     {
         RefreshCharacterPool();
 
-        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().RosterChange += CharacterPoolController_RosterChange;
+        GameObject.Find("CharacterSheetManager").GetComponent<CharacterSheetManager>().AdventurerHired += CharacterPoolController_RosterChange;
     }
 
     private void CharacterPoolController_RosterChange(object source, System.EventArgs e)
@@ -177,4 +179,26 @@ public class CharacterPoolController : MonoBehaviour
     public List<CharacterSheet> GetActiveCharacters(){
         return activeRole;
     }
+
+    public void GrayOutPortrait(CharacterSheet adventurer)
+    {
+        roleCharacterLookup[adventurer].transform.Find("Mask/Portrait").GetComponent<Image>().color = new Color32(150, 150, 150, 255);
+    }
+
+    public void BlackOutPortrait(CharacterSheet adventurer)
+    {
+        roleCharacterLookup[adventurer].transform.Find("Mask/Portrait").GetComponent<Image>().color = new Color32(0, 0, 0, 200);
+    }
+
+    public void ResetPortraitColor(CharacterSheet adventurer)
+    {
+        roleCharacterLookup[adventurer].transform.Find("Mask/Portrait").GetComponent<Image>().color = new Color32(255, 255, 255, 200);
+    }
+
+    private void ResetPortraitColor(object src, QuestSheet quest)
+    {
+        foreach(CharacterSheet adventurer in quest.adventuring_party.Party_Members)
+            ResetPortraitColor(adventurer);
+    }
+
 }

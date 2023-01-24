@@ -27,6 +27,6 @@ EditorBuildSettings:
     path: Assets/Scenes/EventRecap.unity
     guid: a9d64a09024f05147878538e271b745b
   - enabled: 1
-    path: Assets/Scenes/Credits.unity
-    guid: 0d7b346756a91804f845f482b72e2629
+    path: Assets/Scenes/CreditsScreen.unity
+    guid: d0196087aa4388244958d504ef29bcc7
   m_configObjects: {}

@@ -7,7 +7,7 @@ public class SoundManagerScript : MonoBehaviour
     public static AudioClip bellSound, bookCloseSound, bookOpenSound, bookPage1Sound, bookPage2Sound, bookPage3Sound, parchment1Sound, parchment2Sound, parchment3Sound, slipDown1Sound, slipDown2Sound, slipUp1Sound, slipUp2Sound, stampSound;
     static AudioSource audioSrc;
 
-    void Start() 
+    void Awake() 
     {
         bellSound = Resources.Load<AudioClip> ("bell");
         bookCloseSound = Resources.Load<AudioClip> ("bookClose");
@@ -80,5 +80,15 @@ public class SoundManagerScript : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void ChangeVolume(System.Single vol)
+    {
+        audioSrc.volume = vol;
+    }
+
+    public float GetVolume()
+    {
+        return audioSrc.volume;
     }
 }

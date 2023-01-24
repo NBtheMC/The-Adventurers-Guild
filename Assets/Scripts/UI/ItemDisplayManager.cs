@@ -14,29 +14,33 @@ public class ItemDisplayManager : MonoBehaviour
     public GameObject characterDisplay;
     public GameObject debriefDisplay;
     public GameObject endGame;
-
     public GameManager gameManager; // reference to the game manager.
-
-    private int currentDisplay = 0; // The current display. Nothing is 0, Quest is 1, character is 2, debrief is 3, end game is 4.
-
     private GameObject currentlyDisplaying; // The thing we're currently displaying.
-
-
     public GameObject lastActiveDisplay = null;
+
+    public ItemDisplay currentDisplay;
+
 	private void Awake()
 	{
         spawnPoint = this.transform.Find("SpawnPoint").gameObject; // Get our spawnpoint
     }
 
+
     /// <summary>
     /// Call when you want to display a character.
     /// </summary>
-    /// <param name="display">The character you'd like displayed.</param>
-    public void DisplayCharacter(CharacterSheet character)
+    /// <param name="character">The character you'd like displayed.</param>
+    /// <returns>true if same character as last is being displayed, false otherwise. Returns null if isEndgame</returns>
+
+    public bool DisplayCharacter(CharacterSheet character)
     {
-        if (isEndgame) { return; }
+        string currentCharacter = "";
+        if (currentDisplay == ItemDisplay.CHARACTER)
+            currentCharacter = currentlyDisplaying.GetComponent<CharacterInfoUI>().characterName.text;
+
+        if (isEndgame) { return false; }
         // Internally track what thing we're displaying.
-        currentDisplay = 2;
+        currentDisplay = ItemDisplay.CHARACTER;
 
         // Destroy whatever is currently on there.
         Destroy(currentlyDisplaying);
@@ -55,6 +59,10 @@ public class ItemDisplayManager : MonoBehaviour
         if (i == 0) { SoundManagerScript.PlaySound("parchment1"); }
         else if (i == 1) { SoundManagerScript.PlaySound("parchment2"); }
         else { SoundManagerScript.PlaySound("parchment3"); }
+
+        string newCharacter = currentlyDisplaying.GetComponent<CharacterInfoUI>().characterName.text;
+
+        return (currentCharacter.Equals(newCharacter));
     }
 
     /// <summary>
@@ -66,7 +74,8 @@ public class ItemDisplayManager : MonoBehaviour
         if (isEndgame) { return; }
 
         // Internally track what thing we're showing.
-        currentDisplay = 1;
+        currentDisplay = ItemDisplay.QUEST;
+        GameObject.Find("TimeSystem").GetComponent<TimeSystem>().AddTicks(2);
 
         // Destroy whatever is currently on there.
         Destroy(currentlyDisplaying);
@@ -95,8 +104,10 @@ public class ItemDisplayManager : MonoBehaviour
         if (isEndgame) { return; }
 
         // Internally track what thing we're showing
-        if (display) { currentDisplay = 3; }
-        else { currentDisplay = 0; }
+        if (display)
+            currentDisplay = ItemDisplay.DEBRIEF;
+        else
+            currentDisplay = 0;
 
         Destroy(currentlyDisplaying);
 
@@ -144,7 +155,7 @@ public class ItemDisplayManager : MonoBehaviour
     /// <returns>True if assigned, false if not.</returns>
     public bool AssignAdventurer(CharacterSheet character)
     {
-        if(currentDisplay == 1)
+        if(currentDisplay == ItemDisplay.QUEST)
 		{
             // Try to get the quest UI for assignment.
             QuestUI questReference;
@@ -155,4 +166,42 @@ public class ItemDisplayManager : MonoBehaviour
 		}
         return false;
 	}
+
+    public void RemoveAdventurer(CharacterSheet character)
+    {
+        if (currentDisplay == ItemDisplay.QUEST)
+        {
+            QuestUI questReference;
+            if (currentlyDisplaying.TryGetComponent<QuestUI>(out questReference))
+            {
+                questReference.RemoveCharacter(character);
+            }
+        }
+    }
+
+    public void ClearDisplay()
+	{
+        if (currentDisplay == ItemDisplay.NOTHING)
+            return;
+        Destroy(currentlyDisplaying);
+        currentDisplay = ItemDisplay.NOTHING;
+    }
+
+
+    public bool CurrentlyDisplayingQuest()
+    {
+        return transform.Find("SpawnPoint/QuestUI(Clone)") != null;
+    }
+    
+    /// <summary>
+    /// returns currently displayed quest as a gameobject, or null if no quest is currently displayed
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetQuestUI()
+    {
+        if (CurrentlyDisplayingQuest())
+            return transform.Find("SpawnPoint/QuestUI(Clone)").gameObject;
+        else
+            return null;
+    }
 }

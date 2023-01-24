@@ -38,6 +38,7 @@ public class QuestDisplayManager : MonoBehaviour
         questingManager.QuestAdded += AddNewQuest;
         questingManager.QuestFinished += AddFinishedQuest;
         timeSystem.NewDay += UpdateCurrentDayPage;
+        timeSystem.TickAdded += AdvanceAllQuestTimers;
 
         pageNumber = 0;
         currentDay = 0;
@@ -47,11 +48,22 @@ public class QuestDisplayManager : MonoBehaviour
 
     public void UpdateCurrentDayPage(object o, GameTime gameTime)
     {
-        currentDay = timeSystem.getTime().day;
+        currentDay = timeSystem.GameTime.day;
         if (currentQuestsDisplayed)
         {
             pageNumber = currentDay;
             input.text = 1 + pageNumber + "";
+        }
+    }
+
+    public void AdvanceAllQuestTimers(object o, GameTime gameTime)
+    {
+        if (currentQuestsDisplayed)
+        {
+            foreach(Transform child in questListContent.transform)
+            {
+                child.GetComponent<QuestBanner>().UpdateTimer();
+            }
         }
     }
 
@@ -79,7 +91,7 @@ public class QuestDisplayManager : MonoBehaviour
         //set banner text
         newQuest.transform.GetChild(0).gameObject.GetComponent<Text>().text = quest.questName;
 
-        if(quest.isComplete)
+        if(quest.currentState == QuestState.COMPLETED || quest.currentState == QuestState.REJECTED)
             newQuest.transform.Find("Checkmark").gameObject.SetActive(true);
     }
 
@@ -121,7 +133,7 @@ public class QuestDisplayManager : MonoBehaviour
 
     public void NextPage()
     {
-        int currentDay = timeSystem.getTime().day;
+        int currentDay = timeSystem.GameTime.day;
         if (pageNumber < currentDay)
         {
             pageNumber++;
@@ -133,7 +145,7 @@ public class QuestDisplayManager : MonoBehaviour
     public void JumpToPage(string page)
     {
         int num = int.Parse(page);
-        int currentDay = timeSystem.getTime().day;
+        int currentDay = timeSystem.GameTime.day;
 
         pageNumber = Mathf.Clamp(num, 0, currentDay);
         input.text = pageNumber.ToString();
@@ -156,7 +168,7 @@ public class QuestDisplayManager : MonoBehaviour
             toggleViewButton.GetComponent<Image>().sprite = activeQuestsButton;
 
             //display log for current day
-            int currentDay = timeSystem.getTime().day;
+            int currentDay = timeSystem.GameTime.day;
             currentQuestsDisplayed = false;
             JumpToPage(currentDay.ToString());
         }
